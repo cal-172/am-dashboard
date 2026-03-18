@@ -6,13 +6,32 @@
 <title>T12 Summary vs Budget — Regatta</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:12px;color:#1A2B2C}
-.topbar{background:#0D3D45;color:#fff;padding:7px 14px;display:flex;align-items:center;gap:10px}
+html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:12px;color:#1A2B2C}
+
+/* ── SHELL LAYOUT ── */
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:#13545E;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* ── SIDEBAR ── */
+.sb-header{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-logo{font-size:14px;font-weight:700;color:#fff}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
+.sb-nav{padding:12px 8px;flex:1}
+.sb-section{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;padding:10px 10px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;cursor:pointer;color:rgba(255,255,255,.75);font-size:12.5px;font-weight:500;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.sb-icon{width:16px;text-align:center;font-size:13px;opacity:.8}
+.sb-footer{padding:12px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.sb-btns{display:flex;gap:6px}
+.sb-btn{flex:1;padding:6px 0;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:4px;cursor:pointer;text-align:center;text-decoration:none;transition:background .12s;display:block}
+.sb-btn:hover{background:rgba(255,255,255,.22)}
+
+/* ── TOPBAR ── */
+.topbar{background:#0D3D45;color:#fff;padding:7px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .topbar-title{font-size:13px;font-weight:700;opacity:.9}
 .topbar-dates{margin-left:auto;text-align:right;font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.55}
-.topbar-nav{display:flex;gap:6px}
-.top-btn{padding:4px 12px;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:3px;cursor:pointer;text-decoration:none;transition:background .15s}
-.top-btn:hover{background:rgba(255,255,255,.22)}
 .page{padding:10px 12px}
 
 /* ── CONTROLS BAR ── */
@@ -110,18 +129,39 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-title">Regatta | Actual vs Budget</div>
-  <div id="topbar-dates" class="topbar-dates"></div>
-  <div class="topbar-nav" id="topbar-nav">
-    <form method="POST" action="/logout" style="display:inline">
-      <button type="submit" class="top-btn">Sign Out</button>
-    </form>
-  </div>
-</div>
+<div class="shell">
 
-<div class="page" id="app">
-  <div class="no-data">Loading data...</div>
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Regatta — 1163_rr</div>
+      <div class="sb-sub">Financial Dashboard</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Views</div>
+      <button class="sb-item active"><span class="sb-icon">📊</span> Actual vs Budget</button>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-btns">
+        <a href="/admin" class="sb-btn" id="sb-admin-link" style="display:none">Admin</a>
+        <form method="POST" action="/logout" style="flex:1">
+          <button type="submit" class="sb-btn" style="width:100%">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Regatta | Actual vs Budget</div>
+      <div id="topbar-dates" class="topbar-dates"></div>
+    </div>
+    <div class="page" id="app">
+      <div class="no-data">Loading data...</div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -519,8 +559,7 @@ async function init(){
     DATA_YEAR=d.year||2026;
     UPDATED_AT=d.updatedAt||'';
     if(me.role==='admin'){
-      const nav=document.getElementById('topbar-nav');
-      nav.insertAdjacentHTML('afterbegin','<a href="/admin" class="top-btn">Admin</a>');
+      document.getElementById('sb-admin-link').style.display='';
     }
     renderApp();
   } catch(e){
