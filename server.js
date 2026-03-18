@@ -308,40 +308,52 @@ const MONTH_NAMES = {
 };
 
 const ROW_PATTERNS = [
-  { key:'pri',      patterns:['potential rental income','scheduled rent','gross potential rent','market rent'] },
+  { key:'pri',      patterns:['potential rental income','scheduled rent','gross potential rent','market rent','gross scheduled rent'] },
   { key:'ltl',      patterns:['loss to lease','loss-to-lease'] },
-  { key:'vac',      patterns:['vacancy loss','vacancy','physical vacancy loss'] },
-  { key:'mod',      patterns:['model','admin','model/admin','model / admin'] },
-  { key:'con',      patterns:['concession','concessions'] },
-  { key:'bd',       patterns:['bad debt','bad debts'] },
-  { key:'trr',      patterns:['total rental revenue','gross rental revenue','net rental revenue'] },
-  { key:'oi',       patterns:['other income','miscellaneous income','other revenues'] },
-  { key:'ur',       patterns:['utility reimbursement','utility reimbursements','utility income','rubs'] },
-  { key:'toi',      patterns:['total other income','other income total'] },
+  { key:'vac',      patterns:['total vacancy','vacancy loss','physical vacancy loss','total physical vacancy'] },
+  { key:'mod',      patterns:['model','model/admin','model / admin','total nonrevenue','nonrevenue units','employee units'] },
+  { key:'con',      patterns:['total concessions','concession','concessions'] },
+  { key:'bd',       patterns:['bad debt','bad debts','total delinq','delinquency','bad debt expense'] },
+  { key:'trr',      patterns:['total rental revenue','gross rental revenue','net rental revenue','total rental income'] },
+  { key:'ur',       patterns:['utility reimbursement','utility reimbursements','total utility income','rubs program','rubs'] },
+  { key:'oi',       patterns:['total other misc income','total other miscellaneous income','total miscellaneous income','other revenues total','total non-rental other income'] },
+  { key:'toi',      patterns:['total parking/utilities/other','total parking utilities other','total other income','total other revenues','total non-rental income'] },
   { key:'egi',      patterns:['effective gross income','effective gross revenue','total revenue','total income'] },
-  { key:'payroll',  patterns:['payroll','salaries','wages','payroll & benefits','labor'] },
-  { key:'adv',      patterns:['advertising','marketing','advertising & marketing','advertising and marketing'] },
-  { key:'ga',       patterns:['general & administrative','general and administrative','g&a','admin expenses'] },
-  { key:'util',     patterns:['utilities','utility expense','utility expenses'] },
-  { key:'rm',       patterns:['repairs & maintenance','repairs and maintenance','r&m','maintenance'] },
-  { key:'contract', patterns:['contract services','contract','contracted services'] },
-  { key:'mgmt',     patterns:['management fee','management fees','property management fee'] },
-  { key:'mr',       patterns:['make ready','make-ready','unit turns','turnover'] },
-  { key:'taxes',    patterns:['taxes','real estate taxes','property taxes','real estate tax'] },
-  { key:'ins',      patterns:['insurance'] },
+  { key:'payroll',  patterns:['total payroll','payroll & benefits','total payroll & benefits','salaries and wages'] },
+  { key:'adv',      patterns:['total leasing & marketing','total leasing and marketing','advertising & marketing','advertising and marketing','total advertising','leasing & marketing'] },
+  { key:'ga',       patterns:['total general & admin','total general and admin','general & administrative','general and administrative','g&a','admin expenses'] },
+  { key:'util',     patterns:['total utilities','utility expense','utility expenses','utilities expense'] },
+  { key:'rm',       patterns:['total repairs & maintenance','repairs & maintenance','repairs and maintenance','total r&m'] },
+  { key:'contract', patterns:['contract services','contracted services','total contract services','total landscaping','total security'] },
+  { key:'mgmt',     patterns:['total management fees','total management fee','property management fee','property management'] },
+  { key:'mr',       patterns:['make ready','make-ready','unit turns','turnover','total t/o refurbishment','total turnover','total unit turns'] },
+  { key:'taxes',    patterns:['total taxes & other','total taxes and other','taxes & other assessments','real estate taxes','property taxes','real estate tax'] },
+  { key:'ins',      patterns:['total insurance','insurance'] },
   { key:'opex',     patterns:['total operating expenses','total expenses','operating expenses total'] },
   { key:'noi',      patterns:['net operating income','noi'] },
-  { key:'amfee',    patterns:['asset management fee','asset mgmt fee','am fee'] },
-  { key:'debt',     patterns:['debt service','mortgage','loan payment','principal & interest','interest expense'] },
-  { key:'capex',    patterns:['capital expenditures','capex','capital improvements','capital expenses'] },
-  { key:'ncf',      patterns:['net cash flow','net income','cash flow'] },
+  { key:'amfee',    patterns:['total asset & other fees','asset management fee','asset management fees','asset mgmt fee','am fee'] },
+  { key:'debt',     patterns:['total debt service','debt service','mortgage','loan payment','principal & interest','interest expense'] },
+  { key:'capex',    patterns:['total replacement reserves','replacement reserves','capital expenditures','capex','capital improvements','capital expenses'] },
+  { key:'ncf',      patterns:['net cash flow','cash flow after debt'] },
 ];
 
+function cleanStr(s) {
+  return s.toLowerCase().replace(/[^a-z0-9& ]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 function matchKey(label) {
-  const clean = label.toLowerCase().replace(/[^a-z0-9& ]/g, '').trim();
+  const clean = cleanStr(label);
+  // First pass: exact match
   for (const { key, patterns } of ROW_PATTERNS) {
     for (const p of patterns) {
-      if (clean === p || clean.includes(p) || p.includes(clean)) return key;
+      if (clean === cleanStr(p)) return key;
+    }
+  }
+  // Second pass: label must contain the pattern (not the reverse — avoids short labels matching long patterns)
+  for (const { key, patterns } of ROW_PATTERNS) {
+    for (const p of patterns) {
+      const cp = cleanStr(p);
+      if (clean.includes(cp)) return key;
     }
   }
   return null;
@@ -419,9 +431,25 @@ function parseRealPageWorkbook(workbook, fileType = 'combined') {
     monthCols[month][type] = col;
   }
 
+  // Auto-detect which column holds the row labels by scoring each pre-month column
+  const firstMonthCol = Math.min(...colMonths.map(cm => cm.col));
+  const labelColScores = {};
+  const sampleEnd = Math.min(rows.length, headerRow + 60);
+  for (let r = headerRow + 1; r < sampleEnd; r++) {
+    for (let c = 0; c < firstMonthCol; c++) {
+      const v = String(rows[r]?.[c] || '').trim();
+      if (v && matchKey(v)) labelColScores[c] = (labelColScores[c] || 0) + 1;
+    }
+  }
+  let labelCol = 0;
+  let bestScore = 0;
+  for (const [c, score] of Object.entries(labelColScores)) {
+    if (score > bestScore) { bestScore = score; labelCol = parseInt(c); }
+  }
+
   for (let r = headerRow + 1; r < rows.length; r++) {
     const row = rows[r];
-    const label = String(row[0] || '').trim();
+    const label = String(row[labelCol] || '').trim();
     if (!label) continue;
     const key = matchKey(label);
     if (!key) {
