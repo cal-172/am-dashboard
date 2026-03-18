@@ -1,0 +1,38 @@
+Please make only the following 3 UI changes to the dashboard. Do not change layout, spacing, widths, font sizes, colors, table sizing, card width, or any other styling outside of these exact items.
+
+1) Remove the cap rate box in the top-right table header
+- In the top-right metadata area of the table header, keep:
+  - DATA AS OF
+  - UPDATED ON
+- Remove entirely:
+  - the "CAP RATE" label
+  - the numeric cap rate box/value to its right
+- After removing it, rebalance that top-right header area cleanly so DATA AS OF and UPDATED ON remain aligned and the space does not look broken.
+- Do not change the cap rate control in the top toolbar above the table. Only remove the cap rate display inside the table header.
+
+2) Add a vertical divider between CATEGORY and MOM
+- Add a vertical line between the CATEGORY column and the MOM column.
+- Match the same visual style as the existing vertical divider lines between the time period sections.
+- This divider should run through the header area and table body in the same way the period dividers visually separate sections.
+- Keep spacing and alignment unchanged other than adding this divider.
+
+3) Update the page title text in the dark top navbar
+- Replace:
+  "Regatta — 1163_rr | Financial Dashboard"
+- With:
+  "Regatta | Actual vs Budget"
+
+Important:
+- Do not change the table width
+- Do not change column widths
+- Do not change the dashboard container size
+- Do not change any header spacing except what is necessary to remove the cap rate block cleanly
+- Do not rename any other labels
+- Do not modify the table title inside the dashboard card ("Regatta — 1163_rr Accrual Basis") unless explicitly required
+- Preserve all current formatting and styling
+
+After making the changes, please verify:
+- the cap rate box is removed only from the top-right table header
+- a visible divider exists between CATEGORY and MOM
+- the navbar title reads exactly: Regatta | Actual vs Budget
+- no other layout changes were introduced
