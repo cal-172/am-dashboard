@@ -166,6 +166,47 @@ tbody tr:hover td{background:#F8FBFC}
 @keyframes spin{to{transform:rotate(360deg)}}
 .text-sm{font-size:11px;color:#6A8E91}
 .fw{width:100%}
+
+/* ── MAPPING REVIEW ── */
+.map-filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.map-ftabs{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.map-ftab{padding:5px 12px;font-size:11px;font-family:inherit;background:#F5FAFB;border:1px solid #D0E4E7;color:#4A6568;border-radius:4px;cursor:pointer;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.map-ftab:hover{background:#E8F4F5;color:#13545E}
+.map-ftab.active{background:#13545E;color:#fff;border-color:#13545E}
+.map-ftab.warn-tab.active{background:#D97706;border-color:#D97706}
+.map-cnt{background:rgba(255,255,255,.25);border-radius:8px;padding:1px 6px;font-size:10px;min-width:18px;text-align:center}
+.map-ftab:not(.active) .map-cnt{background:rgba(0,0,0,.1);color:inherit}
+.map-search{padding:6px 10px;font-size:12px;border:1.5px solid #B0CDD1;border-radius:4px;outline:none;font-family:inherit;width:180px}
+.map-search:focus{border-color:#13545E}
+.map-tbl-wrap{overflow-x:auto;overflow-y:auto;max-height:420px;border:1px solid #D2E8EA;border-radius:5px;margin-top:0}
+#map-table{width:100%;border-collapse:collapse;font-size:12px}
+#map-table thead th{background:#F0F7F8;color:#13545E;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid #D2E8EA;white-space:nowrap;position:sticky;top:0;z-index:1}
+#map-table tbody td{padding:7px 12px;border-bottom:1px solid #EEF4F5;vertical-align:middle}
+#map-table tbody tr:last-child td{border-bottom:none}
+.map-row-mapped   td:first-child{border-left:3px solid #16A34A}
+.map-row-saved    td:first-child{border-left:3px solid #2563EB}
+.map-row-medium   td:first-child{border-left:3px solid #D97706}
+.map-row-unmapped td:first-child{border-left:3px solid #DC2626;background:#FEF2F2}
+.map-row-header   td:first-child{border-left:3px solid #D0E4E7}
+.map-row-excluded td{opacity:.5;text-decoration:line-through}
+.map-row-excluded td:first-child{border-left:3px solid #D0E4E7;text-decoration:none;opacity:.5}
+.conf-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.conf-high  {background:#DCFCE7;color:#15803D}
+.conf-saved {background:#DBEAFE;color:#1D4ED8}
+.conf-medium{background:#FEF3C7;color:#D97706}
+.conf-none  {background:#FEE2E2;color:#DC2626}
+.conf-header{background:#F0F4F5;color:#6A8E91}
+.conf-excl  {background:#F5FAFB;color:#8BBFC7}
+.map-cat-select{width:100%;padding:4px 6px;font-size:11.5px;border:1.5px solid #D0E4E7;border-radius:4px;font-family:inherit;color:#1A2B2C;background:#fff;outline:none;min-width:180px}
+.map-cat-select:focus{border-color:#13545E}
+.map-cat-select.changed{border-color:#2563EB;background:#EFF6FF}
+.map-summary{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.map-stat{background:#F5FAFB;border:1px solid #D2E8EA;border-radius:5px;padding:8px 14px;text-align:center;min-width:80px}
+.map-stat-val{font-size:18px;font-weight:700;color:#13545E}
+.map-stat-lbl{font-size:9.5px;color:#6A8E91;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.map-stat.warn-stat .map-stat-val{color:#D97706}
+.map-stat.err-stat  .map-stat-val{color:#DC2626}
+.step-label{font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -275,11 +316,60 @@ tbody tr:hover td{background:#F8FBFC}
             </div>
             <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
 
-            <!-- Preview area -->
+            <!-- Step 3: Mapping Review (shown after parse) -->
+            <div id="mapping-review" style="display:none;margin-top:18px">
+              <div class="sep"></div>
+              <div class="step-label">3. Review Field Mappings</div>
+              <div id="alert-unmapped"></div>
+
+              <!-- Summary stats -->
+              <div class="map-summary" id="map-summary"></div>
+
+              <!-- Reconciliation warnings -->
+              <div id="recon-warnings"></div>
+
+              <!-- Filter bar -->
+              <div class="map-filter-bar">
+                <div class="map-ftabs">
+                  <button class="map-ftab active" data-filter="all" onclick="setMapFilter('all')">All <span class="map-cnt" id="cnt-all">0</span></button>
+                  <button class="map-ftab warn-tab" data-filter="unmapped" onclick="setMapFilter('unmapped')">Unmapped <span class="map-cnt" id="cnt-unmapped">0</span></button>
+                  <button class="map-ftab" data-filter="medium" onclick="setMapFilter('medium')">Pattern Match <span class="map-cnt" id="cnt-medium">0</span></button>
+                  <button class="map-ftab" data-filter="mapped" onclick="setMapFilter('mapped')">Confirmed <span class="map-cnt" id="cnt-mapped">0</span></button>
+                  <button class="map-ftab" data-filter="header" onclick="setMapFilter('header')">Headers <span class="map-cnt" id="cnt-header">0</span></button>
+                </div>
+                <input type="text" class="map-search" id="map-search" placeholder="Search labels..." oninput="renderMappingTable()">
+              </div>
+
+              <!-- Table -->
+              <div class="map-tbl-wrap">
+                <table id="map-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width:220px">Source Label</th>
+                      <th style="min-width:200px">Dashboard Category</th>
+                      <th>Status</th>
+                      <th>Method</th>
+                      <th style="text-align:right">Value (Actuals)</th>
+                      <th style="text-align:center">Exclude</th>
+                    </tr>
+                  </thead>
+                  <tbody id="map-tbody"></tbody>
+                </table>
+              </div>
+
+              <!-- Actions -->
+              <div style="display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="proceedToMonthSelection()">&#8594; Proceed to Month Selection</button>
+                <button class="btn btn-outline" id="btn-save-mappings" onclick="saveMappingsOnly()">&#128190; Save Mappings</button>
+                <button class="btn btn-outline" onclick="cancelUpload()">Cancel</button>
+                <span id="mappings-saved-status" style="font-size:11.5px;color:#15803D;display:none;font-weight:600">&#10003; Mappings saved!</span>
+              </div>
+            </div>
+
+            <!-- Step 4 + 5: Month Selector + Preview (shown after proceeding from mapping review) -->
             <div id="upload-preview" style="display:none;margin-top:18px">
               <div class="sep"></div>
-              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">3. Select Months to Save</div>
-              <div id="alert-unmapped"></div>
+              <div class="step-label">4. Select Months to Save</div>
               <div id="alert-warn-detail"></div>
               <div id="month-sel-hint" style="font-size:11.5px;color:#6A8E91;margin-bottom:6px"></div>
               <div class="month-sel-grid" id="month-sel-grid"></div>
@@ -288,7 +378,7 @@ tbody tr:hover td{background:#F8FBFC}
                 <span>Only the <strong>checked months</strong> will be saved. Any months not selected here — including previously uploaded months — remain <strong>unchanged</strong>. Uploading next month's actuals will add that month without overwriting anything already saved.</span>
               </div>
               <div class="sep"></div>
-              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">4. Preview Data</div>
+              <div class="step-label">5. Preview Data</div>
               <div class="preview-tabs" id="preview-tabs"></div>
               <div id="preview-table-wrap" style="overflow:auto;max-height:300px;border:1px solid #D2E8EA;border-radius:5px"></div>
               <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
@@ -421,6 +511,8 @@ tbody tr:hover td{background:#F8FBFC}
 ══════════════════════════════════════════════════════ */
 let currentFileType = 't12';
 let parsedData      = null;
+let parsedRows      = [];   // mutable working copy of rows from parse
+let mapFilter       = 'all';
 let previewMonth    = null;
 let editingUserId   = null;
 let meEmail         = '';
@@ -473,8 +565,8 @@ async function loadCoverage() {
     const md = data.months[m];
     let cls = 'empty', label = MONTH_SHORT[m];
     if (md) {
-      const hasA = Object.keys(md.a||{}).length > 0;
-      const hasB = Object.keys(md.b||{}).length > 0;
+      const hasA = Object.values(md.a||{}).some(v=>Math.abs(v||0)>0);
+      const hasB = Object.values(md.b||{}).some(v=>Math.abs(v||0)>0);
       if (hasA && hasB)  cls = 'has-both';
       else if (hasA)     cls = 'has-t12';
       else if (hasB)     cls = 'has-budget';
@@ -491,6 +583,214 @@ function selectFileType(type) {
   ['t12','budget','combined'].forEach(t => {
     document.getElementById('ft-'+t).classList.toggle('selected', t===type);
   });
+}
+
+/* ══════════════════════════════════════════════════════
+   MAPPING REVIEW
+══════════════════════════════════════════════════════ */
+const CAT_GROUPS = [
+  { group:'Income Detail',     items:[{k:'pri',l:'Potential Rental Income'},{k:'ltl',l:'Loss to Lease'},{k:'vac',l:'Vacancy Loss'},{k:'mod',l:'Model/Admin Units'},{k:'con',l:'Concessions'},{k:'bd',l:'Bad Debt'}] },
+  { group:'Income Subtotals',  items:[{k:'trr',l:'Total Rental Revenue'},{k:'ur',l:'Utility Reimbursement'},{k:'oi',l:'Other Income'},{k:'toi',l:'Total Other Income'},{k:'egi',l:'Effective Gross Income'}] },
+  { group:'Expense Detail',    items:[{k:'payroll',l:'Payroll'},{k:'adv',l:'Advertising & Marketing'},{k:'ga',l:'General & Administrative'},{k:'util',l:'Utilities'},{k:'rm',l:'Repairs & Maintenance'},{k:'contract',l:'Contract Services'},{k:'mgmt',l:'Management Fee'},{k:'mr',l:'Make Ready'},{k:'taxes',l:'Taxes'},{k:'ins',l:'Insurance'}] },
+  { group:'Expense Subtotals', items:[{k:'opex',l:'Total Operating Expenses'}] },
+  { group:'Other',             items:[{k:'noi',l:'Net Operating Income'},{k:'amfee',l:'Asset Mgmt Fee'},{k:'debt',l:'Debt Service'},{k:'capex',l:'Capital Expenditures'},{k:'ncf',l:'Net Cash Flow'}] },
+  { group:'Special',           items:[{k:'_header',l:'Section Header (ignore)'},{k:'_exclude',l:'Exclude from Dashboard'}] }
+];
+
+function buildCatSelect(currentKey, rowIdx) {
+  let html = `<select class="map-cat-select${currentKey&&currentKey!==''?' changed':''}" onchange="updateRowKey(${rowIdx},this.value)">`;
+  html += `<option value=""${!currentKey?' selected':''}>— Unmapped —</option>`;
+  for (const { group, items } of CAT_GROUPS) {
+    html += `<optgroup label="${group}">`;
+    for (const { k, l } of items) html += `<option value="${k}"${currentKey===k?' selected':''}>${l}</option>`;
+    html += '</optgroup>';
+  }
+  html += '</select>';
+  return html;
+}
+
+function getRowStatus(row) {
+  if (row.excluded || row.key === '_exclude') return 'excluded';
+  if (row.isHeader || row.key === '_header')  return 'header';
+  if (!row.key)                               return 'unmapped';
+  if (row.method === 'saved')                 return 'saved';
+  if (row.confidence === 'high')              return 'mapped';
+  if (row.confidence === 'medium')            return 'medium';
+  return 'unmapped';
+}
+
+function confBadge(row) {
+  const s = getRowStatus(row);
+  const map = { mapped:'<span class="conf-badge conf-high">✓ Exact</span>', saved:'<span class="conf-badge conf-saved">★ Saved Rule</span>', medium:'<span class="conf-badge conf-medium">⚡ Pattern</span>', unmapped:'<span class="conf-badge conf-none">✗ Unmapped</span>', header:'<span class="conf-badge conf-header">– Header</span>', excluded:'<span class="conf-badge conf-excl">○ Excluded</span>' };
+  return map[s] || map.unmapped;
+}
+
+function updateMapCounts() {
+  const cnt = { all:parsedRows.length, unmapped:0, medium:0, mapped:0, header:0, excluded:0 };
+  for (const r of parsedRows) {
+    const s = getRowStatus(r);
+    if (s==='unmapped') cnt.unmapped++;
+    else if (s==='medium') cnt.medium++;
+    else if (s==='mapped'||s==='saved') cnt.mapped++;
+    else if (s==='header') cnt.header++;
+    else if (s==='excluded') cnt.excluded++;
+  }
+  for (const [k,v] of Object.entries(cnt)) { const el=document.getElementById('cnt-'+k); if(el) el.textContent=v; }
+
+  // Update summary stats
+  const summaryEl = document.getElementById('map-summary');
+  if (summaryEl) {
+    const nTotal = cnt.all, nMapped = cnt.mapped, nUnmapped = cnt.unmapped, nPattern = cnt.medium;
+    summaryEl.innerHTML = [
+      { val:nTotal,   lbl:'Total Rows',       cls:'' },
+      { val:nMapped,  lbl:'Confirmed',         cls:nMapped>0?'':'warn-stat' },
+      { val:nPattern, lbl:'Pattern Match',     cls:nPattern>0?'warn-stat':'' },
+      { val:nUnmapped,lbl:'Unmapped',          cls:nUnmapped>0?'err-stat':'' }
+    ].map(s=>`<div class="map-stat ${s.cls}"><div class="map-stat-val">${s.val}</div><div class="map-stat-lbl">${s.lbl}</div></div>`).join('');
+  }
+}
+
+function setMapFilter(filter) {
+  mapFilter = filter;
+  document.querySelectorAll('.map-ftab').forEach(b => b.classList.toggle('active', b.dataset.filter===filter));
+  renderMappingTable();
+}
+
+function renderMappingTable() {
+  const search = (document.getElementById('map-search')?.value||'').toLowerCase().trim();
+  const tbody  = document.getElementById('map-tbody');
+  const visible = parsedRows.reduce((acc, r, i) => { r._idx=i; acc.push(r); return acc; }, []).filter(r => {
+    const s = getRowStatus(r);
+    if (mapFilter !== 'all') {
+      if (mapFilter==='unmapped' && s!=='unmapped') return false;
+      if (mapFilter==='medium'   && s!=='medium')   return false;
+      if (mapFilter==='mapped'   && s!=='mapped' && s!=='saved') return false;
+      if (mapFilter==='header'   && s!=='header')   return false;
+    }
+    if (search && !r.label.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  if (!visible.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">No rows match the current filter</td></tr>'; return; }
+
+  tbody.innerHTML = visible.map(r => {
+    const s = getRowStatus(r);
+    const valStr = r.totalActual>0 ? '$'+r.totalActual.toLocaleString() : (r.totalBudget>0?'$'+r.totalBudget.toLocaleString():'—');
+    const methodLbl = {exact:'exact match',saved:'saved rule',pattern:'pattern match',unmapped:'no match',user:'user edit'}[r.method]||r.method;
+    return `<tr class="map-row-${s}" data-idx="${r._idx}">
+      <td style="font-family:'Courier New',monospace;font-size:11.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.label)}">${esc(r.label)}</td>
+      <td>${buildCatSelect(r.key||'', r._idx)}</td>
+      <td>${confBadge(r)}</td>
+      <td style="font-size:10.5px;color:#6A8E91;white-space:nowrap">${methodLbl}</td>
+      <td style="text-align:right;font-family:'Courier New',monospace;font-size:11px;color:#4A6568;white-space:nowrap">${valStr}</td>
+      <td style="text-align:center"><input type="checkbox" ${r.excluded?'checked':''} onchange="toggleExclude(${r._idx},this.checked)" title="Exclude this row from the dashboard"></td>
+    </tr>`;
+  }).join('');
+}
+
+window.updateRowKey = function(idx, key) {
+  const r = parsedRows[idx]; if (!r) return;
+  r.key = key || null;
+  r.method = 'user';
+  r.confidence = key ? 'high' : 'none';
+  if (key === '_exclude') { r.excluded = true; r.isHeader = false; }
+  else if (key === '_header') { r.isHeader = true; r.excluded = false; }
+  else { r.excluded = false; r.isHeader = false; }
+  updateMapCounts();
+  // Refresh just this row's status class
+  const tr = document.querySelector(`#map-tbody tr[data-idx="${idx}"]`);
+  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[2].innerHTML=confBadge(r); }
+};
+
+window.toggleExclude = function(idx, val) {
+  const r = parsedRows[idx]; if (!r) return;
+  r.excluded = val;
+  updateMapCounts();
+  const tr = document.querySelector(`#map-tbody tr[data-idx="${idx}"]`);
+  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[2].innerHTML=confBadge(r); }
+};
+
+function renderReconWarnings(issues) {
+  const el = document.getElementById('recon-warnings'); if (!el) return;
+  if (!issues||!issues.length) { el.innerHTML=''; return; }
+  el.innerHTML=`<div class="alert alert-warn" style="margin-bottom:12px">
+    <strong>&#9888; Reconciliation Warnings (${issues.length})</strong>
+    <ul style="margin-top:6px;padding-left:18px;font-size:11.5px;line-height:1.7">
+      ${issues.map(i=>`<li><strong>${esc(i.label)} [${(i.month||'').toUpperCase()}]</strong> — Source total: ${(i.expected||0).toLocaleString()} &nbsp;|&nbsp; Computed from detail: ${(i.computed||0).toLocaleString()} &nbsp;|&nbsp; Variance: <strong>${(i.variance||0).toLocaleString()}</strong></li>`).join('')}
+    </ul>
+    <div style="margin-top:6px;font-size:10.5px;color:#92400E">These may indicate unmapped rows, duplicate rows, or sub-line items rolling into a subtotal that was also captured.</div>
+  </div>`;
+}
+
+function buildMappingReview(data) {
+  parsedRows = (data.rows||[]).map(r => ({ ...r }));
+  mapFilter = 'all';
+  document.querySelectorAll('.map-ftab').forEach(b => b.classList.toggle('active', b.dataset.filter==='all'));
+  if (document.getElementById('map-search')) document.getElementById('map-search').value='';
+  updateMapCounts();
+  renderReconWarnings(data.reconciliation||[]);
+  renderMappingTable();
+  // Unmapped alert
+  const unmapped = (data.unmapped||[]).filter(l => l && l.length>2);
+  if (unmapped.length) {
+    showAlert('alert-unmapped','warn','<strong>'+unmapped.length+' row'+(unmapped.length!==1?'s':'')+' could not be auto-mapped</strong> (shown in red below). Use the dropdown to assign them, or leave them unassigned to exclude them from the dashboard.<br><span style="font-size:10.5px;color:#78350F;margin-top:4px;display:block">'+unmapped.slice(0,8).map(esc).join(', ')+(unmapped.length>8?' … and '+(unmapped.length-8)+' more':'')+'</span>');
+  } else { clearAlert('alert-unmapped'); }
+  document.getElementById('mapping-review').style.display='';
+}
+
+async function saveMappingsOnly() {
+  const toSave = parsedRows.filter(r => r.method==='user' && r.key && r.key!=='_header' && r.key!=='_exclude');
+  if (!toSave.length) { showAlert('upload-alert','info','No user-edited mappings to save. Assign at least one row manually, then save.'); return; }
+  const btn = document.getElementById('btn-save-mappings');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Saving...';
+  try {
+    const res = await fetch('/api/mappings/bulk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mappings:toSave.map(r=>({sourceLabel:r.label,dashboardKey:r.key}))})});
+    const d = await res.json();
+    if (d.success) {
+      document.getElementById('mappings-saved-status').style.display='inline';
+      setTimeout(()=>document.getElementById('mappings-saved-status').style.display='none',3000);
+      toSave.forEach(r => { r.method='saved'; r.confidence='high'; });
+      renderMappingTable(); updateMapCounts();
+      showAlert('upload-alert','success',`&#10003; ${d.added} new mapping${d.added!==1?'s':''} saved, ${d.updated} updated. These will be applied automatically on future uploads.`);
+    } else showAlert('upload-alert','error','Save failed: '+(d.error||'Unknown'));
+  } catch(e) { showAlert('upload-alert','error','Error: '+e.message); }
+  btn.disabled=false; btn.innerHTML='&#128190; Save Mappings';
+}
+
+function buildMonthsFromRows(rows, fileType) {
+  const months = {};
+  const keyUsed = {};
+  for (const row of rows) {
+    if (row.excluded) continue;
+    if (!row.key || row.key==='_header' || row.key==='_exclude') continue;
+    if (keyUsed[row.key]) continue; // first occurrence wins (dedup)
+    keyUsed[row.key] = true;
+    for (const [month, vals] of Object.entries(row.monthValues||{})) {
+      if (!months[month]) months[month]={a:{},b:{}};
+      if (vals.actual!==null && vals.actual!==undefined && fileType!=='budget') months[month].a[row.key]=vals.actual;
+      if (vals.budget!==null && vals.budget!==undefined && fileType!=='t12')    months[month].b[row.key]=vals.budget;
+    }
+  }
+  return months;
+}
+
+function proceedToMonthSelection() {
+  const corrected = buildMonthsFromRows(parsedRows, currentFileType);
+  if (!Object.keys(corrected).length) {
+    showAlert('upload-alert','warn','No mappable data found after applying your corrections. Assign at least one row to a dashboard category.');
+    return;
+  }
+  parsedData.months = corrected;
+  document.getElementById('mapping-review').style.display='none';
+  const months = Object.keys(corrected);
+  const orderedMonths = ALL_MONTHS.filter(m=>months.includes(m));
+  if (parsedData.warnings?.length) showAlert('alert-warn-detail','warn','<strong>Note:</strong> '+parsedData.warnings.join('; '));
+  else clearAlert('alert-warn-detail');
+  buildMonthSelector(orderedMonths, corrected, currentFileType);
+  const tabs = document.getElementById('preview-tabs');
+  tabs.innerHTML = orderedMonths.map((m,i)=>`<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${MONTH_LABELS[m]||m}</button>`).join('');
+  previewMonth = orderedMonths[0];
+  renderPreviewTable(previewMonth);
+  document.getElementById('upload-preview').style.display='';
 }
 
 /* ══════════════════════════════════════════════════════
@@ -515,32 +815,19 @@ async function handleFile(file) {
 
     parsedData = data;
     const months = Object.keys(data.months);
-    if (months.length === 0) {
+    if (!months.length && !(data.rows||[]).length) {
       showAlert('upload-alert','warn','No monthly data found. Check the file format or try a different file type selection.');
       dropText.textContent = 'Drop Excel file here or click to browse';
       return;
     }
 
     dropText.textContent = '✓ ' + file.name;
-    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+months.length+' month(s)</strong> in file: '+months.map(m=>MONTH_LABELS[m]||m).join(', '));
+    const rowCount = (data.rows||[]).length;
+    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+ months.length+' month(s)</strong> and <strong>'+rowCount+' source rows</strong> in file: '+months.map(m=>MONTH_LABELS[m]||m).join(', ')+'. Review field mappings below before saving.');
 
-    if (data.warnings?.length) showAlert('alert-warn-detail','warn','<strong>Note:</strong> '+data.warnings.join('; '));
-    else clearAlert('alert-warn-detail');
-    if (data.unmapped?.length) showAlert('alert-unmapped','warn','<strong>Unrecognized rows (skipped):</strong><ul class="unmapped-list">'+data.unmapped.slice(0,12).map(u=>'<li>'+esc(u)+'</li>').join('')+'</ul>');
-    else clearAlert('alert-unmapped');
-
-    // Build month selector
-    const orderedMonths = ALL_MONTHS.filter(m=>months.includes(m));
-    buildMonthSelector(orderedMonths, data.months, currentFileType);
-
-    // Build preview tabs
-    const tabs = document.getElementById('preview-tabs');
-    tabs.innerHTML = orderedMonths.map((m,i)=>
-      `<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${MONTH_LABELS[m]||m}</button>`
-    ).join('');
-    previewMonth = orderedMonths[0];
-    renderPreviewTable(previewMonth);
-    document.getElementById('upload-preview').style.display = '';
+    // Show mapping review step (replaces old direct-to-month-selector flow)
+    document.getElementById('upload-preview').style.display='none';
+    buildMappingReview(data);
   } catch(e) {
     showAlert('upload-alert','error','Upload failed: '+e.message);
     dropText.textContent = 'Drop Excel file here or click to browse';
@@ -653,10 +940,14 @@ async function commitUpload() {
 
 function cancelUpload() {
   parsedData = null;
+  parsedRows = [];
   document.getElementById('upload-preview').style.display='none';
+  document.getElementById('mapping-review').style.display='none';
   document.getElementById('file-input').value='';
   document.getElementById('drop-text').textContent='Drop Excel file here or click to browse';
   clearAlert('upload-alert'); clearAlert('alert-unmapped'); clearAlert('alert-warn-detail');
+  const el=document.getElementById('recon-warnings'); if(el) el.innerHTML='';
+  const ms=document.getElementById('map-summary'); if(ms) ms.innerHTML='';
 }
 
 /* ══════════════════════════════════════════════════════

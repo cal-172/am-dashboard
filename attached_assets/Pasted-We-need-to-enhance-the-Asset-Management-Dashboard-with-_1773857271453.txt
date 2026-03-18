@@ -1,0 +1,460 @@
+We need to enhance the Asset Management Dashboard with a file mapping review and persistent mapping system.
+
+Problem to Solve
+
+The current parser is not reliably mapping uploaded Budget and T12 files into the dashboard categories. Important categories are sometimes omitted or misclassified.
+
+This creates a major issue because:
+
+individual line items do not always roll up correctly into dashboard totals
+
+expense detail may not equal total operating expenses
+
+income and expense categories may be missing or incorrectly grouped
+
+the dashboard cannot be trusted unless mappings are transparent and reviewable
+
+We need to add an admin mapping workflow so that uploaded files can be reviewed, corrected, and learned from over time.
+
+Enhancement Objective
+
+Build an admin feature that:
+
+Parses uploaded source files and attempts to auto-map source line items to our predefined dashboard categories
+
+Displays all detected mappings after upload
+
+Clearly highlights:
+
+unmapped source rows
+
+low-confidence mappings
+
+duplicate mappings
+
+rows that appear to be omitted from totals
+
+rows where mapped detail does not reconcile to section totals
+
+Allows the admin user to manually update mappings using a dropdown of predefined dashboard categories
+
+Saves those mappings so they persist and can be reused automatically on future uploads from the same report format/property/source pattern
+
+Required Functional Behavior
+1. Post-Upload Mapping Review Screen
+
+After a user uploads a Budget or T12 file, show a mapping review table before finalizing ingestion.
+
+Each uploaded source row should display:
+
+Source row / account name
+
+Source section if available
+
+File type (Budget or T12)
+
+Detected amount columns / month columns
+
+Auto-mapped dashboard category
+
+Mapping confidence status
+
+Mapping method used
+
+exact match
+
+alias match
+
+fuzzy match
+
+inherited saved mapping
+
+unmapped
+
+Editable dropdown for dashboard category
+
+Optional toggle or checkbox for:
+
+exclude row from dashboard
+
+treat as subtotal/header only
+
+mark as non-operating / below-the-line
+
+2. Predefined Dashboard Mapping Categories
+
+The dropdown should only allow mapping to approved dashboard categories used by the dashboard.
+
+Use the full standardized category list, including:
+
+Income
+
+Potential Rental Income
+
+Loss to Lease
+
+Vacancy Loss
+
+Model/Admin
+
+Concessions
+
+Bad Debt
+
+Other Income
+
+Utility Reimbursement
+
+Calculated / Rollup Income Rows
+
+Total Rental Revenue
+
+Total Other Income
+
+Effective Gross Income
+
+Expenses
+
+Payroll
+
+Advertising & Marketing
+
+General & Administrative
+
+Utilities
+
+Repairs & Maintenance
+
+Contract Services
+
+Management Fee
+
+Make Ready
+
+Taxes
+
+Insurance
+
+Calculated / Rollup Expense Rows
+
+Total Operating Expenses
+
+Other Sections
+
+Net Operating Income
+
+Asset Management Fee
+
+Debt Service
+
+Total Debt & Fees
+
+Cash for Distribution
+
+Capital Expenditures (CAPEX)
+
+Non-Operating Expenses
+
+Total Below the Line Expenses
+
+Net Income
+
+Also support metadata tags such as:
+
+header only
+
+subtotal only
+
+ignore / exclude
+
+informational only
+
+Important: subtotal and calculated rows should generally be system-generated, not manually mapped as source detail, unless needed for reconciliation testing.
+
+3. Persistent Mapping Logic
+
+Mappings should persist and be automatically reused in future uploads.
+
+Persist mappings using a mapping rules table that stores things like:
+
+source row name
+
+normalized source row name
+
+source file type
+
+property name if applicable
+
+report type
+
+mapped dashboard category
+
+exclude flag
+
+created by
+
+updated by
+
+created date
+
+updated date
+
+confidence / verification status
+
+Reuse logic
+
+When a future file is uploaded:
+
+first check for an exact saved mapping match
+
+then check normalized/alias match
+
+then fall back to fuzzy matching
+
+if no reliable match is found, leave it unmapped and show it in review
+
+Mappings confirmed by admin should become trusted mappings for future imports.
+
+4. Reconciliation / Validation Checks
+
+This is critical.
+
+The system must perform validation checks before finalizing imported data.
+
+Required checks:
+
+Sum of mapped income detail should reconcile to expected income section totals
+
+Sum of mapped expense detail should reconcile to expected total operating expenses
+
+Sum of mapped debt items should reconcile to total debt & fees
+
+Sum of below-the-line items should reconcile to total below-the-line expenses
+
+If source report contains subtotal rows, compare mapped detail to source subtotal
+
+Flag variances above a configurable threshold
+
+Validation warnings should include:
+
+missing categories
+
+unmapped rows with dollar amounts
+
+duplicate mapped rows
+
+large uncategorized totals
+
+detail total does not match source subtotal
+
+dashboard section total does not match imported source total
+
+The admin should see these warnings clearly before approving import.
+
+5. Admin UX Requirements
+
+Create an admin-friendly interface that is practical and fast to use.
+
+Mapping review screen should include:
+
+sortable table
+
+filter by:
+
+unmapped only
+
+low confidence only
+
+mapped rows
+
+excluded rows
+
+income / expenses / debt / below-the-line
+
+search box for source row names
+
+bulk update option for selected rows
+
+color-coded mapping status badges:
+
+mapped
+
+unmapped
+
+warning
+
+reconciled
+
+mismatch
+
+Actions:
+
+Save mapping changes
+
+Approve import
+
+Re-run parse using updated mappings
+
+Cancel import
+
+Mark mapping as global default
+
+Mark mapping as property/report-specific only
+
+6. Suggested Data Model
+
+Please implement or propose the necessary backend structure for:
+
+tables / collections:
+
+mapping_rules
+
+mapping_aliases
+
+import_sessions
+
+import_rows
+
+import_validation_results
+
+Suggested purpose:
+
+mapping_rules: persistent approved mappings
+
+mapping_aliases: alternate source labels that map to same dashboard category
+
+import_sessions: one record per upload/import
+
+import_rows: parsed source rows for a given upload
+
+import_validation_results: reconciliation and warning results for review
+
+7. Parsing Improvement Requirements
+
+Improve parser reliability so it can better identify:
+
+section headers
+
+subtotal rows
+
+account detail rows
+
+blank spacer rows
+
+month columns
+
+YTD / QTD / current month columns
+
+inconsistent naming conventions
+
+Use normalization rules such as:
+
+trim spaces
+
+remove punctuation where helpful
+
+standardize capitalization
+
+support alias dictionaries
+
+support fuzzy matching, but do not auto-approve low-confidence matches
+
+8. Approval Workflow
+
+The import should not silently finalize if key rows are unmapped or reconciliation fails materially.
+
+Recommended workflow:
+
+Upload file
+
+Parse file
+
+Show mapping review table
+
+Show validation/reconciliation warnings
+
+Admin corrects mappings
+
+Save mappings
+
+Re-run parser/reconciliation
+
+Approve finalized import only when acceptable
+
+9. Acceptance Criteria
+
+This enhancement is complete when:
+
+uploaded files show all parsed source rows in a review screen
+
+unmapped rows are clearly visible
+
+admin can manually assign dashboard categories from dropdown
+
+saved mappings persist and apply to future uploads
+
+totals reconcile or clearly show exceptions
+
+expense detail can be validated against total operating expenses
+
+omitted categories are no longer hidden silently
+
+admin has confidence in imported data before dashboard generation
+
+10. Implementation Priority
+
+Please build this in phases:
+
+Phase 1
+
+persistent mapping table
+
+post-upload mapping review screen
+
+manual dropdown mapping
+
+save and reuse mappings
+
+Phase 2
+
+reconciliation warnings
+
+duplicate/unmapped detection
+
+confidence scoring
+
+bulk mapping updates
+
+Phase 3
+
+alias management
+
+property/report-specific mapping profiles
+
+smarter fuzzy matching
+
+mapping analytics / audit log
+
+Important Product Principle
+
+For this tool, transparency is more important than automation.
+
+A partially automated parser with a strong review and reconciliation workflow is better than a fully automated parser that silently misclassifies or omits rows.
+
+The system should never hide uncertainty. It should surface uncertainty and let the admin correct it.
+
+Deliverable Requested
+
+Please:
+
+Propose the backend and frontend architecture for this enhancement
+
+Identify which existing upload/import components need to change
+
+Build the admin mapping review workflow
+
+Implement persistent saved mappings
+
+Add reconciliation checks and visible warnings
+
+Keep the UI clean and practical for repeated monthly use

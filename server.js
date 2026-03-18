@@ -9,9 +9,10 @@ const path = require('path');
 
 const app = express();
 const PORT = 5000;
-const DATA_FILE   = path.join(__dirname, 'data', 'financial.json');
-const USERS_FILE  = path.join(__dirname, 'data', 'users.json');
-const UPLOADS_FILE = path.join(__dirname, 'data', 'uploads.json');
+const DATA_FILE     = path.join(__dirname, 'data', 'financial.json');
+const USERS_FILE    = path.join(__dirname, 'data', 'users.json');
+const UPLOADS_FILE  = path.join(__dirname, 'data', 'uploads.json');
+const MAPPINGS_FILE = path.join(__dirname, 'data', 'mappings.json');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,13 +36,15 @@ function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-function readData()   { return readJSON(DATA_FILE,   { property: 'Regatta — 1163_rr', year: 2026, months: {}, updatedAt: new Date().toISOString() }); }
-function readUsers()  { return readJSON(USERS_FILE,  []); }
-function readUploads(){ return readJSON(UPLOADS_FILE, []); }
+function readData()     { return readJSON(DATA_FILE,     { property: 'Regatta — 1163_rr', year: 2026, months: {}, updatedAt: new Date().toISOString() }); }
+function readUsers()    { return readJSON(USERS_FILE,    []); }
+function readUploads()  { return readJSON(UPLOADS_FILE,  []); }
+function readMappings() { return readJSON(MAPPINGS_FILE, []); }
 
-function writeData(d)    { d.updatedAt = new Date().toISOString(); writeJSON(DATA_FILE, d); }
-function writeUsers(u)   { writeJSON(USERS_FILE, u); }
-function writeUploads(u) { writeJSON(UPLOADS_FILE, u); }
+function writeData(d)      { d.updatedAt = new Date().toISOString(); writeJSON(DATA_FILE, d); }
+function writeUsers(u)     { writeJSON(USERS_FILE, u); }
+function writeUploads(u)   { writeJSON(UPLOADS_FILE, u); }
+function writeMappings(m)  { writeJSON(MAPPINGS_FILE, m); }
 
 /* ── Bootstrap initial admin user ── */
 async function initUsers() {
@@ -150,9 +153,10 @@ app.delete('/api/data/month/:month', requireAuth, requireAdmin, (req, res) => {
 app.post('/api/upload/parse', requireAuth, requireAdmin, upload.single('file'), (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    const fileType = req.body.fileType || 'combined'; // t12 | budget | combined
-    const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
-    const result   = parseRealPageWorkbook(workbook, fileType);
+    const fileType     = req.body.fileType || 'combined'; // t12 | budget | combined
+    const savedMappings = readMappings();
+    const workbook     = XLSX.read(req.file.buffer, { type: 'buffer' });
+    const result       = parseRealPageWorkbook(workbook, fileType, savedMappings);
     result.originalName = req.file.originalname;
     result.fileType     = fileType;
     res.json(result);
@@ -205,6 +209,44 @@ app.get('/api/uploads', requireAuth, requireAdmin, (req, res) => {
 app.delete('/api/uploads/:id', requireAuth, requireAdmin, (req, res) => {
   const uploads = readUploads().filter(u => u.id !== req.params.id);
   writeUploads(uploads);
+  res.json({ success: true });
+});
+
+/* ══════════════════════════════════════════════════════
+   API — MAPPING RULES
+══════════════════════════════════════════════════════ */
+app.get('/api/mappings', requireAuth, requireAdmin, (req, res) => {
+  res.json(readMappings());
+});
+
+app.post('/api/mappings/bulk', requireAuth, requireAdmin, (req, res) => {
+  try {
+    const { mappings: incoming } = req.body;
+    if (!Array.isArray(incoming)) return res.status(400).json({ error: 'mappings must be an array' });
+    const existing = readMappings();
+    const now = new Date().toISOString();
+    let added = 0, updated = 0;
+    for (const m of incoming) {
+      if (!m.sourceLabel || !m.dashboardKey) continue;
+      const idx = existing.findIndex(e => cleanStr(e.sourceLabel) === cleanStr(m.sourceLabel));
+      if (idx >= 0) {
+        existing[idx].dashboardKey = m.dashboardKey;
+        existing[idx].confirmedAt  = now;
+        existing[idx].confirmedBy  = req.session.email;
+        updated++;
+      } else {
+        existing.push({ id: uuidv4(), sourceLabel: m.sourceLabel, dashboardKey: m.dashboardKey,
+          method: 'user', scope: 'global', confirmedAt: now, confirmedBy: req.session.email });
+        added++;
+      }
+    }
+    writeMappings(existing);
+    res.json({ success: true, added, updated });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/mappings/:id', requireAuth, requireAdmin, (req, res) => {
+  writeMappings(readMappings().filter(m => m.id !== req.params.id));
   res.json({ success: true });
 });
 
@@ -315,9 +357,9 @@ const ROW_PATTERNS = [
   { key:'con',      patterns:['total concessions','concession','concessions'] },
   { key:'bd',       patterns:['bad debt','bad debts','total delinq','delinquency','bad debt expense'] },
   { key:'trr',      patterns:['total rental revenue','gross rental revenue','net rental revenue','total rental income'] },
-  { key:'ur',       patterns:['utility reimbursement','utility reimbursements','total utility income','rubs program','rubs'] },
+  { key:'ur',       patterns:['utility reimbursement','utility reimbursements','total utility income','utility income','rubs program','rubs'] },
   { key:'oi',       patterns:['total other misc income','total other miscellaneous income','total miscellaneous income','other revenues total','total non-rental other income'] },
-  { key:'toi',      patterns:['total parking/utilities/other','total parking utilities other','total other income','total other revenues','total non-rental income'] },
+  { key:'toi',      patterns:['total parking/utilities/other','total parking utilities other','total other income','total other revenues','total non-rental income','parking/utilities/other income','parking utilities other income'] },
   { key:'egi',      patterns:['effective gross income','effective gross revenue','total revenue','total income'] },
   { key:'payroll',  patterns:['total payroll','payroll & benefits','total payroll & benefits','salaries and wages'] },
   { key:'adv',      patterns:['total leasing & marketing','total leasing and marketing','advertising & marketing','advertising and marketing','total advertising','leasing & marketing'] },
@@ -343,20 +385,78 @@ function cleanStr(s) {
 
 function matchKey(label) {
   const clean = cleanStr(label);
-  // First pass: exact match
   for (const { key, patterns } of ROW_PATTERNS) {
-    for (const p of patterns) {
-      if (clean === cleanStr(p)) return key;
-    }
+    for (const p of patterns) { if (clean === cleanStr(p)) return key; }
   }
-  // Second pass: label must contain the pattern (not the reverse — avoids short labels matching long patterns)
   for (const { key, patterns } of ROW_PATTERNS) {
-    for (const p of patterns) {
-      const cp = cleanStr(p);
-      if (clean.includes(cp)) return key;
-    }
+    for (const p of patterns) { if (clean.includes(cleanStr(p))) return key; }
   }
   return null;
+}
+
+function matchKeyWithConfidence(label, savedMappings) {
+  const clean = cleanStr(label);
+  // 1. Saved user-confirmed mapping (highest priority)
+  for (const sm of savedMappings) {
+    if (cleanStr(sm.sourceLabel) === clean) {
+      return { key: sm.dashboardKey, method: 'saved', confidence: 'high' };
+    }
+  }
+  // 2. Exact pattern match
+  for (const { key, patterns } of ROW_PATTERNS) {
+    for (const p of patterns) {
+      if (clean === cleanStr(p)) return { key, method: 'exact', confidence: 'high' };
+    }
+  }
+  // 3. Pattern substring match (label contains pattern)
+  for (const { key, patterns } of ROW_PATTERNS) {
+    for (const p of patterns) {
+      if (clean.includes(cleanStr(p))) return { key, method: 'pattern', confidence: 'medium' };
+    }
+  }
+  return { key: null, method: 'unmapped', confidence: 'none' };
+}
+
+/* Keys that are detail (sum-able) vs. calculated subtotals */
+const INCOME_DETAIL  = ['pri','ltl','vac','mod','con','bd'];
+const EXPENSE_DETAIL = ['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'];
+
+function runReconciliation(months) {
+  const issues = [];
+  for (const [month, md] of Object.entries(months)) {
+    const a = md.a || {};
+    /* Income: TRR + TOI should ≈ EGI */
+    if (a.egi !== undefined && (a.trr !== undefined || a.toi !== undefined)) {
+      const computed = (a.trr || 0) + (a.toi || 0);
+      const variance = Math.abs(computed - (a.egi || 0));
+      if (variance > 100 && (a.egi ? variance / Math.abs(a.egi) : 1) > 0.005) {
+        issues.push({ type:'income', month, label:'Income: TRR + TOI ≠ EGI',
+          computed: Math.round(computed), expected: Math.round(a.egi||0), variance: Math.round(variance) });
+      }
+    }
+    /* Expenses: detail sum should ≈ OPEX */
+    if (a.opex !== undefined) {
+      const computed = EXPENSE_DETAIL.reduce((s,k) => s + Math.abs(a[k]||0), 0);
+      const opex = Math.abs(a.opex || 0);
+      if (computed > 0 && opex > 0) {
+        const variance = Math.abs(computed - opex);
+        if (variance > 100 && variance / opex > 0.01) {
+          issues.push({ type:'expense', month, label:'Expenses: detail sum ≠ OPEX',
+            computed: Math.round(computed), expected: Math.round(opex), variance: Math.round(variance) });
+        }
+      }
+    }
+    /* Below-line: NOI + OPEX should ≈ EGI */
+    if (a.egi !== undefined && a.opex !== undefined && a.noi !== undefined) {
+      const computed = (a.egi || 0) - Math.abs(a.opex || 0);
+      const variance = Math.abs(computed - (a.noi || 0));
+      if (variance > 100 && Math.abs(a.egi||1) > 0 && variance / Math.abs(a.egi) > 0.005) {
+        issues.push({ type:'noi', month, label:'NOI: EGI − OPEX ≠ NOI',
+          computed: Math.round(computed), expected: Math.round(a.noi||0), variance: Math.round(variance) });
+      }
+    }
+  }
+  return issues;
 }
 
 function cellNum(val) {
@@ -367,8 +467,8 @@ function cellNum(val) {
   return n;
 }
 
-function parseRealPageWorkbook(workbook, fileType = 'combined') {
-  const results = { months: {}, warnings: [], unmapped: [], sheetName: '' };
+function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = []) {
+  const results = { months: {}, rows: [], warnings: [], unmapped: [], sheetName: '', reconciliation: [] };
 
   const preferred = workbook.SheetNames.find(n => /t12|summary|budget|income|financial/i.test(n));
   const sheetName = preferred || workbook.SheetNames[0];
@@ -410,12 +510,10 @@ function parseRealPageWorkbook(workbook, fileType = 'combined') {
     const monthKey = Object.keys(MONTH_NAMES).find(m => v.startsWith(m));
     if (monthKey) {
       lastMonth = MONTH_NAMES[monthKey];
-      // For combined: first occurrence of a month = actual
-      // For t12/budget: all month cols mapped to respective type
       colMonths.push({ col: c, month: lastMonth, type: fileType === 'budget' ? 'budget' : 'actual' });
     } else if (fileType === 'combined' && lastMonth) {
-      if (/budget/i.test(v))           colMonths.push({ col: c, month: lastMonth, type: 'budget' });
-      else if (/actual/i.test(v))      colMonths[colMonths.length-1] = { col: c, month: lastMonth, type: 'actual' };
+      if (/budget/i.test(v))              colMonths.push({ col: c, month: lastMonth, type: 'budget' });
+      else if (/actual/i.test(v))         colMonths[colMonths.length-1] = { col: c, month: lastMonth, type: 'actual' };
       else if (/variance|delta/i.test(v)) { /* skip */ }
     }
   }
@@ -431,7 +529,7 @@ function parseRealPageWorkbook(workbook, fileType = 'combined') {
     monthCols[month][type] = col;
   }
 
-  // Auto-detect which column holds the row labels by scoring each pre-month column
+  // Auto-detect label column by scoring pre-month columns
   const firstMonthCol = Math.min(...colMonths.map(cm => cm.col));
   const labelColScores = {};
   const sampleEnd = Math.min(rows.length, headerRow + 60);
@@ -441,31 +539,71 @@ function parseRealPageWorkbook(workbook, fileType = 'combined') {
       if (v && matchKey(v)) labelColScores[c] = (labelColScores[c] || 0) + 1;
     }
   }
-  let labelCol = 0;
-  let bestScore = 0;
+  let labelCol = 0, bestScore = 0;
   for (const [c, score] of Object.entries(labelColScores)) {
     if (score > bestScore) { bestScore = score; labelCol = parseInt(c); }
   }
 
+  // Track which keys are already mapped (for duplicate detection)
+  const mappedKeys = {};
+
   for (let r = headerRow + 1; r < rows.length; r++) {
     const row = rows[r];
     const label = String(row[labelCol] || '').trim();
-    if (!label) continue;
-    const key = matchKey(label);
-    if (!key) {
-      if (label.length > 2 && !/^-+$/.test(label)) results.unmapped.push(label);
-      continue;
-    }
+    if (!label || /^-+$/.test(label) || label.length <= 1) continue;
+
+    const { key, method, confidence } = matchKeyWithConfidence(label, savedMappings);
+
+    // Collect per-month values
+    const monthValues = {};
+    let totalActual = 0, totalBudget = 0;
     for (const [month, cols] of Object.entries(monthCols)) {
-      if (!results.months[month]) results.months[month] = { a: {}, b: {} };
-      if (cols.actual  !== undefined) results.months[month].a[key] = cellNum(row[cols.actual]);
-      if (cols.budget  !== undefined) results.months[month].b[key] = cellNum(row[cols.budget]);
+      const actual = cols.actual !== undefined ? cellNum(row[cols.actual]) : null;
+      const budget = cols.budget !== undefined ? cellNum(row[cols.budget]) : null;
+      monthValues[month] = { actual, budget };
+      if (actual !== null) totalActual += Math.abs(actual);
+      if (budget !== null) totalBudget += Math.abs(budget);
+    }
+
+    const isHeader = !key && totalActual < 1 && totalBudget < 1;
+    const isDuplicate = key && mappedKeys[key] !== undefined;
+
+    const rowObj = {
+      rowIndex: r,
+      label,
+      key,
+      method,
+      confidence,
+      excluded: false,
+      isHeader,
+      isDuplicate,
+      monthValues,
+      totalActual: Math.round(totalActual),
+      totalBudget: Math.round(totalBudget)
+    };
+    results.rows.push(rowObj);
+
+    if (key) {
+      if (isDuplicate) {
+        results.warnings.push(`Duplicate mapping: "${label}" and "${mappedKeys[key]}" both map to ${key} — only the first will be used`);
+      } else {
+        mappedKeys[key] = label;
+        for (const [month, vals] of Object.entries(monthValues)) {
+          if (!results.months[month]) results.months[month] = { a: {}, b: {} };
+          if (vals.actual !== null && fileType !== 'budget')   results.months[month].a[key] = vals.actual;
+          if (vals.budget !== null && fileType !== 't12')      results.months[month].b[key] = vals.budget;
+        }
+      }
+    } else if (!isHeader) {
+      results.unmapped.push(label);
     }
   }
 
   if (Object.keys(results.months).length === 0) {
     results.warnings.push('No data extracted. The file layout may be unsupported.');
   }
+
+  results.reconciliation = runReconciliation(results.months);
   return results;
 }
 
