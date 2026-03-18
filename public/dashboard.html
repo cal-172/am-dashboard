@@ -103,8 +103,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 <body>
 <div class="topbar">
   <div class="topbar-title">Regatta — 1163_rr &nbsp;|&nbsp; Financial Dashboard</div>
-  <div class="topbar-nav">
-    <a href="/admin" class="top-btn">Admin</a>
+  <div class="topbar-nav" id="topbar-nav">
     <form method="POST" action="/logout" style="display:inline">
       <button type="submit" class="top-btn">Sign Out</button>
     </form>
@@ -469,12 +468,17 @@ function renderTbody(m){
 /* ═══════════════ INIT ═══════════════ */
 async function init(){
   try{
-    const res=await fetch('/api/data');
-    const d=await res.json();
+    const [dataRes, meRes] = await Promise.all([fetch('/api/data'), fetch('/api/me')]);
+    const d  = await dataRes.json();
+    const me = await meRes.json();
     RAW=d.months||{};
     PROPERTY=d.property||'Regatta — 1163_rr';
     DATA_YEAR=d.year||2026;
     UPDATED_AT=d.updatedAt||'';
+    if(me.role==='admin'){
+      const nav=document.getElementById('topbar-nav');
+      nav.insertAdjacentHTML('afterbegin','<a href="/admin" class="top-btn">Admin</a>');
+    }
     renderApp();
   } catch(e){
     document.getElementById('app').innerHTML=`<div class="no-data">Error loading data: ${e.message}</div>`;

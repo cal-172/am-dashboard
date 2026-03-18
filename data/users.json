@@ -1,0 +1,16 @@
+[
+  {
+    "id": "57aa445e-cb22-41a5-a6b1-53d5573fbf5b",
+    "email": "admin",
+    "passwordHash": "$2b$10$L.0BlPNAR9/VxRVgENzOkOvFJo5Rk55/7HXx6IW4nxrLV.0RIx7mG",
+    "role": "admin",
+    "createdAt": "2026-03-18T16:15:30.123Z"
+  },
+  {
+    "id": "45782e10-dbef-49f4-8af6-b915ad8bb25c",
+    "email": "viewer@test.com",
+    "passwordHash": "$2b$10$9zQgBx1Kq/drlw94/4./aOnRMnL10UjS5f9Pxo0kGWc1pSZqEkEou",
+    "role": "viewer",
+    "createdAt": "2026-03-18T16:16:36.870Z"
+  }
+]

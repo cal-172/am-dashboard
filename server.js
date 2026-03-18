@@ -2,15 +2,16 @@ const express = require('express');
 const session = require('express-session');
 const multer = require('multer');
 const XLSX = require('xlsx');
+const bcrypt = require('bcryptjs');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
 const PORT = 5000;
-const DATA_FILE = path.join(__dirname, 'data', 'financial.json');
-
-const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASS = process.env.ADMIN_PASS || 'regatta2026';
+const DATA_FILE   = path.join(__dirname, 'data', 'financial.json');
+const USERS_FILE  = path.join(__dirname, 'data', 'users.json');
+const UPLOADS_FILE = path.join(__dirname, 'data', 'uploads.json');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,35 +24,69 @@ app.use(session({
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 20 * 1024 * 1024 } });
 
-function requireAuth(req, res, next) {
-  if (req.session && req.session.loggedIn) return next();
-  res.redirect('/login');
+/* ══════════════════════════════════════════════════════
+   DATA HELPERS
+══════════════════════════════════════════════════════ */
+function readJSON(file, fallback) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
+  catch { return fallback; }
+}
+function writeJSON(file, data) {
+  fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-function readData() {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  } catch {
-    return { property: 'Regatta — 1163_rr', year: 2026, months: {}, updatedAt: new Date().toISOString() };
+function readData()   { return readJSON(DATA_FILE,   { property: 'Regatta — 1163_rr', year: 2026, months: {}, updatedAt: new Date().toISOString() }); }
+function readUsers()  { return readJSON(USERS_FILE,  []); }
+function readUploads(){ return readJSON(UPLOADS_FILE, []); }
+
+function writeData(d)    { d.updatedAt = new Date().toISOString(); writeJSON(DATA_FILE, d); }
+function writeUsers(u)   { writeJSON(USERS_FILE, u); }
+function writeUploads(u) { writeJSON(UPLOADS_FILE, u); }
+
+/* ── Bootstrap initial admin user ── */
+async function initUsers() {
+  const users = readUsers();
+  if (users.length === 0) {
+    const ADMIN_EMAIL = process.env.ADMIN_USER || 'admin';
+    const ADMIN_PASS  = process.env.ADMIN_PASS  || 'regatta2026';
+    const hash = await bcrypt.hash(ADMIN_PASS, 10);
+    users.push({ id: uuidv4(), email: ADMIN_EMAIL, passwordHash: hash, role: 'admin', createdAt: new Date().toISOString() });
+    writeUsers(users);
+    console.log(`Created initial admin user: ${ADMIN_EMAIL}`);
   }
 }
 
-function writeData(data) {
-  data.updatedAt = new Date().toISOString();
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+/* ══════════════════════════════════════════════════════
+   AUTH MIDDLEWARE
+══════════════════════════════════════════════════════ */
+function requireAuth(req, res, next) {
+  if (req.session && req.session.userId) return next();
+  if (req.path.startsWith('/api/')) return res.status(401).json({ error: 'Not authenticated' });
+  res.redirect('/login');
 }
 
-/* ── AUTH ROUTES ── */
+function requireAdmin(req, res, next) {
+  if (req.session && req.session.role === 'admin') return next();
+  if (req.path.startsWith('/api/')) return res.status(403).json({ error: 'Admin access required' });
+  res.redirect('/');
+}
+
+/* ══════════════════════════════════════════════════════
+   AUTH ROUTES
+══════════════════════════════════════════════════════ */
 app.get('/login', (req, res) => {
-  if (req.session.loggedIn) return res.redirect('/');
+  if (req.session.userId) return res.redirect('/');
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    req.session.loggedIn = true;
-    req.session.username = username;
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const users = readUsers();
+  const user = users.find(u => u.email.toLowerCase() === (email || '').toLowerCase());
+  if (user && await bcrypt.compare(password || '', user.passwordHash)) {
+    req.session.userId    = user.id;
+    req.session.email     = user.email;
+    req.session.role      = user.role;
     return res.redirect('/');
   }
   res.redirect('/login?error=1');
@@ -61,87 +96,215 @@ app.post('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/login'));
 });
 
-/* ── DASHBOARD ── */
+/* ══════════════════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════════════════ */
 app.get('/', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-/* ── ADMIN ── */
-app.get('/admin', requireAuth, (req, res) => {
+app.get('/admin', requireAuth, requireAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-/* ── API: get financial data ── */
+/* ══════════════════════════════════════════════════════
+   API — SESSION INFO
+══════════════════════════════════════════════════════ */
+app.get('/api/me', requireAuth, (req, res) => {
+  res.json({ email: req.session.email, role: req.session.role });
+});
+
+/* ══════════════════════════════════════════════════════
+   API — FINANCIAL DATA
+══════════════════════════════════════════════════════ */
 app.get('/api/data', requireAuth, (req, res) => {
   res.json(readData());
 });
 
-/* ── API: save edited data ── */
-app.post('/api/data', requireAuth, (req, res) => {
+app.post('/api/data', requireAuth, requireAdmin, (req, res) => {
   try {
     const current = readData();
-    const incoming = req.body;
-    if (incoming.months) current.months = incoming.months;
-    if (incoming.property) current.property = incoming.property;
-    if (incoming.year) current.year = incoming.year;
-    writeData(current);
-    res.json({ success: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-/* ── API: parse Excel upload ── */
-app.post('/api/upload', requireAuth, upload.single('file'), (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
-    const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
-    const result = parseRealPageWorkbook(workbook);
-    res.json(result);
-  } catch (e) {
-    res.status(500).json({ error: 'Parse error: ' + e.message });
-  }
-});
-
-/* ── API: save parsed data from upload ── */
-app.post('/api/save-parsed', requireAuth, (req, res) => {
-  try {
     const { months, property, year } = req.body;
-    const current = readData();
-    if (months) {
-      Object.assign(current.months, months);
-    }
+    if (months)   current.months   = months;
     if (property) current.property = property;
-    if (year) current.year = parseInt(year);
+    if (year)     current.year     = year;
     writeData(current);
     res.json({ success: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-/* ── API: delete a month ── */
-app.delete('/api/data/month/:month', requireAuth, (req, res) => {
+app.delete('/api/data/month/:month', requireAuth, requireAdmin, (req, res) => {
   try {
     const data = readData();
     delete data.months[req.params.month];
     writeData(data);
     res.json({ success: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ══════════════════════════════════════════════════════
+   API — FILE UPLOADS
+══════════════════════════════════════════════════════ */
+
+/* Parse + preview (does not save to DB yet) */
+app.post('/api/upload/parse', requireAuth, requireAdmin, upload.single('file'), (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    const fileType = req.body.fileType || 'combined'; // t12 | budget | combined
+    const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+    const result   = parseRealPageWorkbook(workbook, fileType);
+    result.originalName = req.file.originalname;
+    result.fileType     = fileType;
+    res.json(result);
+  } catch (e) { res.status(500).json({ error: 'Parse error: ' + e.message }); }
+});
+
+/* Commit parsed data + record upload history */
+app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
+  try {
+    const { months, fileType, originalName, sheetName } = req.body;
+    if (!months) return res.status(400).json({ error: 'No months data' });
+
+    const current = readData();
+    const monthsAffected = [];
+
+    for (const [m, mdata] of Object.entries(months)) {
+      if (!current.months[m]) current.months[m] = { a: {}, b: {} };
+      if (fileType === 't12' || fileType === 'combined') {
+        Object.assign(current.months[m].a, mdata.a || {});
+      }
+      if (fileType === 'budget' || fileType === 'combined') {
+        Object.assign(current.months[m].b, mdata.b || {});
+      }
+      monthsAffected.push(m);
+    }
+    writeData(current);
+
+    const uploads = readUploads();
+    uploads.unshift({
+      id: uuidv4(),
+      originalName: originalName || 'unknown',
+      fileType,
+      sheetName: sheetName || '',
+      monthsAffected,
+      uploadedBy: req.session.email,
+      uploadedAt: new Date().toISOString()
+    });
+    writeUploads(uploads.slice(0, 100)); // keep last 100
+
+    res.json({ success: true, monthsAffected });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* Upload history */
+app.get('/api/uploads', requireAuth, requireAdmin, (req, res) => {
+  res.json(readUploads());
+});
+
+/* Delete an upload record (does not revert data) */
+app.delete('/api/uploads/:id', requireAuth, requireAdmin, (req, res) => {
+  const uploads = readUploads().filter(u => u.id !== req.params.id);
+  writeUploads(uploads);
+  res.json({ success: true });
+});
+
+/* API: save-parsed kept for backward compat */
+app.post('/api/save-parsed', requireAuth, requireAdmin, (req, res) => {
+  try {
+    const { months } = req.body;
+    const current = readData();
+    if (months) Object.assign(current.months, months);
+    writeData(current);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ══════════════════════════════════════════════════════
+   API — USER MANAGEMENT (admin only)
+══════════════════════════════════════════════════════ */
+app.get('/api/users', requireAuth, requireAdmin, (req, res) => {
+  const users = readUsers().map(({ id, email, role, createdAt }) => ({ id, email, role, createdAt }));
+  res.json(users);
+});
+
+app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { email, password, role } = req.body;
+    if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
+    if (!['admin','viewer'].includes(role)) return res.status(400).json({ error: 'Role must be admin or viewer' });
+
+    const users = readUsers();
+    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+      return res.status(409).json({ error: 'A user with that email already exists' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = { id: uuidv4(), email, passwordHash, role, createdAt: new Date().toISOString() };
+    users.push(newUser);
+    writeUsers(users);
+    res.json({ success: true, user: { id: newUser.id, email, role, createdAt: newUser.createdAt } });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/users/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const users = readUsers();
+    const idx = users.findIndex(u => u.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: 'User not found' });
+
+    const { email, password, role } = req.body;
+
+    // Prevent removing the last admin
+    if (role === 'viewer' && users[idx].role === 'admin') {
+      const adminCount = users.filter(u => u.role === 'admin').length;
+      if (adminCount <= 1) return res.status(400).json({ error: 'Cannot demote the only admin user' });
+    }
+
+    if (email) {
+      const conflict = users.find((u, i) => i !== idx && u.email.toLowerCase() === email.toLowerCase());
+      if (conflict) return res.status(409).json({ error: 'Email already in use' });
+      users[idx].email = email;
+    }
+    if (password) {
+      users[idx].passwordHash = await bcrypt.hash(password, 10);
+    }
+    if (role) users[idx].role = role;
+
+    writeUsers(users);
+    const { passwordHash: _, ...safe } = users[idx];
+    res.json({ success: true, user: safe });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/users/:id', requireAuth, requireAdmin, (req, res) => {
+  try {
+    const users = readUsers();
+    const user = users.find(u => u.id === req.params.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Prevent deleting yourself
+    if (user.id === req.session.userId) return res.status(400).json({ error: 'Cannot delete your own account' });
+
+    // Prevent deleting last admin
+    if (user.role === 'admin' && users.filter(u => u.role === 'admin').length <= 1) {
+      return res.status(400).json({ error: 'Cannot delete the only admin user' });
+    }
+
+    writeUsers(users.filter(u => u.id !== req.params.id));
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 /* ══════════════════════════════════════════════════════
    REALPAGE EXCEL PARSER
+   fileType: 'combined' | 't12' | 'budget'
 ══════════════════════════════════════════════════════ */
 const ALL_MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
 const MONTH_NAMES = {
-  january:'jan', february:'feb', march:'mar', april:'apr', may:'may', june:'jun',
-  july:'jul', august:'aug', september:'sep', october:'oct', november:'nov', december:'dec',
-  jan:'jan', feb:'feb', mar:'mar', apr:'apr', jun:'jun', jul:'jul',
-  aug:'aug', sep:'sep', oct:'oct', nov:'nov', dec:'dec'
+  january:'jan',february:'feb',march:'mar',april:'apr',may:'may',june:'jun',
+  july:'jul',august:'aug',september:'sep',october:'oct',november:'nov',december:'dec',
+  jan:'jan',feb:'feb',mar:'mar',apr:'apr',jun:'jun',jul:'jul',
+  aug:'aug',sep:'sep',oct:'oct',nov:'nov',dec:'dec'
 };
 
 const ROW_PATTERNS = [
@@ -186,23 +349,18 @@ function matchKey(label) {
 
 function cellNum(val) {
   if (val === null || val === undefined || val === '') return 0;
-  const n = typeof val === 'number' ? val : parseFloat(String(val).replace(/[,$()%]/g, '').trim());
+  const n = typeof val === 'number' ? val : parseFloat(String(val).replace(/[,$()%]/g,'').trim());
   if (isNaN(n)) return 0;
   if (String(val).includes('(') || (typeof val === 'string' && val.trim().startsWith('('))) return -Math.abs(n);
   return n;
 }
 
-function parseRealPageWorkbook(workbook) {
+function parseRealPageWorkbook(workbook, fileType = 'combined') {
   const results = { months: {}, warnings: [], unmapped: [], sheetName: '' };
 
-  let sheet = null;
-  let sheetName = '';
-
-  const preferred = workbook.SheetNames.find(n =>
-    /t12|summary|budget|income|financial/i.test(n)
-  );
-  sheetName = preferred || workbook.SheetNames[0];
-  sheet = workbook.Sheets[sheetName];
+  const preferred = workbook.SheetNames.find(n => /t12|summary|budget|income|financial/i.test(n));
+  const sheetName = preferred || workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
   results.sheetName = sheetName;
 
   const range = XLSX.utils.decode_range(sheet['!ref'] || 'A1:A1');
@@ -216,9 +374,7 @@ function parseRealPageWorkbook(workbook) {
     rows.push(row);
   }
 
-  const colMonths = [];
   let headerRow = -1;
-
   for (let r = 0; r < Math.min(20, rows.length); r++) {
     const monthCount = rows[r].filter(v => {
       if (!v) return false;
@@ -228,27 +384,32 @@ function parseRealPageWorkbook(workbook) {
     if (monthCount >= 2) { headerRow = r; break; }
   }
 
-  if (headerRow >= 0) {
-    const hdr = rows[headerRow];
-    let lastMonth = null;
-    for (let c = 0; c < hdr.length; c++) {
-      const v = String(hdr[c] || '').toLowerCase().trim();
-      const monthKey = Object.keys(MONTH_NAMES).find(m => v.startsWith(m));
-      if (monthKey) {
-        lastMonth = MONTH_NAMES[monthKey];
-        colMonths.push({ col: c, month: lastMonth, type: 'actual' });
-      } else if (lastMonth && /budget/i.test(v)) {
-        colMonths.push({ col: c, month: lastMonth, type: 'budget' });
-      } else if (lastMonth && /actual/i.test(v)) {
-        colMonths[colMonths.length - 1] = { col: c, month: lastMonth, type: 'actual' };
-      } else if (lastMonth && /variance|delta/i.test(v)) {
-        // skip variance columns
-      }
+  if (headerRow < 0) {
+    results.warnings.push('Could not detect month columns. Please verify the Excel format.');
+    return results;
+  }
+
+  const colMonths = [];
+  const hdr = rows[headerRow];
+  let lastMonth = null;
+
+  for (let c = 0; c < hdr.length; c++) {
+    const v = String(hdr[c] || '').toLowerCase().trim();
+    const monthKey = Object.keys(MONTH_NAMES).find(m => v.startsWith(m));
+    if (monthKey) {
+      lastMonth = MONTH_NAMES[monthKey];
+      // For combined: first occurrence of a month = actual
+      // For t12/budget: all month cols mapped to respective type
+      colMonths.push({ col: c, month: lastMonth, type: fileType === 'budget' ? 'budget' : 'actual' });
+    } else if (fileType === 'combined' && lastMonth) {
+      if (/budget/i.test(v))           colMonths.push({ col: c, month: lastMonth, type: 'budget' });
+      else if (/actual/i.test(v))      colMonths[colMonths.length-1] = { col: c, month: lastMonth, type: 'actual' };
+      else if (/variance|delta/i.test(v)) { /* skip */ }
     }
   }
 
   if (colMonths.length === 0) {
-    results.warnings.push('Could not detect month columns automatically. Please verify the Excel format.');
+    results.warnings.push('No month columns found after header detection.');
     return results;
   }
 
@@ -258,43 +419,34 @@ function parseRealPageWorkbook(workbook) {
     monthCols[month][type] = col;
   }
 
-  const labelCol = 0;
   for (let r = headerRow + 1; r < rows.length; r++) {
     const row = rows[r];
-    const label = String(row[labelCol] || '').trim();
+    const label = String(row[0] || '').trim();
     if (!label) continue;
-
     const key = matchKey(label);
     if (!key) {
-      if (label.length > 2 && !/^-+$/.test(label)) {
-        results.unmapped.push(label);
-      }
+      if (label.length > 2 && !/^-+$/.test(label)) results.unmapped.push(label);
       continue;
     }
-
     for (const [month, cols] of Object.entries(monthCols)) {
-      if (!results.months[month]) {
-        results.months[month] = { a: {}, b: {} };
-      }
-      if (cols.actual !== undefined) {
-        results.months[month].a[key] = cellNum(row[cols.actual]);
-      }
-      if (cols.budget !== undefined) {
-        results.months[month].b[key] = cellNum(row[cols.budget]);
-      }
+      if (!results.months[month]) results.months[month] = { a: {}, b: {} };
+      if (cols.actual  !== undefined) results.months[month].a[key] = cellNum(row[cols.actual]);
+      if (cols.budget  !== undefined) results.months[month].b[key] = cellNum(row[cols.budget]);
     }
   }
 
   if (Object.keys(results.months).length === 0) {
-    results.warnings.push('No monthly data could be extracted. The file may use an unsupported layout.');
+    results.warnings.push('No data extracted. The file layout may be unsupported.');
   }
-
   return results;
 }
 
 /* ── STATIC ── */
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Regatta Dashboard running on port ${PORT}`);
+/* ── START ── */
+initUsers().then(() => {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Regatta Dashboard running on port ${PORT}`);
+  });
 });

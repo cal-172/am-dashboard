@@ -6,54 +6,133 @@
 <title>Admin — Regatta Dashboard</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:13px;color:#1A2B2C;min-height:100%}
-.topbar{background:#13545E;color:#fff;padding:10px 20px;display:flex;align-items:center;gap:12px}
-.topbar-title{font-size:15px;font-weight:700}
-.topbar-sub{font-size:11px;opacity:.6}
-.topbar-nav{margin-left:auto;display:flex;gap:8px}
-.nav-btn{padding:5px 14px;font-size:11.5px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:3px;cursor:pointer;text-decoration:none;transition:background .15s}
-.nav-btn:hover{background:rgba(255,255,255,.2)}
-.nav-btn.primary{background:#fff;color:#13545E;font-weight:700}
-.nav-btn.primary:hover{background:#E8F5F6}
+html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:13px;color:#1A2B2C}
 
-.page{padding:20px;max-width:900px;margin:0 auto}
-h2{font-size:16px;color:#13545E;margin-bottom:4px;font-weight:700}
-.section-desc{font-size:12px;color:#4A6568;margin-bottom:16px}
+/* ── LAYOUT ── */
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:#13545E;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 
-.card{background:#fff;border-radius:6px;box-shadow:0 1px 8px rgba(0,0,0,.12);padding:22px 24px;margin-bottom:20px}
-.card-title{font-size:13px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.card-title .badge{font-size:9px;background:#13545E;color:#fff;padding:2px 8px;border-radius:10px;letter-spacing:.06em;font-weight:700}
+/* ── SIDEBAR ── */
+.sb-header{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-logo{font-size:14px;font-weight:700;color:#fff}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
+.sb-nav{padding:12px 8px;flex:1}
+.sb-section{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;padding:10px 10px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;cursor:pointer;color:rgba(255,255,255,.75);font-size:12.5px;font-weight:500;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.sb-icon{width:16px;text-align:center;font-size:13px;opacity:.8}
+.sb-footer{padding:12px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.sb-user{padding:8px 10px;font-size:11.5px;color:rgba(255,255,255,.6)}
+.sb-user strong{display:block;color:#fff;font-size:12px;margin-bottom:1px}
+.sb-btns{display:flex;gap:6px;margin-top:8px}
+.sb-btn{flex:1;padding:6px 0;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:4px;cursor:pointer;text-align:center;text-decoration:none;transition:background .12s}
+.sb-btn:hover{background:rgba(255,255,255,.22)}
 
-.drop-zone{border:2px dashed #8BBFC7;border-radius:6px;padding:32px 20px;text-align:center;cursor:pointer;background:#F0F8F9;transition:all .15s;margin-bottom:14px}
-.drop-zone:hover,.drop-zone.drag{border-color:#13545E;background:#E2F0F2}
-.drop-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+/* ── TOP BAR ── */
+.topbar{background:#fff;border-bottom:1px solid #D2E8EA;padding:12px 24px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.page-title{font-size:16px;font-weight:700;color:#13545E}
+.page-desc{font-size:11.5px;color:#6A8E91;margin-top:1px}
+
+/* ── PAGE BODY ── */
+.body-pad{padding:22px 24px;flex:1}
+
+/* ── CARDS ── */
+.card{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:18px}
+.card-head{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:12.5px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em}
+.card-body{padding:16px 20px 20px}
+
+/* ── FILE TYPE SELECTOR ── */
+.ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.ft-card{border:2px solid #D0E4E7;border-radius:7px;padding:14px 16px;cursor:pointer;transition:all .15s;background:#F8FBFC;position:relative}
+.ft-card:hover{border-color:#5A9EAA;background:#F0F8FA}
+.ft-card.selected{border-color:#13545E;background:#E8F4F5}
+.ft-card input[type=radio]{position:absolute;opacity:0;width:0}
+.ft-icon{font-size:20px;margin-bottom:6px}
+.ft-name{font-size:12.5px;font-weight:700;color:#13545E;margin-bottom:3px}
+.ft-desc{font-size:10.5px;color:#6A8E91;line-height:1.4}
+.ft-check{position:absolute;top:10px;right:10px;width:18px;height:18px;border:2px solid #D0E4E7;border-radius:50%;transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent}
+.ft-card.selected .ft-check{border-color:#13545E;background:#13545E;color:#fff}
+
+/* ── DROP ZONE ── */
+.drop-zone{border:2px dashed #8BBFC7;border-radius:7px;padding:28px 20px;text-align:center;cursor:pointer;background:#F8FBFC;transition:all .15s}
+.drop-zone:hover,.drop-zone.drag{border-color:#13545E;background:#E8F4F5}
+.drop-icon{font-size:28px;margin-bottom:8px;opacity:.5}
 .drop-text{font-size:13px;color:#13545E;font-weight:600}
 .drop-sub{font-size:11px;color:#6A8E91;margin-top:4px}
-
 input[type=file]{display:none}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;font-size:12.5px;font-family:inherit;font-weight:700;border:none;border-radius:4px;cursor:pointer;transition:background .15s}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;font-size:12.5px;font-family:inherit;font-weight:700;border:none;border-radius:5px;cursor:pointer;transition:all .15s;line-height:1}
+.btn-sm{padding:5px 12px;font-size:11.5px}
 .btn-primary{background:#13545E;color:#fff}
 .btn-primary:hover{background:#0D3D45}
 .btn-primary:disabled{background:#8BBFC7;cursor:default}
-.btn-success{background:#166534;color:#A7F3D0}
-.btn-success:hover{background:#14532D}
-.btn-danger{background:#7F1D1D;color:#FCA5A5;font-size:11px;padding:5px 12px}
-.btn-danger:hover{background:#991B1B}
-.btn-outline{background:#fff;color:#13545E;border:1.5px solid #13545E}
-.btn-outline:hover{background:#E8F5F6}
+.btn-success{background:#15803D;color:#fff}
+.btn-success:hover{background:#166534}
+.btn-danger{background:transparent;color:#DC2626;border:1px solid #FCA5A5;padding:4px 10px;font-size:11px}
+.btn-danger:hover{background:#FEF2F2}
+.btn-outline{background:#fff;color:#13545E;border:1.5px solid #8BBFC7}
+.btn-outline:hover{background:#E8F4F5;border-color:#13545E}
+.btn-warn{background:transparent;color:#D97706;border:1px solid #FCD34D;padding:4px 10px;font-size:11px}
+.btn-warn:hover{background:#FFFBEB}
+.btn-ghost{background:transparent;color:#6A8E91;border:1px solid #D0E4E7;padding:4px 10px;font-size:11px}
+.btn-ghost:hover{background:#F5FAFB}
 
-.alert{padding:10px 14px;border-radius:4px;font-size:12px;margin-bottom:14px;display:none}
-.alert.show{display:block}
+/* ── ALERTS ── */
+.alert{padding:10px 14px;border-radius:5px;font-size:12px;margin-bottom:14px}
 .alert-info{background:#E0F2FE;border:1px solid #7DD3FC;color:#0C4A6E}
 .alert-warn{background:#FFFBEB;border:1px solid #FCD34D;color:#92400E}
 .alert-error{background:#FEF2F2;border:1px solid #FCA5A5;color:#7F1D1D}
 .alert-success{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D}
 
-.parsed-preview{margin-top:14px;display:none}
-.parsed-preview.show{display:block}
-.month-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
-.month-tab{padding:5px 14px;font-size:11.5px;font-family:inherit;background:#E2F0F2;border:1px solid #8BBFC7;color:#13545E;border-radius:3px;cursor:pointer;font-weight:600}
-.month-tab.active{background:#13545E;color:#fff;border-color:#13545E}
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;border-radius:5px;border:1px solid #D2E8EA}
+table{width:100%;border-collapse:collapse}
+thead th{background:#F0F7F8;color:#13545E;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:9px 14px;text-align:left;border-bottom:1px solid #D2E8EA;white-space:nowrap}
+tbody td{padding:10px 14px;border-bottom:1px solid #EEF4F5;font-size:12.5px;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#F8FBFC}
+.empty-row td{text-align:center;color:#6A8E91;font-style:italic;padding:28px 14px}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:10px;font-size:10.5px;font-weight:700;letter-spacing:.03em}
+.badge-admin{background:#E0F2FE;color:#0369A1}
+.badge-viewer{background:#F0FDF4;color:#15803D}
+.badge-t12{background:#EDE9FE;color:#6D28D9}
+.badge-budget{background:#FEF3C7;color:#D97706}
+.badge-combined{background:#E0F2FE;color:#0369A1}
+
+/* ── MONTH CHIPS ── */
+.month-chips{display:flex;flex-wrap:wrap;gap:4px}
+.mchip{background:#E8F4F5;color:#13545E;border-radius:3px;padding:2px 7px;font-size:10.5px;font-weight:600;text-transform:capitalize}
+
+/* ── UPLOAD HISTORY STATUS GRID ── */
+.status-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:10px}
+.status-cell{height:28px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.status-cell.has-t12{background:#DDD6FE;color:#6D28D9}
+.status-cell.has-budget{background:#FDE68A;color:#D97706}
+.status-cell.has-both{background:#BBF7D0;color:#15803D}
+.status-cell.empty{background:#F0F4F5;color:#8BBFC7}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.2);width:420px;max-width:95vw;padding:28px}
+.modal-title{font-size:15px;font-weight:700;color:#13545E;margin-bottom:18px}
+.form-field{margin-bottom:16px}
+.form-field label{display:block;font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.form-field input,.form-field select{width:100%;padding:9px 11px;font-size:13px;border:1.5px solid #B0CDD1;border-radius:5px;outline:none;color:#1A2B2C;font-family:inherit}
+.form-field input:focus,.form-field select:focus{border-color:#13545E;box-shadow:0 0 0 2px rgba(19,84,94,.1)}
+.form-hint{font-size:10.5px;color:#6A8E91;margin-top:3px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;padding-top:16px;border-top:1px solid #E8F4F5}
+
+/* ── PREVIEW TABLE ── */
+.preview-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.preview-tab{padding:5px 14px;font-size:11.5px;font-family:inherit;background:#E8F4F5;border:1px solid #8BBFC7;color:#13545E;border-radius:3px;cursor:pointer;font-weight:600}
+.preview-tab.active{background:#13545E;color:#fff;border-color:#13545E}
 .mini-table{width:100%;border-collapse:collapse;font-size:11.5px}
 .mini-table th{background:#1A6B72;color:#fff;padding:5px 8px;text-align:right;font-size:10px;letter-spacing:.05em;text-transform:uppercase}
 .mini-table th:first-child{text-align:left}
@@ -62,281 +141,582 @@ input[type=file]{display:none}
 .mini-table tr:nth-child(even) td{background:#F5FAFB}
 .unmapped-list{font-size:11px;color:#92400E;font-family:'Courier New',monospace;margin-top:8px;list-style:disc;padding-left:18px}
 
-.stored-months{display:flex;gap:8px;flex-wrap:wrap}
-.month-chip{background:#E2F0F2;border:1px solid #8BBFC7;border-radius:4px;padding:6px 12px;font-size:12px;display:flex;align-items:center;gap:8px}
-.month-chip strong{color:#13545E;text-transform:capitalize}
-.empty-msg{font-size:12px;color:#6A8E91;font-style:italic}
-.sep{height:1px;background:#D2E8EA;margin:16px 0}
-
-.json-editor{width:100%;min-height:200px;font-family:'Courier New',monospace;font-size:11.5px;border:1.5px solid #B0CDD1;border-radius:4px;padding:10px;outline:none;resize:vertical;color:#1A2B2C}
-.json-editor:focus{border-color:#13545E}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+/* ── MISC ── */
+.sep{height:1px;background:#EEF4F5;margin:16px 0}
+.flex-row{display:flex;align-items:center;gap:10px}
+.ml-auto{margin-left:auto}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.text-sm{font-size:11px;color:#6A8E91}
+.fw{width:100%}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div>
-    <div class="topbar-title">Regatta — 1163_rr</div>
-    <div class="topbar-sub">Admin Panel</div>
-  </div>
-  <div class="topbar-nav">
-    <a href="/" class="nav-btn primary">View Dashboard</a>
-    <form method="POST" action="/logout" style="display:inline">
-      <button type="submit" class="nav-btn">Sign Out</button>
-    </form>
+
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Regatta — 1163_rr</div>
+      <div class="sb-sub">Admin Panel</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Data</div>
+      <button class="sb-item active" id="nav-files" onclick="showPage('files')">
+        <span class="sb-icon">📁</span> File Uploads
+      </button>
+      <div class="sb-section">Access</div>
+      <button class="sb-item" id="nav-users" onclick="showPage('users')">
+        <span class="sb-icon">👥</span> User Permissions
+      </button>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <strong id="sb-email">Loading...</strong>
+        <span>Administrator</span>
+      </div>
+      <div class="sb-btns">
+        <a href="/" class="sb-btn">Dashboard</a>
+        <form method="POST" action="/logout" style="flex:1">
+          <button type="submit" class="sb-btn fw">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- FILE UPLOADS PAGE -->
+    <div id="page-files">
+      <div class="topbar">
+        <div>
+          <div class="page-title">File Uploads</div>
+          <div class="page-desc">Upload RealPage Excel exports to populate the dashboard</div>
+        </div>
+      </div>
+      <div class="body-pad">
+
+        <!-- Data Coverage Overview -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Data Coverage</span>
+            <span class="text-sm" id="coverage-updated"></span>
+          </div>
+          <div class="card-body">
+            <div class="status-grid" id="coverage-grid"></div>
+            <div style="display:flex;gap:16px;margin-top:10px">
+              <span style="font-size:10.5px;color:#6A8E91;display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#BBF7D0;border-radius:2px;display:inline-block"></span>Actuals + Budget</span>
+              <span style="font-size:10.5px;color:#6A8E91;display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#DDD6FE;border-radius:2px;display:inline-block"></span>Actuals only</span>
+              <span style="font-size:10.5px;color:#6A8E91;display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#FDE68A;border-radius:2px;display:inline-block"></span>Budget only</span>
+              <span style="font-size:10.5px;color:#6A8E91;display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#F0F4F5;border-radius:2px;display:inline-block"></span>No data</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload New File -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Upload New File</span>
+          </div>
+          <div class="card-body">
+            <div id="upload-alert"></div>
+
+            <!-- File Type -->
+            <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">1. Select File Type</div>
+            <div class="ft-grid">
+              <label class="ft-card selected" id="ft-t12">
+                <input type="radio" name="fileType" value="t12" checked onchange="selectFileType('t12')">
+                <div class="ft-check">✓</div>
+                <div class="ft-icon">📊</div>
+                <div class="ft-name">T12 Actuals</div>
+                <div class="ft-desc">RealPage trailing 12-month actual performance data</div>
+              </label>
+              <label class="ft-card" id="ft-budget">
+                <input type="radio" name="fileType" value="budget" onchange="selectFileType('budget')">
+                <div class="ft-check">✓</div>
+                <div class="ft-icon">📋</div>
+                <div class="ft-name">Budget</div>
+                <div class="ft-desc">Annual budget / proforma by month</div>
+              </label>
+              <label class="ft-card" id="ft-combined">
+                <input type="radio" name="fileType" value="combined" onchange="selectFileType('combined')">
+                <div class="ft-check">✓</div>
+                <div class="ft-icon">📑</div>
+                <div class="ft-name">T12 vs Budget</div>
+                <div class="ft-desc">Combined file with Actual & Budget columns side-by-side</div>
+              </label>
+            </div>
+
+            <!-- Drop Zone -->
+            <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">2. Upload File</div>
+            <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+              <div class="drop-icon">&#128196;</div>
+              <div class="drop-text" id="drop-text">Drop Excel file here or click to browse</div>
+              <div class="drop-sub">.xlsx or .xls export from RealPage</div>
+            </div>
+            <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
+
+            <!-- Preview area -->
+            <div id="upload-preview" style="display:none;margin-top:18px">
+              <div class="sep"></div>
+              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">3. Review & Save</div>
+              <div id="alert-unmapped"></div>
+              <div id="alert-warn-detail"></div>
+              <div class="preview-tabs" id="preview-tabs"></div>
+              <div id="preview-table-wrap" style="overflow:auto;max-height:300px;border:1px solid #D2E8EA;border-radius:5px"></div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
+                <button class="btn btn-success" id="btn-commit" onclick="commitUpload()">&#10003; Save to Dashboard</button>
+                <button class="btn btn-outline" onclick="cancelUpload()">Cancel</button>
+                <span id="commit-status" style="font-size:11.5px;color:#15803D;display:none;font-weight:600">&#10003; Saved successfully!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload History -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Upload History</span>
+            <button class="btn btn-sm btn-outline" onclick="loadUploads()">&#8635; Refresh</button>
+          </div>
+          <div class="card-body" style="padding-top:12px">
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Type</th>
+                    <th>Months Updated</th>
+                    <th>Uploaded By</th>
+                    <th>Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="uploads-tbody">
+                  <tr class="empty-row"><td colspan="6">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- USER PERMISSIONS PAGE -->
+    <div id="page-users" style="display:none">
+      <div class="topbar">
+        <div>
+          <div class="page-title">User Permissions</div>
+          <div class="page-desc">Manage who can access the dashboard and with what level of access</div>
+        </div>
+        <div class="ml-auto">
+          <button class="btn btn-primary" onclick="openAddUser()">+ Add User</button>
+        </div>
+      </div>
+      <div class="body-pad">
+        <div id="users-alert"></div>
+        <div class="card">
+          <div class="card-head" style="padding-bottom:12px">
+            <span class="card-title">All Users</span>
+          </div>
+          <div class="card-body" style="padding-top:0">
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Access Level</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr class="empty-row"><td colspan="5">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Role legend -->
+            <div style="margin-top:16px;padding:14px;background:#F8FBFC;border-radius:5px;border:1px solid #D2E8EA">
+              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Role Definitions</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div>
+                  <span class="badge badge-admin" style="margin-bottom:5px">Admin</span>
+                  <div style="font-size:11.5px;color:#4A6568;line-height:1.5">Full access: can view the dashboard, upload files, manage users, and edit data.</div>
+                </div>
+                <div>
+                  <span class="badge badge-viewer" style="margin-bottom:5px">Viewer</span>
+                  <div style="font-size:11.5px;color:#4A6568;line-height:1.5">Read-only: can view the dashboard but cannot access the admin panel or modify data.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="page">
-
-  <!-- UPLOAD SECTION -->
-  <div class="card">
-    <div class="card-title">Upload RealPage Excel File <span class="badge">T12 Summary</span></div>
-    <div id="alert-upload" class="alert"></div>
-    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-      <div class="drop-icon">&#128196;</div>
-      <div class="drop-text">Drop Excel file here or click to browse</div>
-      <div class="drop-sub">.xlsx or .xls &mdash; RealPage T12 Summary vs Budget export</div>
+<!-- ── ADD/EDIT USER MODAL ── -->
+<div class="modal-bg" id="user-modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Add New User</div>
+    <div id="modal-alert"></div>
+    <div class="form-field">
+      <label>Email Address</label>
+      <input type="text" id="m-email" placeholder="user@example.com">
     </div>
-    <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
-    <div id="file-name" style="font-size:11.5px;color:#4A6568;margin-bottom:10px;display:none"></div>
-
-    <div id="parsed-preview" class="parsed-preview">
-      <div class="sep"></div>
-      <div style="font-size:12px;font-weight:700;color:#13545E;margin-bottom:8px">Parsed Data Preview</div>
-      <div id="alert-unmapped" class="alert alert-warn"></div>
-      <div id="alert-warnings" class="alert alert-warn"></div>
-      <div class="month-tabs" id="month-tabs"></div>
-      <div id="preview-table"></div>
-      <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
-        <button class="btn btn-success" id="btn-save-upload" onclick="saveParsed()">
-          &#10003; Save to Dashboard
-        </button>
-        <button class="btn btn-outline" onclick="clearUpload()">Cancel</button>
-        <span id="save-status" style="font-size:11.5px;color:#166534;display:none">Saved successfully!</span>
-      </div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" id="m-password" placeholder="••••••••">
+      <div class="form-hint" id="m-pass-hint">At least 6 characters</div>
+    </div>
+    <div class="form-field">
+      <label>Role</label>
+      <select id="m-role">
+        <option value="viewer">Viewer — dashboard access only</option>
+        <option value="admin">Admin — full access</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveUser()">Save User</button>
     </div>
   </div>
-
-  <!-- CURRENT DATA SECTION -->
-  <div class="card">
-    <div class="card-title">Stored Monthly Data</div>
-    <div id="stored-months-wrap">
-      <div class="empty-msg">Loading...</div>
-    </div>
-    <div class="sep"></div>
-
-    <!-- JSON EDITOR -->
-    <div style="font-size:12px;font-weight:700;color:#13545E;margin-bottom:6px">Manual JSON Editor</div>
-    <div style="font-size:11px;color:#6A8E91;margin-bottom:10px">
-      Edit the raw financial data directly. Each month requires <code>a</code> (actual) and <code>b</code> (budget) objects.
-    </div>
-    <div id="alert-json" class="alert"></div>
-    <textarea id="json-editor" class="json-editor" placeholder="Loading..."></textarea>
-    <div style="display:flex;gap:10px;margin-top:10px">
-      <button class="btn btn-primary" onclick="saveJson()">Save Changes</button>
-      <button class="btn btn-outline" onclick="loadCurrentData()">Reload</button>
-    </div>
-  </div>
-
 </div>
 
 <script>
-let parsedData = null;
-let currentData = null;
-let selectedPreviewMonth = null;
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
+let currentFileType = 't12';
+let parsedData      = null;
+let previewMonth    = null;
+let editingUserId   = null;
+let meEmail         = '';
+
 const MONTH_LABELS = {jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
-const DATA_KEYS = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
-const KEY_LABELS = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Operating Expenses',noi:'Net Operating Income',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',ncf:'Net Cash Flow'};
+const MONTH_SHORT  = {jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',jun:'Jun',jul:'Jul',aug:'Aug',sep:'Sep',oct:'Oct',nov:'Nov',dec:'Dec'};
+const ALL_MONTHS   = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+const DATA_KEYS    = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
+const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Opex',noi:'NOI',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',ncf:'Net Cash Flow'};
 
-// Drag & drop
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
-
-function showAlert(id, type, msg) {
-  const el = document.getElementById(id);
-  el.className = 'alert alert-' + type + ' show';
-  el.innerHTML = msg;
-}
-function hideAlert(id) {
-  const el = document.getElementById(id);
-  el.className = 'alert';
-  el.innerHTML = '';
+/* ══════════════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════════════ */
+function showPage(page) {
+  ['files','users'].forEach(p => {
+    document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
+    document.getElementById('nav-'+p).classList.toggle('active', p===page);
+  });
+  if (page === 'users') loadUsers();
+  if (page === 'files') { loadCoverage(); loadUploads(); }
 }
 
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
+async function init() {
+  const me = await fetch('/api/me').then(r=>r.json());
+  meEmail = me.email;
+  document.getElementById('sb-email').textContent = me.email;
+  loadCoverage();
+  loadUploads();
+
+  // Drag & drop
+  const dz = document.getElementById('drop-zone');
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+}
+
+/* ══════════════════════════════════════════════════════
+   COVERAGE GRID
+══════════════════════════════════════════════════════ */
+async function loadCoverage() {
+  const data = await fetch('/api/data').then(r=>r.json());
+  const year = data.year || 2026;
+  document.getElementById('coverage-updated').textContent = data.updatedAt ? 'Last updated: ' + new Date(data.updatedAt).toLocaleDateString() : '';
+
+  const grid = document.getElementById('coverage-grid');
+  grid.innerHTML = ALL_MONTHS.map(m => {
+    const md = data.months[m];
+    let cls = 'empty', label = MONTH_SHORT[m];
+    if (md) {
+      const hasA = Object.keys(md.a||{}).length > 0;
+      const hasB = Object.keys(md.b||{}).length > 0;
+      if (hasA && hasB)  cls = 'has-both';
+      else if (hasA)     cls = 'has-t12';
+      else if (hasB)     cls = 'has-budget';
+    }
+    return `<div class="status-cell ${cls}" title="${MONTH_LABELS[m]} ${year}">${label}</div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   FILE TYPE SELECTOR
+══════════════════════════════════════════════════════ */
+function selectFileType(type) {
+  currentFileType = type;
+  ['t12','budget','combined'].forEach(t => {
+    document.getElementById('ft-'+t).classList.toggle('selected', t===type);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   UPLOAD & PARSE
+══════════════════════════════════════════════════════ */
 async function handleFile(file) {
   if (!file) return;
-  hideAlert('alert-upload');
-  const fn = document.getElementById('file-name');
-  fn.style.display = 'block';
-  fn.textContent = 'Parsing: ' + file.name + '...';
+  clearAlert('upload-alert');
+  const dz = document.getElementById('drop-zone');
+  const dropText = document.getElementById('drop-text');
+  dropText.textContent = 'Parsing ' + file.name + '...';
+  document.getElementById('upload-preview').style.display = 'none';
 
   const fd = new FormData();
   fd.append('file', file);
+  fd.append('fileType', currentFileType);
 
   try {
-    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+    const res = await fetch('/api/upload/parse', { method:'POST', body:fd });
     const data = await res.json();
-    if (data.error) { showAlert('alert-upload', 'error', 'Error: ' + data.error); fn.style.display='none'; return; }
+    if (data.error) { showAlert('upload-alert','error','Parse error: '+data.error); dropText.textContent='Drop Excel file here or click to browse'; return; }
 
-    fn.textContent = file.name + ' — sheet: "' + data.sheetName + '"';
     parsedData = data;
-
     const months = Object.keys(data.months);
     if (months.length === 0) {
-      showAlert('alert-upload', 'warn', 'No monthly data found. Check the file format — see notes below.');
+      showAlert('upload-alert','warn','No monthly data found. Check the file format or try a different file type selection.');
+      dropText.textContent = 'Drop Excel file here or click to browse';
       return;
     }
 
-    showAlert('alert-upload', 'info', 'Parsed <strong>' + months.length + ' month(s)</strong>: ' + months.map(m => MONTH_LABELS[m] || m).join(', '));
+    dropText.textContent = '✓ ' + file.name;
+    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+months.length+' month(s)</strong>: '+months.map(m=>MONTH_LABELS[m]||m).join(', '));
 
-    if (data.warnings && data.warnings.length) {
-      showAlert('alert-warnings', 'warn', '<strong>Warnings:</strong> ' + data.warnings.join('; '));
-    } else hideAlert('alert-warnings');
+    if (data.warnings?.length) showAlert('alert-warn-detail','warn','<strong>Note:</strong> '+data.warnings.join('; '));
+    else clearAlert('alert-warn-detail');
+    if (data.unmapped?.length) showAlert('alert-unmapped','warn','<strong>Unrecognized rows (skipped):</strong><ul class="unmapped-list">'+data.unmapped.slice(0,12).map(u=>'<li>'+esc(u)+'</li>').join('')+'</ul>');
+    else clearAlert('alert-unmapped');
 
-    if (data.unmapped && data.unmapped.length) {
-      showAlert('alert-unmapped', 'warn', '<strong>Unrecognized rows (not imported):</strong><ul class="unmapped-list">' + data.unmapped.slice(0,15).map(u=>'<li>'+escHtml(u)+'</li>').join('') + '</ul>');
-    } else hideAlert('alert-unmapped');
-
-    const preview = document.getElementById('parsed-preview');
-    preview.classList.add('show');
-
-    const tabs = document.getElementById('month-tabs');
-    tabs.innerHTML = '';
-    const allMonths = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-    const orderedMonths = allMonths.filter(m => months.includes(m));
-    orderedMonths.forEach((m, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'month-tab' + (i === 0 ? ' active' : '');
-      btn.textContent = MONTH_LABELS[m] || m;
-      btn.onclick = () => { selectedPreviewMonth = m; document.querySelectorAll('.month-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderPreviewTable(m); };
-      tabs.appendChild(btn);
-    });
-    selectedPreviewMonth = orderedMonths[0];
-    renderPreviewTable(selectedPreviewMonth);
+    // Build preview tabs
+    const orderedMonths = ALL_MONTHS.filter(m=>months.includes(m));
+    const tabs = document.getElementById('preview-tabs');
+    tabs.innerHTML = orderedMonths.map((m,i)=>
+      `<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${MONTH_LABELS[m]||m}</button>`
+    ).join('');
+    previewMonth = orderedMonths[0];
+    renderPreviewTable(previewMonth);
+    document.getElementById('upload-preview').style.display = '';
   } catch(e) {
-    showAlert('alert-upload', 'error', 'Upload failed: ' + e.message);
-    fn.style.display = 'none';
+    showAlert('upload-alert','error','Upload failed: '+e.message);
+    dropText.textContent = 'Drop Excel file here or click to browse';
   }
 }
 
-function fD(v) {
-  if (v === null || v === undefined || v === 0) return '—';
-  const s = Math.round(Math.abs(v)).toLocaleString('en-US');
-  return v < 0 ? '(' + s + ')' : s;
+function switchPreviewTab(month, btn) {
+  previewMonth = month;
+  document.querySelectorAll('.preview-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPreviewTable(month);
 }
 
 function renderPreviewTable(month) {
-  const md = parsedData.months[month];
+  const md = parsedData?.months[month];
   if (!md) return;
-  let html = '<table class="mini-table"><thead><tr><th>Category</th><th>Actual</th><th>Budget</th></tr></thead><tbody>';
+  const showA = currentFileType !== 'budget';
+  const showB = currentFileType !== 't12';
+  let html = '<table class="mini-table"><thead><tr><th>Category</th>'+(showA?'<th>Actual</th>':'')+(showB?'<th>Budget</th>':'')+'</tr></thead><tbody>';
   DATA_KEYS.forEach(k => {
-    const av = md.a[k];
-    const bv = md.b[k];
+    const av = md.a?.[k], bv = md.b?.[k];
     if (av === undefined && bv === undefined) return;
-    html += '<tr><td>' + (KEY_LABELS[k]||k) + '</td><td>' + fD(av) + '</td><td>' + fD(bv) + '</td></tr>';
+    html += '<tr><td>'+(KEY_LABELS[k]||k)+'</td>'+(showA?'<td>'+fD(av)+'</td>':'')+(showB?'<td>'+fD(bv)+'</td>':'')+'</tr>';
   });
   html += '</tbody></table>';
-  document.getElementById('preview-table').innerHTML = html;
+  document.getElementById('preview-table-wrap').innerHTML = html;
 }
 
-async function saveParsed() {
-  const btn = document.getElementById('btn-save-upload');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Saving...';
+async function commitUpload() {
+  if (!parsedData) return;
+  const btn = document.getElementById('btn-commit');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
-    const res = await fetch('/api/save-parsed', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ months: parsedData.months })
+    const res = await fetch('/api/upload/commit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ months: parsedData.months, fileType: currentFileType, originalName: parsedData.originalName, sheetName: parsedData.sheetName })
     });
     const d = await res.json();
     if (d.success) {
-      document.getElementById('save-status').style.display = 'inline';
-      setTimeout(() => { document.getElementById('save-status').style.display='none'; }, 3000);
-      loadCurrentData();
-    } else {
-      showAlert('alert-upload', 'error', 'Save failed: ' + (d.error || 'Unknown error'));
-    }
-  } catch(e) {
-    showAlert('alert-upload', 'error', 'Save failed: ' + e.message);
-  }
-  btn.disabled = false;
-  btn.innerHTML = '&#10003; Save to Dashboard';
+      document.getElementById('commit-status').style.display='inline';
+      setTimeout(()=>document.getElementById('commit-status').style.display='none', 3000);
+      loadCoverage(); loadUploads();
+    } else { showAlert('upload-alert','error','Save failed: '+(d.error||'Unknown')); }
+  } catch(e) { showAlert('upload-alert','error','Save failed: '+e.message); }
+  btn.disabled=false; btn.innerHTML='✓ Save to Dashboard';
 }
 
-function clearUpload() {
+function cancelUpload() {
   parsedData = null;
-  document.getElementById('parsed-preview').classList.remove('show');
-  document.getElementById('file-name').style.display = 'none';
-  document.getElementById('file-input').value = '';
-  hideAlert('alert-upload');
-  hideAlert('alert-unmapped');
-  hideAlert('alert-warnings');
+  document.getElementById('upload-preview').style.display='none';
+  document.getElementById('file-input').value='';
+  document.getElementById('drop-text').textContent='Drop Excel file here or click to browse';
+  clearAlert('upload-alert'); clearAlert('alert-unmapped'); clearAlert('alert-warn-detail');
 }
 
-async function loadCurrentData() {
-  const res = await fetch('/api/data');
-  currentData = await res.json();
-  renderStoredMonths();
-  document.getElementById('json-editor').value = JSON.stringify(currentData.months, null, 2);
+/* ══════════════════════════════════════════════════════
+   UPLOAD HISTORY
+══════════════════════════════════════════════════════ */
+const FILE_TYPE_LABELS = {t12:'T12 Actuals',budget:'Budget',combined:'T12 vs Budget'};
+const FILE_TYPE_BADGE  = {t12:'badge-t12',budget:'badge-budget',combined:'badge-combined'};
+
+async function loadUploads() {
+  const uploads = await fetch('/api/uploads').then(r=>r.json());
+  const tbody = document.getElementById('uploads-tbody');
+  if (!uploads.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">No uploads yet</td></tr>'; return; }
+  tbody.innerHTML = uploads.map(u => `
+    <tr>
+      <td style="font-family:'Courier New',monospace;font-size:11.5px">${esc(u.originalName)}</td>
+      <td><span class="badge ${FILE_TYPE_BADGE[u.fileType]||'badge-t12'}">${FILE_TYPE_LABELS[u.fileType]||u.fileType}</span></td>
+      <td><div class="month-chips">${(u.monthsAffected||[]).map(m=>`<span class="mchip">${MONTH_SHORT[m]||m}</span>`).join('')}</div></td>
+      <td style="font-size:11.5px">${esc(u.uploadedBy||'—')}</td>
+      <td style="font-size:11.5px;white-space:nowrap">${new Date(u.uploadedAt).toLocaleDateString()}</td>
+      <td><button class="btn btn-danger" onclick="deleteUpload('${u.id}')">✕ Remove</button></td>
+    </tr>`).join('');
 }
 
-function renderStoredMonths() {
-  const wrap = document.getElementById('stored-months-wrap');
-  const months = Object.keys(currentData.months || {});
-  if (months.length === 0) {
-    wrap.innerHTML = '<div class="empty-msg">No data stored yet. Upload a RealPage Excel file above.</div>';
-    return;
-  }
-  const allMonths = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-  const ordered = allMonths.filter(m => months.includes(m));
-  wrap.innerHTML = '<div class="stored-months">' +
-    ordered.map(m => `<div class="month-chip"><strong>${MONTH_LABELS[m]||m} ${currentData.year||''}</strong><button class="btn btn-danger" onclick="deleteMonth('${m}')">✕</button></div>`).join('') +
-    '</div>';
+async function deleteUpload(id) {
+  if (!confirm('Remove this upload record? (Data already saved to the dashboard will not be affected)')) return;
+  await fetch('/api/uploads/'+id, {method:'DELETE'});
+  loadUploads();
 }
 
-async function deleteMonth(m) {
-  if (!confirm('Delete data for ' + (MONTH_LABELS[m]||m) + '? This cannot be undone.')) return;
-  await fetch('/api/data/month/' + m, { method: 'DELETE' });
-  loadCurrentData();
+/* ══════════════════════════════════════════════════════
+   USER MANAGEMENT
+══════════════════════════════════════════════════════ */
+async function loadUsers() {
+  clearAlert('users-alert');
+  const users = await fetch('/api/users').then(r=>r.json());
+  const tbody = document.getElementById('users-tbody');
+  if (!users.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="5">No users found</td></tr>'; return; }
+  tbody.innerHTML = users.map(u => {
+    const isMe = u.email === meEmail;
+    const roleClass = u.role === 'admin' ? 'badge-admin' : 'badge-viewer';
+    const accessText = u.role === 'admin' ? 'Admin Panel + Dashboard' : 'Dashboard Only';
+    return `<tr>
+      <td>
+        <div style="font-weight:600">${esc(u.email)}</div>
+        ${isMe?'<div style="font-size:10px;color:#13545E;font-weight:700;margin-top:1px">YOU</div>':''}
+      </td>
+      <td><span class="badge ${roleClass}">${u.role==='admin'?'Admin':'Viewer'}</span></td>
+      <td style="font-size:11.5px;color:#4A6568">${accessText}</td>
+      <td style="font-size:11.5px;color:#6A8E91">${new Date(u.createdAt).toLocaleDateString()}</td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-warn" onclick="openEditUser('${u.id}','${esc(u.email)}','${u.role}')">Edit</button>
+        ${!isMe ? `<button class="btn btn-danger" onclick="deleteUser('${u.id}','${esc(u.email)}')">Delete</button>` : '<button class="btn btn-ghost" disabled>Delete</button>'}
+      </td>
+    </tr>`;
+  }).join('');
 }
 
-async function saveJson() {
-  hideAlert('alert-json');
-  let parsed;
+function openAddUser() {
+  editingUserId = null;
+  document.getElementById('modal-title').textContent = 'Add New User';
+  document.getElementById('m-email').value = '';
+  document.getElementById('m-password').value = '';
+  document.getElementById('m-role').value = 'viewer';
+  document.getElementById('m-pass-hint').textContent = 'At least 6 characters';
+  document.getElementById('modal-save-btn').textContent = 'Add User';
+  clearAlert('modal-alert');
+  document.getElementById('user-modal').classList.add('open');
+  document.getElementById('m-email').focus();
+}
+
+function openEditUser(id, email, role) {
+  editingUserId = id;
+  document.getElementById('modal-title').textContent = 'Edit User';
+  document.getElementById('m-email').value = email;
+  document.getElementById('m-password').value = '';
+  document.getElementById('m-role').value = role;
+  document.getElementById('m-pass-hint').textContent = 'Leave blank to keep current password';
+  document.getElementById('modal-save-btn').textContent = 'Save Changes';
+  clearAlert('modal-alert');
+  document.getElementById('user-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('user-modal').classList.remove('open');
+  editingUserId = null;
+}
+
+async function saveUser() {
+  clearAlert('modal-alert');
+  const email    = document.getElementById('m-email').value.trim();
+  const password = document.getElementById('m-password').value;
+  const role     = document.getElementById('m-role').value;
+  const btn      = document.getElementById('modal-save-btn');
+
+  if (!email) { showAlert('modal-alert','error','Email is required'); return; }
+  if (!editingUserId && !password) { showAlert('modal-alert','error','Password is required for new users'); return; }
+  if (password && password.length < 6) { showAlert('modal-alert','error','Password must be at least 6 characters'); return; }
+
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Saving...';
   try {
-    parsed = JSON.parse(document.getElementById('json-editor').value);
-  } catch(e) {
-    showAlert('alert-json', 'error', 'Invalid JSON: ' + e.message);
-    return;
-  }
-  try {
-    const res = await fetch('/api/data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ months: parsed })
-    });
-    const d = await res.json();
+    const url    = editingUserId ? '/api/users/'+editingUserId : '/api/users';
+    const method = editingUserId ? 'PUT' : 'POST';
+    const body   = { email, role };
+    if (password) body.password = password;
+
+    const res = await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const d   = await res.json();
     if (d.success) {
-      showAlert('alert-json', 'success', 'Data saved successfully.');
-      loadCurrentData();
-    } else {
-      showAlert('alert-json', 'error', 'Save failed: ' + (d.error || 'Unknown'));
-    }
-  } catch(e) {
-    showAlert('alert-json', 'error', 'Save failed: ' + e.message);
-  }
+      closeModal();
+      showAlert('users-alert','success', editingUserId?`User "${email}" updated.`:`User "${email}" added with ${role} access.`);
+      loadUsers();
+    } else { showAlert('modal-alert','error', d.error||'Save failed'); }
+  } catch(e) { showAlert('modal-alert','error','Error: '+e.message); }
+  btn.disabled=false; btn.textContent = editingUserId ? 'Save Changes' : 'Add User';
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+async function deleteUser(id, email) {
+  if (!confirm(`Delete user "${email}"? They will immediately lose access.`)) return;
+  clearAlert('users-alert');
+  try {
+    const res = await fetch('/api/users/'+id, { method:'DELETE' });
+    const d = await res.json();
+    if (d.success) { showAlert('users-alert','success',`User "${email}" deleted.`); loadUsers(); }
+    else showAlert('users-alert','error', d.error||'Delete failed');
+  } catch(e) { showAlert('users-alert','error','Error: '+e.message); }
 }
 
-loadCurrentData();
+// Close modal on background click
+document.getElementById('user-modal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+/* ══════════════════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════════════════ */
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = 'alert alert-'+type;
+  el.innerHTML = msg;
+  el.style.display = '';
+}
+function clearAlert(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = '';
+  el.innerHTML = '';
+  el.style.display = 'none';
+}
+function fD(v){ if(v===null||v===undefined||v===0) return '—'; const s=Math.round(Math.abs(v)).toLocaleString('en-US'); return v<0?'('+s+')':s; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+init();
 </script>
 </body>
 </html>
