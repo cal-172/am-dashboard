@@ -213,6 +213,10 @@ tbody tr:hover td{background:#F8FBFC}
 tr.mrow-edited td{background:#EFF6FF}
 tr.mrow-excluded td{background:#FFF7ED;color:#92400E}
 tr.mrow-excluded td:first-child{color:#B45309}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover{background:#D4E9EB}
+th.sortable .sort-icon{margin-left:4px;opacity:.35;font-size:10px}
+th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
 </style>
 </head>
 <body>
@@ -520,11 +524,11 @@ tr.mrow-excluded td:first-child{color:#B45309}
             <div class="map-tbl-wrap" style="max-height:640px">
               <table id="mappings-tbl">
                 <thead>
-                  <tr>
-                    <th style="min-width:90px">Acct Code</th>
-                    <th style="min-width:230px">Source Label</th>
-                    <th style="min-width:210px">Dashboard Category</th>
-                    <th style="width:90px;text-align:center">Status</th>
+                  <tr id="mappings-thead-row">
+                    <th class="sortable" style="min-width:90px"  onclick="sortMappings('code')">Acct Code <span class="sort-icon">▲</span></th>
+                    <th class="sortable" style="min-width:230px" onclick="sortMappings('label')">Source Label <span class="sort-icon">▲</span></th>
+                    <th class="sortable" style="min-width:210px" onclick="sortMappings('category')">Dashboard Category <span class="sort-icon">▲</span></th>
+                    <th class="sortable" style="width:90px;text-align:center" onclick="sortMappings('status')">Status <span class="sort-icon">▲</span></th>
                     <th style="text-align:center;width:68px">Exclude</th>
                     <th style="text-align:center;width:50px">Clear</th>
                   </tr>
@@ -611,6 +615,8 @@ function showPage(page) {
 let seenRowsData    = []; // [{code,label,dashboardKey,mappingId,savedBy,savedAt,firstSeen}]
 let mappingEdits    = {}; // rowIdx -> newKey ('' = clear)
 let mappingsFilter  = 'all';
+let mappingsSortCol = 'code'; // 'code' | 'label' | 'category' | 'status'
+let mappingsSortDir = 1;      // 1 = asc, -1 = desc
 
 async function loadMappings() {
   const data = await fetch('/api/seen-rows').then(r=>r.json());
@@ -643,6 +649,24 @@ function setMappingsFilter(f) {
   renderMappingsPageTable();
 }
 
+function sortMappings(col) {
+  if (mappingsSortCol === col) mappingsSortDir *= -1; // toggle direction
+  else { mappingsSortCol = col; mappingsSortDir = 1; }
+  renderMappingsPageTable();
+}
+
+function updateSortHeaders() {
+  const colOrder = ['code','label','category','status'];
+  const ths = document.querySelectorAll('#mappings-thead-row th.sortable');
+  ths.forEach((th, i) => {
+    const col = colOrder[i];
+    const isActive = col === mappingsSortCol;
+    th.classList.toggle('sort-active', isActive);
+    const icon = th.querySelector('.sort-icon');
+    if (icon) icon.textContent = isActive ? (mappingsSortDir === 1 ? '▲' : '▼') : '▲';
+  });
+}
+
 function renderMappingsPageTable() {
   const tbody  = document.getElementById('mappings-tbl-body');
   const search = (document.getElementById('mr-search')?.value || '').toLowerCase().trim();
@@ -656,6 +680,19 @@ function renderMappingsPageTable() {
     if (search && !r.code.toLowerCase().includes(search) && !r.label.toLowerCase().includes(search)) return false;
     return true;
   });
+  // Apply sort
+  const statusRank = k => k === '_exclude' ? 1 : (k ? 0 : 2); // mapped=0, excluded=1, unmapped=2
+  visible.sort((a, b) => {
+    const ka = mappingEdits[a._idx] !== undefined ? mappingEdits[a._idx] : a.dashboardKey;
+    const kb = mappingEdits[b._idx] !== undefined ? mappingEdits[b._idx] : b.dashboardKey;
+    let cmp = 0;
+    if      (mappingsSortCol === 'code')     cmp = (a.code||'').localeCompare(b.code||'', undefined, {numeric:true});
+    else if (mappingsSortCol === 'label')    cmp = (a.label||'').localeCompare(b.label||'');
+    else if (mappingsSortCol === 'category') cmp = (ka||'').localeCompare(kb||'');
+    else if (mappingsSortCol === 'status')   cmp = statusRank(ka) - statusRank(kb);
+    return cmp * mappingsSortDir;
+  });
+  updateSortHeaders();
   if (!visible.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No rows match the current filter</td></tr>'; return; }
   tbody.innerHTML = visible.map(r => {
     const currentKey = mappingEdits[r._idx] !== undefined ? mappingEdits[r._idx] : r.dashboardKey;
