@@ -3,55 +3,57 @@
     "code": "1000-0010",
     "label": "INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1005-5000",
     "label": "GROSS POTENTIAL RENTS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1006-0000",
     "label": "LOSS TO LEASE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1006-9999",
     "label": "GROSS SCHEDULED RENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1007-0000",
     "label": "VACANCY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1010-0000",
     "label": "VACANCY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1010-9999",
     "label": "TOTAL VACANCY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1029-0010",
     "label": "CONCESSIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1030-0000",
     "label": "MOVE-IN CONCESSIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1038-0000",
@@ -63,49 +65,50 @@
     "code": "1040-0000",
     "label": "RENEWAL CONCESSIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1040-9999",
     "label": "TOTAL CONCESSIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1100-9999",
     "label": "TOTAL RENTAL INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1104-0010",
     "label": "PARKING/UTILITIES/OTHER INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1104-0090",
     "label": "PARKING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1105-0000",
     "label": "PARKING INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1105-9999",
     "label": "TOTAL PARKING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1119-0010",
     "label": "UTILITY INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1120-0002",
@@ -147,103 +150,108 @@
     "code": "1128-9999",
     "label": "TOTAL UTILITY INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1159-0010",
     "label": "TELEPHONE & CABLE INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1170-0000",
     "label": "CABLE REVENUE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1175-9999",
     "label": "TOTAL TELEPHONE & CABLE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1179-0000",
     "label": "LEASE TERM/BUY OUT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1180-0000",
     "label": "LEASE TERMINATION/BUYOUT FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1180-9999",
     "label": "TOTAL TERM/BUYOUT FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1189-0010",
     "label": "LAUNDRY INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1190-0000",
     "label": "WASHER/DRYER INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1195-9999",
     "label": "TOTAL LAUNDRY INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1228-9999",
     "label": "CORPORATE INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1300-0010",
     "label": "OTHER MISCELLANEOUS INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1305-0000",
     "label": "RENTERS' INSURANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1310-0000",
     "label": "APPLICATION FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1312-5000",
     "label": "DAMAGES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1315-0000",
     "label": "LATE CHARGES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1317-5000",
     "label": "RESIDENT LEGAL FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1320-0000",
@@ -255,19 +263,19 @@
     "code": "1322-5000",
     "label": "NON-REFUNDABLE FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1322-6000",
     "label": "NSF FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1322-7000",
     "label": "PET RENTS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1322-7005",
@@ -279,7 +287,7 @@
     "code": "1322-7010",
     "label": "PEST CONTROL INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1333-0000",
@@ -291,7 +299,7 @@
     "code": "1345-0000",
     "label": "TRANSFER FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1364-0000",
@@ -303,121 +311,124 @@
     "code": "1365-0000",
     "label": "MISCELLANEOUS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1365-9999",
     "label": "TOTAL OTHER MISC INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1399-9999",
     "label": "TOTAL PARKING/UTILITIES/OTHER INC",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1599-9999",
     "label": "CORPORATE OTHER INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "1999-9999",
     "label": "TOTAL INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2000-0010",
     "label": "EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "2000-0020",
     "label": "OPERATING EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "2000-0030",
     "label": "GENERAL & ADMINISTRATIVE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2005-0000",
     "label": "OFFICE TELEPHONE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2005-0060",
     "label": "HIGH SPEED CABLE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2007-5000",
     "label": "ANSWERING SERVICE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2010-0000",
     "label": "CREDIT VERIFICATION EXPENSE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2015-0000",
     "label": "OFFICE SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2016-0000",
     "label": "OFFICE CLEANING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2017-5000",
     "label": "DUES & SUBSCRIPTIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2022-5000",
     "label": "COMPUTER SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2025-0000",
     "label": "OFFICE EQUIPMENT R&M",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2030-0000",
     "label": "BUSINESS LICENSE/PERMITS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2040-0000",
     "label": "ACCOUNTING/BANK FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2045-0000",
     "label": "COURIER & POSTAGE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2052-5000",
@@ -435,79 +446,81 @@
     "code": "2057-5000",
     "label": "STAFF MEETINGS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2060-0000",
     "label": "OTHER - G & A",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2069-9999",
     "label": "TOTAL GENERAL & ADMIN",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2099-0099",
     "label": "MANAGEMENT FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "2100-0000",
     "label": "MANAGEMENT FEE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2100-0099",
     "label": "TOTAL MANAGEMENT FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2200-0010",
     "label": "PAYROLL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "2215-2005",
     "label": "PAYROLL-MANAGER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2215-2010",
     "label": "PAYROLL-ASS'T MANAGER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2215-2015",
     "label": "PAYROLL-LEASING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2215-2020",
     "label": "PAYROLL-MAINTENANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2215-2023",
     "label": "PAYROLL-MAINT. SUPERVISOR",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2220-0000",
     "label": "BONUSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2220-0015",
@@ -519,31 +532,31 @@
     "code": "2225-0000",
     "label": "PAYROLL TAXES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2230-0000",
     "label": "BENEFITS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2232-5000",
     "label": "401K CONTRIBUTION",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2235-0000",
     "label": "WORKERS COMPENSATION",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2240-0000",
     "label": "EMPLOYEE EDUCATION",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2250-0000",
@@ -561,49 +574,49 @@
     "code": "2299-9999",
     "label": "TOTAL PAYROLL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3000-0010",
     "label": "INSURANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3005-0000",
     "label": "INSURANCE-PROPERTY & CASUALTY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3050-9999",
     "label": "TOTAL INSURANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3100-0010",
     "label": "TAXES & OTHER ASSESSMENTS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3105-0000",
     "label": "REAL PROPERTY TAXES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3150-9999",
     "label": "TOTAL TAXES & OTHER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3200-0010",
     "label": "LEASING & MARKETING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3220-0000",
@@ -621,7 +634,7 @@
     "code": "3230-0000",
     "label": "SIGNS/FLAGS/BANNERS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3237-5000",
@@ -639,7 +652,7 @@
     "code": "3250-0000",
     "label": "INTERNET ADVERTISING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3252-5000",
@@ -651,31 +664,33 @@
     "code": "3255-0000",
     "label": "OTHER-LEASING & MARKETING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3299-9999",
     "label": "TOTAL LEASING & MARKETING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3300-0010",
     "label": "PROFESSIONAL FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3300-0020",
     "label": "LEGAL FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3305-0000",
     "label": "EVICTIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3310-0000",
@@ -687,55 +702,58 @@
     "code": "3310-9999",
     "label": "TOTAL LEGAL FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3315-0000",
     "label": "ACCOUNTING & OTHER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3350-9999",
     "label": "TOTAL PROFESSIONAL FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3400-0010",
     "label": "LANDSCAPING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3405-0000",
     "label": "CONTRACT-LANDSCAPE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3410-0000",
     "label": "OTHER-LANDSCAPE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3410-9999",
     "label": "TOTAL LANDSCAPING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3420-0010",
     "label": "SECURITY/LIFE SAFETY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3425-0000",
     "label": "CONTRACT-SECURITY SERVICE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3430-0000",
@@ -759,13 +777,13 @@
     "code": "3450-9999",
     "label": "TOTAL SECURITY/LIFE SAFETY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3500-0010",
     "label": "REPAIRS & MAINTENANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3505-0000",
@@ -825,25 +843,26 @@
     "code": "3550-0010",
     "label": "PEST CONTROL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3555-0000",
     "label": "CONTRACT-PEST CONTROL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3560-0000",
     "label": "OTHER-PEST CONTROL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3560-9999",
     "label": "TOTAL PEST CONTROL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3570-0000",
@@ -873,13 +892,13 @@
     "code": "3580-0000",
     "label": "PLUMBING REPAIR",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3590-0000",
     "label": "ELECTRICAL REPAIRS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3600-0010",
@@ -903,25 +922,26 @@
     "code": "3637-5000",
     "label": "GLASS REPAIR/REPCMT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3640-0000",
     "label": "OTHER REPAIRS & MAINTENANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3699-9999",
     "label": "TOTAL REPAIRS & MAINTENANCE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3700-0010",
     "label": "UNIT T/O REFURBISHMENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "3705-0000",
@@ -933,7 +953,7 @@
     "code": "3710-0000",
     "label": "VACANT-CARPET CLEANING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3720-0000",
@@ -951,7 +971,7 @@
     "code": "3730-0000",
     "label": "CLEANING SERVICE & SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3750-0010",
@@ -969,79 +989,82 @@
     "code": "3790-9999",
     "label": "TOTAL T/O REFURBISHMENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4000-0010",
     "label": "UTILITIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "4005-0000",
     "label": "ELECTRICITY",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4005-1500",
     "label": "ELECTRIC-OFFICE/CLUBHOUSE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4015-0000",
     "label": "WATER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4020-0000",
     "label": "SEWER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4050-9999",
     "label": "TOTAL UTILITIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4055-0010",
     "label": "OTHER UTILITIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "4060-0000",
     "label": "TRASH REMOVAL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4080-0000",
     "label": "MISCELLANEOUS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4099-9999",
     "label": "TOTAL OTHER UTILITIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6000-0000",
     "label": "SUPPLY EXPENSE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "6005-0000",
     "label": "APPLIANCE/FURN-SUPPS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6010-0000",
@@ -1053,7 +1076,7 @@
     "code": "6010-1000",
     "label": "CARPET CLEANING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6010-2000",
@@ -1077,13 +1100,13 @@
     "code": "6020-0000",
     "label": "ELECTRICAL-SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6025-0000",
     "label": "EXTERMINATING-SUPPS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6027-5000",
@@ -1095,31 +1118,31 @@
     "code": "6030-0000",
     "label": "HVAC-SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6035-0000",
     "label": "JANITORIAL-SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6040-0000",
     "label": "LANDSCAPE-SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6045-0000",
     "label": "LOCKS/KEYS-SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6055-0000",
     "label": "PAINTING SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6060-0000",
@@ -1131,13 +1154,13 @@
     "code": "6060-0010",
     "label": "Snow Removal Supplies",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6065-0000",
     "label": "PLUMBING SUPPLIES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6070-0000",
@@ -1155,13 +1178,13 @@
     "code": "6085-0000",
     "label": "TOOLS & EQUIPMENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6085-1000",
     "label": "HARDWARE-MISC",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6095-0000",
@@ -1173,79 +1196,81 @@
     "code": "6097-0000",
     "label": "TOTAL SUPPLY EXPENSE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "7900-0000",
     "label": "CORPORATE CAPITAL EXPENSE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "7900-9000",
     "label": "TOTAL OPERATING EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "7950-9000",
     "label": "NET OPERATING INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8000-0000",
     "label": "NON-OPERATING EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "8100-0010",
     "label": "REPLACEMENT RESERVES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0000",
     "label": "APPLIANCES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0100",
     "label": "WATER HEATER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0115",
     "label": "GARBAGE DISPOSAL",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0125",
     "label": "DISHWASHER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0150",
     "label": "RANGE/VENT/MICROWAVE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8110-0175",
     "label": "FRIDGE/ICE MAKER",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8112-5000",
     "label": "CARPET REPLACEMENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8116-2500",
@@ -1257,7 +1282,7 @@
     "code": "8117-5000",
     "label": "MINIBLINDS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8118-7500",
@@ -1269,7 +1294,7 @@
     "code": "8118-7502",
     "label": "Tub Resurfacing",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8120-0000",
@@ -1287,7 +1312,7 @@
     "code": "8125-0000",
     "label": "EXTERIOR REPAIRS & REPLACEMENT",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8130-0000",
@@ -1305,7 +1330,7 @@
     "code": "8145-0000",
     "label": "HVAC",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8160-0000",
@@ -1329,7 +1354,7 @@
     "code": "8175-0000",
     "label": "PLUMBING",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8175-0025",
@@ -1353,31 +1378,32 @@
     "code": "8250-9999",
     "label": "TOTAL REPLACEMENT RESERVES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8499-9999",
     "label": "ASSET & OTHER FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "8500-0000",
     "label": "ASSET MANAGEMENT FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8500-9999",
     "label": "TOTAL ASSET & OTHER FEES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9000-0010",
     "label": "DEBT SERVICE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9001-0010",
@@ -1395,37 +1421,39 @@
     "code": "9090-9999",
     "label": "TOTAL DEBT SERVICE",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9095-9999",
     "label": "TOTAL NON-OPERATING EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9099-9999",
     "label": "NET CASH FLOW",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9105-9999",
     "label": "NET AFTER AMORTIZ & DEPREC",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9399-9999",
     "label": "CORP OTHER EXPENSES",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "9690-9000",
     "label": "RENOVATIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z",
+    "isHeader": true
   },
   {
     "code": "9701-0000",
@@ -1467,192 +1495,192 @@
     "code": "9799-9999",
     "label": "TOTAL RENOVATIONS",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9990-9999",
     "label": "NET INCOME",
     "firstSeen": "2026-03-18T20:59:01.832Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1005-0000",
     "label": "RENT CLEARING ACCT",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1019-0010",
     "label": "NONREVENUE UNITS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1020-0000",
     "label": "EMPLOYEE UNITS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1025-9999",
     "label": "TOTAL NONREVENUE UNITS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1041-0010",
     "label": "DELINQUENCY/CREDIT LOSS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1060-0000",
     "label": "BAD DEBT EXPENSE",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1100-9998",
     "label": "TOTAL DELINQ/CREDIT LOSS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1105-5000",
     "label": "GARAGE INCOME",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1120-0000",
     "label": "RUBS PROGRAM",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1305-0060",
     "label": "PROTECTION PREMIUM",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1307-5000",
     "label": "CLEANING INCOME",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1360-0000",
     "label": "INTEREST INCOME",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1365-0015",
     "label": "Deposit Waiver Fee",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "1365-0113",
     "label": "OTHER INCOME",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2050-0000",
     "label": "PHOTOCOPYING/PRINTING",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2225-2040",
     "label": "P/R TAX-ADMIN",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "2225-2045",
     "label": "P/R TAX-MAINT",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3226-2500",
     "label": "RESIDENT HOSPITALITY",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3250-0050",
     "label": "BRANDING EXPENSE",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "3740-0000",
     "label": "OTHER",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "4030-0000",
     "label": "CABLE",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "6010-1500",
     "label": "CARPET REPAIR",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8107-0000",
     "label": "LABOR",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8115-0000",
     "label": "FLOORING & WINDOW COVERINGS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8150-0000",
     "label": "INTERIOR REPAIRS & REPLACEMTS",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8155-0000",
     "label": "LANDSCAPING UPGRADES",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8155-0025",
     "label": "TREE TRIMMING",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "8180-0000",
     "label": "POOL",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9005-0000",
     "label": "INTEREST-MORTGAGE LENDER",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   },
   {
     "code": "9708-0050",
     "label": "UNIT CONVERSION",
     "firstSeen": "2026-03-18T21:04:17.329Z",
-    "lastSeen": "2026-03-18T21:18:49.520Z"
+    "lastSeen": "2026-03-18T21:24:21.910Z"
   }
 ]

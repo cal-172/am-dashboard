@@ -633,9 +633,9 @@ function updateMappingsFilterCounts() {
   const rows     = seenRowsData;
   const getKey   = (r, i) => mappingEdits[i] !== undefined ? mappingEdits[i] : r.dashboardKey;
   const excluded = rows.filter((r, i) => getKey(r, i) === '_exclude');
-  const mapped   = rows.filter((r, i) => { const k = getKey(r, i); return !!k && k !== '_exclude'; });
+  const mapped   = rows.filter((r, i) => { const k = getKey(r, i); return !!k && k !== '_exclude' && k !== '_header'; });
   const unmapped = rows.filter((r, i) => !getKey(r, i));
-  const headers  = unmapped.filter(r => r.isHeader);
+  const headers  = rows.filter((r, i) => { const k = getKey(r, i); return k === '_header' || (!k && r.isHeader); });
   document.getElementById('mc-all').textContent      = rows.length;
   document.getElementById('mc-mapped').textContent   = mapped.length;
   document.getElementById('mc-excluded').textContent = excluded.length;
@@ -700,19 +700,20 @@ function renderMappingsPageTable() {
     const currentKey = mappingEdits[r._idx] !== undefined ? mappingEdits[r._idx] : r.dashboardKey;
     const edited     = mappingEdits[r._idx] !== undefined;
     const isExcl     = currentKey === '_exclude';
-    const isMapped   = !!currentKey && !isExcl;
-    const isHdr      = !isExcl && !isMapped && r.isHeader;
+    const isHdrKey   = currentKey === '_header';
+    const isMapped   = !!currentKey && !isExcl && !isHdrKey;
+    const isHdr      = isHdrKey || (!isExcl && !isMapped && r.isHeader);
     const badge = edited
       ? `<span class="conf-badge conf-saved" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE">&#9998; Pending</span>`
       : isExcl
         ? `<span class="conf-badge" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA;font-size:10.5px">&#8856; Excluded</span>`
-        : isMapped
-          ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
-          : isHdr
-            ? `<span class="conf-badge conf-header" style="font-size:10.5px">&#8213; Header</span>`
+        : isHdr
+          ? `<span class="conf-badge conf-header" style="font-size:10.5px">&#8213; Header</span>`
+          : isMapped
+            ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
             : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
     const exclChk = `<input type="checkbox" title="Exclude this row from the dashboard"${isExcl?' checked':''} onchange="onExcludeChange(${r._idx},this.checked)" style="width:15px;height:15px;cursor:pointer;accent-color:#EA580C">`;
-    const clearBtn = (isMapped || isExcl || edited)
+    const clearBtn = (isMapped || isExcl || isHdrKey || edited)
       ? `<button class="btn btn-danger btn-sm" onclick="clearMappingRule(${r._idx})" title="Clear this rule">&#10005;</button>`
       : `<span style="color:#ccc;font-size:12px">—</span>`;
     return `<tr id="mrow-${r._idx}" class="${edited?'mrow-edited':''}${isExcl?' mrow-excluded':''}">
@@ -731,6 +732,7 @@ function buildMappingEditSelect(idx, currentKey) {
   const disAttr = isExcl ? ' disabled style="opacity:0.38;pointer-events:none"' : '';
   let html = `<select class="map-cat-select" onchange="onMappingEditChange(${idx},this.value)"${disAttr}>`;
   html += `<option value=""${(!currentKey||isExcl)?' selected':''}>— Unmapped —</option>`;
+  html += `<option value="_header"${currentKey==='_header'?' selected':''}>— Header (ignore row)</option>`;
   for (const { group, items } of CAT_GROUPS) {
     if (group === 'Special') continue;
     html += `<optgroup label="${group}">`;
@@ -754,8 +756,10 @@ window.onMappingEditChange = function(idx, newKey) {
   const tr = document.getElementById('mrow-'+idx);
   if (tr) {
     const currentKey = mappingEdits[idx] !== undefined ? mappingEdits[idx] : original.dashboardKey;
-    const isExcl  = currentKey === '_exclude';
-    const isMapped = !!currentKey && !isExcl;
+    const isExcl   = currentKey === '_exclude';
+    const isHdrKey = currentKey === '_header';
+    const isMapped = !!currentKey && !isExcl && !isHdrKey;
+    const isHdr    = isHdrKey || (!isExcl && !isMapped && original.isHeader);
     const edited   = mappingEdits[idx] !== undefined;
     tr.className = (edited ? 'mrow-edited' : '') + (isExcl ? ' mrow-excluded' : '');
     // Status badge
@@ -763,13 +767,15 @@ window.onMappingEditChange = function(idx, newKey) {
       ? `<span class="conf-badge conf-saved" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE">&#9998; Pending</span>`
       : isExcl
         ? `<span class="conf-badge" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA;font-size:10.5px">&#8856; Excluded</span>`
-        : isMapped
-          ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
-          : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
-    // Exclude checkbox — uncheck if user picked a real category
+        : isHdr
+          ? `<span class="conf-badge conf-header" style="font-size:10.5px">&#8213; Header</span>`
+          : isMapped
+            ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
+            : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
+    // Exclude checkbox — uncheck if user picked a real category or header
     if (tr.cells[4]) { const chk = tr.cells[4].querySelector('input'); if (chk) chk.checked = isExcl; }
     // Clear button
-    if (tr.cells[5]) tr.cells[5].innerHTML = (isMapped || isExcl || edited)
+    if (tr.cells[5]) tr.cells[5].innerHTML = (isMapped || isExcl || isHdrKey || edited)
       ? `<button class="btn btn-danger btn-sm" onclick="clearMappingRule(${idx})" title="Clear this rule">&#10005;</button>`
       : `<span style="color:#ccc;font-size:12px">—</span>`;
   }

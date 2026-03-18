@@ -338,5 +338,15 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T21:15:14.203Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "f2a66f57-f46a-4029-8063-3416cd113ba6",
+    "sourceCode": "1007-0000",
+    "sourceLabel": "VACANCY",
+    "dashboardKey": "vac",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:25:03.278Z",
+    "confirmedBy": "admin"
   }
 ]
