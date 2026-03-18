@@ -401,63 +401,6 @@ window.unitsBlur=function(el){
   renderTbody(SEL);
 };
 
-let _stickyOff=null;
-function setupStickyHeader(){
-  if(_stickyOff){_stickyOff();_stickyOff=null;}
-  const tblWrap=document.querySelector('.tbl-wrap');
-  const mainTable=document.getElementById('main-table');
-  const thead=document.getElementById('thead');
-  if(!tblWrap||!mainTable||!thead)return;
-  const shRow=thead.querySelector('tr:last-child');
-  if(!shRow)return;
-  const old=document.getElementById('sticky-sh');
-  if(old)old.remove();
-
-  /* Measure actual rendered pixel widths of each real header cell */
-  const realCells=Array.from(shRow.querySelectorAll('th'));
-  const cellWidths=realCells.map(c=>c.getBoundingClientRect().width);
-
-  /* Build clone row with exact pixel widths stamped on each cell */
-  const cloneRow=shRow.cloneNode(true);
-  Array.from(cloneRow.querySelectorAll('th')).forEach((c,i)=>{
-    c.style.width=cellWidths[i]+'px';
-    c.style.minWidth=cellWidths[i]+'px';
-    c.style.maxWidth=cellWidths[i]+'px';
-  });
-
-  const tbl=document.createElement('table');
-  tbl.style.cssText='border-collapse:collapse;table-layout:fixed';
-  const th=document.createElement('thead');
-  th.appendChild(cloneRow);
-  tbl.appendChild(th);
-
-  const wrap=document.createElement('div');
-  wrap.id='sticky-sh';
-  wrap.style.cssText='position:fixed;top:0;z-index:200;display:none;overflow:hidden;pointer-events:none';
-  wrap.appendChild(tbl);
-  document.body.appendChild(wrap);
-
-  function update(){
-    const wr=tblWrap.getBoundingClientRect();
-    const sr=shRow.getBoundingClientRect();
-    wrap.style.left=wr.left+'px';
-    wrap.style.width=wr.width+'px';
-    tbl.style.width=mainTable.offsetWidth+'px';
-    tbl.style.transform='translateX('+(-tblWrap.scrollLeft)+'px)';
-    wrap.style.display=sr.top<0?'block':'none';
-  }
-  window.addEventListener('scroll',update,{passive:true});
-  tblWrap.addEventListener('scroll',update,{passive:true});
-  window.addEventListener('resize',update,{passive:true});
-  update();
-  _stickyOff=function(){
-    window.removeEventListener('scroll',update);
-    tblWrap.removeEventListener('scroll',update);
-    window.removeEventListener('resize',update);
-    wrap.remove();
-  };
-}
-
 function renderThead(m){
   const updatedStr=UPDATED_AT?new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'N/A';
   document.getElementById('thead').innerHTML=`
@@ -482,7 +425,6 @@ function renderThead(m){
     <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
     <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
   </tr>`;
-  setupStickyHeader();
 }
 
 function renderTbody(m){
