@@ -211,6 +211,8 @@ tbody tr:hover td{background:#F8FBFC}
 .btn-danger:hover{background:#FEE2E2}
 .btn-sm{padding:3px 8px;font-size:11px}
 tr.mrow-edited td{background:#EFF6FF}
+tr.mrow-excluded td{background:#FFF7ED;color:#92400E}
+tr.mrow-excluded td:first-child{color:#B45309}
 </style>
 </head>
 <body>
@@ -510,6 +512,7 @@ tr.mrow-edited td{background:#EFF6FF}
               <div style="display:flex;gap:4px">
                 <button class="map-ftab active" data-mfilter="all"      onclick="setMappingsFilter('all')">All <span class="map-cnt" id="mc-all">0</span></button>
                 <button class="map-ftab"        data-mfilter="mapped"   onclick="setMappingsFilter('mapped')">Mapped <span class="map-cnt" id="mc-mapped">0</span></button>
+                <button class="map-ftab"        data-mfilter="excluded" onclick="setMappingsFilter('excluded')">Excluded <span class="map-cnt" id="mc-excluded">0</span></button>
                 <button class="map-ftab"        data-mfilter="unmapped" onclick="setMappingsFilter('unmapped')">Unmapped <span class="map-cnt" id="mc-unmapped">0</span></button>
               </div>
               <input type="text" class="map-search" id="mr-search" placeholder="Search codes or labels..." oninput="renderMappingsPageTable()" style="margin-left:auto">
@@ -522,11 +525,12 @@ tr.mrow-edited td{background:#EFF6FF}
                     <th style="min-width:230px">Source Label</th>
                     <th style="min-width:210px">Dashboard Category</th>
                     <th style="width:90px;text-align:center">Status</th>
+                    <th style="text-align:center;width:68px">Exclude</th>
                     <th style="text-align:center;width:50px">Clear</th>
                   </tr>
                 </thead>
                 <tbody id="mappings-tbl-body">
-                  <tr class="empty-row"><td colspan="5">Loading...</td></tr>
+                  <tr class="empty-row"><td colspan="6">Loading...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -620,13 +624,17 @@ async function loadMappings() {
 }
 
 function updateMappingsFilterCounts() {
-  const rows = seenRowsData;
-  const mapped   = rows.filter(r => (mappingEdits[seenRowsData.indexOf(r)] !== undefined ? mappingEdits[seenRowsData.indexOf(r)] : r.dashboardKey));
-  const unmapped = rows.filter(r => !(mappingEdits[seenRowsData.indexOf(r)] !== undefined ? mappingEdits[seenRowsData.indexOf(r)] : r.dashboardKey));
+  const rows     = seenRowsData;
+  const getKey   = (r, i) => mappingEdits[i] !== undefined ? mappingEdits[i] : r.dashboardKey;
+  const excluded = rows.filter((r, i) => getKey(r, i) === '_exclude');
+  const mapped   = rows.filter((r, i) => { const k = getKey(r, i); return !!k && k !== '_exclude'; });
+  const unmapped = rows.filter((r, i) => !getKey(r, i));
   document.getElementById('mc-all').textContent      = rows.length;
   document.getElementById('mc-mapped').textContent   = mapped.length;
+  document.getElementById('mc-excluded').textContent = excluded.length;
   document.getElementById('mc-unmapped').textContent = unmapped.length;
-  document.getElementById('mappings-count').textContent = rows.length + ' rows · ' + mapped.length + ' mapped · ' + unmapped.length + ' unmapped';
+  document.getElementById('mappings-count').textContent =
+    rows.length + ' rows · ' + mapped.length + ' mapped · ' + excluded.length + ' excluded · ' + unmapped.length + ' unmapped';
 }
 
 function setMappingsFilter(f) {
@@ -640,38 +648,47 @@ function renderMappingsPageTable() {
   const search = (document.getElementById('mr-search')?.value || '').toLowerCase().trim();
   const visible = seenRowsData.reduce((acc, r, i) => { acc.push({...r, _idx: i}); return acc; }, []).filter(r => {
     const currentKey = mappingEdits[r._idx] !== undefined ? mappingEdits[r._idx] : r.dashboardKey;
-    const isMapped   = !!currentKey;
+    const isExcl = currentKey === '_exclude';
+    const isMapped = !!currentKey && !isExcl;
     if (mappingsFilter === 'mapped'   && !isMapped) return false;
-    if (mappingsFilter === 'unmapped' && isMapped)  return false;
+    if (mappingsFilter === 'excluded' && !isExcl)   return false;
+    if (mappingsFilter === 'unmapped' && (isMapped || isExcl)) return false;
     if (search && !r.code.toLowerCase().includes(search) && !r.label.toLowerCase().includes(search)) return false;
     return true;
   });
-  if (!visible.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="5">No rows match the current filter</td></tr>'; return; }
+  if (!visible.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No rows match the current filter</td></tr>'; return; }
   tbody.innerHTML = visible.map(r => {
     const currentKey = mappingEdits[r._idx] !== undefined ? mappingEdits[r._idx] : r.dashboardKey;
     const edited     = mappingEdits[r._idx] !== undefined;
-    const isMapped   = !!currentKey;
+    const isExcl     = currentKey === '_exclude';
+    const isMapped   = !!currentKey && !isExcl;
     const badge = edited
       ? `<span class="conf-badge conf-saved" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE">&#9998; Pending</span>`
-      : isMapped
-        ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
-        : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
-    const clearBtn = (isMapped || edited)
+      : isExcl
+        ? `<span class="conf-badge" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA;font-size:10.5px">&#8856; Excluded</span>`
+        : isMapped
+          ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
+          : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
+    const exclChk = `<input type="checkbox" title="Exclude this row from the dashboard"${isExcl?' checked':''} onchange="onExcludeChange(${r._idx},this.checked)" style="width:15px;height:15px;cursor:pointer;accent-color:#EA580C">`;
+    const clearBtn = (isMapped || isExcl || edited)
       ? `<button class="btn btn-danger btn-sm" onclick="clearMappingRule(${r._idx})" title="Clear this rule">&#10005;</button>`
       : `<span style="color:#ccc;font-size:12px">—</span>`;
-    return `<tr id="mrow-${r._idx}" class="${edited?'mrow-edited':''}">
+    return `<tr id="mrow-${r._idx}" class="${edited?'mrow-edited':''}${isExcl?' mrow-excluded':''}">
       <td style="font-family:'Courier New',monospace;font-size:11px;color:#6A8E91;white-space:nowrap">${esc(r.code||'—')}</td>
       <td style="font-family:'Courier New',monospace;font-size:11.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.label)}">${esc(r.label)}</td>
       <td>${buildMappingEditSelect(r._idx, currentKey)}</td>
       <td style="text-align:center">${badge}</td>
+      <td style="text-align:center">${exclChk}</td>
       <td style="text-align:center">${clearBtn}</td>
     </tr>`;
   }).join('');
 }
 
 function buildMappingEditSelect(idx, currentKey) {
-  let html = `<select class="map-cat-select" onchange="onMappingEditChange(${idx},this.value)">`;
-  html += `<option value=""${!currentKey?' selected':''}>— Unmapped —</option>`;
+  const isExcl = currentKey === '_exclude';
+  const disAttr = isExcl ? ' disabled style="opacity:0.38;pointer-events:none"' : '';
+  let html = `<select class="map-cat-select" onchange="onMappingEditChange(${idx},this.value)"${disAttr}>`;
+  html += `<option value=""${(!currentKey||isExcl)?' selected':''}>— Unmapped —</option>`;
   for (const { group, items } of CAT_GROUPS) {
     if (group === 'Special') continue;
     html += `<optgroup label="${group}">`;
@@ -695,18 +712,42 @@ window.onMappingEditChange = function(idx, newKey) {
   const tr = document.getElementById('mrow-'+idx);
   if (tr) {
     const currentKey = mappingEdits[idx] !== undefined ? mappingEdits[idx] : original.dashboardKey;
-    const isMapped   = !!currentKey;
-    const edited     = mappingEdits[idx] !== undefined;
-    tr.className = edited ? 'mrow-edited' : '';
+    const isExcl  = currentKey === '_exclude';
+    const isMapped = !!currentKey && !isExcl;
+    const edited   = mappingEdits[idx] !== undefined;
+    tr.className = (edited ? 'mrow-edited' : '') + (isExcl ? ' mrow-excluded' : '');
+    // Status badge
     if (tr.cells[3]) tr.cells[3].innerHTML = edited
       ? `<span class="conf-badge conf-saved" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE">&#9998; Pending</span>`
-      : isMapped
-        ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
-        : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
-    if (tr.cells[4]) tr.cells[4].innerHTML = (isMapped || edited)
+      : isExcl
+        ? `<span class="conf-badge" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA;font-size:10.5px">&#8856; Excluded</span>`
+        : isMapped
+          ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
+          : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
+    // Exclude checkbox — uncheck if user picked a real category
+    if (tr.cells[4]) { const chk = tr.cells[4].querySelector('input'); if (chk) chk.checked = isExcl; }
+    // Clear button
+    if (tr.cells[5]) tr.cells[5].innerHTML = (isMapped || isExcl || edited)
       ? `<button class="btn btn-danger btn-sm" onclick="clearMappingRule(${idx})" title="Clear this rule">&#10005;</button>`
       : `<span style="color:#ccc;font-size:12px">—</span>`;
   }
+};
+
+window.onExcludeChange = function(idx, checked) {
+  const original = seenRowsData[idx]; if (!original) return;
+  if (checked) {
+    mappingEdits[idx] = '_exclude';
+  } else {
+    // Un-exclude: if was saved as _exclude, mark for delete; otherwise cancel the pending edit
+    if (original.dashboardKey === '_exclude') mappingEdits[idx] = '';
+    else delete mappingEdits[idx];
+  }
+  const hasEdits = Object.keys(mappingEdits).length > 0;
+  ['btn-save-mappings-edit','btn-save-mappings-edit2'].forEach(id => {
+    const b = document.getElementById(id); if(b) b.disabled = !hasEdits;
+  });
+  updateMappingsFilterCounts();
+  renderMappingsPageTable(); // re-render to enable/disable dropdown
 };
 
 window.clearMappingRule = function(idx) {
