@@ -1,1 +1,292 @@
-[]
+[
+  {
+    "id": "70b471a0-bf0d-44fa-bf76-8008b10347e6",
+    "sourceCode": "1105-9999",
+    "sourceLabel": "TOTAL PARKING",
+    "dashboardKey": "oi",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "60451578-938b-44de-8b41-61349141821e",
+    "sourceCode": "1175-9999",
+    "sourceLabel": "TOTAL TELEPHONE & CABLE",
+    "dashboardKey": "oi",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1fa0b8fc-92a0-4361-9c93-19a993dfaee4",
+    "sourceCode": "1180-9999",
+    "sourceLabel": "TOTAL TERM/BUYOUT FEES",
+    "dashboardKey": "oi",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8e6889eb-3921-44c4-98aa-b0e855dfc644",
+    "sourceCode": "3310-9999",
+    "sourceLabel": "TOTAL LEGAL FEES",
+    "dashboardKey": "ga",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a6a2b28e-c905-42c9-ad88-772a1487e9ef",
+    "sourceCode": "3405-0000",
+    "sourceLabel": "CONTRACT-LANDSCAPE",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a9e493bb-b26e-4abc-8ccf-0b969bb84eb2",
+    "sourceCode": "3410-0000",
+    "sourceLabel": "OTHER-LANDSCAPE",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "90db7ee7-c59e-46ba-8859-77502a4e5b85",
+    "sourceCode": "3425-0000",
+    "sourceLabel": "CONTRACT-SECURITY SERVICE",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a43f8867-e6fa-478d-95fc-cd85069a0d6e",
+    "sourceCode": "3430-0000",
+    "sourceLabel": "OTHER-SECURITY SERVICE",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "52fdfccb-74ad-4441-86d6-cfa82f46835d",
+    "sourceCode": "3435-0000",
+    "sourceLabel": "CONTRACT-FIRE PROTECTION",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "85857d03-22a3-4399-b119-3550203a6a2a",
+    "sourceCode": "3440-0000",
+    "sourceLabel": "OTHER-FIRE PROTECTION",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "34d3cfff-1c65-4e20-ac09-7eb9e98086f7",
+    "sourceCode": "3505-0000",
+    "sourceLabel": "EQUIPMENT RENTAL & MAINT",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a7adf2b5-726c-49e3-832c-fcf9d035d553",
+    "sourceCode": "3520-9999",
+    "sourceLabel": "TOTAL GATES & ENTRY SYSTEM",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bdfe5986-0c29-4a4a-84c0-f4f680342560",
+    "sourceCode": "3535-0000",
+    "sourceLabel": "CONTRACT-POOL",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5bbbbaaa-b125-4d3d-a59c-39cef6812db0",
+    "sourceCode": "3540-0000",
+    "sourceLabel": "OTHER-POOL",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "35bcd36d-2684-4626-8673-e1b539df20b4",
+    "sourceCode": "3540-0050",
+    "sourceLabel": "RECREATIONAL AMENITIES R&M",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "64e024a7-77a3-411e-8357-396ed37f400c",
+    "sourceCode": "3555-0000",
+    "sourceLabel": "CONTRACT-PEST CONTROL",
+    "dashboardKey": "contract",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8df619ad-385e-404a-afa0-d4e5ea542f2e",
+    "sourceCode": "3560-0000",
+    "sourceLabel": "OTHER-PEST CONTROL",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5d089cf1-beac-40d0-8fde-51bb8d8f9ef1",
+    "sourceCode": "3570-0000",
+    "sourceLabel": "ROOF REPAIR",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "038c65b0-0d51-4f51-8c2a-f19bbcfa531e",
+    "sourceCode": "3575-0000",
+    "sourceLabel": "EXTERIOR BUILDING STRUCTURE",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0d19d744-3183-4cc0-b6e7-452b994c5764",
+    "sourceCode": "3576-2500",
+    "sourceLabel": "DRYWALL REPAIR/RPCMT",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c84ae28a-0cd5-4f1c-a3c0-9003f0b016c3",
+    "sourceCode": "3577-5000",
+    "sourceLabel": "CARPENTRY/WELDING",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9168f9a8-0601-49ce-bdc2-ac02a408380a",
+    "sourceCode": "3580-0000",
+    "sourceLabel": "PLUMBING REPAIR",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4f258d9f-2fa1-4cb4-9cb5-6bb22e6b1dde",
+    "sourceCode": "3590-0000",
+    "sourceLabel": "ELECTRICAL REPAIRS",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5e9f19b8-d6e4-4062-939b-1c563ec0eaeb",
+    "sourceCode": "3610-9999",
+    "sourceLabel": "TOTAL HVAC REPAIR & SUPPLIES",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "66c02324-42cd-4016-af2d-8db4931c2297",
+    "sourceCode": "3637-5000",
+    "sourceLabel": "GLASS REPAIR/REPCMT",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1ea88b1e-793b-4daf-acd5-e7e923d5fc44",
+    "sourceCode": "4099-9999",
+    "sourceLabel": "TOTAL OTHER UTILITIES",
+    "dashboardKey": "util",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "82f12f2d-5d78-48b7-af0f-f93bd7db40c5",
+    "sourceCode": "6097-0000",
+    "sourceLabel": "TOTAL SUPPLY EXPENSE",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1e16115f-4eea-45a8-822f-4600e4889155",
+    "sourceCode": "9799-9999",
+    "sourceLabel": "TOTAL RENOVATIONS",
+    "dashboardKey": "capex",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "330b468d-1227-4c33-87fc-95875f50620c",
+    "sourceCode": "9990-9999",
+    "sourceLabel": "NET INCOME",
+    "dashboardKey": "ncf",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedBy": "admin"
+  }
+]

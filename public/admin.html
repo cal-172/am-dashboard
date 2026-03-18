@@ -207,6 +207,10 @@ tbody tr:hover td{background:#F8FBFC}
 .map-stat.warn-stat .map-stat-val{color:#D97706}
 .map-stat.err-stat  .map-stat-val{color:#DC2626}
 .step-label{font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.btn-danger{background:#FEF2F2;border-color:#FECACA;color:#DC2626}
+.btn-danger:hover{background:#FEE2E2}
+.btn-sm{padding:3px 8px;font-size:11px}
+tr.mrow-edited td{background:#EFF6FF}
 </style>
 </head>
 <body>
@@ -223,6 +227,9 @@ tbody tr:hover td{background:#F8FBFC}
       <div class="sb-section">Data</div>
       <button class="sb-item active" id="nav-files" onclick="showPage('files')">
         <span class="sb-icon">📁</span> File Uploads
+      </button>
+      <button class="sb-item" id="nav-mappings" onclick="showPage('mappings')">
+        <span class="sb-icon">🗂</span> Mapping Rules
       </button>
       <div class="sb-section">Access</div>
       <button class="sb-item" id="nav-users" onclick="showPage('users')">
@@ -475,6 +482,61 @@ tbody tr:hover td{background:#F8FBFC}
       </div>
     </div>
 
+    <!-- MAPPING RULES PAGE -->
+    <div id="page-mappings" style="display:none">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Mapping Rules</div>
+          <div class="page-desc">Saved account code → dashboard category assignments — apply to all file types (T12 and Budget)</div>
+        </div>
+        <div class="ml-auto" style="display:flex;gap:10px;align-items:center">
+          <span id="mappings-edit-status" style="font-size:11.5px;color:#15803D;display:none;font-weight:600">&#10003; Saved!</span>
+          <button class="btn btn-primary" id="btn-save-mappings-edit" onclick="saveMappingsEdits()" disabled>Save Changes</button>
+        </div>
+      </div>
+      <div class="body-pad">
+        <div id="mappings-page-alert"></div>
+        <div class="card">
+          <div class="card-head" style="padding-bottom:10px">
+            <span class="card-title">Saved Mapping Rules</span>
+            <span style="font-size:11px;color:#6A8E91" id="mappings-count"></span>
+          </div>
+          <div class="card-body" style="padding-top:0">
+            <div style="margin-bottom:14px;padding:10px 14px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;font-size:11.5px;color:#1D4ED8">
+              &#9432;&nbsp; Rules apply to <strong>all upload types</strong> (T12 Actuals, Budget, and T12 vs Budget). When an account code matches, it takes priority over label matching.
+            </div>
+            <div class="tbl-wrap" style="max-height:600px;overflow-y:auto">
+              <table id="mappings-tbl">
+                <thead>
+                  <tr>
+                    <th style="min-width:90px">Acct Code</th>
+                    <th style="min-width:230px">Source Label</th>
+                    <th style="min-width:210px">Dashboard Category</th>
+                    <th style="min-width:110px">Saved By</th>
+                    <th style="min-width:100px">Saved Date</th>
+                    <th style="text-align:center;width:60px">Delete</th>
+                  </tr>
+                </thead>
+                <tbody id="mappings-tbl-body">
+                  <tr class="empty-row"><td colspan="6">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:14px 18px;background:#F8FBFC;border-radius:6px;border:1px solid #D2E8EA;font-size:11.5px;color:#4A6568;line-height:1.8">
+          <strong style="color:#13545E;display:block;margin-bottom:6px">How match priority works on upload:</strong>
+          <ol style="padding-left:18px">
+            <li>Account code match against saved rules &nbsp;<em style="color:#6A8E91">(most reliable — codes are stable even when label wording changes)</em></li>
+            <li>Source label exact match against saved rules</li>
+            <li>Built-in pattern matching on label text</li>
+            <li>Unmapped — shown in red for manual assignment during upload review</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -528,13 +590,104 @@ const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vac
    NAV
 ══════════════════════════════════════════════════════ */
 function showPage(page) {
-  ['files','users'].forEach(p => {
+  ['files','users','mappings'].forEach(p => {
     document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
     document.getElementById('nav-'+p).classList.toggle('active', p===page);
   });
-  if (page === 'users') loadUsers();
-  if (page === 'files') { loadCoverage(); loadUploads(); }
+  if (page === 'users')    loadUsers();
+  if (page === 'files')    { loadCoverage(); loadUploads(); }
+  if (page === 'mappings') loadMappings();
 }
+
+/* ══════════════════════════════════════════════════════
+   MAPPING RULES PAGE
+══════════════════════════════════════════════════════ */
+let savedMappingsData = [];
+let mappingEdits      = {};
+
+async function loadMappings() {
+  const data = await fetch('/api/mappings').then(r=>r.json());
+  savedMappingsData = Array.isArray(data) ? data : [];
+  mappingEdits = {};
+  document.getElementById('btn-save-mappings-edit').disabled = true;
+  renderMappingsPageTable();
+}
+
+function renderMappingsPageTable() {
+  const tbody = document.getElementById('mappings-tbl-body');
+  const list  = savedMappingsData;
+  document.getElementById('mappings-count').textContent = list.length + ' rule' + (list.length!==1?'s':'');
+  if (!list.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No saved rules yet. Upload a file and manually assign rows to create rules.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(m => {
+    const dateStr    = m.confirmedAt ? new Date(m.confirmedAt).toLocaleDateString() : '—';
+    const currentKey = mappingEdits[m.id] !== undefined ? mappingEdits[m.id] : m.dashboardKey;
+    const edited     = mappingEdits[m.id] !== undefined;
+    return `<tr id="mrow-${m.id}" class="${edited?'mrow-edited':''}">
+      <td style="font-family:'Courier New',monospace;font-size:11px;color:#6A8E91;white-space:nowrap">${esc(m.sourceCode||'—')}</td>
+      <td style="font-family:'Courier New',monospace;font-size:11.5px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(m.sourceLabel||'')}">${esc(m.sourceLabel||'—')}</td>
+      <td>${buildMappingEditSelect(m.id, currentKey)}</td>
+      <td style="font-size:11px;color:#6A8E91;white-space:nowrap">${esc(m.confirmedBy||'—')}</td>
+      <td style="font-size:11px;color:#6A8E91;white-space:nowrap">${dateStr}</td>
+      <td style="text-align:center"><button class="btn btn-danger btn-sm" onclick="deleteMappingRule('${m.id}')" title="Delete rule">&#128465;</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function buildMappingEditSelect(id, currentKey) {
+  let html = `<select class="map-cat-select" onchange="onMappingEditChange('${id}',this.value)">`;
+  html += `<option value=""${!currentKey?' selected':''}>— Unmapped —</option>`;
+  for (const { group, items } of CAT_GROUPS) {
+    if (group === 'Special') continue;
+    html += `<optgroup label="${group}">`;
+    for (const { k, l } of items) html += `<option value="${k}"${currentKey===k?' selected':''}>${l}</option>`;
+    html += '</optgroup>';
+  }
+  html += '</select>';
+  return html;
+}
+
+window.onMappingEditChange = function(id, newKey) {
+  const original = savedMappingsData.find(m => m.id === id);
+  if (!original) return;
+  if (newKey === original.dashboardKey) delete mappingEdits[id];
+  else mappingEdits[id] = newKey;
+  document.getElementById('btn-save-mappings-edit').disabled = Object.keys(mappingEdits).length === 0;
+  const tr = document.getElementById('mrow-'+id);
+  if (tr) tr.className = mappingEdits[id] !== undefined ? 'mrow-edited' : '';
+};
+
+async function saveMappingsEdits() {
+  const toUpdate = savedMappingsData
+    .filter(m => mappingEdits[m.id] !== undefined)
+    .map(m => ({ sourceCode: m.sourceCode||'', sourceLabel: m.sourceLabel, dashboardKey: mappingEdits[m.id] }));
+  if (!toUpdate.length) return;
+  const btn = document.getElementById('btn-save-mappings-edit');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...';
+  try {
+    const res = await fetch('/api/mappings/bulk', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ mappings: toUpdate }) });
+    const d = await res.json();
+    if (d.success) {
+      const el = document.getElementById('mappings-edit-status');
+      el.style.display = 'inline';
+      setTimeout(() => el.style.display = 'none', 3000);
+      await loadMappings();
+    } else { showAlert('mappings-page-alert','error','Save failed: '+(d.error||'Unknown error')); }
+  } catch(e) { showAlert('mappings-page-alert','error','Network error: '+e.message); }
+  btn.innerHTML = 'Save Changes';
+}
+
+window.deleteMappingRule = async function(id) {
+  if (!confirm('Delete this mapping rule? Future uploads will no longer auto-match this account code.')) return;
+  try {
+    const res = await fetch('/api/mappings/'+id, { method:'DELETE' });
+    const d = await res.json();
+    if (d.success) { delete mappingEdits[id]; await loadMappings(); }
+    else showAlert('mappings-page-alert','error','Delete failed: '+(d.error||'Unknown error'));
+  } catch(e) { showAlert('mappings-page-alert','error','Delete failed: '+e.message); }
+};
 
 /* ══════════════════════════════════════════════════════
    INIT
