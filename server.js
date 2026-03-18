@@ -64,9 +64,14 @@ function aggregateFromRawData() {
     const { fileType, rows, monthsCommitted } = upload;
     for (const row of (rows || [])) {
       // Apply current mappings; fall back to the original key recorded at commit time
-      const { key: resolved } = matchKeyWithConfidence(row.label, row.code, savedMappings);
+      const { key: resolved, method: resolvedMethod } = matchKeyWithConfidence(row.label, row.code, savedMappings);
+      // If a saved mapping rule explicitly excludes or marks as header, respect it — never fall back
+      if (resolved === '_exclude' || resolved === '_header') continue;
+      // Use saved/pattern-matched key; only fall back to originalKey when no mapping was found
       const validKey = k => k && k !== '_exclude' && k !== '_header';
-      const key = validKey(resolved) ? resolved : (validKey(row.originalKey) ? row.originalKey : null);
+      const key = validKey(resolved)
+        ? resolved
+        : (resolvedMethod === 'unmapped' && validKey(row.originalKey) ? row.originalKey : null);
       if (!key) continue;
 
       for (const [month, vals] of Object.entries(row.monthValues || {})) {
