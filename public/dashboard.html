@@ -151,9 +151,26 @@ const ylbl=(sel)=>'YTD '+DATA_YEAR+' ('+rangeLbl(ytdMonths(sel))+')';
 
 const KEYS=['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
 
+const TRR_DETAIL  = ['pri','ltl','vac','mod','con','bd'];
+const TOI_DETAIL  = ['oi','ur'];
+const OPEX_DETAIL = ['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'];
+const TDF_DETAIL  = ['amfee','debt'];
+
+function computeTotals(v){
+  v.trr  = TRR_DETAIL.reduce((s,k)=>s+(v[k]||0),0);
+  v.toi  = TOI_DETAIL.reduce((s,k)=>s+(v[k]||0),0);
+  v.egi  = v.trr+v.toi;
+  v.opex = OPEX_DETAIL.reduce((s,k)=>s+(v[k]||0),0);
+  v.noi  = v.egi-v.opex;
+  v.tdf  = TDF_DETAIL.reduce((s,k)=>s+(v[k]||0),0);
+  v.cfd  = v.noi-v.tdf;
+  v.btl  = (v.capex||0);
+  v.netinc = v.cfd-v.btl;
+}
+
 function deriveMonth(a,b){
-  a.tdf=a.amfee+a.debt; a.cfd=a.noi-a.tdf; a.btl=a.capex; a.netinc=a.cfd-a.btl;
-  b.tdf=b.amfee+b.debt; b.cfd=b.noi-b.tdf; b.btl=b.capex; b.bnetinc=b.cfd-b.btl;
+  computeTotals(a); computeTotals(b);
+  b.bnetinc=b.netinc;
   a.phyvac=a.pri?Math.abs(a.vac)/a.pri*100:0; b.phyvac=b.pri?Math.abs(b.vac)/b.pri*100:0;
   a.ecovac=a.pri?(a.pri-a.trr)/a.pri*100:0;  b.ecovac=b.pri?(b.pri-b.trr)/b.pri*100:0;
   a.expr=a.egi?a.opex/a.egi*100:0;           b.expr=b.egi?b.opex/b.egi*100:0;
@@ -164,8 +181,8 @@ function deriveMonth(a,b){
 function buildPeriod(months){
   const a={},b={};
   KEYS.forEach(k=>{ a[k]=months.reduce((s,mo)=>s+(RAW[mo]?.a[k]||0),0); b[k]=months.reduce((s,mo)=>s+(RAW[mo]?.b[k]||0),0); });
-  a.tdf=a.amfee+a.debt; a.cfd=a.noi-a.tdf; a.btl=a.capex; a.netinc=a.cfd-a.btl;
-  b.tdf=b.amfee+b.debt; b.cfd=b.noi-b.tdf; b.btl=b.capex; b.bnetinc=b.cfd-b.btl;
+  computeTotals(a); computeTotals(b);
+  b.bnetinc=b.netinc;
   a.phyvac=a.pri?Math.abs(a.vac)/a.pri*100:0; b.phyvac=b.pri?Math.abs(b.vac)/b.pri*100:0;
   a.ecovac=a.pri?(a.pri-a.trr)/a.pri*100:0;   b.ecovac=b.pri?(b.pri-b.trr)/b.pri*100:0;
   a.expr=a.egi?a.opex/a.egi*100:0;            b.expr=b.egi?b.opex/b.egi*100:0;
