@@ -33,10 +33,10 @@
     "id": "8e6889eb-3921-44c4-98aa-b0e855dfc644",
     "sourceCode": "3310-9999",
     "sourceLabel": "TOTAL LEGAL FEES",
-    "dashboardKey": "ga",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
@@ -63,40 +63,40 @@
     "id": "90db7ee7-c59e-46ba-8859-77502a4e5b85",
     "sourceCode": "3425-0000",
     "sourceLabel": "CONTRACT-SECURITY SERVICE",
-    "dashboardKey": "contract",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
     "id": "a43f8867-e6fa-478d-95fc-cd85069a0d6e",
     "sourceCode": "3430-0000",
     "sourceLabel": "OTHER-SECURITY SERVICE",
-    "dashboardKey": "contract",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
     "id": "52fdfccb-74ad-4441-86d6-cfa82f46835d",
     "sourceCode": "3435-0000",
     "sourceLabel": "CONTRACT-FIRE PROTECTION",
-    "dashboardKey": "contract",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
     "id": "85857d03-22a3-4399-b119-3550203a6a2a",
     "sourceCode": "3440-0000",
     "sourceLabel": "OTHER-FIRE PROTECTION",
-    "dashboardKey": "contract",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
@@ -113,10 +113,10 @@
     "id": "a7adf2b5-726c-49e3-832c-fcf9d035d553",
     "sourceCode": "3520-9999",
     "sourceLabel": "TOTAL GATES & ENTRY SYSTEM",
-    "dashboardKey": "contract",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
@@ -256,7 +256,7 @@
     "dashboardKey": "util",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T20:02:37.525Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   },
   {
@@ -341,12 +341,1472 @@
   },
   {
     "id": "f2a66f57-f46a-4029-8063-3416cd113ba6",
-    "sourceCode": "1007-0000",
+    "sourceCode": "1010-0000",
     "sourceLabel": "VACANCY",
-    "dashboardKey": "vac",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:25:03.278Z",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9e78eea0-29ec-43be-b1c8-3a3332d5a24b",
+    "sourceCode": "1000-0010",
+    "sourceLabel": "INCOME",
+    "dashboardKey": "_header",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:28:24.699Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0843473f-31a8-4e3c-a055-d7b48f800c40",
+    "sourceCode": "1030-0000",
+    "sourceLabel": "MOVE-IN CONCESSIONS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "62aeaa0e-7f54-4b73-a134-c9edd0c0d8af",
+    "sourceCode": "1038-0000",
+    "sourceLabel": "RESIDENT REFERRAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5b774eff-0496-4767-b5e8-8ac46d318822",
+    "sourceCode": "1040-0000",
+    "sourceLabel": "RENEWAL CONCESSIONS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "753de233-490e-49be-a1bd-7eb07f16333a",
+    "sourceCode": "1105-0000",
+    "sourceLabel": "PARKING INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "941f605c-a955-411c-a3a5-80b2f9b6e9a6",
+    "sourceCode": "4005-0000",
+    "sourceLabel": "ELECTRICITY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "44f38960-66e0-413b-97de-d90b448029b8",
+    "sourceCode": "4015-0000",
+    "sourceLabel": "WATER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "27ca14fc-a59b-41d7-9c08-eb948734b946",
+    "sourceCode": "1120-0007",
+    "sourceLabel": "TRASH",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4856542d-f975-426a-bc5d-6be9505b531e",
+    "sourceCode": "4020-0000",
+    "sourceLabel": "SEWER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6fc2d2d3-2735-4027-a5e0-f1ff33c2fa1e",
+    "sourceCode": "1120-0015",
+    "sourceLabel": "UTILITY ACTIVATION FEE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bce49ea8-cabb-47ee-899d-5e3c92f90cb7",
+    "sourceCode": "1120-0021",
+    "sourceLabel": "UTILITY ADMINISTRATIVE FEE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f6e6d0f9-6971-405f-83a0-e63ebf562d0c",
+    "sourceCode": "1170-0000",
+    "sourceLabel": "CABLE REVENUE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4e94cb57-47f8-49be-b4cd-9173c1d1ec6b",
+    "sourceCode": "1180-0000",
+    "sourceLabel": "LEASE TERMINATION/BUYOUT FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1efb0bad-ed7b-4757-a258-30a1b3e654f1",
+    "sourceCode": "1190-0000",
+    "sourceLabel": "WASHER/DRYER INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bcc6901d-2e37-4637-9e87-4dd562c6b067",
+    "sourceCode": "1228-9999",
+    "sourceLabel": "CORPORATE INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a718c49c-780b-4978-9e14-a91755d87c51",
+    "sourceCode": "1305-0000",
+    "sourceLabel": "RENTERS' INSURANCE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "213f8aca-05e3-4f98-9d26-e807562a9911",
+    "sourceCode": "1310-0000",
+    "sourceLabel": "APPLICATION FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0c923a59-24b2-4d99-842f-d14a7751c060",
+    "sourceCode": "1312-5000",
+    "sourceLabel": "DAMAGES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6e69bcbc-047f-40d2-9589-4d337613a003",
+    "sourceCode": "1315-0000",
+    "sourceLabel": "LATE CHARGES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6976f92b-b29d-4a07-aaf0-4a9714fdbb76",
+    "sourceCode": "1317-5000",
+    "sourceLabel": "RESIDENT LEGAL FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a4a3cab1-2273-423f-8de9-3f52a1dcd8d7",
+    "sourceCode": "1320-0000",
+    "sourceLabel": "MONTH TO MONTH PREMIUM",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "17b50223-616d-4149-894c-4632dd8a89ba",
+    "sourceCode": "1322-5000",
+    "sourceLabel": "NON-REFUNDABLE FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "048a5a57-9e8f-4322-9a5c-dc58c2fe5eea",
+    "sourceCode": "1322-6000",
+    "sourceLabel": "NSF FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "dc766cf5-2a6d-4c5d-843d-e8a126a9c531",
+    "sourceCode": "1322-7000",
+    "sourceLabel": "PET RENTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "209e8186-2dad-45d9-85ac-8b052e7e31ac",
+    "sourceCode": "1322-7005",
+    "sourceLabel": "PET FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9646064b-714f-46c9-b20b-8de35465cb57",
+    "sourceCode": "1322-7010",
+    "sourceLabel": "PEST CONTROL INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "558e8601-b049-4a3e-8afc-5633db7a6729",
+    "sourceCode": "1333-0000",
+    "sourceLabel": "HOA FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1851c588-a960-41bd-9438-075e8b25e757",
+    "sourceCode": "1345-0000",
+    "sourceLabel": "TRANSFER FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b47507d9-f460-4360-9adc-2600d1a6e2ab",
+    "sourceCode": "1364-0000",
+    "sourceLabel": "GYM MEMBERSHIP",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "457dec8f-eefe-4e20-ba51-05aa4dde55c3",
+    "sourceCode": "4080-0000",
+    "sourceLabel": "MISCELLANEOUS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "45b1b8e4-06fa-4f92-b8a5-97399a3973a5",
+    "sourceCode": "1399-9999",
+    "sourceLabel": "TOTAL PARKING/UTILITIES/OTHER INC",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "667fcbb7-a6ba-4e11-b007-2dcb9844f7b1",
+    "sourceCode": "1599-9999",
+    "sourceLabel": "CORPORATE OTHER INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c4267892-5956-47d1-8b55-2dc1a98ac6b9",
+    "sourceCode": "2005-0000",
+    "sourceLabel": "OFFICE TELEPHONE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "29bf26ec-30a2-412f-be02-68dc17c2fb7a",
+    "sourceCode": "2005-0060",
+    "sourceLabel": "HIGH SPEED CABLE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4965817c-3b1a-4164-a329-97b428247bcb",
+    "sourceCode": "2007-5000",
+    "sourceLabel": "ANSWERING SERVICE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c4ab9879-42af-4b0b-a166-c4a7c3a0d78c",
+    "sourceCode": "2010-0000",
+    "sourceLabel": "CREDIT VERIFICATION EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "65051256-dab0-4230-947b-b780fb6f53cd",
+    "sourceCode": "2015-0000",
+    "sourceLabel": "OFFICE SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7d4fe71f-7104-4446-ae7d-715b7fe3d70e",
+    "sourceCode": "2016-0000",
+    "sourceLabel": "OFFICE CLEANING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0cad9c88-550e-4050-a8d2-eb5af1b4f406",
+    "sourceCode": "2017-5000",
+    "sourceLabel": "DUES & SUBSCRIPTIONS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "428bcbe0-86e4-4b42-846a-f1661c60d088",
+    "sourceCode": "2022-5000",
+    "sourceLabel": "COMPUTER SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "98bd31da-2bf1-46e9-891b-c144da2912b2",
+    "sourceCode": "2025-0000",
+    "sourceLabel": "OFFICE EQUIPMENT R&M",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4629a35d-c196-44ea-9948-254c818a8185",
+    "sourceCode": "2030-0000",
+    "sourceLabel": "BUSINESS LICENSE/PERMITS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "96c404c7-76ab-4faf-a4cc-b4a4582b2fb2",
+    "sourceCode": "2040-0000",
+    "sourceLabel": "ACCOUNTING/BANK FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e1d18398-e33e-4d6e-9a96-fa52b8f5035b",
+    "sourceCode": "2045-0000",
+    "sourceLabel": "COURIER & POSTAGE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e5dd6889-09be-4007-b5fe-12a3ffd05eb5",
+    "sourceCode": "2052-5000",
+    "sourceLabel": "MILEAGE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b7e43d86-d231-417e-ae9a-ce4d11fb6c68",
+    "sourceCode": "2055-0000",
+    "sourceLabel": "TRAVEL & EXPENSE REIMBURSEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "ce4c8c46-05b1-492e-bb15-ae7ed5969d72",
+    "sourceCode": "2057-5000",
+    "sourceLabel": "STAFF MEETINGS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "677be00f-0174-455d-a818-61f13573bbdf",
+    "sourceCode": "2060-0000",
+    "sourceLabel": "OTHER - G & A",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "617e7cee-1df1-4a98-96e5-7c104598de64",
+    "sourceCode": "2100-0000",
+    "sourceLabel": "MANAGEMENT FEE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "65e5d9c9-c84b-445b-8bb5-bbd67643dbe1",
+    "sourceCode": "2215-2005",
+    "sourceLabel": "PAYROLL-MANAGER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c19249e2-f0c1-4d2f-8514-637fc2c50baf",
+    "sourceCode": "2215-2010",
+    "sourceLabel": "PAYROLL-ASS'T MANAGER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9519dc36-3bd7-4e05-a487-76ef03c19d24",
+    "sourceCode": "2215-2015",
+    "sourceLabel": "PAYROLL-LEASING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "69b0ab36-26df-4b03-936b-0c1de1f09812",
+    "sourceCode": "2215-2020",
+    "sourceLabel": "PAYROLL-MAINTENANCE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "887975ef-c038-40a2-b037-4d0af1a412ea",
+    "sourceCode": "2215-2023",
+    "sourceLabel": "PAYROLL-MAINT. SUPERVISOR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "032158bf-479b-436b-8bc8-1f693f7d0ad8",
+    "sourceCode": "2220-0000",
+    "sourceLabel": "BONUSES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "458d73fa-9cd8-40d5-bb64-b31f2338bbd3",
+    "sourceCode": "2220-0015",
+    "sourceLabel": "LEASING BONUS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "938ee735-5f04-435f-9d1a-ff1ff7294be8",
+    "sourceCode": "2225-0000",
+    "sourceLabel": "PAYROLL TAXES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "db534816-40b2-4023-b4b7-8ab41881a0bf",
+    "sourceCode": "2230-0000",
+    "sourceLabel": "BENEFITS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4137af52-094e-493c-af5c-05fab375bb67",
+    "sourceCode": "2232-5000",
+    "sourceLabel": "401K CONTRIBUTION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6b7035df-ad59-47df-97ad-2f8978976529",
+    "sourceCode": "2235-0000",
+    "sourceLabel": "WORKERS COMPENSATION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "ba0514cf-1607-43aa-8fae-9b05f9ff8ec1",
+    "sourceCode": "2240-0000",
+    "sourceLabel": "EMPLOYEE EDUCATION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "60d74a71-e2fa-4150-9cdd-0ffcb001b791",
+    "sourceCode": "2250-0000",
+    "sourceLabel": "UNIFORMS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bb9b1f91-946a-4b24-9d23-623919eb7f99",
+    "sourceCode": "2255-0000",
+    "sourceLabel": "OTHER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1c1ff516-4bb9-48ae-a708-a2a7781546c4",
+    "sourceCode": "3005-0000",
+    "sourceLabel": "INSURANCE-PROPERTY & CASUALTY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "2a4b8698-9788-499b-8efa-f23e363d9da3",
+    "sourceCode": "3105-0000",
+    "sourceLabel": "REAL PROPERTY TAXES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c51fcdd7-acb7-4f9d-b619-fb06782e1192",
+    "sourceCode": "3220-0000",
+    "sourceLabel": "BROCHURES/PRINTED MATERIALS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "31a7bf18-dbf1-4b29-862d-3a82d4a2b9b3",
+    "sourceCode": "3225-0000",
+    "sourceLabel": "RESIDENT PROMOTIONS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e2015d89-f466-4bce-a283-889d66dc7e64",
+    "sourceCode": "3230-0000",
+    "sourceLabel": "SIGNS/FLAGS/BANNERS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "eb245f4c-012e-4e59-9b6e-262ef894189f",
+    "sourceCode": "3237-5000",
+    "sourceLabel": "MODEL EXPENSE/ACCESSORIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bbbfee49-b18d-4312-b2f0-d009e9a63106",
+    "sourceCode": "3255-0000",
+    "sourceLabel": "OTHER-LEASING & MARKETING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "ddf54842-603a-4347-91d1-c5feb804197e",
+    "sourceCode": "3305-0000",
+    "sourceLabel": "EVICTIONS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c11cc481-1c6e-4e97-8f0a-42d0ef6fba2d",
+    "sourceCode": "3310-0000",
+    "sourceLabel": "OTHER-LEGAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "3d5f6245-2897-4ae1-a2ab-fa98f6ec5059",
+    "sourceCode": "3315-0000",
+    "sourceLabel": "ACCOUNTING & OTHER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1d4aa83e-a78a-4f0d-98b2-216ae4458f6a",
+    "sourceCode": "3410-9999",
+    "sourceLabel": "TOTAL LANDSCAPING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "924a71e5-3d23-45cb-a7b9-bcf9f6c50e34",
+    "sourceCode": "3515-0000",
+    "sourceLabel": "CONTRACT-GATES & ENTRY SYSTEM",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "10fcb56d-3d89-4279-af67-9a78b60d76c7",
+    "sourceCode": "3540-9999",
+    "sourceLabel": "TOTAL POOL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "728dab67-2c72-4d17-a62c-32f4461a3470",
+    "sourceCode": "3560-9999",
+    "sourceLabel": "TOTAL PEST CONTROL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c32437ca-a064-4305-b085-f7bc502da1cb",
+    "sourceCode": "3605-0000",
+    "sourceLabel": "UNIT HVAC REPAIRS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b656582b-0381-4fbe-b89f-9d6b6a99307c",
+    "sourceCode": "3640-0000",
+    "sourceLabel": "OTHER REPAIRS & MAINTENANCE",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d0bd52f0-4f73-4233-bf54-963b2c122097",
+    "sourceCode": "3699-9999",
+    "sourceLabel": "TOTAL REPAIRS & MAINTENANCE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "497f71ba-4018-417b-97d3-6d0ef6da4471",
+    "sourceCode": "3705-0000",
+    "sourceLabel": "PAINTING & WALL REPAIR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e55d37d2-528e-4bb0-b046-b29146e65b57",
+    "sourceCode": "3710-0000",
+    "sourceLabel": "VACANT-CARPET CLEANING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "ee81d6c8-fa88-4b9e-8ac9-9d0dbb926d0b",
+    "sourceCode": "3720-0000",
+    "sourceLabel": "COUNTERTOP/TUB REPAIR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6372353d-43f5-45b9-a98f-36a6917a2f1e",
+    "sourceCode": "3725-0010",
+    "sourceLabel": "TURNOVER-DOORS/WINDOW/GLASS/SCREENS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1e6c33a0-e2a0-4de1-aa95-1b4aa6f5afa8",
+    "sourceCode": "3730-0000",
+    "sourceLabel": "CLEANING SERVICE & SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1dbb7c74-6703-4b56-8c32-75033744f85a",
+    "sourceCode": "3750-0010",
+    "sourceLabel": "TURNOVER-ELECTRICAL/FIXTURES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7e9657e9-b70f-43a7-822b-bcb598e0d2ed",
+    "sourceCode": "3750-0030",
+    "sourceLabel": "TURNOVER-PLUMBING/GAS/FIXTURES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b6bc6470-7434-4b8d-ad92-2b07f31cca1e",
+    "sourceCode": "4005-1500",
+    "sourceLabel": "ELECTRIC-OFFICE/CLUBHOUSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b0820a09-6542-4f73-98a9-a82f9a5efd98",
+    "sourceCode": "4060-0000",
+    "sourceLabel": "TRASH REMOVAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "25c3a6dc-f6b6-413f-b17d-ab307641cf80",
+    "sourceCode": "6005-0000",
+    "sourceLabel": "APPLIANCE/FURN-SUPPS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9be12e73-f780-49c3-88cf-5d375b128a28",
+    "sourceCode": "6010-0000",
+    "sourceLabel": "CARPET-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e20a6852-dd83-4826-b52d-bbc4124994dc",
+    "sourceCode": "6010-1000",
+    "sourceLabel": "CARPET CLEANING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "66c230e8-9fd9-4efb-9f05-7b8fa8ef1e12",
+    "sourceCode": "6010-2000",
+    "sourceLabel": "FLOOR COVER REPAIR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b91b2850-5163-4601-8215-03d05600594e",
+    "sourceCode": "6015-0000",
+    "sourceLabel": "CARPENTRY-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "3224c35a-ccf3-456c-9263-07e2ee93e1c6",
+    "sourceCode": "6017-5000",
+    "sourceLabel": "DOOR REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "36514972-0f5c-43b9-829c-0310d281db77",
+    "sourceCode": "6020-0000",
+    "sourceLabel": "ELECTRICAL-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c91bd311-128e-4dc8-a2ff-baf00e316cdf",
+    "sourceCode": "6025-0000",
+    "sourceLabel": "EXTERMINATING-SUPPS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "42dee9cc-c6c4-4eb7-b4ad-d1727419fe70",
+    "sourceCode": "6027-5000",
+    "sourceLabel": "GLASS & SCREEN SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "296f1f54-214d-4270-90db-9bd418966790",
+    "sourceCode": "6030-0000",
+    "sourceLabel": "HVAC-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "fcb4bdc0-477e-447e-88ab-5cfc9ebe20e9",
+    "sourceCode": "6035-0000",
+    "sourceLabel": "JANITORIAL-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f71cb0c1-c9a2-4f7f-a929-f7849370d3f6",
+    "sourceCode": "6040-0000",
+    "sourceLabel": "LANDSCAPE-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6021895c-0bda-46ac-9c4b-7bc8ca0402a0",
+    "sourceCode": "6045-0000",
+    "sourceLabel": "LOCKS/KEYS-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b712f6a9-41af-4240-99ab-080cbdff9747",
+    "sourceCode": "6055-0000",
+    "sourceLabel": "PAINTING SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0bab8e92-2113-4ec0-b5a3-3239823117e0",
+    "sourceCode": "6060-0000",
+    "sourceLabel": "PARKING LOT SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0cd5e816-6578-4f9e-9452-9ef7e86e7620",
+    "sourceCode": "6060-0010",
+    "sourceLabel": "Snow Removal Supplies",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "66cfdd58-af2f-4e11-a0b7-642d18c7802d",
+    "sourceCode": "6065-0000",
+    "sourceLabel": "PLUMBING SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c61bd06c-854a-496f-84ba-6ce6f8204255",
+    "sourceCode": "6070-0000",
+    "sourceLabel": "POOL/SPA SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a81a7a08-eda4-4f63-9f7f-9aa04feb1d5a",
+    "sourceCode": "6075-0000",
+    "sourceLabel": "SCREEN REPLCMTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7e9983dd-40d9-441f-8de7-708a1931407c",
+    "sourceCode": "6085-0000",
+    "sourceLabel": "TOOLS & EQUIPMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5831cc5d-7e70-4e07-b940-9d018b1dc01b",
+    "sourceCode": "6085-1000",
+    "sourceLabel": "HARDWARE-MISC",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "591e3605-e20c-4a4a-b8f6-07fad219069c",
+    "sourceCode": "6095-0000",
+    "sourceLabel": "MINIBLINDS-SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f58a86aa-ca8d-46a8-90a0-f89e6fb36029",
+    "sourceCode": "7900-0000",
+    "sourceLabel": "CORPORATE CAPITAL EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f4412e9a-436e-4125-bca5-6044a70c7922",
+    "sourceCode": "8110-0000",
+    "sourceLabel": "APPLIANCES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "49ed861f-6f17-4bb8-9934-d37a8bb8a28d",
+    "sourceCode": "8110-0100",
+    "sourceLabel": "WATER HEATER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b3d47b64-3613-4fe4-be62-de1dd82a3225",
+    "sourceCode": "8110-0115",
+    "sourceLabel": "GARBAGE DISPOSAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8f328321-b6ed-4237-9162-dd92e5d9f76f",
+    "sourceCode": "8110-0125",
+    "sourceLabel": "DISHWASHER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "186db3d9-1b79-4403-a50f-dc4d30fefb5a",
+    "sourceCode": "8110-0150",
+    "sourceLabel": "RANGE/VENT/MICROWAVE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e06f5d51-ad99-45d3-87a4-ca7bb4c2bdf6",
+    "sourceCode": "8110-0175",
+    "sourceLabel": "FRIDGE/ICE MAKER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a2527f97-8776-4649-bb58-bc7b20571750",
+    "sourceCode": "8112-5000",
+    "sourceLabel": "CARPET REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "19e7e2be-0378-4ae5-9a0b-ebada26d4bc1",
+    "sourceCode": "8116-2500",
+    "sourceLabel": "CEILING FANS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b270c4df-e4f9-49af-bafa-8178cd65c73e",
+    "sourceCode": "8117-5000",
+    "sourceLabel": "MINIBLINDS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0fe05941-e667-4834-9dcc-486f880006df",
+    "sourceCode": "8118-7500",
+    "sourceLabel": "COUNTER TOP REPLCMT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "950d27b6-f332-49ac-84b0-08507001b495",
+    "sourceCode": "8118-7502",
+    "sourceLabel": "Tub Resurfacing",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4e951b89-551a-41f4-b4a7-4b41d233ccf3",
+    "sourceCode": "8120-0000",
+    "sourceLabel": "ELECTRICAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "73065e16-ae95-4bc6-98d6-2221d1f242da",
+    "sourceCode": "8120-0050",
+    "sourceLabel": "EXTERIOR ELECTRICAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "cfcfcd5a-17b8-4302-937e-42ab5d1b24a0",
+    "sourceCode": "8125-0000",
+    "sourceLabel": "EXTERIOR REPAIRS & REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7f29f2f0-3a4d-4be9-ad86-ba494f978523",
+    "sourceCode": "8130-0000",
+    "sourceLabel": "FASCIA REPAIR/REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6ae3690c-1df0-4d70-819f-daf99ca08187",
+    "sourceCode": "8135-0000",
+    "sourceLabel": "FIRE PROTECTION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "288407f6-1dc2-44e4-bcbc-108ad8acfd3c",
+    "sourceCode": "9754-0000",
+    "sourceLabel": "HVAC",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0c3d2e12-19ba-4856-987c-eed25bac4669",
+    "sourceCode": "8160-0000",
+    "sourceLabel": "PAINTING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "74f76fa6-2399-4b66-abe2-9399bfbc37b8",
+    "sourceCode": "8165-0000",
+    "sourceLabel": "PAVING/SIDEWALKS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "98f6393d-3dfc-4608-8011-177e79fa6559",
+    "sourceCode": "8165-0050",
+    "sourceLabel": "ASPHALT REPAIRS/SEAL COAT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "317458ea-5d63-4370-8dd0-a5d14ef58826",
+    "sourceCode": "8175-0000",
+    "sourceLabel": "PLUMBING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "75cb8b3b-83dd-4dec-bb62-4cc98eb6122d",
+    "sourceCode": "8175-0025",
+    "sourceLabel": "INTERIOR PLUMBING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "753c2878-ba47-4156-8e23-65e84364ddb5",
+    "sourceCode": "8195-0000",
+    "sourceLabel": "SLAB LEAKS/WATER DAMAGE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7dbcaa25-4453-47ba-99aa-ea6587d76f3d",
+    "sourceCode": "8200-0000",
+    "sourceLabel": "OTHER-REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "fb1f5426-824c-4557-90a0-6c2922f42376",
+    "sourceCode": "9001-0010",
+    "sourceLabel": "PRINCIPAL PAYMENT #1",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "2fe5a3dc-40eb-441d-9b85-0d372769b2ab",
+    "sourceCode": "9005-0100",
+    "sourceLabel": "INTEREST NOTE PYB 1",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c7419096-fc1a-4768-ae17-189395acc17b",
+    "sourceCode": "9099-9999",
+    "sourceLabel": "NET CASH FLOW",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4573f1f1-ede3-4bb1-b188-73d4dd4a6316",
+    "sourceCode": "9105-9999",
+    "sourceLabel": "NET AFTER AMORTIZ & DEPREC",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "697a1717-1cb9-4a2e-a8c8-c19f0420eebb",
+    "sourceCode": "9399-9999",
+    "sourceLabel": "CORP OTHER EXPENSES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4f542950-0673-4c48-95a7-49ea2a94dba4",
+    "sourceCode": "9701-0000",
+    "sourceLabel": "LANDSCAPING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b25efb20-1435-45ca-a5eb-4e5a40cd356d",
+    "sourceCode": "9702-0000",
+    "sourceLabel": "BBQ AREAS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "77281363-4d5c-4fc7-8ee5-77054223d6a6",
+    "sourceCode": "9713-0000",
+    "sourceLabel": "CARPET/VINYL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b7b60f01-8fef-4661-9d7e-6deeaf9a3412",
+    "sourceCode": "9723-0050",
+    "sourceLabel": "OFFICE REMODEL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5d11eda8-39dd-4530-8c92-0a967b0344b2",
+    "sourceCode": "9752-0000",
+    "sourceLabel": "POST AND DECK REPAIRS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
   }
 ]

@@ -1072,16 +1072,16 @@ async function saveMappingsOnly() {
 
 function buildMonthsFromRows(rows, fileType) {
   const months = {};
-  const keyUsed = {};
   for (const row of rows) {
     if (row.excluded) continue;
     if (!row.key || row.key==='_header' || row.key==='_exclude') continue;
-    if (keyUsed[row.key]) continue; // first occurrence wins (dedup)
-    keyUsed[row.key] = true;
+    // SUM all rows that share the same dashboard key
     for (const [month, vals] of Object.entries(row.monthValues||{})) {
       if (!months[month]) months[month]={a:{},b:{}};
-      if (vals.actual!==null && vals.actual!==undefined && fileType!=='budget') months[month].a[row.key]=vals.actual;
-      if (vals.budget!==null && vals.budget!==undefined && fileType!=='t12')    months[month].b[row.key]=vals.budget;
+      if (vals.actual!==null && vals.actual!==undefined && fileType!=='budget')
+        months[month].a[row.key] = (months[month].a[row.key] || 0) + vals.actual;
+      if (vals.budget!==null && vals.budget!==undefined && fileType!=='t12')
+        months[month].b[row.key] = (months[month].b[row.key] || 0) + vals.budget;
     }
   }
   return months;

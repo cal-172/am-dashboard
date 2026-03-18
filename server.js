@@ -62,8 +62,6 @@ function aggregateFromRawData() {
 
   for (const upload of rawUploads) {
     const { fileType, rows, monthsCommitted } = upload;
-    const keyUsed = {}; // first-occurrence-wins within each upload (dedup duplicate rows)
-
     for (const row of (rows || [])) {
       // Apply current mappings; fall back to the original key recorded at commit time
       const { key: resolved } = matchKeyWithConfidence(row.label, row.code, savedMappings);
@@ -75,17 +73,12 @@ function aggregateFromRawData() {
         if (monthsCommitted && !monthsCommitted.includes(month)) continue;
         if (!months[month]) months[month] = { a: {}, b: {} };
 
-        if (fileType !== 'budget') {
-          const dk = `${key}:${month}:a`;
-          if (!keyUsed[dk] && vals.actual !== null && vals.actual !== undefined) {
-            months[month].a[key] = vals.actual; keyUsed[dk] = true;
-          }
+        // SUM all rows that share the same dashboard key — multiple source rows can map to one category
+        if (fileType !== 'budget' && vals.actual !== null && vals.actual !== undefined) {
+          months[month].a[key] = (months[month].a[key] || 0) + vals.actual;
         }
-        if (fileType !== 't12') {
-          const dk = `${key}:${month}:b`;
-          if (!keyUsed[dk] && vals.budget !== null && vals.budget !== undefined) {
-            months[month].b[key] = vals.budget; keyUsed[dk] = true;
-          }
+        if (fileType !== 't12' && vals.budget !== null && vals.budget !== undefined) {
+          months[month].b[key] = (months[month].b[key] || 0) + vals.budget;
         }
       }
     }
@@ -720,15 +713,14 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
     results.rows.push(rowObj);
 
     if (key) {
-      if (isDuplicate) {
-        results.warnings.push(`Duplicate mapping: "${label}" and "${mappedKeys[key]}" both map to ${key} — only the first will be used`);
-      } else {
-        mappedKeys[key] = label;
-        for (const [month, vals] of Object.entries(monthValues)) {
-          if (!results.months[month]) results.months[month] = { a: {}, b: {} };
-          if (vals.actual !== null && fileType !== 'budget')   results.months[month].a[key] = vals.actual;
-          if (vals.budget !== null && fileType !== 't12')      results.months[month].b[key] = vals.budget;
-        }
+      mappedKeys[key] = label; // track last-seen label for this key (informational)
+      for (const [month, vals] of Object.entries(monthValues)) {
+        if (!results.months[month]) results.months[month] = { a: {}, b: {} };
+        // SUM — all source rows that share a dashboard key are accumulated
+        if (vals.actual !== null && fileType !== 'budget')
+          results.months[month].a[key] = (results.months[month].a[key] || 0) + vals.actual;
+        if (vals.budget !== null && fileType !== 't12')
+          results.months[month].b[key] = (results.months[month].b[key] || 0) + vals.budget;
       }
     } else if (!isHeader) {
       results.unmapped.push(label);
