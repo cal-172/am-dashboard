@@ -964,6 +964,12 @@ window.updateRowKey = function(idx, key) {
 window.toggleExclude = function(idx, val) {
   const r = parsedRows[idx]; if (!r) return;
   r.excluded = val;
+  if (val) {
+    r.key    = '_exclude';
+    r.method = 'user'; // mark as user-edited so Save Mappings picks it up
+  } else {
+    r.key    = null;   // un-exclude → leave unmapped, user can reassign via dropdown
+  }
   updateMapCounts();
   const tr = document.querySelector(`#map-tbody tr[data-idx="${idx}"]`);
   if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[3].innerHTML=confBadge(r); }
@@ -998,8 +1004,8 @@ function buildMappingReview(data) {
 }
 
 async function saveMappingsOnly() {
-  const toSave = parsedRows.filter(r => r.method==='user' && r.key && r.key!=='_header' && r.key!=='_exclude');
-  if (!toSave.length) { showAlert('upload-alert','info','No user-edited mappings to save. Assign at least one row manually, then save.'); return; }
+  const toSave = parsedRows.filter(r => r.method==='user' && r.key && r.key!=='_header');
+  if (!toSave.length) { showAlert('upload-alert','info','No user-edited mappings to save. Assign at least one row manually or mark rows as excluded, then save.'); return; }
   const btn = document.getElementById('btn-save-mappings');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Saving...';
   try {

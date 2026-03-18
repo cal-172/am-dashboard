@@ -4148,10 +4148,10 @@
     ]
   },
   {
-    "id": "82c395bd-f818-4f19-b544-589fe30cd484",
+    "id": "9f674602-ed8c-49b9-9a91-4358edbd2e2c",
     "fileType": "t12",
     "originalName": "12_Month_Statement_1163_rr_Accrual.xlsx",
-    "committedAt": "2026-03-18T21:04:27.450Z",
+    "committedAt": "2026-03-18T21:10:16.427Z",
     "committedBy": "admin",
     "monthsCommitted": [
       "feb",
@@ -4184,21 +4184,6 @@
           },
           "feb": {
             "actual": -18933,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "1006-9999",
-        "label": "GROSS SCHEDULED RENT",
-        "originalKey": "pri",
-        "monthValues": {
-          "jan": {
-            "actual": 219901,
-            "budget": null
-          },
-          "feb": {
-            "actual": 220736,
             "budget": null
           }
         }
