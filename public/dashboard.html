@@ -126,6 +126,21 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .no-data{padding:60px;text-align:center;color:#6A8E91;font-size:14px;background:#fff;border-radius:4px}
 .no-data a{color:#13545E;font-weight:700;text-decoration:none}
 .no-data a:hover{text-decoration:underline}
+
+/* ── WATERFALL PAGE ── */
+.wf-chart-wrap{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);padding:14px 18px 8px;margin-bottom:14px;overflow-x:auto}
+.wf-table-wrap{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);overflow:hidden;margin-bottom:16px}
+.wf-table{width:100%;border-collapse:collapse}
+.wf-table th{background:#F0F7F8;color:#13545E;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:right;border-bottom:1px solid #D2E8EA}
+.wf-table th:first-child{text-align:left}
+.wf-table td{padding:5px 12px;font-size:11px;border-bottom:1px solid #EEF4F5;text-align:right;font-family:'Courier New',monospace;color:#1A2B2C}
+.wf-table td:first-child{text-align:left;font-family:inherit}
+.wf-table tr.wf-section-hdr td{background:#F0F7F8;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-top:1px solid #D2E8EA}
+.wf-table tr.wf-subtotal td{background:#E6F2F4;font-weight:700;border-top:1px solid #C5DDE0;font-family:inherit}
+.wf-table tr.wf-total td{background:#13545E;color:#fff;font-weight:700;font-size:12px;font-family:inherit}
+.wf-fav{color:#166534;background:#C6EFCE;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;font-family:inherit}
+.wf-unfav{color:#9C0006;background:#FFC7CE;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;font-family:inherit}
+.wf-neutral{color:#888;font-size:10px;font-family:inherit}
 </style>
 </head>
 <body>
@@ -139,7 +154,8 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
     </div>
     <nav class="sb-nav">
       <div class="sb-section">Views</div>
-      <button class="sb-item active"><span class="sb-icon">📊</span> Actual vs Budget</button>
+      <button class="sb-item active" id="nav-avb" onclick="switchPage('avb')"><span class="sb-icon">📊</span> Actual vs Budget</button>
+      <button class="sb-item" id="nav-waterfall" onclick="switchPage('waterfall')"><span class="sb-icon">📉</span> Budget Waterfall</button>
     </nav>
     <div class="sb-footer">
       <div class="sb-btns">
@@ -154,7 +170,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
   <!-- ── MAIN ── -->
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title">Regatta | Actual vs Budget</div>
+      <div class="topbar-title" id="topbar-title">Regatta | Actual vs Budget</div>
       <div id="topbar-dates" class="topbar-dates"></div>
     </div>
     <div class="page" id="app">
@@ -547,6 +563,330 @@ function renderTbody(m){
   });
   document.getElementById('tbody').innerHTML=html;
 }
+
+/* ═══════════════ PAGE SWITCHING ═══════════════ */
+let currentPage = 'avb';
+let wfSEL = null;
+let wfPerUnit = false;
+
+function switchPage(page) {
+  currentPage = page;
+  document.getElementById('nav-avb')?.classList.toggle('active', page === 'avb');
+  document.getElementById('nav-waterfall')?.classList.toggle('active', page === 'waterfall');
+  const titleEl = document.getElementById('topbar-title');
+  if (titleEl) titleEl.textContent = page === 'waterfall' ? 'Regatta | Budget Waterfall' : 'Regatta | Actual vs Budget';
+  if (page === 'avb') {
+    renderApp();
+  } else {
+    renderWaterfallPage();
+  }
+}
+
+/* ═══════════════ WATERFALL DATA ═══════════════ */
+const WF_INCOME_ITEMS = [
+  {key:'pri', label:'Rental Income'},
+  {key:'ltl', label:'Loss to Lease'},
+  {key:'vac', label:'Vacancy'},
+  {key:'mod', label:'Model / Admin'},
+  {key:'con', label:'Concessions'},
+  {key:'bd',  label:'Bad Debt'},
+  {key:'oi',  label:'Other Income'},
+  {key:'ur',  label:'RUBS'},
+];
+const WF_EXPENSE_ITEMS = [
+  {key:'payroll',  label:'Payroll'},
+  {key:'contract', label:'Contract Services'},
+  {key:'util',     label:'Utilities'},
+  {key:'ga',       label:'Administrative'},
+  {key:'adv',      label:'Marketing'},
+  {key:'rm',       label:'Repairs & Maint'},
+  {key:'mr',       label:'Make Ready'},
+  {key:'mgmt',     label:'Management Fees'},
+  {key:'taxes',    label:'Taxes'},
+  {key:'ins',      label:'Insurance'},
+];
+
+function buildWaterfallData(m, perUnit) {
+  if (!RAW[m]) return null;
+  const a = Object.assign({}, RAW[m].a), b = Object.assign({}, RAW[m].b);
+  computeTotals(a); computeTotals(b);
+  const n = (perUnit && numUnits > 0) ? numUnits : 1;
+  const pu = v => v / n;
+
+  const steps = [];
+  steps.push({type:'total', label:'Budget NOI', value: pu(b.noi)});
+  let running = pu(b.noi);
+
+  for (const item of WF_INCOME_ITEMS) {
+    const av = pu(a[item.key] || 0), bv = pu(b[item.key] || 0);
+    if (Math.abs(a[item.key]||0) < 1 && Math.abs(b[item.key]||0) < 1) continue;
+    const variance = av - bv;
+    if (Math.abs(variance) < (perUnit ? 0.01 : 1)) continue;
+    steps.push({type:'variance', section:'income', label:item.label,
+      value:variance, base:running, favorable:variance > 0, actual:av, budget:bv});
+    running += variance;
+  }
+
+  for (const item of WF_EXPENSE_ITEMS) {
+    const av = pu(a[item.key] || 0), bv = pu(b[item.key] || 0);
+    if (Math.abs(a[item.key]||0) < 1 && Math.abs(b[item.key]||0) < 1) continue;
+    const variance = bv - av;
+    if (Math.abs(variance) < (perUnit ? 0.01 : 1)) continue;
+    steps.push({type:'variance', section:'expense', label:item.label,
+      value:variance, base:running, favorable:variance > 0, actual:av, budget:bv});
+    running += variance;
+  }
+
+  steps.push({type:'total', label:'Actual NOI', value: pu(a.noi)});
+
+  for (const s of steps) {
+    if (s.type === 'total') {
+      s.barBottom = Math.min(0, s.value);
+      s.barTop    = Math.max(0, s.value);
+      s.runningAfter = s.value;
+    } else {
+      s.barBottom = Math.min(s.base, s.base + s.value);
+      s.barTop    = Math.max(s.base, s.base + s.value);
+      s.runningAfter = s.base + s.value;
+    }
+  }
+
+  return {steps, a, b, n};
+}
+
+/* ═══════════════ WATERFALL CHART ═══════════════ */
+function fWF(v) {
+  if (Math.abs(v || 0) < 0.005) return '$0';
+  const abs = Math.abs(v);
+  let str;
+  if (abs >= 1000000) str = '$' + (abs / 1000000).toFixed(1) + 'M';
+  else str = '$' + Math.round(abs).toLocaleString('en-US');
+  return v < 0 ? '(' + str.slice(1) + ')' : str;
+}
+
+function niceWfTicks(yMin, yMax, count) {
+  const range = yMax - yMin || 1;
+  const rawStep = range / count;
+  const mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+  const niceSteps = [1, 2, 2.5, 5, 10];
+  const niceStep = mag * (niceSteps.find(s => s * mag >= rawStep) || 10);
+  const start = Math.ceil(yMin / niceStep) * niceStep;
+  const ticks = [];
+  for (let t = start; t <= yMax + niceStep * 0.01; t += niceStep) {
+    ticks.push(Math.round(t / niceStep) * niceStep);
+  }
+  return ticks;
+}
+
+function drawWaterfallSVG(containerId, data) {
+  const container = document.getElementById(containerId);
+  if (!container || !data) return;
+  const {steps} = data;
+  const W = Math.max(container.clientWidth || 700, 560);
+  const H = 390;
+  const mL = 76, mR = 16, mT = 28, mB = 94;
+  const chartW = W - mL - mR, chartH = H - mT - mB;
+  const n = steps.length;
+  const slotW = chartW / n;
+  const barW = Math.min(Math.max(slotW * 0.60, 18), 56);
+  const gapW = (slotW - barW) / 2;
+
+  let yMin = 0, yMax = 0;
+  for (const s of steps) {
+    yMin = Math.min(yMin, s.barBottom);
+    yMax = Math.max(yMax, s.barTop);
+  }
+  const pad = Math.max((yMax - yMin) * 0.18, 500);
+  yMin -= pad * 0.05;
+  yMax += pad;
+  const yRange = yMax - yMin;
+  const yToSVG = v => mT + (yMax - v) / yRange * chartH;
+  const yZero  = yToSVG(0);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Segoe UI,system-ui,sans-serif">`;
+  svg += `<clipPath id="wfc"><rect x="${mL}" y="${mT}" width="${chartW}" height="${chartH}"/></clipPath>`;
+
+  const incomeIdxs = steps.reduce((a,s,i)=>s.section==='income'?[...a,i]:a,[]);
+  const expenseIdxs = steps.reduce((a,s,i)=>s.section==='expense'?[...a,i]:a,[]);
+
+  if (incomeIdxs.length) {
+    const x1 = mL + incomeIdxs[0] * slotW;
+    const x2 = mL + (incomeIdxs[incomeIdxs.length-1]+1) * slotW;
+    svg += `<rect x="${x1}" y="${mT}" width="${x2-x1}" height="${chartH}" fill="rgba(134,239,172,0.16)" clip-path="url(#wfc)"/>`;
+  }
+  if (expenseIdxs.length) {
+    const x1 = mL + expenseIdxs[0] * slotW;
+    const x2 = mL + (expenseIdxs[expenseIdxs.length-1]+1) * slotW;
+    svg += `<rect x="${x1}" y="${mT}" width="${x2-x1}" height="${chartH}" fill="rgba(252,165,165,0.16)" clip-path="url(#wfc)"/>`;
+  }
+
+  const ticks = niceWfTicks(yMin, yMax, 5);
+  svg += `<g clip-path="url(#wfc)">`;
+  for (const t of ticks) {
+    const ty = yToSVG(t);
+    svg += `<line x1="${mL}" y1="${ty}" x2="${mL+chartW}" y2="${ty}" stroke="#e5e7eb" stroke-width="1"/>`;
+  }
+  svg += `</g>`;
+  for (const t of ticks) {
+    const ty = yToSVG(t);
+    if (ty >= mT - 6 && ty <= mT + chartH + 6) {
+      svg += `<text x="${mL-6}" y="${ty+4}" text-anchor="end" font-size="10" fill="#777">${fWF(t)}</text>`;
+    }
+  }
+
+  if (yZero >= mT && yZero <= mT + chartH) {
+    svg += `<line x1="${mL}" y1="${yZero}" x2="${mL+chartW}" y2="${yZero}" stroke="#999" stroke-width="1.5"/>`;
+  }
+
+  for (let i = 0; i < steps.length - 1; i++) {
+    const s = steps[i];
+    const x1 = mL + i * slotW + gapW + barW;
+    const x2 = mL + (i+1) * slotW + gapW;
+    const cy = yToSVG(s.runningAfter);
+    if (cy >= mT - 2 && cy <= mT + chartH + 2) {
+      svg += `<line x1="${x1}" y1="${cy}" x2="${x2}" y2="${cy}" stroke="#bbb" stroke-width="1" stroke-dasharray="3,2"/>`;
+    }
+  }
+
+  for (let i = 0; i < steps.length; i++) {
+    const s = steps[i];
+    const barX  = mL + i * slotW + gapW;
+    const barTop = Math.max(yToSVG(s.barTop), mT);
+    const barBot = Math.min(yToSVG(s.barBottom), mT + chartH);
+    const barH2 = Math.max(barBot - barTop, 2);
+    const fill = s.type === 'total' ? '#13545E' : (s.favorable ? '#22a06b' : '#e5493a');
+    svg += `<rect x="${barX}" y="${barTop}" width="${barW}" height="${barH2}" fill="${fill}" rx="2"/>`;
+
+    const labelTxt = fWF(s.value);
+    const cx = barX + barW / 2;
+    const labelY = s.value >= 0 ? Math.max(barTop - 5, mT + 10) : barBot + 12;
+    const labelColor = s.type === 'total' ? '#0E3D45' : (s.favorable ? '#155C2C' : '#7F1D1D');
+    svg += `<text x="${cx}" y="${labelY}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${labelColor}">${labelTxt}</text>`;
+  }
+
+  for (let i = 0; i < steps.length; i++) {
+    const s = steps[i];
+    const lx = mL + i * slotW + slotW / 2;
+    const ly = mT + chartH + 10;
+    const isBold = s.type === 'total';
+    svg += `<text transform="translate(${lx},${ly}) rotate(-40)" text-anchor="end" font-size="10" fill="${isBold?'#13545E':'#444'}" font-weight="${isBold?'700':'400'}">${s.label}</text>`;
+  }
+
+  if (incomeIdxs.length) {
+    const x1 = mL + incomeIdxs[0] * slotW;
+    const x2 = mL + (incomeIdxs[incomeIdxs.length-1]+1) * slotW;
+    svg += `<text x="${(x1+x2)/2}" y="${H-6}" text-anchor="middle" font-size="10" font-weight="700" fill="#166534" letter-spacing="0.04em">Income Line Item Variance</text>`;
+  }
+  if (expenseIdxs.length) {
+    const x1 = mL + expenseIdxs[0] * slotW;
+    const x2 = mL + (expenseIdxs[expenseIdxs.length-1]+1) * slotW;
+    svg += `<text x="${(x1+x2)/2}" y="${H-6}" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b" letter-spacing="0.04em">Expense Line Item Variance</text>`;
+  }
+
+  svg += `</svg>`;
+  container.innerHTML = svg;
+}
+
+/* ═══════════════ WATERFALL RENDER ═══════════════ */
+function renderWaterfallPage() {
+  const closed = CLOSED();
+  if (closed.length === 0) {
+    document.getElementById('app').innerHTML =
+      `<div class="no-data">No financial data loaded yet.<br><br><a href="/admin">Go to Admin &rarr;</a> to upload data.</div>`;
+    return;
+  }
+  if (!wfSEL || !hasActuals(wfSEL)) wfSEL = LAST();
+
+  const mLabel = M_FULL[wfSEL] ? M_FULL[wfSEL] + ' ' + DATA_YEAR : wfSEL;
+  const dEl = document.getElementById('topbar-dates');
+  if (dEl) dEl.innerHTML = `<div>Budget Waterfall: ${mLabel}</div>`;
+
+  const monthBtns = closed.map(m =>
+    `<button class="${m===wfSEL?'active':''}" onclick="setWfMonth('${m}')">${M_LABEL[m]}</button>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = `
+    <div class="controls-bar">
+      <span class="ctrl-label">${PROPERTY}</span>
+      <div class="cap-group">
+        <span class="cap-lbl">Month</span>
+        <div class="seg-btn">${monthBtns}</div>
+      </div>
+      <div class="cap-group">
+        <span class="cap-lbl">View</span>
+        <div class="seg-btn">
+          <button id="wf-btn-amt" class="${!wfPerUnit?'active':''}" onclick="setWfMode(false)">Total</button>
+          <button id="wf-btn-pu"  class="${wfPerUnit?'active':''}"  onclick="setWfMode(true)">Per Unit</button>
+        </div>
+      </div>
+    </div>
+    <div class="wf-chart-wrap"><div id="wf-chart"></div></div>
+    <div class="wf-table-wrap">
+      <table class="wf-table">
+        <thead><tr>
+          <th style="text-align:left">Category</th>
+          <th>Actual</th><th>Budget</th><th>Variance</th><th>F/U</th>
+        </tr></thead>
+        <tbody id="wf-tbody"></tbody>
+      </table>
+    </div>`;
+
+  setTimeout(() => {
+    const data = buildWaterfallData(wfSEL, wfPerUnit);
+    drawWaterfallSVG('wf-chart', data);
+    renderWfTable(data);
+  }, 0);
+}
+
+function renderWfTable(data) {
+  if (!data) return;
+  const {a, b, n} = data;
+  const pu = v => v / n;
+  const fmt = v => {
+    if (Math.abs(v||0) < 0.005) return '\u2014';
+    const s = Math.round(Math.abs(v)).toLocaleString('en-US');
+    return v < 0 ? '('+s+')' : s;
+  };
+  const varFmt = (av, bv, isIncome) => {
+    const d = av - bv;
+    const fav = isIncome ? d > 0 : d < 0;
+    if (Math.abs(d) < 0.005) return {str:'\u2014', fav:null};
+    const s = Math.round(Math.abs(d)).toLocaleString('en-US');
+    return {str: d < 0 ? '('+s+')' : s, fav};
+  };
+  const badge = f => f === null
+    ? '<span class="wf-neutral">\u2014</span>'
+    : f ? '<span class="wf-fav">F</span>' : '<span class="wf-unfav">U</span>';
+
+  let html = '';
+  html += `<tr class="wf-section-hdr" style="color:#166534"><td colspan="5">Income</td></tr>`;
+  for (const item of WF_INCOME_ITEMS) {
+    const av = pu(a[item.key]||0), bv = pu(b[item.key]||0);
+    if (Math.abs(av) < 0.005 && Math.abs(bv) < 0.005) continue;
+    const vf = varFmt(av, bv, true);
+    html += `<tr><td style="padding-left:20px">${item.label}</td><td>${fmt(av)}</td><td>${fmt(bv)}</td><td>${vf.str}</td><td>${badge(vf.fav)}</td></tr>`;
+  }
+  const egiVar = varFmt(pu(a.egi), pu(b.egi), true);
+  html += `<tr class="wf-subtotal"><td>Effective Gross Income</td><td>${fmt(pu(a.egi))}</td><td>${fmt(pu(b.egi))}</td><td>${egiVar.str}</td><td>${badge(egiVar.fav)}</td></tr>`;
+
+  html += `<tr class="wf-section-hdr" style="color:#991b1b"><td colspan="5">Expenses</td></tr>`;
+  for (const item of WF_EXPENSE_ITEMS) {
+    const av = pu(a[item.key]||0), bv = pu(b[item.key]||0);
+    if (Math.abs(av) < 0.005 && Math.abs(bv) < 0.005) continue;
+    const vf = varFmt(av, bv, false);
+    html += `<tr><td style="padding-left:20px">${item.label}</td><td>${fmt(av)}</td><td>${fmt(bv)}</td><td>${vf.str}</td><td>${badge(vf.fav)}</td></tr>`;
+  }
+  const opexVar = varFmt(pu(a.opex), pu(b.opex), false);
+  html += `<tr class="wf-subtotal"><td>Total Operating Expenses</td><td>${fmt(pu(a.opex))}</td><td>${fmt(pu(b.opex))}</td><td>${opexVar.str}</td><td>${badge(opexVar.fav)}</td></tr>`;
+
+  const noiVar = varFmt(pu(a.noi), pu(b.noi), true);
+  html += `<tr class="wf-total"><td>Net Operating Income</td><td>${fmt(pu(a.noi))}</td><td>${fmt(pu(b.noi))}</td><td>${noiVar.str}</td><td>${badge(noiVar.fav)}</td></tr>`;
+
+  document.getElementById('wf-tbody').innerHTML = html;
+}
+
+window.setWfMonth = function(m) { wfSEL = m; renderWaterfallPage(); };
+window.setWfMode  = function(pu) { wfPerUnit = pu; renderWaterfallPage(); };
 
 /* ═══════════════ INIT ═══════════════ */
 async function init(){

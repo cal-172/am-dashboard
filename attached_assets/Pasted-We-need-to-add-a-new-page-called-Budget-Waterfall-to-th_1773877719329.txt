@@ -1,0 +1,280 @@
+We need to add a new page called "Budget Waterfall" to the Asset Management Dashboard.
+
+This should be a separate page accessible from the left navigation, alongside "Actual vs Budget".
+
+GOAL
+Build a Budget Waterfall page that visually replicates the attached Excel-style waterfall chart and allows the user to filter by month, limited only to months where Actuals exist.
+
+IMPORTANT
+Do not redesign the overall app shell. Reuse the current layout pattern:
+- same left navigation
+- same top toolbar style
+- same page styling / colors / typography
+- same property context
+
+This is a new page and chart feature, not a rebuild of the current dashboard.
+
+--------------------------------------------------
+PAGE REQUIREMENTS
+--------------------------------------------------
+
+Create a new page titled:
+
+Budget Waterfall
+
+Add this page to the left navigation:
+- Actual vs Budget
+- Budget Waterfall
+
+Highlight Budget Waterfall as active when selected.
+
+--------------------------------------------------
+TOP FILTER / HEADER AREA
+--------------------------------------------------
+
+At the top of the Budget Waterfall page, include:
+
+1. Property name
+2. Month selector
+3. Unit of Measurement toggle
+   - Total Amount
+   - Per Unit
+4. Optional subtitle showing selected month, for example:
+   Budget Waterfall: July 2025
+
+The month selector must only show months for which Actuals exist.
+
+Example:
+If actual data exists for Jan 2026 and Feb 2026 only, only those months should appear in the dropdown or toggle.
+
+Do not show future months or budget-only months with no actuals.
+
+--------------------------------------------------
+CHART OBJECTIVE
+--------------------------------------------------
+
+Build a waterfall chart that explains the variance from Budget NOI to Actual NOI for the selected month.
+
+The chart should start with:
+- Budget NOI
+
+Then show individual favorable/unfavorable variance contributions by line item.
+
+Then end with:
+- Actual NOI
+
+This should visually bridge:
+Budget NOI → line item variances → Actual NOI
+
+--------------------------------------------------
+WATERFALL STRUCTURE
+--------------------------------------------------
+
+The chart should be structured in this order:
+
+1. Starting total:
+- Budget NOI
+
+2. Income variance section
+Include these line items if present:
+- Rental Income / Potential Rental Income
+- Vacancy Loss
+- Loss to Lease
+- Model / Admin
+- Concessions
+- Bad Debt
+- RUBS / Utility Reimbursement
+- Other Income
+
+3. Expense variance section
+Include these line items if present:
+- Payroll
+- Contract Services
+- Utilities
+- General & Administrative
+- Marketing / Advertising
+- Repairs & Maintenance
+- Make Ready
+- Management Fees / Asset Management Fee
+- Taxes
+- Insurance
+- Other operating expense categories as mapped
+
+4. Ending total:
+- Actual NOI
+
+If a category is missing or zero for the selected month, omit it from the chart unless we explicitly want to show zero-value categories.
+
+--------------------------------------------------
+CALCULATION LOGIC
+--------------------------------------------------
+
+For the selected month:
+
+Budget NOI = Budget Effective Gross Income - Budget Operating Expenses
+
+Actual NOI = Actual Effective Gross Income - Actual Operating Expenses
+
+Each waterfall step should represent the variance contribution of that line item versus budget.
+
+Variance logic:
+- Favorable variance should move the chart in the positive direction
+- Unfavorable variance should move the chart in the negative direction
+
+Income logic:
+- Actual above Budget = favorable
+- Actual below Budget = unfavorable
+
+Expense logic:
+- Actual below Budget = favorable
+- Actual above Budget = unfavorable
+
+Normalize the variance signs so the waterfall tells a clean story from Budget NOI to Actual NOI.
+
+The sum of all variance steps must reconcile exactly:
+
+Budget NOI + sum(all normalized variance steps) = Actual NOI
+
+This reconciliation is critical.
+
+--------------------------------------------------
+CHART DESIGN REQUIREMENTS
+--------------------------------------------------
+
+Replicate the visual intent of the attached chart.
+
+Use these chart design principles:
+
+1. Waterfall chart layout
+- Start bar = Budget NOI
+- End bar = Actual NOI
+- Middle bars = variance contributors
+
+2. Color scheme
+- Favorable increase = green
+- Unfavorable decrease = red/orange
+- Start/end total bars = dark teal
+
+3. Visual grouping
+Split the middle bars into two labeled sections:
+- Income Line Item Variance
+- Expense Line Item Variance
+
+This can be done with:
+- background shading bands
+- section labels beneath or above chart
+- clear visual separation between income and expense blocks
+
+4. Data labels
+Show dollar labels on bars
+Use parentheses for negatives if consistent with app style
+
+5. Axis / formatting
+- Clean institutional style
+- Minimal clutter
+- No excessive gridlines
+- Labels readable without feeling crowded
+
+6. Responsiveness
+- Chart should resize cleanly within page container
+- On smaller screens, support horizontal scrolling if necessary rather than crushing labels
+
+--------------------------------------------------
+FILTERING / DATA RULES
+--------------------------------------------------
+
+Month selector behavior:
+- populate only from months where actuals are available
+- default to latest available month
+- when month changes, recompute the entire waterfall
+
+Unit of Measurement toggle:
+- Total Amount
+- Per Unit
+
+If Per Unit is selected:
+- divide Budget NOI, Actual NOI, and all variance line items by unit count
+- chart labels and axis should reflect per-unit values
+- reconciliation must still hold:
+  Budget NOI per unit + variance steps per unit = Actual NOI per unit
+
+--------------------------------------------------
+DATA SOURCE / MAPPING
+--------------------------------------------------
+
+Use the same mapped category structure already established in the dashboard.
+
+Leverage existing mappings wherever possible.
+
+This page should pull from the same parsed Actual and Budget data model.
+
+If needed, create a transformation layer specifically for the waterfall chart that:
+- identifies income variance lines
+- identifies expense variance lines
+- normalizes signs for chart storytelling
+- outputs chart-ready ordered steps
+
+Suggested structure:
+
+{
+  month: "2025-07",
+  unitMode: "total" | "perUnit",
+  startTotal: {...},
+  incomeSteps: [...],
+  expenseSteps: [...],
+  endTotal: {...}
+}
+
+--------------------------------------------------
+NAVIGATION / UX
+--------------------------------------------------
+
+Add "Budget Waterfall" to the left nav.
+
+Expected page flow:
+- User clicks Budget Waterfall
+- Page loads latest available month
+- Chart displays Budget NOI to Actual NOI bridge
+- User changes month
+- Chart updates instantly
+
+Optional but recommended:
+Below the chart, include a compact variance summary table showing:
+- line item
+- actual
+- budget
+- variance
+- favorable/unfavorable flag
+
+This helps validate the chart.
+
+--------------------------------------------------
+VALIDATION / ACCEPTANCE CRITERIA
+--------------------------------------------------
+
+This feature is complete when:
+
+1. There is a new page called Budget Waterfall
+2. It appears in left navigation
+3. User can select only months with actual data
+4. Waterfall starts at Budget NOI
+5. Waterfall ends at Actual NOI
+6. Income and expense variance items bridge correctly between the two
+7. Favorable and unfavorable signs are normalized correctly
+8. Total reconciliation is exact
+9. Page supports Total Amount and Per Unit
+10. Chart visually resembles the attached Excel example in structure and intent
+
+--------------------------------------------------
+IMPLEMENTATION NOTES
+--------------------------------------------------
+
+Please:
+1. Reuse existing app layout and styles
+2. Reuse existing mapped financial data
+3. Create a clean chart-ready transformation
+4. Build the new page and navigation entry
+5. Verify reconciliation logic carefully
+6. Keep the UI polished and readable
+
+Do not make unrelated changes to the Actual vs Budget page.
