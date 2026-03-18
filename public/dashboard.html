@@ -138,15 +138,16 @@ const Q_START={1:'jan',2:'apr',3:'jul',4:'oct'};
 const M_LABEL={jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',jun:'Jun',jul:'Jul',aug:'Aug',sep:'Sep',oct:'Oct',nov:'Nov',dec:'Dec'};
 const M_FULL={jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
 
-function CLOSED(){ return ALL_MONTHS.filter(m=>RAW[m]); }
+function hasActuals(m){ return RAW[m] && Object.values(RAW[m].a||{}).some(v=>Math.abs(v||0)>0); }
+function CLOSED(){ return ALL_MONTHS.filter(m=>hasActuals(m)); }
 function LAST(){ const c=CLOSED(); return c[c.length-1]; }
-function mRange(from,to){ const fi=ALL_MONTHS.indexOf(from),ti=ALL_MONTHS.indexOf(to); return ALL_MONTHS.slice(fi,ti+1).filter(m=>RAW[m]); }
-function qtdMonths(){ return mRange(Q_START[M_QUARTER[LAST()]],LAST()); }
-function ytdMonths(){ return mRange('jan',LAST()); }
+function mRange(from,to){ const fi=ALL_MONTHS.indexOf(from),ti=ALL_MONTHS.indexOf(to); return ALL_MONTHS.slice(fi,ti+1).filter(m=>hasActuals(m)); }
+function qtdMonths(sel){ return mRange(Q_START[M_QUARTER[sel]],sel); }
+function ytdMonths(sel){ return mRange('jan',sel); }
 const mlbl=m=>(M_FULL[m]||m)+' '+DATA_YEAR;
 const rangeLbl=ms=>ms.length===1?M_LABEL[ms[0]]:M_LABEL[ms[0]]+'\u2013'+M_LABEL[ms[ms.length-1]];
-const qlbl=()=>'Q'+M_QUARTER[LAST()]+' '+DATA_YEAR+' ('+rangeLbl(qtdMonths())+')';
-const ylbl=()=>'YTD '+DATA_YEAR+' ('+rangeLbl(ytdMonths())+')';
+const qlbl=(sel)=>'Q'+M_QUARTER[sel]+' '+DATA_YEAR+' ('+rangeLbl(qtdMonths(sel))+')';
+const ylbl=(sel)=>'YTD '+DATA_YEAR+' ('+rangeLbl(ytdMonths(sel))+')';
 
 const KEYS=['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
 
@@ -324,7 +325,7 @@ function renderApp(){
       </table>
     </div>
     <div class="footer">
-      <p><span class="flag">&#9888; NOTE</span> Only closed months are included. QTD & YTD reflect all available closed data.</p>
+      <p><span class="flag">&#9888; NOTE</span> Only months with actuals are included. QTD & YTD reflect data through the selected month. Budget is compared against the same months as actuals.</p>
       <p>Source: RealPage (1163_rr) &middot; Accrual Basis &middot; Updated: ${updatedStr}</p>
     </div>`;
 
@@ -378,8 +379,8 @@ function renderThead(m){
   <tr>
     <th class="th-blank">Category</th>
     <th class="th-period" colspan="4">${mlbl(m)}</th>
-    <th class="th-period" colspan="3">${qlbl()}</th>
-    <th class="th-period" colspan="3">${ylbl()}</th>
+    <th class="th-period" colspan="3">${qlbl(m)}</th>
+    <th class="th-period" colspan="3">${ylbl(m)}</th>
   </tr>
   <tr>
     <th class="sh sh-cat">Category</th>
@@ -394,8 +395,9 @@ function renderTbody(m){
   Object.keys(RAW).forEach(k=>deriveMonth(RAW[k].a,RAW[k].b));
   const C=RAW[m];
   const pi=ALL_MONTHS.indexOf(m)-1;
-  const P=(pi>=0&&RAW[ALL_MONTHS[pi]])?RAW[ALL_MONTHS[pi]]:null;
-  const qtdMs=qtdMonths(),ytdMs=ytdMonths();
+  const prevM=ALL_MONTHS[pi];
+  const P=(pi>=0&&hasActuals(prevM))?RAW[prevM]:null;
+  const qtdMs=qtdMonths(m),ytdMs=ytdMonths(m);
   const Q=buildPeriod(qtdMs),Y=buildPeriod(ytdMs);
   const nC=1,nQ=qtdMs.length,nY=ytdMs.length;
   const pu=(v,n)=>viewMode==='perunit'?toPerUnit(v,n):v;
