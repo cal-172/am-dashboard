@@ -32,7 +32,7 @@ html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans
 
 /* ── TABLE WRAPPER ── */
 .tbl-container{width:100%;max-width:1200px;margin:0 auto;padding:0 10px}
-.tbl-wrap{overflow-x:auto;overflow-y:clip;border-radius:3px;box-shadow:0 1px 8px rgba(0,0,0,.15)}
+.tbl-wrap{overflow-x:auto;border-radius:3px;box-shadow:0 1px 8px rgba(0,0,0,.15)}
 table{width:100%;border-collapse:collapse}
 col.c-cat{width:clamp(180px,20vw,260px)}
 col.c-mom{width:clamp(70px,8vw,95px)}
@@ -60,7 +60,7 @@ th.th-caprate{background:#0D3D45;color:#fff;text-align:center;padding:5px 6px;bo
 
 th.th-blank{background:#13545E;padding:4px 8px;font-size:8.5px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.06em;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
 th.th-period{background:#13545E;color:#fff;text-align:center;padding:5px 8px;font-size:11px;font-weight:700;border-left:2px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.1)}
-th.sh{background:#1A6B72;color:rgba(255,255,255,.9);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 6px;text-align:right;border-bottom:2px solid #0D3D45;position:sticky;top:0;z-index:5}
+th.sh{background:#1A6B72;color:rgba(255,255,255,.9);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 6px;text-align:right;border-bottom:2px solid #0D3D45}
 th.sh-cat{text-align:left}
 th.sh-sep{border-left:2px solid rgba(255,255,255,.2)}
 
@@ -401,6 +401,50 @@ window.unitsBlur=function(el){
   renderTbody(SEL);
 };
 
+let _stickyOff=null;
+function setupStickyHeader(){
+  if(_stickyOff){_stickyOff();_stickyOff=null;}
+  const tblWrap=document.querySelector('.tbl-wrap');
+  const mainTable=document.getElementById('main-table');
+  const thead=document.getElementById('thead');
+  if(!tblWrap||!mainTable||!thead)return;
+  const shRow=thead.querySelector('tr:last-child');
+  if(!shRow)return;
+  const old=document.getElementById('sticky-sh');
+  if(old)old.remove();
+  const wrap=document.createElement('div');
+  wrap.id='sticky-sh';
+  wrap.style.cssText='position:fixed;top:0;z-index:200;display:none;overflow:hidden;pointer-events:none';
+  const tbl=document.createElement('table');
+  tbl.style.cssText='border-collapse:collapse;table-layout:fixed';
+  const cg=mainTable.querySelector('colgroup');
+  if(cg)tbl.appendChild(cg.cloneNode(true));
+  const th=document.createElement('thead');
+  th.appendChild(shRow.cloneNode(true));
+  tbl.appendChild(th);
+  wrap.appendChild(tbl);
+  document.body.appendChild(wrap);
+  function update(){
+    const wr=tblWrap.getBoundingClientRect();
+    const sr=shRow.getBoundingClientRect();
+    wrap.style.left=wr.left+'px';
+    wrap.style.width=wr.width+'px';
+    tbl.style.width=mainTable.offsetWidth+'px';
+    tbl.style.transform='translateX('+(-tblWrap.scrollLeft)+'px)';
+    wrap.style.display=sr.top<0?'block':'none';
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  tblWrap.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update,{passive:true});
+  update();
+  _stickyOff=function(){
+    window.removeEventListener('scroll',update);
+    tblWrap.removeEventListener('scroll',update);
+    window.removeEventListener('resize',update);
+    wrap.remove();
+  };
+}
+
 function renderThead(m){
   const updatedStr=UPDATED_AT?new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'N/A';
   document.getElementById('thead').innerHTML=`
@@ -425,6 +469,7 @@ function renderThead(m){
     <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
     <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
   </tr>`;
+  setupStickyHeader();
 }
 
 function renderTbody(m){
