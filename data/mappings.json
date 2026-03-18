@@ -288,5 +288,25 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T20:02:37.525Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "4b659032-7005-486e-84c1-864b7a26dde8",
+    "sourceCode": "1195-9999",
+    "sourceLabel": "TOTAL LAUNDRY INCOME",
+    "dashboardKey": "oi",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:23:52.126Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7391fa98-16df-4b7f-af61-d63e5b8dab1a",
+    "sourceCode": "3350-9999",
+    "sourceLabel": "TOTAL PROFESSIONAL FEES",
+    "dashboardKey": "ga",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T20:23:52.126Z",
+    "confirmedBy": "admin"
   }
 ]

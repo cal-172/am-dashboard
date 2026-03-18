@@ -12,7 +12,8 @@ const PORT = 5000;
 const DATA_FILE     = path.join(__dirname, 'data', 'financial.json');
 const USERS_FILE    = path.join(__dirname, 'data', 'users.json');
 const UPLOADS_FILE  = path.join(__dirname, 'data', 'uploads.json');
-const MAPPINGS_FILE = path.join(__dirname, 'data', 'mappings.json');
+const MAPPINGS_FILE   = path.join(__dirname, 'data', 'mappings.json');
+const SEEN_ROWS_FILE  = path.join(__dirname, 'data', 'seen_rows.json');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -39,12 +40,31 @@ function writeJSON(file, data) {
 function readData()     { return readJSON(DATA_FILE,     { property: 'Regatta — 1163_rr', year: 2026, months: {}, updatedAt: new Date().toISOString() }); }
 function readUsers()    { return readJSON(USERS_FILE,    []); }
 function readUploads()  { return readJSON(UPLOADS_FILE,  []); }
-function readMappings() { return readJSON(MAPPINGS_FILE, []); }
+function readMappings()  { return readJSON(MAPPINGS_FILE,  []); }
+function readSeenRows() { return readJSON(SEEN_ROWS_FILE, []); }
 
 function writeData(d)      { d.updatedAt = new Date().toISOString(); writeJSON(DATA_FILE, d); }
 function writeUsers(u)     { writeJSON(USERS_FILE, u); }
 function writeUploads(u)   { writeJSON(UPLOADS_FILE, u); }
 function writeMappings(m)  { writeJSON(MAPPINGS_FILE, m); }
+function writeSeenRows(r)  { writeJSON(SEEN_ROWS_FILE, r); }
+
+/* Record every code+label pair encountered in a parsed file */
+function updateSeenRows(parsedRows) {
+  const existing = readSeenRows();
+  const now = new Date().toISOString();
+  for (const row of parsedRows) {
+    const code  = String(row.code  || '').trim();
+    const label = String(row.label || '').trim();
+    if (!label) continue;
+    let idx = -1;
+    if (code) idx = existing.findIndex(e => String(e.code || '').trim() === code);
+    if (idx < 0) idx = existing.findIndex(e => !String(e.code || '').trim() && cleanStr(e.label) === cleanStr(label));
+    if (idx >= 0) { existing[idx].label = label; existing[idx].lastSeen = now; }
+    else existing.push({ code, label, firstSeen: now, lastSeen: now });
+  }
+  writeSeenRows(existing);
+}
 
 /* ── Bootstrap initial admin user ── */
 async function initUsers() {
@@ -159,6 +179,7 @@ app.post('/api/upload/parse', requireAuth, requireAdmin, upload.single('file'), 
     const result       = parseRealPageWorkbook(workbook, fileType, savedMappings);
     result.originalName = req.file.originalname;
     result.fileType     = fileType;
+    updateSeenRows(result.rows);
     res.json(result);
   } catch (e) { res.status(500).json({ error: 'Parse error: ' + e.message }); }
 });
@@ -255,6 +276,29 @@ app.post('/api/mappings/bulk', requireAuth, requireAdmin, (req, res) => {
 app.delete('/api/mappings/:id', requireAuth, requireAdmin, (req, res) => {
   writeMappings(readMappings().filter(m => m.id !== req.params.id));
   res.json({ success: true });
+});
+
+/* All seen code+label rows merged with current mappings */
+app.get('/api/seen-rows', requireAuth, requireAdmin, (req, res) => {
+  const seenRows = readSeenRows();
+  const mappings = readMappings();
+  const result = seenRows.map(row => {
+    const codeStr = String(row.code || '').trim();
+    let mapping = null;
+    if (codeStr) mapping = mappings.find(m => m.sourceCode && String(m.sourceCode).trim() === codeStr);
+    if (!mapping) mapping = mappings.find(m => cleanStr(m.sourceLabel) === cleanStr(row.label));
+    return {
+      code:        row.code || '',
+      label:       row.label,
+      firstSeen:   row.firstSeen,
+      lastSeen:    row.lastSeen,
+      dashboardKey: mapping ? mapping.dashboardKey : null,
+      mappingId:    mapping ? mapping.id : null,
+      savedBy:      mapping ? mapping.confirmedBy : null,
+      savedAt:      mapping ? mapping.confirmedAt : null
+    };
+  });
+  res.json(result);
 });
 
 /* API: save-parsed kept for backward compat */
