@@ -1136,15 +1136,32 @@ async function commitUpload() {
     showAlert('upload-alert','warn','Please select at least one month to save.');
     return;
   }
-  const filteredMonths = {};
-  for (const m of selected) filteredMonths[m] = parsedData.months[m];
+
+  // Build raw row list — only valid, non-excluded rows; monthValues trimmed to selected months
+  const selectedSet = new Set(selected);
+  const rowsToCommit = parsedRows
+    .filter(r => r.key && !r.excluded && r.key !== '_exclude' && r.key !== '_header')
+    .map(r => ({
+      code:  r.code  || '',
+      label: r.label || '',
+      key:   r.key,
+      monthValues: Object.fromEntries(
+        Object.entries(r.monthValues || {}).filter(([m]) => selectedSet.has(m))
+      )
+    }))
+    .filter(r => Object.keys(r.monthValues).length > 0);
+
+  if (!rowsToCommit.length) {
+    showAlert('upload-alert','warn','No mapped rows to save for the selected months.');
+    return;
+  }
 
   const btn = document.getElementById('btn-commit');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
     const res = await fetch('/api/upload/commit', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ months: filteredMonths, fileType: currentFileType, originalName: parsedData.originalName, sheetName: parsedData.sheetName })
+      body: JSON.stringify({ rows: rowsToCommit, fileType: currentFileType, originalName: parsedData.originalName, sheetName: parsedData.sheetName })
     });
     const d = await res.json();
     if (d.success) {
@@ -1191,7 +1208,7 @@ async function loadUploads() {
 }
 
 async function deleteUpload(id) {
-  if (!confirm('Remove this upload record? (Data already saved to the dashboard will not be affected)')) return;
+  if (!confirm('Remove this upload? This will delete its raw rows and remove its data from the dashboard.')) return;
   await fetch('/api/uploads/'+id, {method:'DELETE'});
   loadUploads();
 }

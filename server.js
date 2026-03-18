@@ -52,25 +52,20 @@ function writeSeenRows(r)  { writeJSON(SEEN_ROWS_FILE, r); }
 function readRawUploads()  { return readJSON(RAW_UPLOADS_FILE, []); }
 function writeRawUploads(r){ writeJSON(RAW_UPLOADS_FILE, r); }
 
-/* Re-aggregate all committed raw rows using current mapping rules.
-   Only months that have raw upload coverage are rewritten; others are left intact. */
-function reprocessAllData() {
+/* SUMIF aggregation — re-computes the months dict from raw stored rows and
+   current mapping rules. Called at read time so mapping changes are instant.
+   Uploads processed oldest→newest so newer uploads win for the same month. */
+function aggregateFromRawData() {
   const rawUploads    = readRawUploads().sort((a, b) => new Date(a.committedAt) - new Date(b.committedAt));
-  if (!rawUploads.length) return;
   const savedMappings = readMappings();
-
-  // Determine which months have raw coverage — only those will be updated
-  const rawMonths = new Set(rawUploads.flatMap(u => u.monthsCommitted || []));
-  const current   = readData();
-  const months    = { ...current.months };
-  for (const m of rawMonths) months[m] = { a: {}, b: {} }; // clear covered months
+  const months        = {};
 
   for (const upload of rawUploads) {
     const { fileType, rows, monthsCommitted } = upload;
-    const keyUsed = {}; // first-occurrence-wins within each upload
+    const keyUsed = {}; // first-occurrence-wins within each upload (dedup duplicate rows)
 
     for (const row of (rows || [])) {
-      // Apply current mappings; fall back to the original key stored at commit time
+      // Apply current mappings; fall back to the original key recorded at commit time
       const { key: resolved } = matchKeyWithConfidence(row.label, row.code, savedMappings);
       const validKey = k => k && k !== '_exclude' && k !== '_header';
       const key = validKey(resolved) ? resolved : (validKey(row.originalKey) ? row.originalKey : null);
@@ -96,8 +91,7 @@ function reprocessAllData() {
     }
   }
 
-  current.months = months;
-  writeData(current);
+  return months;
 }
 
 /* Record every code+label pair encountered in a parsed file */
@@ -192,7 +186,16 @@ app.get('/api/me', requireAuth, (req, res) => {
    API — FINANCIAL DATA
 ══════════════════════════════════════════════════════ */
 app.get('/api/data', requireAuth, (req, res) => {
-  res.json(readData());
+  const meta = readData(); // {property, year, updatedAt, months (legacy fallback)}
+  const rawUploads = readRawUploads();
+  if (rawUploads.length) {
+    // SUMIF approach: aggregate from raw rows using current mapping rules
+    const months = aggregateFromRawData();
+    res.json({ property: meta.property, year: meta.year, updatedAt: meta.updatedAt, months });
+  } else {
+    // Legacy fallback: serve pre-aggregated data already in financial.json
+    res.json(meta);
+  }
 });
 
 app.post('/api/data', requireAuth, requireAdmin, (req, res) => {
@@ -238,35 +241,44 @@ app.post('/api/upload/parse', requireAuth, requireAdmin, upload.single('file'), 
 /* Commit parsed data + record upload history */
 app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
   try {
-    const { months, fileType, originalName, sheetName } = req.body;
-    if (!months) return res.status(400).json({ error: 'No months data' });
+    const { rows, fileType, originalName, sheetName } = req.body;
+    if (!rows || !rows.length) return res.status(400).json({ error: 'No row data to commit' });
 
-    const current = readData();
-    const monthsAffected = [];
+    // Derive which months are covered by the committed rows
+    const monthsAffected = [...new Set(rows.flatMap(r => Object.keys(r.monthValues || {})))].sort();
+    const uploadId = uuidv4();
+    const now      = new Date().toISOString();
 
-    for (const [m, mdata] of Object.entries(months)) {
-      if (!current.months[m]) current.months[m] = { a: {}, b: {} };
-      if (fileType === 't12' || fileType === 'combined') {
-        Object.assign(current.months[m].a, mdata.a || {});
-      }
-      if (fileType === 'budget' || fileType === 'combined') {
-        Object.assign(current.months[m].b, mdata.b || {});
-      }
-      monthsAffected.push(m);
-    }
-    writeData(current);
+    // Store raw rows — this is the source of truth for SUMIF aggregation
+    const rawUploads = readRawUploads();
+    rawUploads.push({
+      id:               uploadId,
+      fileType,
+      originalName:     originalName || 'unknown',
+      committedAt:      now,
+      committedBy:      req.session.email,
+      monthsCommitted:  monthsAffected,
+      rows:             rows.map(r => ({
+        code:        r.code  || '',
+        label:       r.label || '',
+        originalKey: r.key   || null,
+        monthValues: r.monthValues || {}
+      }))
+    });
+    writeRawUploads(rawUploads);
 
+    // Update metadata timestamp in financial.json (keep property/year intact)
+    const meta = readData();
+    writeJSON(DATA_FILE, { property: meta.property, year: meta.year, updatedAt: now });
+
+    // Upload history log
     const uploads = readUploads();
     uploads.unshift({
-      id: uuidv4(),
-      originalName: originalName || 'unknown',
-      fileType,
-      sheetName: sheetName || '',
-      monthsAffected,
-      uploadedBy: req.session.email,
-      uploadedAt: new Date().toISOString()
+      id: uploadId, originalName: originalName || 'unknown', fileType,
+      sheetName: sheetName || '', monthsAffected,
+      uploadedBy: req.session.email, uploadedAt: now
     });
-    writeUploads(uploads.slice(0, 100)); // keep last 100
+    writeUploads(uploads.slice(0, 100));
 
     res.json({ success: true, monthsAffected });
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -277,10 +289,11 @@ app.get('/api/uploads', requireAuth, requireAdmin, (req, res) => {
   res.json(readUploads());
 });
 
-/* Delete an upload record (does not revert data) */
+/* Delete an upload record — removes raw rows too so SUMIF aggregation excludes it */
 app.delete('/api/uploads/:id', requireAuth, requireAdmin, (req, res) => {
-  const uploads = readUploads().filter(u => u.id !== req.params.id);
-  writeUploads(uploads);
+  const id = req.params.id;
+  writeUploads(readUploads().filter(u => u.id !== id));
+  writeRawUploads(readRawUploads().filter(r => r.id !== id));
   res.json({ success: true });
 });
 
