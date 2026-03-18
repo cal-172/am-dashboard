@@ -1808,5 +1808,245 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T21:44:01.253Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "91c162a5-5edd-4b97-97ce-4ae9632bfb84",
+    "sourceCode": "1105-5000",
+    "sourceLabel": "GARAGE INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4ad44b6f-682d-4760-a776-947a62c182d2",
+    "sourceCode": "1305-0060",
+    "sourceLabel": "PROTECTION PREMIUM",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "871997e4-06eb-4c94-9147-1ea328400396",
+    "sourceCode": "1307-5000",
+    "sourceLabel": "CLEANING INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1ade72dd-2096-453d-a838-9e0520d8ffe0",
+    "sourceCode": "1360-0000",
+    "sourceLabel": "INTEREST INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e0853cd6-60de-4a8c-9c78-d0b1512298d7",
+    "sourceCode": "1365-0015",
+    "sourceLabel": "Deposit Waiver Fee",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "99944ba6-95e9-46b0-ab9c-5c75d1db3705",
+    "sourceCode": "1365-0113",
+    "sourceLabel": "OTHER INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7b396334-4dc0-46bc-82bf-419d2bf203d4",
+    "sourceCode": "2050-0000",
+    "sourceLabel": "PHOTOCOPYING/PRINTING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "279dadbd-36cb-434c-ae06-bf1e544e815e",
+    "sourceCode": "2225-2040",
+    "sourceLabel": "P/R TAX-ADMIN",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6e90b3b8-5c9d-4143-8774-36190989c1f3",
+    "sourceCode": "2225-2045",
+    "sourceLabel": "P/R TAX-MAINT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f54c455a-ba32-4912-85fb-61fc41a64f12",
+    "sourceCode": "3226-2500",
+    "sourceLabel": "RESIDENT HOSPITALITY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "68495754-7016-46d0-b66c-92d2fa708381",
+    "sourceCode": "3250-0000",
+    "sourceLabel": "INTERNET ADVERTISING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e51bf78c-e5ca-42eb-9874-f87174c73c4a",
+    "sourceCode": "3250-0050",
+    "sourceLabel": "BRANDING EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9185e252-b062-46b8-899f-9383b7c423ee",
+    "sourceCode": "4030-0000",
+    "sourceLabel": "CABLE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "1d6fe640-e137-4d33-accb-fc1ddd620f0d",
+    "sourceCode": "6010-1500",
+    "sourceLabel": "CARPET REPAIR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f41f2e9f-582f-4de9-91e6-5323a3d6fcd2",
+    "sourceCode": "8107-0000",
+    "sourceLabel": "LABOR",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "45e5fda7-76a0-43fe-87b6-48dcf1957332",
+    "sourceCode": "8115-0000",
+    "sourceLabel": "FLOORING & WINDOW COVERINGS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "93e96653-904f-4edd-9655-dd5aa6f7d6d6",
+    "sourceCode": "8150-0000",
+    "sourceLabel": "INTERIOR REPAIRS & REPLACEMTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "133e2c7e-8539-4f8d-b42a-51af65402322",
+    "sourceCode": "8155-0000",
+    "sourceLabel": "LANDSCAPING UPGRADES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "09a57505-ceb9-4769-b29f-7e57e78dd28f",
+    "sourceCode": "8155-0025",
+    "sourceLabel": "TREE TRIMMING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "bbfa9a60-2720-4049-b07a-69746e906c8b",
+    "sourceCode": "8180-0000",
+    "sourceLabel": "POOL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d72f5bd8-2e0e-4a7f-9800-467e680febb0",
+    "sourceCode": "9095-9999",
+    "sourceLabel": "TOTAL NON-OPERATING EXPENSES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "54083ff4-e380-4c13-bfb5-445523d4de57",
+    "sourceCode": "9708-0050",
+    "sourceLabel": "UNIT CONVERSION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:51:56.989Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7daceda7-90f4-4135-a807-4d8a9c641f3b",
+    "sourceCode": "3240-0000",
+    "sourceLabel": "SHOPPING REPORTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:52:46.712Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "66c85c93-4b15-441c-8123-27a593a5f428",
+    "sourceCode": "3252-5000",
+    "sourceLabel": "TRADE SHOWS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T21:52:46.712Z",
+    "confirmedBy": "admin"
   }
 ]
