@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Regatta Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:13px;color:#1A2B2C;min-height:100%}
+.topbar{background:#13545E;color:#fff;padding:10px 20px;display:flex;align-items:center;gap:12px}
+.topbar-title{font-size:15px;font-weight:700}
+.topbar-sub{font-size:11px;opacity:.6}
+.topbar-nav{margin-left:auto;display:flex;gap:8px}
+.nav-btn{padding:5px 14px;font-size:11.5px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:3px;cursor:pointer;text-decoration:none;transition:background .15s}
+.nav-btn:hover{background:rgba(255,255,255,.2)}
+.nav-btn.primary{background:#fff;color:#13545E;font-weight:700}
+.nav-btn.primary:hover{background:#E8F5F6}
+
+.page{padding:20px;max-width:900px;margin:0 auto}
+h2{font-size:16px;color:#13545E;margin-bottom:4px;font-weight:700}
+.section-desc{font-size:12px;color:#4A6568;margin-bottom:16px}
+
+.card{background:#fff;border-radius:6px;box-shadow:0 1px 8px rgba(0,0,0,.12);padding:22px 24px;margin-bottom:20px}
+.card-title{font-size:13px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .badge{font-size:9px;background:#13545E;color:#fff;padding:2px 8px;border-radius:10px;letter-spacing:.06em;font-weight:700}
+
+.drop-zone{border:2px dashed #8BBFC7;border-radius:6px;padding:32px 20px;text-align:center;cursor:pointer;background:#F0F8F9;transition:all .15s;margin-bottom:14px}
+.drop-zone:hover,.drop-zone.drag{border-color:#13545E;background:#E2F0F2}
+.drop-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+.drop-text{font-size:13px;color:#13545E;font-weight:600}
+.drop-sub{font-size:11px;color:#6A8E91;margin-top:4px}
+
+input[type=file]{display:none}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;font-size:12.5px;font-family:inherit;font-weight:700;border:none;border-radius:4px;cursor:pointer;transition:background .15s}
+.btn-primary{background:#13545E;color:#fff}
+.btn-primary:hover{background:#0D3D45}
+.btn-primary:disabled{background:#8BBFC7;cursor:default}
+.btn-success{background:#166534;color:#A7F3D0}
+.btn-success:hover{background:#14532D}
+.btn-danger{background:#7F1D1D;color:#FCA5A5;font-size:11px;padding:5px 12px}
+.btn-danger:hover{background:#991B1B}
+.btn-outline{background:#fff;color:#13545E;border:1.5px solid #13545E}
+.btn-outline:hover{background:#E8F5F6}
+
+.alert{padding:10px 14px;border-radius:4px;font-size:12px;margin-bottom:14px;display:none}
+.alert.show{display:block}
+.alert-info{background:#E0F2FE;border:1px solid #7DD3FC;color:#0C4A6E}
+.alert-warn{background:#FFFBEB;border:1px solid #FCD34D;color:#92400E}
+.alert-error{background:#FEF2F2;border:1px solid #FCA5A5;color:#7F1D1D}
+.alert-success{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D}
+
+.parsed-preview{margin-top:14px;display:none}
+.parsed-preview.show{display:block}
+.month-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.month-tab{padding:5px 14px;font-size:11.5px;font-family:inherit;background:#E2F0F2;border:1px solid #8BBFC7;color:#13545E;border-radius:3px;cursor:pointer;font-weight:600}
+.month-tab.active{background:#13545E;color:#fff;border-color:#13545E}
+.mini-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.mini-table th{background:#1A6B72;color:#fff;padding:5px 8px;text-align:right;font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+.mini-table th:first-child{text-align:left}
+.mini-table td{padding:4px 8px;border-bottom:1px solid #D2E8EA;text-align:right;font-family:'Courier New',monospace}
+.mini-table td:first-child{text-align:left;font-family:inherit;color:#13545E}
+.mini-table tr:nth-child(even) td{background:#F5FAFB}
+.unmapped-list{font-size:11px;color:#92400E;font-family:'Courier New',monospace;margin-top:8px;list-style:disc;padding-left:18px}
+
+.stored-months{display:flex;gap:8px;flex-wrap:wrap}
+.month-chip{background:#E2F0F2;border:1px solid #8BBFC7;border-radius:4px;padding:6px 12px;font-size:12px;display:flex;align-items:center;gap:8px}
+.month-chip strong{color:#13545E;text-transform:capitalize}
+.empty-msg{font-size:12px;color:#6A8E91;font-style:italic}
+.sep{height:1px;background:#D2E8EA;margin:16px 0}
+
+.json-editor{width:100%;min-height:200px;font-family:'Courier New',monospace;font-size:11.5px;border:1.5px solid #B0CDD1;border-radius:4px;padding:10px;outline:none;resize:vertical;color:#1A2B2C}
+.json-editor:focus{border-color:#13545E}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div>
+    <div class="topbar-title">Regatta — 1163_rr</div>
+    <div class="topbar-sub">Admin Panel</div>
+  </div>
+  <div class="topbar-nav">
+    <a href="/" class="nav-btn primary">View Dashboard</a>
+    <form method="POST" action="/logout" style="display:inline">
+      <button type="submit" class="nav-btn">Sign Out</button>
+    </form>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- UPLOAD SECTION -->
+  <div class="card">
+    <div class="card-title">Upload RealPage Excel File <span class="badge">T12 Summary</span></div>
+    <div id="alert-upload" class="alert"></div>
+    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <div class="drop-icon">&#128196;</div>
+      <div class="drop-text">Drop Excel file here or click to browse</div>
+      <div class="drop-sub">.xlsx or .xls &mdash; RealPage T12 Summary vs Budget export</div>
+    </div>
+    <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
+    <div id="file-name" style="font-size:11.5px;color:#4A6568;margin-bottom:10px;display:none"></div>
+
+    <div id="parsed-preview" class="parsed-preview">
+      <div class="sep"></div>
+      <div style="font-size:12px;font-weight:700;color:#13545E;margin-bottom:8px">Parsed Data Preview</div>
+      <div id="alert-unmapped" class="alert alert-warn"></div>
+      <div id="alert-warnings" class="alert alert-warn"></div>
+      <div class="month-tabs" id="month-tabs"></div>
+      <div id="preview-table"></div>
+      <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+        <button class="btn btn-success" id="btn-save-upload" onclick="saveParsed()">
+          &#10003; Save to Dashboard
+        </button>
+        <button class="btn btn-outline" onclick="clearUpload()">Cancel</button>
+        <span id="save-status" style="font-size:11.5px;color:#166534;display:none">Saved successfully!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT DATA SECTION -->
+  <div class="card">
+    <div class="card-title">Stored Monthly Data</div>
+    <div id="stored-months-wrap">
+      <div class="empty-msg">Loading...</div>
+    </div>
+    <div class="sep"></div>
+
+    <!-- JSON EDITOR -->
+    <div style="font-size:12px;font-weight:700;color:#13545E;margin-bottom:6px">Manual JSON Editor</div>
+    <div style="font-size:11px;color:#6A8E91;margin-bottom:10px">
+      Edit the raw financial data directly. Each month requires <code>a</code> (actual) and <code>b</code> (budget) objects.
+    </div>
+    <div id="alert-json" class="alert"></div>
+    <textarea id="json-editor" class="json-editor" placeholder="Loading..."></textarea>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn btn-primary" onclick="saveJson()">Save Changes</button>
+      <button class="btn btn-outline" onclick="loadCurrentData()">Reload</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let parsedData = null;
+let currentData = null;
+let selectedPreviewMonth = null;
+const MONTH_LABELS = {jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
+const DATA_KEYS = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
+const KEY_LABELS = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Operating Expenses',noi:'Net Operating Income',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',ncf:'Net Cash Flow'};
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = 'alert alert-' + type + ' show';
+  el.innerHTML = msg;
+}
+function hideAlert(id) {
+  const el = document.getElementById(id);
+  el.className = 'alert';
+  el.innerHTML = '';
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  hideAlert('alert-upload');
+  const fn = document.getElementById('file-name');
+  fn.style.display = 'block';
+  fn.textContent = 'Parsing: ' + file.name + '...';
+
+  const fd = new FormData();
+  fd.append('file', file);
+
+  try {
+    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.error) { showAlert('alert-upload', 'error', 'Error: ' + data.error); fn.style.display='none'; return; }
+
+    fn.textContent = file.name + ' — sheet: "' + data.sheetName + '"';
+    parsedData = data;
+
+    const months = Object.keys(data.months);
+    if (months.length === 0) {
+      showAlert('alert-upload', 'warn', 'No monthly data found. Check the file format — see notes below.');
+      return;
+    }
+
+    showAlert('alert-upload', 'info', 'Parsed <strong>' + months.length + ' month(s)</strong>: ' + months.map(m => MONTH_LABELS[m] || m).join(', '));
+
+    if (data.warnings && data.warnings.length) {
+      showAlert('alert-warnings', 'warn', '<strong>Warnings:</strong> ' + data.warnings.join('; '));
+    } else hideAlert('alert-warnings');
+
+    if (data.unmapped && data.unmapped.length) {
+      showAlert('alert-unmapped', 'warn', '<strong>Unrecognized rows (not imported):</strong><ul class="unmapped-list">' + data.unmapped.slice(0,15).map(u=>'<li>'+escHtml(u)+'</li>').join('') + '</ul>');
+    } else hideAlert('alert-unmapped');
+
+    const preview = document.getElementById('parsed-preview');
+    preview.classList.add('show');
+
+    const tabs = document.getElementById('month-tabs');
+    tabs.innerHTML = '';
+    const allMonths = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+    const orderedMonths = allMonths.filter(m => months.includes(m));
+    orderedMonths.forEach((m, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'month-tab' + (i === 0 ? ' active' : '');
+      btn.textContent = MONTH_LABELS[m] || m;
+      btn.onclick = () => { selectedPreviewMonth = m; document.querySelectorAll('.month-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderPreviewTable(m); };
+      tabs.appendChild(btn);
+    });
+    selectedPreviewMonth = orderedMonths[0];
+    renderPreviewTable(selectedPreviewMonth);
+  } catch(e) {
+    showAlert('alert-upload', 'error', 'Upload failed: ' + e.message);
+    fn.style.display = 'none';
+  }
+}
+
+function fD(v) {
+  if (v === null || v === undefined || v === 0) return '—';
+  const s = Math.round(Math.abs(v)).toLocaleString('en-US');
+  return v < 0 ? '(' + s + ')' : s;
+}
+
+function renderPreviewTable(month) {
+  const md = parsedData.months[month];
+  if (!md) return;
+  let html = '<table class="mini-table"><thead><tr><th>Category</th><th>Actual</th><th>Budget</th></tr></thead><tbody>';
+  DATA_KEYS.forEach(k => {
+    const av = md.a[k];
+    const bv = md.b[k];
+    if (av === undefined && bv === undefined) return;
+    html += '<tr><td>' + (KEY_LABELS[k]||k) + '</td><td>' + fD(av) + '</td><td>' + fD(bv) + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('preview-table').innerHTML = html;
+}
+
+async function saveParsed() {
+  const btn = document.getElementById('btn-save-upload');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving...';
+  try {
+    const res = await fetch('/api/save-parsed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ months: parsedData.months })
+    });
+    const d = await res.json();
+    if (d.success) {
+      document.getElementById('save-status').style.display = 'inline';
+      setTimeout(() => { document.getElementById('save-status').style.display='none'; }, 3000);
+      loadCurrentData();
+    } else {
+      showAlert('alert-upload', 'error', 'Save failed: ' + (d.error || 'Unknown error'));
+    }
+  } catch(e) {
+    showAlert('alert-upload', 'error', 'Save failed: ' + e.message);
+  }
+  btn.disabled = false;
+  btn.innerHTML = '&#10003; Save to Dashboard';
+}
+
+function clearUpload() {
+  parsedData = null;
+  document.getElementById('parsed-preview').classList.remove('show');
+  document.getElementById('file-name').style.display = 'none';
+  document.getElementById('file-input').value = '';
+  hideAlert('alert-upload');
+  hideAlert('alert-unmapped');
+  hideAlert('alert-warnings');
+}
+
+async function loadCurrentData() {
+  const res = await fetch('/api/data');
+  currentData = await res.json();
+  renderStoredMonths();
+  document.getElementById('json-editor').value = JSON.stringify(currentData.months, null, 2);
+}
+
+function renderStoredMonths() {
+  const wrap = document.getElementById('stored-months-wrap');
+  const months = Object.keys(currentData.months || {});
+  if (months.length === 0) {
+    wrap.innerHTML = '<div class="empty-msg">No data stored yet. Upload a RealPage Excel file above.</div>';
+    return;
+  }
+  const allMonths = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  const ordered = allMonths.filter(m => months.includes(m));
+  wrap.innerHTML = '<div class="stored-months">' +
+    ordered.map(m => `<div class="month-chip"><strong>${MONTH_LABELS[m]||m} ${currentData.year||''}</strong><button class="btn btn-danger" onclick="deleteMonth('${m}')">✕</button></div>`).join('') +
+    '</div>';
+}
+
+async function deleteMonth(m) {
+  if (!confirm('Delete data for ' + (MONTH_LABELS[m]||m) + '? This cannot be undone.')) return;
+  await fetch('/api/data/month/' + m, { method: 'DELETE' });
+  loadCurrentData();
+}
+
+async function saveJson() {
+  hideAlert('alert-json');
+  let parsed;
+  try {
+    parsed = JSON.parse(document.getElementById('json-editor').value);
+  } catch(e) {
+    showAlert('alert-json', 'error', 'Invalid JSON: ' + e.message);
+    return;
+  }
+  try {
+    const res = await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ months: parsed })
+    });
+    const d = await res.json();
+    if (d.success) {
+      showAlert('alert-json', 'success', 'Data saved successfully.');
+      loadCurrentData();
+    } else {
+      showAlert('alert-json', 'error', 'Save failed: ' + (d.error || 'Unknown'));
+    }
+  } catch(e) {
+    showAlert('alert-json', 'error', 'Save failed: ' + e.message);
+  }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+loadCurrentData();
+</script>
+</body>
+</html>

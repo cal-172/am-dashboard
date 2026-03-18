@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T12 Summary vs Budget — Regatta</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:12px;color:#1A2B2C}
+.topbar{background:#0D3D45;color:#fff;padding:7px 14px;display:flex;align-items:center;gap:10px}
+.topbar-title{font-size:13px;font-weight:700;opacity:.9}
+.topbar-nav{margin-left:auto;display:flex;gap:6px}
+.top-btn{padding:4px 12px;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:3px;cursor:pointer;text-decoration:none;transition:background .15s}
+.top-btn:hover{background:rgba(255,255,255,.22)}
+.page{padding:10px 12px}
+
+/* ── CONTROLS BAR ── */
+.controls-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.ctrl-label{font-size:10px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;padding:4px 9px 4px 0;border-right:2px solid #13545E;margin-right:2px}
+.seg-btn{display:flex;border:1px solid #5A9EAA;border-radius:3px;overflow:hidden}
+.seg-btn button{padding:4px 13px;font-size:11px;font-family:inherit;background:#fff;border:none;cursor:pointer;color:#13545E;border-right:1px solid #5A9EAA;transition:background .1s}
+.seg-btn button:last-child{border-right:none}
+.seg-btn button.active{background:#13545E;color:#fff;font-weight:700}
+.seg-btn button:hover:not(.active){background:#E8F5F6}
+.ctrl-right{margin-left:auto;font-size:10.5px;color:#4A6568}
+.cap-group{display:flex;align-items:center;gap:6px;margin-left:12px;padding-left:12px;border-left:1px solid #5A9EAA}
+.cap-lbl{font-size:10px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.06em}
+.cap-input-ctrl{width:62px;padding:3px 6px;font-size:11.5px;font-family:'Courier New',monospace;font-weight:700;color:#13545E;background:#fff;border:1.5px solid #5A9EAA;border-radius:3px;text-align:right;outline:none}
+.cap-input-ctrl:focus{border-color:#13545E;box-shadow:0 0 0 2px rgba(19,84,94,.15)}
+.units-input{width:52px;padding:3px 6px;font-size:11.5px;font-family:'Courier New',monospace;font-weight:700;color:#13545E;background:#fff;border:1.5px solid #5A9EAA;border-radius:3px;text-align:right;outline:none}
+.units-input:focus{border-color:#13545E;box-shadow:0 0 0 2px rgba(19,84,94,.15)}
+
+/* ── TABLE WRAPPER ── */
+.tbl-wrap{overflow-x:auto;border-radius:3px;box-shadow:0 1px 8px rgba(0,0,0,.15)}
+table{width:100%;border-collapse:collapse;min-width:1060px;table-layout:fixed}
+col.c-cat{width:190px} col.c-mom{width:95px}
+col.c-act{width:90px} col.c-bud{width:90px} col.c-del{width:90px}
+col.c-q-act{width:90px} col.c-q-bud{width:90px} col.c-q-del{width:90px}
+col.c-y-act{width:90px} col.c-y-bud{width:90px} col.c-y-del{width:90px}
+th,td{padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+th.th-banner{background:#13545E;color:#fff;text-align:left;padding:7px 10px;vertical-align:middle}
+.th-prop{font-size:13.5px;font-weight:700}
+.th-sub{font-size:9.5px;opacity:.65;margin-top:2px}
+th.th-meta{background:#0D3D45;color:#fff;text-align:center;padding:5px 6px;border-left:1px solid rgba(255,255,255,.12);vertical-align:middle}
+.th-meta-lbl{font-size:7.5px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;margin-bottom:3px}
+.th-meta-val{font-size:12px;font-weight:700}
+th.th-caprate{background:#0D3D45;color:#fff;text-align:center;padding:5px 6px;border-left:1px solid rgba(255,255,255,.12);vertical-align:middle}
+.th-caprate-lbl{font-size:7.5px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;margin-bottom:4px}
+.th-caprate-inp{width:60px;padding:2px 5px;font-size:11.5px;font-family:'Courier New',monospace;font-weight:700;color:#13545E;background:#D6EDEF;border:1.5px solid #5A9EAA;border-radius:2px;text-align:center;outline:none;display:block;margin:0 auto}
+.th-caprate-inp:focus{border-color:#fff;background:#fff}
+
+th.th-blank{background:#13545E;padding:4px 8px;font-size:8.5px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.06em;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
+th.th-period{background:#13545E;color:#fff;text-align:center;padding:5px 8px;font-size:11px;font-weight:700;border-left:2px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.1)}
+th.sh{background:#1A6B72;color:rgba(255,255,255,.9);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 6px;text-align:right;border-bottom:2px solid #0D3D45}
+th.sh-cat{text-align:left}
+th.sh-sep{border-left:2px solid rgba(255,255,255,.2)}
+
+td.cat{text-align:left;padding:4.5px 8px;font-size:11.5px;color:#1A2B2C}
+td.cat.ind{padding-left:22px;color:#2C4446}
+td.num{text-align:right;padding:4.5px 7px;font-family:'Courier New',Courier,monospace;font-size:11px;color:#1A2B2C}
+td.mom-cell{text-align:center;padding:4.5px 3px;font-size:9.5px;color:#2C4446}
+td.del{text-align:right;padding:4.5px 7px;font-family:'Courier New',Courier,monospace;font-size:11px;font-weight:700}
+td.sep{border-left:2px solid #7BBAC3}
+td.sep-wh{border-left:2px solid rgba(255,255,255,.22)}
+
+tr.r-data td{background:#FFFFFF;border-bottom:1px solid #D2E8EA}
+tr.r-section td{background:#13545E;color:#FFFFFF;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-top:2px solid #0D3D45;border-bottom:1px solid #1A6B72}
+tr.r-spacer td{height:5px;background:#DCE8EA;border:none;padding:0}
+tr.r-spacer-sm td{height:2px;background:#D2E8EA;border:none;padding:0}
+tr.r-sub td{background:#CDE1E7;color:#1A2B2C;font-weight:700;font-size:11.5px;border-top:1.5px solid #8BBFC7;border-bottom:1.5px solid #8BBFC7;padding:4.5px 7px}
+tr.r-sub td.cat{font-family:inherit;padding-left:8px}
+tr.r-egi td{background:#13545E;color:#FFFFFF;font-weight:700;font-size:12px;border-top:2px solid #0D3D45;border-bottom:2px solid #0D3D45;padding:5.5px 7px}
+tr.r-egi td.cat{font-family:inherit;padding-left:8px}
+tr.r-noi td{background:#13545E;color:#FFFFFF;font-weight:700;font-size:12.5px;border-top:2px solid #0D3D45;border-bottom:2px solid #0D3D45;padding:6px 7px}
+tr.r-noi td.cat{font-family:inherit;padding-left:8px}
+tr.r-propval td{background:#FFFFFF;color:#3A5A5E;font-style:italic;font-size:10.5px;padding:3.5px 7px;border-top:1px solid #D2E8EA;border-bottom:1px solid #D2E8EA}
+tr.r-propval td.cat{font-family:inherit;padding-left:8px;padding-right:8px;font-style:italic;text-align:right}
+tr.r-section-lt td{background:#CDE1E7;color:#1A2B2C;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-top:1.5px solid #8BBFC7;border-bottom:1.5px solid #8BBFC7}
+tr.r-cfd td{background:#0F4A54;color:#FFFFFF;font-weight:700;font-size:12px;padding:5.5px 7px;border-top:1px solid #0D3D45;border-bottom:1px solid #0D3D45}
+tr.r-cfd td.cat{font-family:inherit;padding-left:8px}
+tr.r-btl td{background:#CDE1E7;color:#1A2B2C;font-weight:700;font-size:11.5px;border-top:1.5px solid #8BBFC7;border-bottom:1.5px solid #8BBFC7;padding:4.5px 7px}
+tr.r-btl td.cat{font-family:inherit;padding-left:8px}
+tr.r-net td{background:#0A3038;color:#FFFFFF;font-weight:700;font-size:12.5px;padding:6px 7px;border-top:2px solid #2A6068}
+tr.r-net td.cat{font-family:inherit;padding-left:8px}
+tr.r-metric td{background:#FFFFFF;color:#3A5A5E;font-style:italic;font-size:10.5px;padding:3px 7px;border-bottom:1px solid #D2E8EA}
+tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-align:right}
+
+.arr-up{color:#1A7030;font-size:9px}
+.arr-dn{color:#C02020;font-size:9px}
+.mom-v{font-family:'Courier New',monospace;font-size:9.5px;margin-left:1px}
+.mom-p{font-size:8.5px;opacity:.68;margin-left:1px}
+
+.footer{margin-top:8px;font-size:9.5px;color:#3A5A5E;padding:0 2px}
+.footer p{margin-bottom:2px;line-height:1.5}
+.flag{display:inline-block;background:#FFFBEB;border:1px solid #FCD34D;color:#92400E;border-radius:2px;padding:1px 5px;font-size:9px;margin-right:4px;font-weight:700}
+
+.no-data{padding:60px;text-align:center;color:#6A8E91;font-size:14px;background:#fff;border-radius:4px}
+.no-data a{color:#13545E;font-weight:700;text-decoration:none}
+.no-data a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-title">Regatta — 1163_rr &nbsp;|&nbsp; Financial Dashboard</div>
+  <div class="topbar-nav">
+    <a href="/admin" class="top-btn">Admin</a>
+    <form method="POST" action="/logout" style="display:inline">
+      <button type="submit" class="top-btn">Sign Out</button>
+    </form>
+  </div>
+</div>
+
+<div class="page" id="app">
+  <div class="no-data">Loading data...</div>
+</div>
+
+<script>
+/* ═══════════════ PERSISTENCE ═══════════════ */
+const CAP_KEY = 'regatta_caprate_v1';
+const UNITS_KEY = 'regatta_units_v1';
+let capRate = parseFloat(localStorage.getItem(CAP_KEY)) || 6.0;
+let numUnits = parseInt(localStorage.getItem(UNITS_KEY)) || 200;
+let viewMode = 'amount';
+let SEL = null;
+let RAW = {};
+let PROPERTY = 'Regatta — 1163_rr';
+let DATA_YEAR = 2026;
+let UPDATED_AT = '';
+
+function saveCapRate(v){ capRate=v; localStorage.setItem(CAP_KEY,v); }
+function saveUnits(v){ numUnits=v; localStorage.setItem(UNITS_KEY,v); }
+function fmtCap(v){ return v.toFixed(2)+'%'; }
+
+/* ═══════════════ CALENDAR ═══════════════ */
+const ALL_MONTHS=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+const M_QUARTER={jan:1,feb:1,mar:1,apr:2,may:2,jun:2,jul:3,aug:3,sep:3,oct:4,nov:4,dec:4};
+const Q_START={1:'jan',2:'apr',3:'jul',4:'oct'};
+const M_LABEL={jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',jun:'Jun',jul:'Jul',aug:'Aug',sep:'Sep',oct:'Oct',nov:'Nov',dec:'Dec'};
+const M_FULL={jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
+
+function CLOSED(){ return ALL_MONTHS.filter(m=>RAW[m]); }
+function LAST(){ const c=CLOSED(); return c[c.length-1]; }
+function mRange(from,to){ const fi=ALL_MONTHS.indexOf(from),ti=ALL_MONTHS.indexOf(to); return ALL_MONTHS.slice(fi,ti+1).filter(m=>RAW[m]); }
+function qtdMonths(){ return mRange(Q_START[M_QUARTER[LAST()]],LAST()); }
+function ytdMonths(){ return mRange('jan',LAST()); }
+const mlbl=m=>(M_FULL[m]||m)+' '+DATA_YEAR;
+const rangeLbl=ms=>ms.length===1?M_LABEL[ms[0]]:M_LABEL[ms[0]]+'\u2013'+M_LABEL[ms[ms.length-1]];
+const qlbl=()=>'Q'+M_QUARTER[LAST()]+' '+DATA_YEAR+' ('+rangeLbl(qtdMonths())+')';
+const ylbl=()=>'YTD '+DATA_YEAR+' ('+rangeLbl(ytdMonths())+')';
+
+const KEYS=['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
+
+function deriveMonth(a,b){
+  a.tdf=a.amfee+a.debt; a.cfd=a.noi-a.tdf; a.btl=a.capex; a.netinc=a.cfd-a.btl;
+  b.tdf=b.amfee+b.debt; b.cfd=b.noi-b.tdf; b.btl=b.capex; b.bnetinc=b.cfd-b.btl;
+  a.phyvac=a.pri?Math.abs(a.vac)/a.pri*100:0; b.phyvac=b.pri?Math.abs(b.vac)/b.pri*100:0;
+  a.ecovac=a.pri?(a.pri-a.trr)/a.pri*100:0;  b.ecovac=b.pri?(b.pri-b.trr)/b.pri*100:0;
+  a.expr=a.egi?a.opex/a.egi*100:0;           b.expr=b.egi?b.opex/b.egi*100:0;
+  a.propval=capRate>0?(a.noi*12)/(capRate/100):0;
+  b.propval=capRate>0?(b.noi*12)/(capRate/100):0;
+}
+
+function buildPeriod(months){
+  const a={},b={};
+  KEYS.forEach(k=>{ a[k]=months.reduce((s,mo)=>s+(RAW[mo]?.a[k]||0),0); b[k]=months.reduce((s,mo)=>s+(RAW[mo]?.b[k]||0),0); });
+  a.tdf=a.amfee+a.debt; a.cfd=a.noi-a.tdf; a.btl=a.capex; a.netinc=a.cfd-a.btl;
+  b.tdf=b.amfee+b.debt; b.cfd=b.noi-b.tdf; b.btl=b.capex; b.bnetinc=b.cfd-b.btl;
+  a.phyvac=a.pri?Math.abs(a.vac)/a.pri*100:0; b.phyvac=b.pri?Math.abs(b.vac)/b.pri*100:0;
+  a.ecovac=a.pri?(a.pri-a.trr)/a.pri*100:0;   b.ecovac=b.pri?(b.pri-b.trr)/b.pri*100:0;
+  a.expr=a.egi?a.opex/a.egi*100:0;            b.expr=b.egi?b.opex/b.egi*100:0;
+  a.propval=capRate>0?(a.noi*12/months.length)/(capRate/100):0;
+  b.propval=capRate>0?(b.noi*12/months.length)/(capRate/100):0;
+  return {a,b};
+}
+
+/* ═══════════════ GRADIENT ═══════════════ */
+const S_RED=[248,105,107],S_YELLOW=[255,235,132],S_GREEN=[99,190,123];
+function gradientBg(t){
+  t=Math.max(0,Math.min(1,t));
+  let r,g,b;
+  if(t<=0.5){const s=t*2;r=Math.round(S_RED[0]+s*(S_YELLOW[0]-S_RED[0]));g=Math.round(S_RED[1]+s*(S_YELLOW[1]-S_RED[1]));b=Math.round(S_RED[2]+s*(S_YELLOW[2]-S_RED[2]));}
+  else{const s=(t-0.5)*2;r=Math.round(S_YELLOW[0]+s*(S_GREEN[0]-S_YELLOW[0]));g=Math.round(S_YELLOW[1]+s*(S_GREEN[1]-S_YELLOW[1]));b=Math.round(S_YELLOW[2]+s*(S_GREEN[2]-S_YELLOW[2]));}
+  return `rgb(${r},${g},${b})`;
+}
+const GRAD_GROUPS={
+  'income':{keys:['pri','ltl','vac','mod','con','bd'],income:true},
+  'other-income':{keys:['oi','ur'],income:true},
+  'expenses':{keys:['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'],income:false}
+};
+function buildGradStats(C,Q,Y){
+  const st={curr:{},qtd:{},ytd:{}};
+  for(const[gn,gi]of Object.entries(GRAD_GROUPS)){
+    const cd=gi.keys.map(k=>(C.a[k]||0)-(C.b[k]||0));
+    const qd=gi.keys.map(k=>(Q.a[k]||0)-(Q.b[k]||0));
+    const yd=gi.keys.map(k=>(Y.a[k]||0)-(Y.b[k]||0));
+    const safe=a=>a.length?a:[0];
+    st.curr[gn]={mn:Math.min(...safe(cd)),mx:Math.max(...safe(cd)),income:gi.income};
+    st.qtd[gn]={mn:Math.min(...safe(qd)),mx:Math.max(...safe(qd)),income:gi.income};
+    st.ytd[gn]={mn:Math.min(...safe(yd)),mx:Math.max(...safe(yd)),income:gi.income};
+  }
+  return st;
+}
+function gradStyle(delta,groupName,period,stats){
+  const{mn,mx,income}=stats[period][groupName];
+  const range=mx-mn;
+  let t=range===0?0.5:(delta-mn)/range;
+  if(!income) t=1-t;
+  return `background:${gradientBg(t)};color:#1A2B2C;font-weight:700`;
+}
+function dirStyle(delta,income,dark){
+  const fav=income?delta>0:delta<0;
+  const neut=Math.abs(delta)<50;
+  if(neut) return dark?'color:rgba(255,255,255,.5)':'color:#888';
+  if(dark) return fav?'background:#166534;color:#A7F3D0;font-weight:700':'background:#7F1D1D;color:#FCA5A5;font-weight:700';
+  return fav?'background:#C6EFCE;color:#276221;font-weight:700':'background:#FFC7CE;color:#9C0006;font-weight:700';
+}
+
+/* ═══════════════ FORMATTERS ═══════════════ */
+const fD=v=>{if(v===null||v===undefined||v===0) return '\u2014';const s=Math.round(Math.abs(v)).toLocaleString('en-US');return v<0?'('+s+')':s;};
+const fSign=v=>{if(Math.abs(v||0)<50) return '\u2014';const s=Math.round(Math.abs(v)).toLocaleString('en-US');return v<0?'('+s+')':'+'+s;};
+const fPct=(v,d=1)=>(!isFinite(v)||Math.abs(v)<0.05)?'\u2014':((v>0?'+':'')+v.toFixed(d)+'%');
+const fPp=v=>isFinite(v)?v.toFixed(2)+'%':'\u2014';
+function toPerUnit(v,n){if(!numUnits||numUnits===0) return v;return(v/n*12)/numUnits;}
+
+/* ═══════════════ ROW SCHEMA ═══════════════ */
+const ROWS=[
+  {t:'section-lt',label:'INCOME'},
+  {t:'data',label:'Potential Rental Income',key:'pri',income:true,group:'income'},
+  {t:'data',label:'Loss to Lease',key:'ltl',income:true,group:'income',ind:true},
+  {t:'data',label:'Vacancy Loss',key:'vac',income:true,group:'income',ind:true},
+  {t:'data',label:'Model / Admin',key:'mod',income:true,group:'income',ind:true},
+  {t:'data',label:'Concessions',key:'con',income:true,group:'income',ind:true},
+  {t:'data',label:'Bad Debt',key:'bd',income:true,group:'income',ind:true},
+  {t:'sub',label:'Total Rental Revenue',key:'trr',income:true},
+  {t:'metric',label:'Physical Vacancy %',key:'phyvac'},
+  {t:'metric',label:'Economic Vacancy %',key:'ecovac'},
+  {t:'spacer-sm'},{t:'spacer-sm'},
+  {t:'data',label:'Other Income',key:'oi',income:true,group:'other-income',ind:true},
+  {t:'data',label:'Utility Reimbursement',key:'ur',income:true,group:'other-income',ind:true},
+  {t:'sub',label:'Total Other Income',key:'toi',income:true},
+  {t:'egi',label:'Effective Gross Income',key:'egi',income:true},
+  {t:'spacer'},
+  {t:'section-lt',label:'EXPENSES'},
+  {t:'data',label:'Payroll',key:'payroll',income:false,group:'expenses'},
+  {t:'data',label:'Advertising & Marketing',key:'adv',income:false,group:'expenses'},
+  {t:'data',label:'General & Administrative',key:'ga',income:false,group:'expenses'},
+  {t:'data',label:'Utilities',key:'util',income:false,group:'expenses'},
+  {t:'data',label:'Repairs & Maintenance',key:'rm',income:false,group:'expenses'},
+  {t:'data',label:'Contract Services',key:'contract',income:false,group:'expenses'},
+  {t:'data',label:'Management Fee',key:'mgmt',income:false,group:'expenses'},
+  {t:'data',label:'Make Ready',key:'mr',income:false,group:'expenses'},
+  {t:'data',label:'Taxes',key:'taxes',income:false,group:'expenses'},
+  {t:'data',label:'Insurance',key:'ins',income:false,group:'expenses'},
+  {t:'sub',label:'Total Operating Expenses',key:'opex',income:false},
+  {t:'metric',label:'Expense Ratio',key:'expr'},
+  {t:'spacer-sm'},{t:'spacer'},
+  {t:'noi',label:'Net Operating Income',key:'noi',income:true},
+  {t:'propval',label:'Property Value',key:'propval',income:true},
+  {t:'spacer'},
+  {t:'section-lt',label:'DEBT & FEES'},
+  {t:'data',label:'Asset Management Fee',key:'amfee',income:false,group:'expenses'},
+  {t:'data',label:'Debt Service',key:'debt',income:false,group:'expenses'},
+  {t:'sub',label:'Total Debt & Fees',key:'tdf',income:false},
+  {t:'spacer'},
+  {t:'cfd',label:'Cash for Distribution',key:'cfd',income:true},
+  {t:'spacer'},
+  {t:'section-lt',label:'BELOW THE LINE'},
+  {t:'data',label:'Capital Expenditures (CAPEX)',key:'capex',income:false,group:'expenses'},
+  {t:'btl',label:'Total BTL Expenses',key:'btl',income:false},
+  {t:'net',label:'Net Income',key:'netinc',income:true},
+];
+const DARK_ROWS=new Set(['r-egi','r-noi','r-cfd','r-net']);
+const ROW_MAP={data:'r-data',sub:'r-sub',egi:'r-egi',noi:'r-noi',propval:'r-propval',cfd:'r-cfd',btl:'r-btl',net:'r-net'};
+
+/* ═══════════════ RENDER ═══════════════ */
+function renderApp(){
+  const closed = CLOSED();
+  if(closed.length===0){
+    document.getElementById('app').innerHTML=`
+      <div class="no-data">
+        No financial data loaded yet.<br><br>
+        <a href="/admin">Go to Admin &rarr;</a> to upload a RealPage Excel file.
+      </div>`;
+    return;
+  }
+  if(!SEL || !RAW[SEL]) SEL=LAST();
+  Object.keys(RAW).forEach(m=>deriveMonth(RAW[m].a,RAW[m].b));
+
+  const updatedStr = UPDATED_AT ? new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}) : 'N/A';
+
+  document.getElementById('app').innerHTML=`
+    <div class="controls-bar">
+      <span class="ctrl-label">Current Month</span>
+      <div class="seg-btn" id="month-btns"></div>
+      <div class="cap-group">
+        <span class="cap-lbl">Cap Rate</span>
+        <input id="cap-ctrl" class="cap-input-ctrl" type="text" value="${fmtCap(capRate)}"
+          onblur="capBlur(this)" onkeydown="if(event.key==='Enter')this.blur()" onfocus="capFocus(this)">
+      </div>
+      <div class="cap-group">
+        <span class="cap-lbl">Units</span>
+        <input id="units-ctrl" class="units-input" type="text" value="${numUnits}"
+          onblur="unitsBlur(this)" onkeydown="if(event.key==='Enter')this.blur()" onfocus="unitsFocus(this)">
+      </div>
+      <div class="cap-group">
+        <span class="cap-lbl">View</span>
+        <div class="seg-btn">
+          <button id="btn-amt" class="${viewMode==='amount'?'active':''}" onclick="setViewMode('amount')">Amount</button>
+          <button id="btn-pu"  class="${viewMode==='perunit'?'active':''}" onclick="setViewMode('perunit')">Per Unit</button>
+        </div>
+      </div>
+      <span class="ctrl-right">Compare Actual vs: <strong>Budget</strong></span>
+    </div>
+    <div class="tbl-wrap">
+      <table id="main-table">
+        <colgroup>
+          <col class="c-cat"><col class="c-mom">
+          <col class="c-act"><col class="c-bud"><col class="c-del">
+          <col class="c-q-act"><col class="c-q-bud"><col class="c-q-del">
+          <col class="c-y-act"><col class="c-y-bud"><col class="c-y-del">
+        </colgroup>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <p><span class="flag">&#9888; NOTE</span> Only closed months are included. QTD & YTD reflect all available closed data.</p>
+      <p>Source: RealPage (1163_rr) &middot; Accrual Basis &middot; Updated: ${updatedStr}</p>
+    </div>`;
+
+  renderMonthBtns();
+  renderThead(SEL);
+  renderTbody(SEL);
+}
+
+function renderMonthBtns(){
+  const closed=CLOSED();
+  const wrap=document.getElementById('month-btns');
+  wrap.innerHTML=closed.map(m=>`<button id="btn-${m}" class="${m===SEL?'active':''}" onclick="setMonth('${m}')">${M_LABEL[m]} ${DATA_YEAR}</button>`).join('');
+}
+
+window.setMonth=function(m){ SEL=m; renderMonthBtns(); renderThead(m); renderTbody(m); };
+window.setViewMode=function(m){ viewMode=m; document.getElementById('btn-amt').classList.toggle('active',m==='amount'); document.getElementById('btn-pu').classList.toggle('active',m==='perunit'); renderTbody(SEL); };
+window.capFocus=function(el){ el.value=capRate.toFixed(2); el.select(); };
+window.capBlur=function(el){
+  const v=parseFloat(el.value.replace('%','').trim());
+  if(!isNaN(v)&&v>0&&v<=100) saveCapRate(v);
+  el.value=fmtCap(capRate);
+  const h=document.getElementById('cap-hdr');
+  if(h) h.value=fmtCap(capRate);
+  Object.keys(RAW).forEach(k=>deriveMonth(RAW[k].a,RAW[k].b));
+  renderTbody(SEL);
+};
+window.unitsFocus=function(el){ el.value=numUnits; el.select(); };
+window.unitsBlur=function(el){
+  const v=parseInt(el.value.replace(/[^0-9]/g,''));
+  if(!isNaN(v)&&v>0) saveUnits(v);
+  el.value=numUnits;
+  renderTbody(SEL);
+};
+
+function renderThead(m){
+  const updatedStr=UPDATED_AT?new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'N/A';
+  document.getElementById('thead').innerHTML=`
+  <tr>
+    <th class="th-banner" colspan="8">
+      <div class="th-prop">${PROPERTY} &nbsp;<span style="font-weight:400;font-size:11.5px;opacity:.6">Accrual Basis</span></div>
+      <div class="th-sub">Compare Actual vs Budget &nbsp;&bull;&nbsp; Unit of Measurement: ${viewMode==='perunit'?'Per Unit (Annualized)':'Total Amount'} &nbsp;&bull;&nbsp; ${numUnits} Units</div>
+    </th>
+    <th class="th-meta"><div class="th-meta-lbl">Data As Of</div><div class="th-meta-val">${mlbl(m)}</div></th>
+    <th class="th-meta"><div class="th-meta-lbl">Updated On</div><div class="th-meta-val">${updatedStr}</div></th>
+    <th class="th-caprate">
+      <div class="th-caprate-lbl">Cap Rate</div>
+      <input id="cap-hdr" class="th-caprate-inp" type="text" value="${fmtCap(capRate)}"
+        onfocus="capFocus(this)" onblur="capBlur(this)" onkeydown="if(event.key==='Enter')this.blur()">
+    </th>
+  </tr>
+  <tr>
+    <th class="th-blank">Category</th>
+    <th class="th-period" colspan="4">${mlbl(m)}</th>
+    <th class="th-period" colspan="3">${qlbl()}</th>
+    <th class="th-period" colspan="3">${ylbl()}</th>
+  </tr>
+  <tr>
+    <th class="sh sh-cat">Category</th>
+    <th class="sh">MoM</th>
+    <th class="sh">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
+    <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
+    <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
+  </tr>`;
+}
+
+function renderTbody(m){
+  Object.keys(RAW).forEach(k=>deriveMonth(RAW[k].a,RAW[k].b));
+  const C=RAW[m];
+  const pi=ALL_MONTHS.indexOf(m)-1;
+  const P=(pi>=0&&RAW[ALL_MONTHS[pi]])?RAW[ALL_MONTHS[pi]]:null;
+  const qtdMs=qtdMonths(),ytdMs=ytdMonths();
+  const Q=buildPeriod(qtdMs),Y=buildPeriod(ytdMs);
+  const nC=1,nQ=qtdMs.length,nY=ytdMs.length;
+  const pu=(v,n)=>viewMode==='perunit'?toPerUnit(v,n):v;
+  const GS=buildGradStats(C,Q,Y);
+  let html='';
+  ROWS.forEach(row=>{
+    if(row.t==='spacer'){html+=`<tr class="r-spacer"><td colspan="11"></td></tr>`;return;}
+    if(row.t==='spacer-sm'){html+=`<tr class="r-spacer-sm"><td colspan="11"></td></tr>`;return;}
+    if(row.t==='section'){html+=`<tr class="r-section"><td class="cat" colspan="11">${row.label}</td></tr>`;return;}
+    if(row.t==='section-lt'){html+=`<tr class="r-section-lt"><td class="cat" colspan="11">${row.label}</td></tr>`;return;}
+    const trCls=ROW_MAP[row.t]||'r-data';
+    const dark=DARK_ROWS.has(trCls);
+    const k=row.key;
+    const sepW=dark?'sep sep-wh':'sep';
+    if(row.t==='metric'){
+      const ca=C.a[k]||0,cb=C.b[k]||0,qa=Q.a[k]||0,qb=Q.b[k]||0,ya=Y.a[k]||0,yb=Y.b[k]||0;
+      const lo=v=>`style="${v<0?'color:#1A7030':'color:#C02020'};font-weight:600"`;
+      let momTxt='\u2014';
+      if(P){const d=ca-(P.a[k]||0);if(Math.abs(d)>0.05)momTxt=fPct(d,2);}
+      html+=`<tr class="r-metric"><td class="cat" style="font-style:italic">${row.label}</td>
+        <td class="mom-cell" style="text-align:right;padding-right:8px;font-family:'Courier New',monospace;font-style:italic">${momTxt}</td>
+        <td class="num" style="font-style:italic">${fPp(ca)}</td><td class="num" style="font-style:italic">${fPp(cb)}</td>
+        <td class="del" ${lo(ca-cb)}>${fPct(ca-cb,2)}</td>
+        <td class="num ${sepW}" style="font-style:italic"></td><td class="num" style="font-style:italic">${fPp(qa)}</td>
+        <td class="del" ${lo(qa-qb)}>${fPct(qa-qb,2)}</td>
+        <td class="num ${sepW}" style="font-style:italic"></td><td class="num" style="font-style:italic">${fPp(ya)}</td>
+        <td class="del" ${lo(ya-yb)}>${fPct(ya-yb,2)}</td></tr>`;
+      return;
+    }
+    if(row.t==='propval'){
+      const ca=C.a[k]||0,cb=C.b[k]||0,qa=Q.a[k]||0,qb=Q.b[k]||0,ya=Y.a[k]||0,yb=Y.b[k]||0;
+      const ds=(d,inc)=>`style="${dirStyle(d,inc,false)}"`;
+      html+=`<tr class="r-propval"><td class="cat" style="font-style:italic;color:#3A5A5E">Property Value (${fmtCap(capRate)} cap)</td>
+        <td class="mom-cell">\u2014</td>
+        <td class="num" style="font-style:italic">${fD(ca)}</td><td class="num" style="font-style:italic">${fD(cb)}</td>
+        <td class="del" ${ds(ca-cb,true)}>${fSign(ca-cb)}</td>
+        <td class="num sep" style="font-style:italic">${fD(qa)}</td><td class="num" style="font-style:italic">${fD(qb)}</td>
+        <td class="del" ${ds(qa-qb,true)}>${fSign(qa-qb)}</td>
+        <td class="num sep" style="font-style:italic">${fD(ya)}</td><td class="num" style="font-style:italic">${fD(yb)}</td>
+        <td class="del" ${ds(ya-yb,true)}>${fSign(ya-yb)}</td></tr>`;
+      return;
+    }
+    const caR=C.a[k]||0;
+    const cbR=k==='netinc'?(C.b.bnetinc||C.b[k]||0):(C.b[k]||0);
+    const qaR=Q.a[k]||0,qbR=k==='netinc'?(Q.b.bnetinc||Q.b[k]||0):(Q.b[k]||0);
+    const yaR=Y.a[k]||0,ybR=k==='netinc'?(Y.b.bnetinc||Y.b[k]||0):(Y.b[k]||0);
+    const ca=pu(caR,nC),cb=pu(cbR,nC),qa=pu(qaR,nQ),qb=pu(qbR,nQ),ya=pu(yaR,nY),yb=pu(ybR,nY);
+    const cd=ca-cb,qd=qa-qb,yd=ya-yb;
+    function delSt(d,period){
+      if(row.t==='data'&&row.group) return 'style="'+gradStyle(d,row.group,period,GS)+'"';
+      return 'style="'+dirStyle(d,row.income,dark)+'"';
+    }
+    let momTd='<td class="mom-cell">\u2014</td>';
+    if(P){
+      const paR=P.a[k]||0,mdR=caR-paR,mp=paR!==0?mdR/Math.abs(paR)*100:0;
+      if(Math.abs(mdR)>=50){
+        const md=pu(mdR,nC),fav=row.income?md>0:md<0;
+        const ac=fav?'arr-up':'arr-dn',ar=mdR>0?'\u25b2':'\u25bc';
+        momTd=`<td class="mom-cell"><span class="${ac}">${ar}</span><span class="mom-v">${fD(md)}</span><span class="mom-p"> ${fPct(mp)}</span></td>`;
+      }
+    }
+    html+=`<tr class="${trCls}"><td class="cat${row.ind?' ind':''}">${row.label}</td>${momTd}
+      <td class="num">${fD(ca)}</td><td class="num">${fD(cb)}</td><td class="del" ${delSt(cd,'curr')}>${fSign(cd)}</td>
+      <td class="num ${sepW}">${fD(qa)}</td><td class="num">${fD(qb)}</td><td class="del" ${delSt(qd,'qtd')}>${fSign(qd)}</td>
+      <td class="num ${sepW}">${fD(ya)}</td><td class="num">${fD(yb)}</td><td class="del" ${delSt(yd,'ytd')}>${fSign(yd)}</td></tr>`;
+  });
+  document.getElementById('tbody').innerHTML=html;
+}
+
+/* ═══════════════ INIT ═══════════════ */
+async function init(){
+  try{
+    const res=await fetch('/api/data');
+    const d=await res.json();
+    RAW=d.months||{};
+    PROPERTY=d.property||'Regatta — 1163_rr';
+    DATA_YEAR=d.year||2026;
+    UPDATED_AT=d.updatedAt||'';
+    renderApp();
+  } catch(e){
+    document.getElementById('app').innerHTML=`<div class="no-data">Error loading data: ${e.message}</div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>
