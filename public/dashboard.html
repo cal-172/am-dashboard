@@ -460,15 +460,15 @@ function renderTbody(m){
     }
     if(row.t==='propval'){
       const ca=C.a[k]||0,cb=C.b[k]||0,qa=Q.a[k]||0,qb=Q.b[k]||0,ya=Y.a[k]||0,yb=Y.b[k]||0;
-      const ds=(d,inc)=>`style="${dirStyle(d,inc,false)}"`;
+      const ds=(d,bv)=>`style="${thresholdStyle(d,bv)}"`;
       html+=`<tr class="r-propval"><td class="cat" style="font-style:italic;color:#3A5A5E">Property Value (${fmtCap(capRate)} cap)</td>
         <td class="mom-cell">\u2014</td>
         <td class="num" style="font-style:italic">${fD(ca)}</td><td class="num" style="font-style:italic">${fD(cb)}</td>
-        <td class="del" ${ds(ca-cb,true)}>${fSign(ca-cb)}</td>
+        <td class="del" ${ds(ca-cb,cb)}>${fSign(ca-cb)}</td>
         <td class="num sep" style="font-style:italic">${fD(qa)}</td><td class="num" style="font-style:italic">${fD(qb)}</td>
-        <td class="del" ${ds(qa-qb,true)}>${fSign(qa-qb)}</td>
+        <td class="del" ${ds(qa-qb,qb)}>${fSign(qa-qb)}</td>
         <td class="num sep" style="font-style:italic">${fD(ya)}</td><td class="num" style="font-style:italic">${fD(yb)}</td>
-        <td class="del" ${ds(ya-yb,true)}>${fSign(ya-yb)}</td></tr>`;
+        <td class="del" ${ds(ya-yb,yb)}>${fSign(ya-yb)}</td></tr>`;
       return;
     }
     const caR=C.a[k]||0;
