@@ -105,8 +105,14 @@ function updateSeenRows(parsedRows) {
     let idx = -1;
     if (code) idx = existing.findIndex(e => String(e.code || '').trim() === code);
     if (idx < 0) idx = existing.findIndex(e => !String(e.code || '').trim() && cleanStr(e.label) === cleanStr(label));
-    if (idx >= 0) { existing[idx].label = label; existing[idx].lastSeen = now; }
-    else existing.push({ code, label, firstSeen: now, lastSeen: now });
+    const isHeader = !!(row.isHeader);
+    if (idx >= 0) {
+      existing[idx].label    = label;
+      existing[idx].lastSeen = now;
+      if (isHeader) existing[idx].isHeader = true; // once detected as header, persist it
+    } else {
+      existing.push({ code, label, isHeader: isHeader || undefined, firstSeen: now, lastSeen: now });
+    }
   }
   writeSeenRows(existing);
 }
@@ -354,6 +360,7 @@ app.get('/api/seen-rows', requireAuth, requireAdmin, (req, res) => {
     return {
       code:        row.code || '',
       label:       row.label,
+      isHeader:    row.isHeader || false,
       firstSeen:   row.firstSeen,
       lastSeen:    row.lastSeen,
       dashboardKey: mapping ? mapping.dashboardKey : null,

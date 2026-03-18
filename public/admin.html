@@ -635,12 +635,14 @@ function updateMappingsFilterCounts() {
   const excluded = rows.filter((r, i) => getKey(r, i) === '_exclude');
   const mapped   = rows.filter((r, i) => { const k = getKey(r, i); return !!k && k !== '_exclude'; });
   const unmapped = rows.filter((r, i) => !getKey(r, i));
+  const headers  = unmapped.filter(r => r.isHeader);
   document.getElementById('mc-all').textContent      = rows.length;
   document.getElementById('mc-mapped').textContent   = mapped.length;
   document.getElementById('mc-excluded').textContent = excluded.length;
   document.getElementById('mc-unmapped').textContent = unmapped.length;
   document.getElementById('mappings-count').textContent =
-    rows.length + ' rows · ' + mapped.length + ' mapped · ' + excluded.length + ' excluded · ' + unmapped.length + ' unmapped';
+    rows.length + ' rows · ' + mapped.length + ' mapped · ' + excluded.length + ' excluded · ' +
+    unmapped.length + ' unmapped' + (headers.length ? ' (' + headers.length + ' headers)' : '');
 }
 
 function setMappingsFilter(f) {
@@ -681,7 +683,7 @@ function renderMappingsPageTable() {
     return true;
   });
   // Apply sort
-  const statusRank = k => k === '_exclude' ? 1 : (k ? 0 : 2); // mapped=0, excluded=1, unmapped=2
+  const statusRank = (k, isHdr) => k === '_exclude' ? 1 : (k ? 0 : (isHdr ? 3 : 2)); // mapped=0, excluded=1, unmapped=2, header=3
   visible.sort((a, b) => {
     const ka = mappingEdits[a._idx] !== undefined ? mappingEdits[a._idx] : a.dashboardKey;
     const kb = mappingEdits[b._idx] !== undefined ? mappingEdits[b._idx] : b.dashboardKey;
@@ -689,7 +691,7 @@ function renderMappingsPageTable() {
     if      (mappingsSortCol === 'code')     cmp = (a.code||'').localeCompare(b.code||'', undefined, {numeric:true});
     else if (mappingsSortCol === 'label')    cmp = (a.label||'').localeCompare(b.label||'');
     else if (mappingsSortCol === 'category') cmp = (ka||'').localeCompare(kb||'');
-    else if (mappingsSortCol === 'status')   cmp = statusRank(ka) - statusRank(kb);
+    else if (mappingsSortCol === 'status')   cmp = statusRank(ka, a.isHeader) - statusRank(kb, b.isHeader);
     return cmp * mappingsSortDir;
   });
   updateSortHeaders();
@@ -699,13 +701,16 @@ function renderMappingsPageTable() {
     const edited     = mappingEdits[r._idx] !== undefined;
     const isExcl     = currentKey === '_exclude';
     const isMapped   = !!currentKey && !isExcl;
+    const isHdr      = !isExcl && !isMapped && r.isHeader;
     const badge = edited
       ? `<span class="conf-badge conf-saved" style="background:#EFF6FF;color:#2563EB;border-color:#BFDBFE">&#9998; Pending</span>`
       : isExcl
         ? `<span class="conf-badge" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA;font-size:10.5px">&#8856; Excluded</span>`
         : isMapped
           ? `<span class="conf-badge conf-exact">&#10003; Mapped</span>`
-          : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
+          : isHdr
+            ? `<span class="conf-badge conf-header" style="font-size:10.5px">&#8213; Header</span>`
+            : `<span class="conf-badge conf-none">&#8213; Unmapped</span>`;
     const exclChk = `<input type="checkbox" title="Exclude this row from the dashboard"${isExcl?' checked':''} onchange="onExcludeChange(${r._idx},this.checked)" style="width:15px;height:15px;cursor:pointer;accent-color:#EA580C">`;
     const clearBtn = (isMapped || isExcl || edited)
       ? `<button class="btn btn-danger btn-sm" onclick="clearMappingRule(${r._idx})" title="Clear this rule">&#10005;</button>`
