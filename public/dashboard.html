@@ -231,6 +231,20 @@ function dirStyle(delta,income,dark){
   if(dark) return fav?'background:#166534;color:#A7F3D0;font-weight:700':'background:#7F1D1D;color:#FCA5A5;font-weight:700';
   return fav?'background:#C6EFCE;color:#276221;font-weight:700':'background:#FFC7CE;color:#9C0006;font-weight:700';
 }
+/* 3-color % variance threshold — for subtotals and key totals */
+const TOTAL_ROW_TYPES=new Set(['sub','egi','noi','cfd','btl','net']);
+function thresholdStyle(delta,budget){
+  const absBudget=Math.abs(budget||0);
+  let absPercent;
+  if(absBudget<1){
+    /* budget is zero/near-zero — judge by absolute delta size */
+    absPercent=Math.abs(delta)>5000?100:Math.abs(delta)>500?10:2;
+  } else {
+    absPercent=Math.min(100,Math.abs(delta/budget)*100);
+  }
+  const bg=absPercent<=2?'#63BE7B':absPercent<=5?'#FFEB84':'#F8696B';
+  return `background:${bg};color:#1A2B2C;font-weight:700`;
+}
 
 /* ═══════════════ FORMATTERS ═══════════════ */
 const fD=v=>{if(v===null||v===undefined||v===0) return '\u2014';const s=Math.round(Math.abs(v)).toLocaleString('en-US');return v<0?'('+s+')':s;};
@@ -464,6 +478,10 @@ function renderTbody(m){
     const cd=ca-cb,qd=qa-qb,yd=ya-yb;
     function delSt(d,period){
       if(row.t==='data'&&row.group) return 'style="'+gradStyle(d,row.group,period,GS)+'"';
+      if(TOTAL_ROW_TYPES.has(row.t)){
+        const bv=period==='curr'?cb:period==='qtd'?qb:yb;
+        return 'style="'+thresholdStyle(d,bv)+'"';
+      }
       return 'style="'+dirStyle(d,row.income,dark)+'"';
     }
     let momTd='<td class="mom-cell">\u2014</td>';
