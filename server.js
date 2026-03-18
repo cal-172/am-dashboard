@@ -228,15 +228,22 @@ app.post('/api/mappings/bulk', requireAuth, requireAdmin, (req, res) => {
     let added = 0, updated = 0;
     for (const m of incoming) {
       if (!m.sourceLabel || !m.dashboardKey) continue;
-      const idx = existing.findIndex(e => cleanStr(e.sourceLabel) === cleanStr(m.sourceLabel));
+      const codeStr = String(m.sourceCode || '').trim();
+      // Find existing rule: prefer code match, fall back to label match
+      let idx = -1;
+      if (codeStr) idx = existing.findIndex(e => e.sourceCode && String(e.sourceCode).trim() === codeStr);
+      if (idx < 0)  idx = existing.findIndex(e => cleanStr(e.sourceLabel) === cleanStr(m.sourceLabel));
       if (idx >= 0) {
         existing[idx].dashboardKey = m.dashboardKey;
+        existing[idx].sourceCode   = codeStr || existing[idx].sourceCode;
+        existing[idx].sourceLabel  = m.sourceLabel;
         existing[idx].confirmedAt  = now;
         existing[idx].confirmedBy  = req.session.email;
         updated++;
       } else {
-        existing.push({ id: uuidv4(), sourceLabel: m.sourceLabel, dashboardKey: m.dashboardKey,
-          method: 'user', scope: 'global', confirmedAt: now, confirmedBy: req.session.email });
+        existing.push({ id: uuidv4(), sourceCode: codeStr, sourceLabel: m.sourceLabel,
+          dashboardKey: m.dashboardKey, method: 'user', scope: 'global',
+          confirmedAt: now, confirmedBy: req.session.email });
         added++;
       }
     }
@@ -394,21 +401,30 @@ function matchKey(label) {
   return null;
 }
 
-function matchKeyWithConfidence(label, savedMappings) {
-  const clean = cleanStr(label);
-  // 1. Saved user-confirmed mapping (highest priority)
-  for (const sm of savedMappings) {
-    if (cleanStr(sm.sourceLabel) === clean) {
-      return { key: sm.dashboardKey, method: 'saved', confidence: 'high' };
+function matchKeyWithConfidence(label, code, savedMappings) {
+  const clean   = cleanStr(label);
+  const codeStr = String(code || '').trim();
+  // 1. Saved mapping matched by account code (most reliable — codes are stable even if labels change)
+  if (codeStr) {
+    for (const sm of savedMappings) {
+      if (sm.sourceCode && String(sm.sourceCode).trim() === codeStr) {
+        return { key: sm.dashboardKey, method: 'saved-code', confidence: 'high' };
+      }
     }
   }
-  // 2. Exact pattern match
+  // 2. Saved mapping matched by label
+  for (const sm of savedMappings) {
+    if (cleanStr(sm.sourceLabel) === clean) {
+      return { key: sm.dashboardKey, method: 'saved-label', confidence: 'high' };
+    }
+  }
+  // 3. Exact pattern match on label
   for (const { key, patterns } of ROW_PATTERNS) {
     for (const p of patterns) {
       if (clean === cleanStr(p)) return { key, method: 'exact', confidence: 'high' };
     }
   }
-  // 3. Pattern substring match (label contains pattern)
+  // 4. Pattern substring match on label
   for (const { key, patterns } of ROW_PATTERNS) {
     for (const p of patterns) {
       if (clean.includes(cleanStr(p))) return { key, method: 'pattern', confidence: 'medium' };
@@ -544,6 +560,9 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
     if (score > bestScore) { bestScore = score; labelCol = parseInt(c); }
   }
 
+  // Code column: the column immediately before the label column (account codes in RealPage)
+  const codeCol = labelCol > 0 ? labelCol - 1 : -1;
+
   // Track which keys are already mapped (for duplicate detection)
   const mappedKeys = {};
 
@@ -551,8 +570,9 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
     const row = rows[r];
     const label = String(row[labelCol] || '').trim();
     if (!label || /^-+$/.test(label) || label.length <= 1) continue;
+    const code = codeCol >= 0 ? String(row[codeCol] || '').trim() : '';
 
-    const { key, method, confidence } = matchKeyWithConfidence(label, savedMappings);
+    const { key, method, confidence } = matchKeyWithConfidence(label, code, savedMappings);
 
     // Collect per-month values
     const monthValues = {};
@@ -571,6 +591,7 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
     const rowObj = {
       rowIndex: r,
       label,
+      code,
       key,
       method,
       confidence,

@@ -345,6 +345,7 @@ tbody tr:hover td{background:#F8FBFC}
                 <table id="map-table">
                   <thead>
                     <tr>
+                      <th style="min-width:90px">Acct Code</th>
                       <th style="min-width:220px">Source Label</th>
                       <th style="min-width:200px">Dashboard Category</th>
                       <th>Status</th>
@@ -667,16 +668,17 @@ function renderMappingTable() {
       if (mapFilter==='mapped'   && s!=='mapped' && s!=='saved') return false;
       if (mapFilter==='header'   && s!=='header')   return false;
     }
-    if (search && !r.label.toLowerCase().includes(search)) return false;
+    if (search && !r.label.toLowerCase().includes(search) && !(r.code||'').toLowerCase().includes(search)) return false;
     return true;
   });
-  if (!visible.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">No rows match the current filter</td></tr>'; return; }
+  if (!visible.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="7">No rows match the current filter</td></tr>'; return; }
 
   tbody.innerHTML = visible.map(r => {
     const s = getRowStatus(r);
     const valStr = r.totalActual>0 ? '$'+r.totalActual.toLocaleString() : (r.totalBudget>0?'$'+r.totalBudget.toLocaleString():'—');
-    const methodLbl = {exact:'exact match',saved:'saved rule',pattern:'pattern match',unmapped:'no match',user:'user edit'}[r.method]||r.method;
+    const methodLbl = {'exact':'exact match','saved':'saved rule','saved-code':'saved (code)','saved-label':'saved (label)','pattern':'pattern match','unmapped':'no match','user':'user edit'}[r.method]||r.method;
     return `<tr class="map-row-${s}" data-idx="${r._idx}">
+      <td style="font-family:'Courier New',monospace;font-size:11px;color:#6A8E91;white-space:nowrap;min-width:80px" title="${esc(r.code||'')}">${esc(r.code||'—')}</td>
       <td style="font-family:'Courier New',monospace;font-size:11.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.label)}">${esc(r.label)}</td>
       <td>${buildCatSelect(r.key||'', r._idx)}</td>
       <td>${confBadge(r)}</td>
@@ -698,7 +700,7 @@ window.updateRowKey = function(idx, key) {
   updateMapCounts();
   // Refresh just this row's status class
   const tr = document.querySelector(`#map-tbody tr[data-idx="${idx}"]`);
-  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[2].innerHTML=confBadge(r); }
+  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[3].innerHTML=confBadge(r); }
 };
 
 window.toggleExclude = function(idx, val) {
@@ -706,7 +708,7 @@ window.toggleExclude = function(idx, val) {
   r.excluded = val;
   updateMapCounts();
   const tr = document.querySelector(`#map-tbody tr[data-idx="${idx}"]`);
-  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[2].innerHTML=confBadge(r); }
+  if (tr) { tr.className='map-row-'+getRowStatus(r); tr.cells[3].innerHTML=confBadge(r); }
 };
 
 function renderReconWarnings(issues) {
@@ -743,7 +745,7 @@ async function saveMappingsOnly() {
   const btn = document.getElementById('btn-save-mappings');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Saving...';
   try {
-    const res = await fetch('/api/mappings/bulk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mappings:toSave.map(r=>({sourceLabel:r.label,dashboardKey:r.key}))})});
+    const res = await fetch('/api/mappings/bulk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mappings:toSave.map(r=>({sourceCode:r.code||'',sourceLabel:r.label,dashboardKey:r.key}))})});
     const d = await res.json();
     if (d.success) {
       document.getElementById('mappings-saved-status').style.display='inline';
