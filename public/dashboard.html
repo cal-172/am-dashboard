@@ -412,18 +412,31 @@ function setupStickyHeader(){
   if(!shRow)return;
   const old=document.getElementById('sticky-sh');
   if(old)old.remove();
+
+  /* Measure actual rendered pixel widths of each real header cell */
+  const realCells=Array.from(shRow.querySelectorAll('th'));
+  const cellWidths=realCells.map(c=>c.getBoundingClientRect().width);
+
+  /* Build clone row with exact pixel widths stamped on each cell */
+  const cloneRow=shRow.cloneNode(true);
+  Array.from(cloneRow.querySelectorAll('th')).forEach((c,i)=>{
+    c.style.width=cellWidths[i]+'px';
+    c.style.minWidth=cellWidths[i]+'px';
+    c.style.maxWidth=cellWidths[i]+'px';
+  });
+
+  const tbl=document.createElement('table');
+  tbl.style.cssText='border-collapse:collapse;table-layout:fixed';
+  const th=document.createElement('thead');
+  th.appendChild(cloneRow);
+  tbl.appendChild(th);
+
   const wrap=document.createElement('div');
   wrap.id='sticky-sh';
   wrap.style.cssText='position:fixed;top:0;z-index:200;display:none;overflow:hidden;pointer-events:none';
-  const tbl=document.createElement('table');
-  tbl.style.cssText='border-collapse:collapse;table-layout:fixed';
-  const cg=mainTable.querySelector('colgroup');
-  if(cg)tbl.appendChild(cg.cloneNode(true));
-  const th=document.createElement('thead');
-  th.appendChild(shRow.cloneNode(true));
-  tbl.appendChild(th);
   wrap.appendChild(tbl);
   document.body.appendChild(wrap);
+
   function update(){
     const wr=tblWrap.getBoundingClientRect();
     const sr=shRow.getBoundingClientRect();
