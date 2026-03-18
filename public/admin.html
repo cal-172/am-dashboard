@@ -141,6 +141,23 @@ tbody tr:hover td{background:#F8FBFC}
 .mini-table tr:nth-child(even) td{background:#F5FAFB}
 .unmapped-list{font-size:11px;color:#92400E;font-family:'Courier New',monospace;margin-top:8px;list-style:disc;padding-left:18px}
 
+/* ── MONTH SELECTOR ── */
+.month-sel-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.msel{display:flex;align-items:center;gap:0;cursor:pointer;border-radius:5px;overflow:hidden;border:1.5px solid #B0CDD1;transition:all .12s;user-select:none}
+.msel input[type=checkbox]{display:none}
+.msel-body{padding:7px 12px;display:flex;flex-direction:column;align-items:center;min-width:68px}
+.msel-name{font-size:11.5px;font-weight:700;color:#13545E}
+.msel-sum{font-size:9.5px;color:#6A8E91;margin-top:2px;font-family:'Courier New',monospace}
+.msel.checked{border-color:#13545E;background:#E8F4F5}
+.msel.checked .msel-name{color:#0D3D45}
+.msel.zero{border-color:#D0E4E7;background:#F8FBFC;opacity:.7}
+.msel.zero .msel-name{color:#8BBFC7}
+.msel.zero .msel-sum{color:#B0CDD1}
+.msel-tick{width:20px;background:#13545E;display:none;align-items:center;justify-content:center;color:#fff;font-size:10px;align-self:stretch}
+.msel.checked .msel-tick{display:flex}
+.merge-notice{background:#EFF8FF;border:1px solid #BAE0FF;border-radius:5px;padding:10px 14px;font-size:11.5px;color:#0C4A6E;display:flex;align-items:flex-start;gap:8px;margin-top:12px}
+.merge-notice-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
 /* ── MISC ── */
 .sep{height:1px;background:#EEF4F5;margin:16px 0}
 .flex-row{display:flex;align-items:center;gap:10px}
@@ -261,9 +278,17 @@ tbody tr:hover td{background:#F8FBFC}
             <!-- Preview area -->
             <div id="upload-preview" style="display:none;margin-top:18px">
               <div class="sep"></div>
-              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">3. Review & Save</div>
+              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">3. Select Months to Save</div>
               <div id="alert-unmapped"></div>
               <div id="alert-warn-detail"></div>
+              <div id="month-sel-hint" style="font-size:11.5px;color:#6A8E91;margin-bottom:6px"></div>
+              <div class="month-sel-grid" id="month-sel-grid"></div>
+              <div class="merge-notice">
+                <span class="merge-notice-icon">ℹ️</span>
+                <span>Only the <strong>checked months</strong> will be saved. Any months not selected here — including previously uploaded months — remain <strong>unchanged</strong>. Uploading next month's actuals will add that month without overwriting anything already saved.</span>
+              </div>
+              <div class="sep"></div>
+              <div style="font-size:11px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">4. Preview Data</div>
               <div class="preview-tabs" id="preview-tabs"></div>
               <div id="preview-table-wrap" style="overflow:auto;max-height:300px;border:1px solid #D2E8EA;border-radius:5px"></div>
               <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
@@ -497,15 +522,18 @@ async function handleFile(file) {
     }
 
     dropText.textContent = '✓ ' + file.name;
-    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+months.length+' month(s)</strong>: '+months.map(m=>MONTH_LABELS[m]||m).join(', '));
+    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+months.length+' month(s)</strong> in file: '+months.map(m=>MONTH_LABELS[m]||m).join(', '));
 
     if (data.warnings?.length) showAlert('alert-warn-detail','warn','<strong>Note:</strong> '+data.warnings.join('; '));
     else clearAlert('alert-warn-detail');
     if (data.unmapped?.length) showAlert('alert-unmapped','warn','<strong>Unrecognized rows (skipped):</strong><ul class="unmapped-list">'+data.unmapped.slice(0,12).map(u=>'<li>'+esc(u)+'</li>').join('')+'</ul>');
     else clearAlert('alert-unmapped');
 
-    // Build preview tabs
+    // Build month selector
     const orderedMonths = ALL_MONTHS.filter(m=>months.includes(m));
+    buildMonthSelector(orderedMonths, data.months, currentFileType);
+
+    // Build preview tabs
     const tabs = document.getElementById('preview-tabs');
     tabs.innerHTML = orderedMonths.map((m,i)=>
       `<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${MONTH_LABELS[m]||m}</button>`
@@ -517,6 +545,59 @@ async function handleFile(file) {
     showAlert('upload-alert','error','Upload failed: '+e.message);
     dropText.textContent = 'Drop Excel file here or click to browse';
   }
+}
+
+/* ══════════════════════════════════════════════════════
+   MONTH SELECTOR
+══════════════════════════════════════════════════════ */
+function monthDataSum(mdata, fileType) {
+  let sum = 0;
+  const obj = fileType === 'budget' ? (mdata.b||{}) : (mdata.a||{});
+  for (const v of Object.values(obj)) sum += Math.abs(v||0);
+  if (fileType === 'combined') {
+    for (const v of Object.values(mdata.b||{})) sum += Math.abs(v||0);
+  }
+  return sum;
+}
+
+function buildMonthSelector(orderedMonths, monthsData, fileType) {
+  const grid = document.getElementById('month-sel-grid');
+  let autoSkipped = 0;
+  grid.innerHTML = orderedMonths.map(m => {
+    const sum = monthDataSum(monthsData[m]||{}, fileType);
+    const isZero = sum < 1;
+    if (isZero) autoSkipped++;
+    const checked = !isZero;
+    const sumLabel = isZero ? 'no data' : '$' + Math.round(sum).toLocaleString();
+    return `<label class="msel${isZero?' zero':' checked'}" id="msel-${m}" title="${MONTH_LABELS[m]}: ${sumLabel}">
+      <input type="checkbox" id="mchk-${m}" ${checked?'checked':''} onchange="toggleMonthSel('${m}',this)">
+      <div class="msel-body">
+        <div class="msel-name">${MONTH_SHORT[m]}</div>
+        <div class="msel-sum">${sumLabel}</div>
+      </div>
+      <div class="msel-tick">✓</div>
+    </label>`;
+  }).join('');
+
+  const hint = document.getElementById('month-sel-hint');
+  const hasData = orderedMonths.length - autoSkipped;
+  if (autoSkipped > 0) {
+    hint.innerHTML = `<strong>${hasData} month${hasData!==1?'s':''}</strong> with data selected. <strong>${autoSkipped} month${autoSkipped!==1?'s':''}</strong> with zero values were auto-deselected — click to include them if needed.`;
+  } else {
+    hint.textContent = 'All ' + orderedMonths.length + ' detected months are selected.';
+  }
+}
+
+window.toggleMonthSel = function(m, cb) {
+  const label = document.getElementById('msel-'+m);
+  label.classList.toggle('checked', cb.checked);
+};
+
+function getSelectedMonths(orderedMonths) {
+  return orderedMonths.filter(m => {
+    const cb = document.getElementById('mchk-'+m);
+    return cb && cb.checked;
+  });
 }
 
 function switchPreviewTab(month, btn) {
@@ -543,17 +624,27 @@ function renderPreviewTable(month) {
 
 async function commitUpload() {
   if (!parsedData) return;
+  const orderedMonths = ALL_MONTHS.filter(m => parsedData.months[m]);
+  const selected = getSelectedMonths(orderedMonths);
+  if (selected.length === 0) {
+    showAlert('upload-alert','warn','Please select at least one month to save.');
+    return;
+  }
+  const filteredMonths = {};
+  for (const m of selected) filteredMonths[m] = parsedData.months[m];
+
   const btn = document.getElementById('btn-commit');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
     const res = await fetch('/api/upload/commit', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ months: parsedData.months, fileType: currentFileType, originalName: parsedData.originalName, sheetName: parsedData.sheetName })
+      body: JSON.stringify({ months: filteredMonths, fileType: currentFileType, originalName: parsedData.originalName, sheetName: parsedData.sheetName })
     });
     const d = await res.json();
     if (d.success) {
+      document.getElementById('commit-status').textContent = '✓ Saved ' + selected.map(m=>MONTH_SHORT[m]).join(', ') + ' successfully!';
       document.getElementById('commit-status').style.display='inline';
-      setTimeout(()=>document.getElementById('commit-status').style.display='none', 3000);
+      setTimeout(()=>document.getElementById('commit-status').style.display='none', 4000);
       loadCoverage(); loadUploads();
     } else { showAlert('upload-alert','error','Save failed: '+(d.error||'Unknown')); }
   } catch(e) { showAlert('upload-alert','error','Save failed: '+e.message); }
