@@ -9,7 +9,8 @@
 html,body{background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:12px;color:#1A2B2C}
 .topbar{background:#0D3D45;color:#fff;padding:7px 14px;display:flex;align-items:center;gap:10px}
 .topbar-title{font-size:13px;font-weight:700;opacity:.9}
-.topbar-nav{margin-left:auto;display:flex;gap:6px}
+.topbar-dates{margin-left:auto;text-align:right;font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.55}
+.topbar-nav{display:flex;gap:6px}
 .top-btn{padding:4px 12px;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:3px;cursor:pointer;text-decoration:none;transition:background .15s}
 .top-btn:hover{background:rgba(255,255,255,.22)}
 .page{padding:10px 12px}
@@ -111,6 +112,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 <body>
 <div class="topbar">
   <div class="topbar-title">Regatta | Actual vs Budget</div>
+  <div id="topbar-dates" class="topbar-dates"></div>
   <div class="topbar-nav" id="topbar-nav">
     <form method="POST" action="/logout" style="display:inline">
       <button type="submit" class="top-btn">Sign Out</button>
@@ -349,7 +351,6 @@ function renderApp(){
           <button id="btn-pu"  class="${viewMode==='perunit'?'active':''}" onclick="setViewMode('perunit')">Per Unit</button>
         </div>
       </div>
-      <span class="ctrl-right">Compare Actual vs: <strong>Budget</strong></span>
     </div>
     <div class="tbl-container">
       <div class="tbl-wrap">
@@ -403,14 +404,14 @@ window.unitsBlur=function(el){
 
 function renderThead(m){
   const updatedStr=UPDATED_AT?new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'N/A';
+  const dEl=document.getElementById('topbar-dates');
+  if(dEl) dEl.innerHTML=`<div>As of: ${mlbl(m)}</div><div>Updated: ${updatedStr}</div>`;
   document.getElementById('thead').innerHTML=`
   <tr>
-    <th class="th-banner" colspan="9">
+    <th class="th-banner" colspan="11">
       <div class="th-prop">${PROPERTY} &nbsp;<span style="font-weight:400;font-size:11.5px;opacity:.6">Accrual Basis</span></div>
       <div class="th-sub">Compare Actual vs Budget &nbsp;&bull;&nbsp; Unit of Measurement: ${viewMode==='perunit'?'Per Unit (Annualized)':'Total Amount'} &nbsp;&bull;&nbsp; ${numUnits} Units</div>
     </th>
-    <th class="th-meta"><div class="th-meta-lbl">Data As Of</div><div class="th-meta-val">${mlbl(m)}</div></th>
-    <th class="th-meta"><div class="th-meta-lbl">Updated On</div><div class="th-meta-val">${updatedStr}</div></th>
   </tr>
   <tr>
     <th class="th-blank">Category</th>
