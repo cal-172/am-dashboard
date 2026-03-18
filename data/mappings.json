@@ -2088,5 +2088,125 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T22:12:16.793Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "a0f94206-0e5f-48db-be08-8c1e89e70541",
+    "sourceCode": "1019-0010",
+    "sourceLabel": "NONREVENUE UNITS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:23:59.800Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "19bca316-4de2-4593-afc3-b58402514eec",
+    "sourceCode": "1020-0000",
+    "sourceLabel": "EMPLOYEE UNITS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:23:59.800Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c41fffe1-d06f-4438-a608-0dc14babac74",
+    "sourceCode": "1025-9999",
+    "sourceLabel": "TOTAL NONREVENUE UNITS",
+    "dashboardKey": "mod",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:23:59.800Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e8d93479-5284-4e40-9184-70bc53ef817f",
+    "sourceCode": "1128-9999",
+    "sourceLabel": "TOTAL UTILITY INCOME",
+    "dashboardKey": "ur",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:24:41.480Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5dccd69c-d38f-4983-bd9e-ac252eacbf8e",
+    "sourceCode": "1119-0010",
+    "sourceLabel": "UTILITY INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:25:31.397Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c4f9760f-76b5-4d91-9015-be6cf22fa426",
+    "sourceCode": "1120-0000",
+    "sourceLabel": "RUBS PROGRAM",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:25:31.397Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b3113b6d-ec68-4cae-8f88-d1b754f92979",
+    "sourceCode": "9000-0010",
+    "sourceLabel": "DEBT SERVICE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:28:00.157Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d5c8445a-032c-459a-9d35-cea252e94f3b",
+    "sourceCode": "9090-9999",
+    "sourceLabel": "TOTAL DEBT SERVICE",
+    "dashboardKey": "debt",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:28:00.157Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "75cf8cbe-f275-4930-8df6-d8126994edb3",
+    "sourceCode": "9005-0000",
+    "sourceLabel": "INTEREST-MORTGAGE LENDER",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:28:00.157Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8e1e0476-e6fd-4ce6-8153-8d4f445851ca",
+    "sourceCode": "8499-9999",
+    "sourceLabel": "ASSET & OTHER FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:29:43.643Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "77f3374e-0bc8-4add-8534-559ec6e20e74",
+    "sourceCode": "8500-0000",
+    "sourceLabel": "ASSET MANAGEMENT FEES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:29:43.643Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "88770fb3-5f6c-445e-acc6-8c16f5242c67",
+    "sourceCode": "8500-9999",
+    "sourceLabel": "TOTAL ASSET & OTHER FEES",
+    "dashboardKey": "amfee",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:29:43.643Z",
+    "confirmedBy": "admin"
   }
 ]

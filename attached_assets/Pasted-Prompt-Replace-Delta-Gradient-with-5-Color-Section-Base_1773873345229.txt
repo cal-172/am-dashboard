@@ -1,0 +1,147 @@
+Prompt: Replace Delta Gradient with 5-Color Section-Based Scale
+
+Update the dashboard delta formatting so it no longer uses a continuous gradient.
+
+Instead, use a 5-color banded scale based on the lowest and highest delta values within each section independently.
+
+Sections to scale independently
+
+Apply the color scale separately within each of these groups:
+
+Income
+
+Other Income
+
+Expenses
+
+Do not calculate one color scale across the whole table.
+
+5 Fixed Colors
+
+Use only these 5 fill colors for delta cells:
+
+Strong negative / worst = #F8696B
+
+Moderate negative = #F4B183
+
+Near neutral = #FFEB84
+
+Moderate positive = #A9D18E
+
+Strong positive / best = #63BE7B
+
+Do not use any other delta fill colors.
+
+Core Logic
+
+For each section independently:
+
+Collect all delta values in that section
+
+Find the minimum delta in the section
+
+Find the maximum delta in the section
+
+Divide the range from min to max into 5 equal bands
+
+Assign each delta cell to one of the 5 colors based on which band it falls into
+
+This should create a 5-step heat scale, not a smooth gradient.
+
+Important Context Rules
+Income and Other Income
+
+For these sections:
+
+higher positive deltas are more favorable
+
+lower negative deltas are less favorable
+
+So:
+
+highest value in the section = color 5 green
+
+lowest value in the section = color 1 red
+
+Expenses
+
+For expenses, the delta already reflects favorability in the displayed value logic, so use the same visual rule:
+
+best values in the section = color 5 green
+
+worst values in the section = color 1 red
+
+Do not invert the color logic if the delta values are already stored in favorable/unfavorable form.
+
+If needed, confirm whether displayed expense delta is already normalized for favorability before applying the scale.
+
+Banding Method
+
+For each section:
+
+minVal = lowest delta in section
+
+maxVal = highest delta in section
+
+bandSize = (maxVal - minVal) / 5
+
+Then assign:
+
+Band 1: minVal to < minVal + 1*bandSize → color 1
+
+Band 2: >= minVal + 1*bandSize to < minVal + 2*bandSize → color 2
+
+Band 3: >= minVal + 2*bandSize to < minVal + 3*bandSize → color 3
+
+Band 4: >= minVal + 3*bandSize to < minVal + 4*bandSize → color 4
+
+Band 5: >= minVal + 4*bandSize to maxVal → color 5
+
+Edge Cases
+If all values in a section are the same
+
+use color 3 #FFEB84 for all cells
+
+If section has very few rows
+
+still apply the 5-band logic using min/max range
+
+do not fall back to gradient
+
+Zero / near-zero values
+
+zero does not automatically get yellow
+
+it should fall into whatever band it belongs to based on the section’s min/max
+
+only use yellow if the value lands in the middle band
+
+Rows to Include in the Scale
+
+Apply the 5-color scale only to detail-row delta cells within each section.
+
+Do not apply the 5-color scale to:
+
+subtotal rows
+
+total rows
+
+KPI percentage rows like Physical Vacancy % or Economic Vacancy %
+
+section headers
+
+Those should keep their separate formatting.
+
+Visual Goal
+
+The delta columns should feel:
+
+cleaner
+
+less intense
+
+easier to scan
+
+more like a controlled Excel heat banding system
+
+This should look like a 5-step categorized scale, not a high-contrast continuous heatmap.

@@ -192,14 +192,8 @@ function buildPeriod(months){
 }
 
 /* ═══════════════ GRADIENT ═══════════════ */
-const S_RED=[248,105,107],S_YELLOW=[255,235,132],S_GREEN=[99,190,123];
-function gradientBg(t){
-  t=Math.max(0,Math.min(1,t));
-  let r,g,b;
-  if(t<=0.5){const s=t*2;r=Math.round(S_RED[0]+s*(S_YELLOW[0]-S_RED[0]));g=Math.round(S_RED[1]+s*(S_YELLOW[1]-S_RED[1]));b=Math.round(S_RED[2]+s*(S_YELLOW[2]-S_RED[2]));}
-  else{const s=(t-0.5)*2;r=Math.round(S_YELLOW[0]+s*(S_GREEN[0]-S_YELLOW[0]));g=Math.round(S_YELLOW[1]+s*(S_GREEN[1]-S_YELLOW[1]));b=Math.round(S_YELLOW[2]+s*(S_GREEN[2]-S_YELLOW[2]));}
-  return `rgb(${r},${g},${b})`;
-}
+/* 5-color banded heat scale — section-independent */
+const BAND5=['#F8696B','#F4B183','#FFEB84','#A9D18E','#63BE7B'];
 const GRAD_GROUPS={
   'income':{keys:['pri','ltl','vac','mod','con','bd'],income:true},
   'other-income':{keys:['oi','ur'],income:true},
@@ -218,12 +212,17 @@ function buildGradStats(C,Q,Y){
   }
   return st;
 }
+function bandColor(delta,mn,mx,invert){
+  if(mn===mx) return BAND5[2]; // all equal → neutral
+  const bandSize=(mx-mn)/5;
+  let b=Math.floor((delta-mn)/bandSize);
+  b=Math.max(0,Math.min(4,b));
+  return BAND5[invert?4-b:b];
+}
 function gradStyle(delta,groupName,period,stats){
   const{mn,mx,income}=stats[period][groupName];
-  const range=mx-mn;
-  let t=range===0?0.5:(delta-mn)/range;
-  if(!income) t=1-t;
-  return `background:${gradientBg(t)};color:#1A2B2C;font-weight:700`;
+  /* expenses: lower delta (underspent) = favorable = green → invert band index */
+  return `background:${bandColor(delta,mn,mx,!income)};color:#1A2B2C;font-weight:700`;
 }
 function dirStyle(delta,income,dark){
   const fav=income?delta>0:delta<0;
