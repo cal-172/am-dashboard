@@ -199,12 +199,13 @@ const GRAD_GROUPS={
   'other-income':{keys:['oi','ur'],income:true},
   'expenses':{keys:['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'],income:false}
 };
-function buildGradStats(C,Q,Y){
+function buildGradStats(C,Q,Y,puFn,nC,nQ,nY){
+  /* puFn + period counts must match what renderTbody uses so min/max are in the active unit */
   const st={curr:{},qtd:{},ytd:{}};
   for(const[gn,gi]of Object.entries(GRAD_GROUPS)){
-    const cd=gi.keys.map(k=>(C.a[k]||0)-(C.b[k]||0));
-    const qd=gi.keys.map(k=>(Q.a[k]||0)-(Q.b[k]||0));
-    const yd=gi.keys.map(k=>(Y.a[k]||0)-(Y.b[k]||0));
+    const cd=gi.keys.map(k=>puFn(C.a[k]||0,nC)-puFn(C.b[k]||0,nC));
+    const qd=gi.keys.map(k=>puFn(Q.a[k]||0,nQ)-puFn(Q.b[k]||0,nQ));
+    const yd=gi.keys.map(k=>puFn(Y.a[k]||0,nY)-puFn(Y.b[k]||0,nY));
     const safe=a=>a.length?a:[0];
     st.curr[gn]={mn:Math.min(...safe(cd)),mx:Math.max(...safe(cd)),income:gi.income};
     st.qtd[gn]={mn:Math.min(...safe(qd)),mx:Math.max(...safe(qd)),income:gi.income};
@@ -431,7 +432,7 @@ function renderTbody(m){
   const Q=buildPeriod(qtdMs),Y=buildPeriod(ytdMs);
   const nC=1,nQ=qtdMs.length,nY=ytdMs.length;
   const pu=(v,n)=>viewMode==='perunit'?toPerUnit(v,n):v;
-  const GS=buildGradStats(C,Q,Y);
+  const GS=buildGradStats(C,Q,Y,pu,nC,nQ,nY);
   let html='';
   ROWS.forEach(row=>{
     if(row.t==='spacer'){html+=`<tr class="r-spacer"><td colspan="11"></td></tr>`;return;}
