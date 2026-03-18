@@ -63,7 +63,6 @@ th.th-period{background:#13545E;color:#fff;text-align:center;padding:5px 8px;fon
 th.sh{background:#1A6B72;color:rgba(255,255,255,.9);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 6px;text-align:right;border-bottom:2px solid #0D3D45}
 th.sh-cat{text-align:left}
 th.sh-sep{border-left:2px solid rgba(255,255,255,.2)}
-th.sh-cat-sep{border-right:2px solid rgba(255,255,255,.2)}
 
 td.cat{text-align:left;padding:4.5px 8px;font-size:11.5px;color:#1A2B2C}
 td.cat.ind{padding-left:22px;color:#2C4446}
@@ -111,7 +110,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-title">Regatta | Actual vs Budget</div>
+  <div class="topbar-title">Regatta — 1163_rr &nbsp;|&nbsp; Financial Dashboard</div>
   <div class="topbar-nav" id="topbar-nav">
     <form method="POST" action="/logout" style="display:inline">
       <button type="submit" class="top-btn">Sign Out</button>
@@ -412,6 +411,11 @@ function renderThead(m){
     </th>
     <th class="th-meta"><div class="th-meta-lbl">Data As Of</div><div class="th-meta-val">${mlbl(m)}</div></th>
     <th class="th-meta"><div class="th-meta-lbl">Updated On</div><div class="th-meta-val">${updatedStr}</div></th>
+    <th class="th-caprate">
+      <div class="th-caprate-lbl">Cap Rate</div>
+      <input id="cap-hdr" class="th-caprate-inp" type="text" value="${fmtCap(capRate)}"
+        onfocus="capFocus(this)" onblur="capBlur(this)" onkeydown="if(event.key==='Enter')this.blur()">
+    </th>
   </tr>
   <tr>
     <th class="th-blank">Category</th>
@@ -420,7 +424,7 @@ function renderThead(m){
     <th class="th-period" colspan="3">${ylbl(m)}</th>
   </tr>
   <tr>
-    <th class="sh sh-cat sh-cat-sep">Category</th>
+    <th class="sh sh-cat">Category</th>
     <th class="sh">MoM</th>
     <th class="sh">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
     <th class="sh sh-sep">Actual</th><th class="sh">Budget</th><th class="sh">Delta</th>
