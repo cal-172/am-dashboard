@@ -2048,5 +2048,45 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T21:52:46.712Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "c4460121-5ffb-4abb-9e07-8dcc3d45009e",
+    "sourceCode": "1060-0000",
+    "sourceLabel": "BAD DEBT EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:11:13.716Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "2d2f6e51-b106-4fc1-9672-12c403269c94",
+    "sourceCode": "1100-9998",
+    "sourceLabel": "TOTAL DELINQ/CREDIT LOSS",
+    "dashboardKey": "bd",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:11:13.716Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7397bd2b-efde-4ac3-b30f-0886e9b9c47e",
+    "sourceCode": "1040-9999",
+    "sourceLabel": "TOTAL CONCESSIONS",
+    "dashboardKey": "con",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:12:16.793Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "22ab8893-0704-489f-a890-412fe57369a9",
+    "sourceCode": "1041-0010",
+    "sourceLabel": "DELINQUENCY/CREDIT LOSS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-18T22:12:16.793Z",
+    "confirmedBy": "admin"
   }
 ]
