@@ -13,7 +13,8 @@ const DATA_FILE     = path.join(__dirname, 'data', 'financial.json');
 const USERS_FILE    = path.join(__dirname, 'data', 'users.json');
 const UPLOADS_FILE  = path.join(__dirname, 'data', 'uploads.json');
 const MAPPINGS_FILE   = path.join(__dirname, 'data', 'mappings.json');
-const SEEN_ROWS_FILE  = path.join(__dirname, 'data', 'seen_rows.json');
+const SEEN_ROWS_FILE      = path.join(__dirname, 'data', 'seen_rows.json');
+const RAW_UPLOADS_FILE    = path.join(__dirname, 'data', 'raw_uploads.json');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,6 +49,56 @@ function writeUsers(u)     { writeJSON(USERS_FILE, u); }
 function writeUploads(u)   { writeJSON(UPLOADS_FILE, u); }
 function writeMappings(m)  { writeJSON(MAPPINGS_FILE, m); }
 function writeSeenRows(r)  { writeJSON(SEEN_ROWS_FILE, r); }
+function readRawUploads()  { return readJSON(RAW_UPLOADS_FILE, []); }
+function writeRawUploads(r){ writeJSON(RAW_UPLOADS_FILE, r); }
+
+/* Re-aggregate all committed raw rows using current mapping rules.
+   Only months that have raw upload coverage are rewritten; others are left intact. */
+function reprocessAllData() {
+  const rawUploads    = readRawUploads().sort((a, b) => new Date(a.committedAt) - new Date(b.committedAt));
+  if (!rawUploads.length) return;
+  const savedMappings = readMappings();
+
+  // Determine which months have raw coverage — only those will be updated
+  const rawMonths = new Set(rawUploads.flatMap(u => u.monthsCommitted || []));
+  const current   = readData();
+  const months    = { ...current.months };
+  for (const m of rawMonths) months[m] = { a: {}, b: {} }; // clear covered months
+
+  for (const upload of rawUploads) {
+    const { fileType, rows, monthsCommitted } = upload;
+    const keyUsed = {}; // first-occurrence-wins within each upload
+
+    for (const row of (rows || [])) {
+      // Apply current mappings; fall back to the original key stored at commit time
+      const { key: resolved } = matchKeyWithConfidence(row.label, row.code, savedMappings);
+      const validKey = k => k && k !== '_exclude' && k !== '_header';
+      const key = validKey(resolved) ? resolved : (validKey(row.originalKey) ? row.originalKey : null);
+      if (!key) continue;
+
+      for (const [month, vals] of Object.entries(row.monthValues || {})) {
+        if (monthsCommitted && !monthsCommitted.includes(month)) continue;
+        if (!months[month]) months[month] = { a: {}, b: {} };
+
+        if (fileType !== 'budget') {
+          const dk = `${key}:${month}:a`;
+          if (!keyUsed[dk] && vals.actual !== null && vals.actual !== undefined) {
+            months[month].a[key] = vals.actual; keyUsed[dk] = true;
+          }
+        }
+        if (fileType !== 't12') {
+          const dk = `${key}:${month}:b`;
+          if (!keyUsed[dk] && vals.budget !== null && vals.budget !== undefined) {
+            months[month].b[key] = vals.budget; keyUsed[dk] = true;
+          }
+        }
+      }
+    }
+  }
+
+  current.months = months;
+  writeData(current);
+}
 
 /* Record every code+label pair encountered in a parsed file */
 function updateSeenRows(parsedRows) {
