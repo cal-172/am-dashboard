@@ -255,12 +255,12 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
       <div class="sb-sub">Financial Dashboard</div>
     </div>
     <nav class="sb-nav">
+      <div class="sb-section">Asset</div>
+      <button class="sb-item" id="nav-ps" onclick="switchPage('ps')"><span class="sb-icon">🏢</span> Property Summary</button>
       <div class="sb-section">Views</div>
       <button class="sb-item" id="nav-avb" onclick="switchPage('avb')"><span class="sb-icon">📊</span> Actual vs Budget</button>
       <button class="sb-item" id="nav-waterfall" onclick="switchPage('waterfall')"><span class="sb-icon">📉</span> Budget Waterfall</button>
       <button class="sb-item" id="nav-trend" onclick="switchPage('trend')"><span class="sb-icon">📈</span> Trend Analysis</button>
-      <div class="sb-section">Asset</div>
-      <button class="sb-item" id="nav-ps" onclick="switchPage('ps')"><span class="sb-icon">🏢</span> Property Summary</button>
     </nav>
     <script>(function(){var h=location.hash.replace('#','');var id=h==='waterfall'?'nav-waterfall':h==='trend'?'nav-trend':h==='ps'?'nav-ps':'nav-avb';document.getElementById(id)?.classList.add('active');})();</script>
     <div class="sb-footer">
