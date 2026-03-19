@@ -326,6 +326,10 @@ function render(d){
   const capexPctPrev=kpi.capexPctPrev??null;
   const capexExp=capexPctPrev??capexPct??0;
 
+  const resMos=kpi.reserveMos??null;
+  const resMosPrev=kpi.reserveMosPrev??null;
+  const rStatus=kpi.reserveStatus??'nodata';
+
   const dStatus=dscr!=null?dscrStatus(dscr):'nodata';
   const oStatus=occ!=null?occStatus(occ):'nodata';
   const cStatus=capexPct!=null?capexStatus(capexPct,capexExp):'nodata';
@@ -387,11 +391,12 @@ function render(d){
       note:'Target: 93.0%'
     },
     {
-      icon:'🛡',title:'Operating Reserves',status:'nodata',
+      icon:'🛡',title:'Operating Reserves',status:resMos!=null?rStatus:'nodata',
       main:V(opRes.remainingBalance),
-      sub:'Remaining balance',
-      trend:null,trendUp:true,
-      note:'Expense coverage months not yet calculated'
+      sub:resMos!=null?`${resMos.toFixed(2)} mo expense coverage`:'Remaining balance',
+      trend:resMosPrev!=null?`${(resMos-resMosPrev)>=0?'+':''}${(resMos-resMosPrev).toFixed(2)} mo vs last mo`:null,
+      trendUp:resMosPrev!=null&&(resMos-resMosPrev)>=0,
+      note:resMos!=null?`Target: 4.0 mo${opRes.monthlyOpex!=null?' · Monthly opex: $'+Math.round(opRes.monthlyOpex).toLocaleString():''}`:null
     },
     {
       icon:'🔨',title:'CapEx Progress',status:cStatus,

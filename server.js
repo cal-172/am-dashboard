@@ -867,6 +867,13 @@ function buildSnapshot(monthKey) {
   const capexBudget = get('capex_budget');
   const capexPct    = capexBudget && capexSpend != null ? Math.round((capexSpend / capexBudget) * 100) : null;
 
+  // Expense coverage months = operating reserve balance / monthly operating expenses
+  const agg = aggregateFromRawData();
+  const monthlyOpex = agg[monthKey]?.a?.opex ?? null;
+  const expCovMonths = (reserveBal != null && monthlyOpex != null && monthlyOpex > 0)
+    ? Math.round((reserveBal / monthlyOpex) * 100) / 100
+    : null;
+
   const reserves  = readReserves();
   const escrows   = readEscrows();
   const totalRes  = reserves.reduce((s, r) => s + (parseMetricNum(r.amount) || 0), 0);
@@ -879,14 +886,15 @@ function buildSnapshot(monthKey) {
     occupancy_pct:        occupancy,
     vacancy_pct:          occupancy != null ? Math.round((100 - occupancy) * 10) / 10 : null,
     reserve_balance:      reserveBal,
-    expense_coverage_months: null,
+    expense_coverage_months: expCovMonths,
+    monthly_opex:         monthlyOpex,
     capex_pct_complete:   capexPct,
     total_lender_reserves: totalRes || null,
     total_lender_escrows:  totalEsc || null,
     noi_status:      noiStatusStr(noiVsBudget),
     dscr_status:     dscrStatusStr(dscr),
     occupancy_status:occupancyStatusStr(occupancy),
-    reserve_status:  reserveStatusStr(null),
+    reserve_status:  reserveStatusStr(expCovMonths),
     capex_status:    capexStatusStr(capexPct, null),
     snapshot_created_at: new Date().toISOString(),
   };
@@ -1099,6 +1107,9 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
     return `$${t}`;
   };
 
+  // Build a live snapshot for the latest month — used by both kpi and opReserves
+  const liveSnap = latestKey ? buildSnapshot(latestKey) : null;
+
   res.json({
     property: {
       name:            get(setup, 'property_name'),
@@ -1142,8 +1153,9 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       initialBalance:    getLM('initial_op_balance'),
       netCashFlowToDate: getLM('net_cash_flow'),
       remainingBalance:  getLM('remaining_reserve_bal'),
-      monthsOfCoverage:  currentSnap?.expense_coverage_months ?? null,
+      monthsOfCoverage:  liveSnap?.expense_coverage_months  ?? currentSnap?.expense_coverage_months ?? null,
       monthsOfCoveragePrev: priorSnap?.expense_coverage_months ?? null,
+      monthlyOpex:       liveSnap?.monthly_opex ?? null,
       targetMonths:      4.0,
       asOf:   getLMMeta('remaining_reserve_bal')?.asOf   || null,
       source: getLMMeta('remaining_reserve_bal')?.source || null,
@@ -1176,26 +1188,22 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       asOf:   getLMMeta('noi_ltm')?.asOf   || null,
       source: getLMMeta('noi_ltm')?.source || null,
     },
-    kpi: (() => {
-      // Always build a live snapshot for the latest month so statuses are current
-      const liveSnap = latestKey ? buildSnapshot(latestKey) : null;
-      return {
-        occupancy:     liveSnap?.occupancy_pct              ?? currentSnap?.occupancy_pct     ?? null,
-        occupancyPrev: priorSnap?.occupancy_pct             ?? null,
-        dscr:          liveSnap?.dscr                       ?? currentSnap?.dscr              ?? null,
-        dscrPrev:      priorSnap?.dscr                      ?? null,
-        reserveMos:    liveSnap?.expense_coverage_months    ?? currentSnap?.expense_coverage_months ?? null,
-        reserveMosPrev:priorSnap?.expense_coverage_months   ?? null,
-        capexPct:      liveSnap?.capex_pct_complete         ?? currentSnap?.capex_pct_complete ?? null,
-        capexPctPrev:  priorSnap?.capex_pct_complete        ?? null,
-        noiStatus:     liveSnap?.noi_status                 ?? null,
-        dscrStatus:    liveSnap?.dscr_status                ?? null,
-        occupancyStatus:liveSnap?.occupancy_status          ?? null,
-        reserveStatus: liveSnap?.reserve_status             ?? null,
-        capexStatus:   liveSnap?.capex_status               ?? null,
-        latestMonth:   latestKey,
-      };
-    })(),
+    kpi: {
+      occupancy:      liveSnap?.occupancy_pct           ?? currentSnap?.occupancy_pct     ?? null,
+      occupancyPrev:  priorSnap?.occupancy_pct          ?? null,
+      dscr:           liveSnap?.dscr                    ?? currentSnap?.dscr              ?? null,
+      dscrPrev:       priorSnap?.dscr                   ?? null,
+      reserveMos:     liveSnap?.expense_coverage_months ?? currentSnap?.expense_coverage_months ?? null,
+      reserveMosPrev: priorSnap?.expense_coverage_months ?? null,
+      capexPct:       liveSnap?.capex_pct_complete      ?? currentSnap?.capex_pct_complete ?? null,
+      capexPctPrev:   priorSnap?.capex_pct_complete     ?? null,
+      noiStatus:      liveSnap?.noi_status              ?? null,
+      dscrStatus:     liveSnap?.dscr_status             ?? null,
+      occupancyStatus:liveSnap?.occupancy_status        ?? null,
+      reserveStatus:  liveSnap?.reserve_status          ?? null,
+      capexStatus:    liveSnap?.capex_status            ?? null,
+      latestMonth:    latestKey,
+    },
     keyDates: readKeyDates(),
     contacts: readContacts(),
   });
