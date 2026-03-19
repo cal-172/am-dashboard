@@ -540,10 +540,9 @@ function renderAll(){
     sHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
     for(const m of gs[g]){
       const ki=STATE.setup.indexOf(m);
-      const isNum=/^\(?\$|%$|x$/.test((m.value||'').trim());
       sHTML+=`<div class="s-grid-row s-cols">
         <div class="cell-name"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>
-        ${inp(m.value,isNum,`commitSetup(${ki},'value',this)`)}
+        ${inp(m.value,true,`commitSetup(${ki},'value',this)`)}
         ${inp(m.asOf,true,`commitSetup(${ki},'asOf',this)`)}
         ${inp(m.source,false,`commitSetup(${ki},'source',this)`)}
         ${inp(m.notes,false,`commitSetup(${ki},'notes',this)`)}
