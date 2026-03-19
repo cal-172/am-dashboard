@@ -124,7 +124,13 @@ function GroupHeader({ name }: { name: string }) {
 const cellCls = `w-full text-sm text-slate-800 bg-transparent border-0 border-b border-transparent
   focus:border-teal-400 focus:outline-none hover:border-slate-300 transition-colors py-0.5 truncate`;
 
-function CellInp({ value, readOnly, placeholder = '—' }: { value: string; readOnly?: boolean; placeholder?: string }) {
+// Right-align if value looks like a currency, percentage, or ratio
+const isNumeric = (v: string) =>
+  v.trim() !== '' && /^[\+\-]?\$?[\d,\.]+[KMBx%]?$/.test(v.trim());
+
+function CellInp({ value, readOnly, placeholder = '—', right = false }: {
+  value: string; readOnly?: boolean; placeholder?: string; right?: boolean;
+}) {
   if (readOnly) {
     return (
       <div className="flex items-center gap-1 text-slate-300">
@@ -133,7 +139,14 @@ function CellInp({ value, readOnly, placeholder = '—' }: { value: string; read
       </div>
     );
   }
-  return <input type="text" defaultValue={value} placeholder={placeholder} className={cellCls} />;
+  return (
+    <input
+      type="text"
+      defaultValue={value}
+      placeholder={placeholder}
+      className={`${cellCls} ${right ? 'text-right' : ''}`}
+    />
+  );
 }
 
 function CellSel({ value, children }: { value: string; children: React.ReactNode }) {
@@ -207,7 +220,7 @@ function MetricRow({ metric, onGroupChange }: {
           {metric.metric}
         </span>
       </div>
-      <CellInp value={metric.value} readOnly={metric.readOnly} />
+      <CellInp value={metric.value} readOnly={metric.readOnly} right={isNumeric(metric.value)} />
       <CellInp value={metric.asOf}  readOnly={metric.readOnly} placeholder="—" />
       <CellInp value={metric.source} readOnly={metric.readOnly} placeholder="—" />
       <span className="text-xs text-slate-400 truncate">{metric.readOnly ? '—' : (metric.lastUpdated || '—')}</span>
@@ -225,7 +238,7 @@ function ReserveRow({ item, onRemove }: { item: LineItem; onRemove: () => void }
   return (
     <div className={`${COLS} px-4 py-2 border-b border-slate-100 hover:bg-slate-50/80 transition-colors items-center`}>
       <CellInp value={item.name}   placeholder="Reserve name" />
-      <CellInp value={item.amount} placeholder="$0" />
+      <CellInp value={item.amount} placeholder="$0" right={isNumeric(item.amount)} />
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
@@ -239,7 +252,7 @@ function EscrowRow({ item, onRemove }: { item: LineItem; onRemove: () => void })
   return (
     <div className={`${COLS} px-4 py-2 border-b border-slate-100 hover:bg-slate-50/80 transition-colors items-center`}>
       <CellInp value={item.name}   placeholder="Escrow name" />
-      <CellInp value={item.amount} placeholder="$0" />
+      <CellInp value={item.amount} placeholder="$0" right={isNumeric(item.amount)} />
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
@@ -477,11 +490,12 @@ function ContactsSection({ items, onAdd, onRemove }: {
             </div>
           ))}
 
-          {/* Add row */}
-          <div className="px-4 py-3 border-b border-slate-100">
+          {/* Add row — aligned to grid */}
+          <div className={`${CONTACT_COLS} px-4 py-2 border-b border-slate-100`}>
             <button onClick={onAdd} className="flex items-center gap-1.5 text-xs font-semibold text-teal-700 hover:text-teal-900 transition-colors">
               <Plus className="w-3 h-3" /> Add contact or link
             </button>
+            <span/><span/><span/><span/><span/><span/>
           </div>
         </>
       )}
