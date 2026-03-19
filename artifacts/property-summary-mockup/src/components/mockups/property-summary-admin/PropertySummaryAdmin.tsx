@@ -511,7 +511,7 @@ export function PropertySummaryAdmin() {
           title="Setup"
           description="Metrics entered once or updated infrequently — property details, loan structure, reserves, and contacts."
           accent={false}
-          defaultExpanded={false}
+          defaultExpanded={true}
           ungrouped={true}
           metrics={setupMetrics}
           onGroupChange={handleGroupChange}
