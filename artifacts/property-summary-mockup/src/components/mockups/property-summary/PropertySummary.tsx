@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Building2, DollarSign, Calendar, ShieldCheck, Hammer,
-  TrendingUp, TrendingDown, Users, ExternalLink, BarChart3, Minus
+  TrendingUp, TrendingDown, Users, ExternalLink, BarChart3,
+  Minus, Mail, FileText, Link2
 } from 'lucide-react';
 
 // ─── MOCK DATA (fed from Admin in production) ───────────────────────────────
@@ -11,6 +12,7 @@ const PROPERTY = {
   units: 200,
   yearBuilt: 1985,
   occupancy: 94.5,
+  occupancyPrev: 95.1,
   preleased: 3.2,
   acquisitionDate: 'Jan 15, 2020',
   purchasePrice: '$32.5M',
@@ -72,6 +74,7 @@ const OP_RESERVES = {
   remainingBalance: '$582K',
   monthsOfCoverage: 4.8,
   monthsOfCoveragePrev: 4.5,
+  targetMonths: 4.0,
   asOf: 'Aug 20, 2025',
   source: 'Operating Account',
 };
@@ -97,19 +100,19 @@ const NOI = {
   asOf: 'Aug 20, 2025',
 };
 
-// Due Soon = within 30 days from today (mock today = Aug 20, 2025)
-const KEY_DATES = [
-  { label: 'Lender 90-Day Repairs',   date: 'Apr 1, 2026',  completedDate: null },
-  { label: 'Lender 360-Day Repairs',  date: 'Jan 1, 2027',  completedDate: null },
-  { label: 'Property Tax',            date: 'Jun 15, 2026', completedDate: 'Jun 10, 2025' },
-  { label: 'Insurance Renewal',       date: 'Sep 5, 2025',  completedDate: null },
+// Due Soon = within 30 days from mock today = Aug 20, 2025
+const KEY_DATES_RAW = [
+  { label: 'Lender 90-Day Repairs',  date: 'Apr 1, 2026',  completedDate: null },
+  { label: 'Lender 360-Day Repairs', date: 'Jan 1, 2027',  completedDate: null },
+  { label: 'Property Tax',           date: 'Jun 15, 2026', completedDate: 'Jun 10, 2025' },
+  { label: 'Insurance Renewal',      date: 'Sep 5, 2025',  completedDate: null },
 ];
 
 const CONTACTS = [
-  { label: 'Lender Contact',   name: 'John Smith',   detail: 'john.smith@metlife.com', href: '#' },
-  { label: 'Property Manager', name: 'Emily Chen',   detail: 'emily@regattapm.com',    href: '#' },
-  { label: 'SharePoint',       name: 'Document Library',   detail: 'View files →',     href: '#' },
-  { label: 'Investor Portal',  name: 'Contact Directory',  detail: 'View contacts →',  href: '#' },
+  { label: 'Lender Contact',   name: 'John Smith',         detail: 'john.smith@metlife.com', href: '#', icon: Mail     },
+  { label: 'Property Manager', name: 'Emily Chen',         detail: 'emily@regattapm.com',    href: '#', icon: Mail     },
+  { label: 'SharePoint',       name: 'Document Library',   detail: 'View files →',           href: '#', icon: FileText },
+  { label: 'Investor Portal',  name: 'Contact Directory',  detail: 'View contacts →',        href: '#', icon: Link2    },
 ];
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
@@ -117,17 +120,19 @@ const CONTACTS = [
 type Status = 'healthy' | 'watch' | 'issue';
 type DateStatus = 'complete' | 'upcoming' | 'due-soon' | 'overdue';
 
-function dscrStatus(v: number): Status   { return v >= 1.25 ? 'healthy' : v >= 1.10 ? 'watch' : 'issue'; }
-function occupancyStatus(v: number): Status { return v >= 93 ? 'healthy' : v >= 90 ? 'watch' : 'issue'; }
-function opReserveStatus(v: number): Status { return v >= 4.0 ? 'healthy' : v >= 2.0 ? 'watch' : 'issue'; }
+const DATE_ORDER: Record<DateStatus, number> = { overdue: 0, 'due-soon': 1, upcoming: 2, complete: 3 };
+
+function dscrStatus(v: number): Status      { return v >= 1.25 ? 'healthy' : v >= 1.10 ? 'watch' : 'issue'; }
+function occupancyStatus(v: number): Status { return v >= 93   ? 'healthy' : v >= 90   ? 'watch' : 'issue'; }
+function opReserveStatus(v: number): Status { return v >= 4.0  ? 'healthy' : v >= 2.0  ? 'watch' : 'issue'; }
 function capexStatus(actual: number, expected: number): Status {
   const lag = expected - actual;
-  return lag <= 0 ? 'healthy' : lag <= 10 ? 'healthy' : lag <= 20 ? 'watch' : 'issue';
+  return lag <= 10 ? 'healthy' : lag <= 20 ? 'watch' : 'issue';
 }
 function capexScheduleLabel(actual: number, expected: number): string {
   const diff = actual - expected;
-  if (diff > 10)  return 'Ahead of schedule';
-  if (diff >= 0)  return 'On track';
+  if (diff > 10)   return 'Ahead of schedule';
+  if (diff >= 0)   return 'On track';
   if (diff >= -10) return 'Slightly behind';
   if (diff >= -20) return 'Behind schedule';
   return 'Significantly behind';
@@ -150,10 +155,10 @@ const STATUS_COLORS: Record<Status, { chip: string; dot: string; border: string;
 };
 
 const DATE_CHIP: Record<DateStatus, { cls: string; label: string }> = {
-  complete:  { cls: 'bg-green-100 text-green-800',  label: 'Complete'  },
-  upcoming:  { cls: 'bg-slate-100 text-slate-600',  label: 'Upcoming'  },
-  'due-soon':{ cls: 'bg-yellow-100 text-yellow-800',label: 'Due Soon'  },
-  overdue:   { cls: 'bg-red-100 text-red-800',      label: 'Overdue'   },
+  complete:   { cls: 'bg-green-100 text-green-800',   label: 'Complete'  },
+  upcoming:   { cls: 'bg-slate-100 text-slate-600',   label: 'Upcoming'  },
+  'due-soon': { cls: 'bg-yellow-100 text-yellow-800', label: 'Due Soon'  },
+  overdue:    { cls: 'bg-red-100 text-red-800',       label: 'Overdue'   },
 };
 
 // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
@@ -168,8 +173,7 @@ function StatusChip({ status }: { status: Status }) {
   );
 }
 
-function TrendBadge({ delta, up, neutral = false }: { delta: string; up: boolean; neutral?: boolean }) {
-  if (neutral) return <span className="flex items-center gap-0.5 text-xs text-slate-400"><Minus className="w-3 h-3" />{delta}</span>;
+function TrendBadge({ delta, up }: { delta: string; up: boolean }) {
   const Icon = up ? TrendingUp : TrendingDown;
   return (
     <span className={`flex items-center gap-0.5 text-xs font-medium ${up ? 'text-green-600' : 'text-red-500'}`}>
@@ -269,9 +273,15 @@ export function PropertySummary() {
   const cStatus = capexStatus(CAPEX.pctComplete, CAPEX.expectedPct);
   const scheduleLabel = capexScheduleLabel(CAPEX.pctComplete, CAPEX.expectedPct);
 
-  const dscrDelta = LOAN.dscr - LOAN.dscrPrev;
-  const mosDelta  = OP_RESERVES.monthsOfCoverage - OP_RESERVES.monthsOfCoveragePrev;
-  const capexDeltaPct = CAPEX.pctComplete - CAPEX.pctCompletePrev;
+  const dscrDelta       = LOAN.dscr - LOAN.dscrPrev;
+  const occupancyDelta  = PROPERTY.occupancy - PROPERTY.occupancyPrev;
+  const mosDelta        = OP_RESERVES.monthsOfCoverage - OP_RESERVES.monthsOfCoveragePrev;
+  const capexDeltaPct   = CAPEX.pctComplete - CAPEX.pctCompletePrev;
+
+  // Sort key dates by urgency: overdue → due-soon → upcoming → complete
+  const KEY_DATES = [...KEY_DATES_RAW]
+    .map(d => ({ ...d, _status: keyDateStatus(d.date, d.completedDate) }))
+    .sort((a, b) => DATE_ORDER[a._status] - DATE_ORDER[b._status]);
 
   return (
     <div className="min-h-screen bg-slate-100 font-sans">
@@ -305,27 +315,30 @@ export function PropertySummary() {
 
       <div className="max-w-7xl mx-auto px-8 py-8 space-y-6">
 
-        {/* ── NOI Signal Strip ─────────────────────────────────────────────── */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-4 flex items-center gap-8">
+        {/* ── NOI Signal Strip — primary > secondary > tertiary hierarchy ──── */}
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-4 flex items-center gap-6 flex-wrap">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-slate-400" />
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">NOI Performance</span>
           </div>
+          {/* Primary: value */}
           <div className="flex items-baseline gap-2">
             <span className="text-xl font-bold text-slate-900">{NOI.current}</span>
             <span className="text-xs text-slate-400">{NOI.period}</span>
           </div>
-          <div className={`flex items-center gap-1 text-sm font-semibold ${NOI.favorable ? 'text-green-600' : 'text-red-500'}`}>
+          {/* Secondary: variance */}
+          <div className={`flex items-center gap-1.5 ${NOI.favorable ? 'text-green-700' : 'text-red-600'}`}>
             {NOI.favorable ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-            <span>{NOI.vsBudget} vs Budget</span>
-            <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${NOI.favorable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {NOI.favorable ? 'Favorable' : 'Unfavorable'}
-            </span>
+            <span className="text-sm font-semibold">{NOI.vsBudget} vs Budget</span>
           </div>
+          {/* Tertiary: badge — smaller weight so it doesn't compete */}
+          <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${NOI.favorable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            {NOI.favorable ? 'Favorable' : 'Unfavorable'}
+          </span>
           <span className="ml-auto text-xs text-slate-400">As Of: {NOI.asOf}</span>
         </div>
 
-        {/* ── KPI Row ──────────────────────────────────────────────────────── */}
+        {/* ── KPI Row — all 4 cards with consistent target/covenant notes ───── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <KpiCard
             icon={TrendingUp}
@@ -342,7 +355,8 @@ export function PropertySummary() {
             main={PROPERTY.occupancy.toFixed(1) + '%'}
             sub={`Vacancy: ${(100 - PROPERTY.occupancy).toFixed(1)}%`}
             status={oStatus}
-            trend={{ delta: '▼ −0.6% vs last mo', up: false }}
+            trend={{ delta: (occupancyDelta >= 0 ? '+' : '') + occupancyDelta.toFixed(1) + '% vs last mo', up: occupancyDelta >= 0 }}
+            note="Target: 93.0%"
           />
           <KpiCard
             icon={ShieldCheck}
@@ -351,6 +365,7 @@ export function PropertySummary() {
             sub={`${OP_RESERVES.remainingBalance} remaining balance`}
             status={rStatus}
             trend={{ delta: (mosDelta >= 0 ? '+' : '') + mosDelta.toFixed(1) + ' mo vs last mo', up: mosDelta >= 0 }}
+            note={'Target: ' + OP_RESERVES.targetMonths.toFixed(1) + ' mo'}
           />
           <KpiCard
             icon={Hammer}
@@ -359,6 +374,7 @@ export function PropertySummary() {
             sub={`${scheduleLabel} · ${CAPEX.spendToDate} of ${CAPEX.initialAmount}`}
             status={cStatus}
             trend={{ delta: '+' + capexDeltaPct + '% vs last update', up: true }}
+            note={'Expected: ' + CAPEX.expectedPct + '% · Target: ' + CAPEX.targetCompletion}
           />
         </div>
 
@@ -368,21 +384,20 @@ export function PropertySummary() {
           {/* ── LEFT COLUMN ────────────────────────────────────────────────── */}
           <div className="space-y-6">
 
-            {/* Summary */}
+            {/* Summary — Property Name removed (shown in header) */}
             <SectionCard title="Summary" icon={Building2}>
-              <Field label="Property Name"       value={PROPERTY.name} />
-              <Field label="Address"             value={PROPERTY.address} />
-              <Field label="Unit Count"          value={PROPERTY.units} />
-              <Field label="Year Built"          value={PROPERTY.yearBuilt} />
-              <Field label="Occupancy"           value={PROPERTY.occupancy.toFixed(1) + '%'} />
-              <Field label="Pre-Leased"          value={PROPERTY.preleased.toFixed(1) + '%'} />
-              <Field label="Acquisition Date"    value={PROPERTY.acquisitionDate} />
-              <Field label="Purchase Price"      value={PROPERTY.purchasePrice} mono />
+              <Field label="Address"              value={PROPERTY.address} />
+              <Field label="Unit Count"           value={PROPERTY.units} />
+              <Field label="Year Built"           value={PROPERTY.yearBuilt} />
+              <Field label="Occupancy"            value={PROPERTY.occupancy.toFixed(1) + '%'} />
+              <Field label="Pre-Leased"           value={PROPERTY.preleased.toFixed(1) + '%'} />
+              <Field label="Acquisition Date"     value={PROPERTY.acquisitionDate} />
+              <Field label="Purchase Price"       value={PROPERTY.purchasePrice} mono />
               <Field label="Total Capitalization" value={PROPERTY.totalCapitalization} mono />
               <CardMeta updated={PROPERTY.updatedAt} />
             </SectionCard>
 
-            {/* Loan Details — grouped into 3 sub-sections */}
+            {/* Loan Details — grouped, months remaining prominently bold */}
             <SectionCard title="Loan Details" icon={DollarSign}>
               <SubGroupHeader label="Structure" />
               <Field label="Loan Amount"         value={LOAN.amount} mono />
@@ -390,19 +405,20 @@ export function PropertySummary() {
               <Field label="Lender"              value={LOAN.lender} />
 
               <SubGroupHeader label="Terms" />
-              <Field label="Interest Rate"       value={LOAN.rate} highlight bold />
-              <Field label="Term"                value={LOAN.term} />
-              <Field label="I/O Period"          value={LOAN.ioPeriod} />
-              <Field label="I/O Remaining"       value={LOAN.ioRemaining + ' mo'} />
-              <Field label="Prepay Penalty"      value={LOAN.prepayPenalty} />
+              <Field label="Interest Rate"  value={LOAN.rate} highlight bold />
+              <Field label="Term"           value={LOAN.term} />
+              <Field label="I/O Period"     value={LOAN.ioPeriod} />
+              <Field label="I/O Remaining"  value={LOAN.ioRemaining + ' mo'} />
+              <Field label="Prepay Penalty" value={LOAN.prepayPenalty} />
 
               <SubGroupHeader label="Risk &amp; Timing" />
               <Field
                 label="Maturity Date"
                 value={
-                  <span className="flex flex-col items-end gap-0.5">
+                  <span className="flex flex-col items-end gap-1">
                     <span className="text-sm font-bold text-teal-700">{LOAN.maturityDate}</span>
-                    <span className="text-xs text-slate-400 font-normal">{LOAN.monthsToMaturity} months remaining</span>
+                    {/* Months remaining as a risk signal — bold and prominent */}
+                    <span className="text-sm font-bold text-slate-700">{LOAN.monthsToMaturity} months remaining</span>
                   </span>
                 }
               />
@@ -416,7 +432,7 @@ export function PropertySummary() {
               <CardMeta source={LOAN.source} asOf={LOAN.asOf} updated={PROPERTY.updatedAt} />
             </SectionCard>
 
-            {/* Investment Details — grouped into Capital / Returns / Performance */}
+            {/* Investment Details — paired metrics combined onto single lines */}
             <SectionCard title="Investment Details" icon={TrendingUp}>
               <SubGroupHeader label="Capital" />
               <Field label="Initial Equity Invested" value={INVESTMENT.initialEquity}     mono />
@@ -424,14 +440,30 @@ export function PropertySummary() {
               <Field label="Unreturned Capital"      value={INVESTMENT.unreturnedCapital} mono highlight />
 
               <SubGroupHeader label="Returns" />
-              <Field label="Preferred Return"               value={INVESTMENT.preferredReturn} />
-              <Field label="Current Distribution (Ann.)"    value={INVESTMENT.currentDistributionAnnualized}    mono />
-              <Field label="Current Distribution %"         value={INVESTMENT.currentDistributionAnnualizedPct} />
+              <Field label="Preferred Return" value={INVESTMENT.preferredReturn} />
+              {/* Current Distribution: $ and % combined on one line */}
+              <Field
+                label="Current Distribution (Ann.)"
+                value={
+                  <span className="font-mono font-semibold text-slate-900">
+                    {INVESTMENT.currentDistributionAnnualized}{' '}
+                    <span className="text-slate-500 font-normal">({INVESTMENT.currentDistributionAnnualizedPct})</span>
+                  </span>
+                }
+              />
 
               <SubGroupHeader label="Performance" />
-              <Field label="Cumulative Pref Shortfall"  value={INVESTMENT.cumPrefShortfall}    mono />
-              <Field label="ITD Distribution Paid ($)"  value={INVESTMENT.itdDistributionPaid} mono />
-              <Field label="ITD Distribution Paid (%)"  value={INVESTMENT.itdDistributionPaidPct} />
+              <Field label="Cumulative Pref Shortfall" value={INVESTMENT.cumPrefShortfall} mono />
+              {/* ITD Distribution: $ and % combined on one line */}
+              <Field
+                label="ITD Distribution Paid"
+                value={
+                  <span className="font-mono font-semibold text-slate-900">
+                    {INVESTMENT.itdDistributionPaid}{' '}
+                    <span className="text-slate-500 font-normal">({INVESTMENT.itdDistributionPaidPct})</span>
+                  </span>
+                }
+              />
               <CardMeta source={INVESTMENT.source} asOf={INVESTMENT.asOf} />
             </SectionCard>
 
@@ -465,32 +497,30 @@ export function PropertySummary() {
 
             {/* Operating Reserves — months of coverage prominently first */}
             <SectionCard title="Operating Reserves" icon={ShieldCheck} highlight>
-              {/* Months of coverage — primary emphasis */}
               <div className="flex items-end justify-between mb-4 pb-4 border-b border-teal-100">
                 <div>
                   <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Months of Coverage</p>
                   <p className="text-4xl font-bold text-slate-900 leading-none">{OP_RESERVES.monthsOfCoverage.toFixed(1)}</p>
                   <p className="text-sm text-slate-500 mt-1">months</p>
                 </div>
-                <div className="text-right">
+                <div className="flex flex-col items-end gap-1.5">
                   <StatusChip status={rStatus} />
                   <TrendBadge delta={`+${mosDelta.toFixed(1)} mo vs last mo`} up />
                 </div>
               </div>
-              {/* Secondary detail fields */}
-              <Field label="Remaining Balance"      value={OP_RESERVES.remainingBalance}  mono highlight />
-              <Field label="Initial Balance"        value={OP_RESERVES.initialBalance}    mono />
-              <Field label="Net Cash Flow To Date"  value={OP_RESERVES.netCashFlowToDate} mono />
+              <Field label="Remaining Balance"     value={OP_RESERVES.remainingBalance}  mono highlight />
+              <Field label="Initial Balance"       value={OP_RESERVES.initialBalance}    mono />
+              <Field label="Net Cash Flow To Date" value={OP_RESERVES.netCashFlowToDate} mono />
               <CardMeta source={OP_RESERVES.source} asOf={OP_RESERVES.asOf} />
             </SectionCard>
 
             {/* CapEx */}
             <SectionCard title="CapEx" icon={Hammer}>
-              <Field label="Initial CapEx Amount"  value={CAPEX.initialAmount}  mono />
-              <Field label="Less Raise Shortfall"  value={CAPEX.raiseShortfall} mono />
-              <Field label="CapEx Spend To Date"   value={CAPEX.spendToDate}    mono highlight />
-              <Field label="CapEx Remaining"       value={CAPEX.remaining}      mono />
-              <Field label="Target Completion"     value={CAPEX.targetCompletion} />
+              <Field label="Initial CapEx Amount" value={CAPEX.initialAmount}  mono />
+              <Field label="Less Raise Shortfall" value={CAPEX.raiseShortfall} mono />
+              <Field label="CapEx Spend To Date"  value={CAPEX.spendToDate}    mono highlight />
+              <Field label="CapEx Remaining"      value={CAPEX.remaining}      mono />
+              <Field label="Target Completion"    value={CAPEX.targetCompletion} />
               <div className="mt-4">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-medium text-slate-500">CapEx % Complete</span>
@@ -499,7 +529,6 @@ export function PropertySummary() {
                     <StatusChip status={cStatus} />
                   </span>
                 </div>
-                {/* Plain-English schedule status */}
                 <p className={`text-xs font-semibold mb-2 ${cStatus === 'healthy' ? 'text-green-700' : cStatus === 'watch' ? 'text-yellow-700' : 'text-red-600'}`}>
                   {scheduleLabel} — {CAPEX.pctComplete - CAPEX.expectedPct > 0
                     ? `${CAPEX.pctComplete - CAPEX.expectedPct}% ahead of expected ${CAPEX.expectedPct}%`
@@ -507,15 +536,8 @@ export function PropertySummary() {
                   }
                 </p>
                 <div className="w-full bg-slate-200 rounded-full h-2.5 relative">
-                  <div
-                    className="bg-teal-600 h-2.5 rounded-full"
-                    style={{ width: `${CAPEX.pctComplete}%` }}
-                  ></div>
-                  {/* Expected marker */}
-                  <div
-                    className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70"
-                    style={{ left: `${CAPEX.expectedPct}%` }}
-                  ></div>
+                  <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: `${CAPEX.pctComplete}%` }}></div>
+                  <div className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70" style={{ left: `${CAPEX.expectedPct}%` }}></div>
                 </div>
                 <div className="flex justify-between mt-1">
                   <span className="text-xs text-slate-400">0%</span>
@@ -526,12 +548,11 @@ export function PropertySummary() {
               <CardMeta source={CAPEX.source} asOf={CAPEX.asOf} />
             </SectionCard>
 
-            {/* Key Dates — Complete / Upcoming / Due Soon / Overdue */}
+            {/* Key Dates — sorted by urgency: overdue → due-soon → upcoming → complete */}
             <SectionCard title="Key Dates" icon={Calendar}>
-              <div className="space-y-0">
+              <div>
                 {KEY_DATES.map((d, i) => {
-                  const s = keyDateStatus(d.date, d.completedDate);
-                  const chip = DATE_CHIP[s];
+                  const chip = DATE_CHIP[d._status];
                   return (
                     <div key={i} className="flex items-start justify-between gap-3 py-3 border-b border-slate-50 last:border-0">
                       <div>
@@ -550,24 +571,30 @@ export function PropertySummary() {
               </div>
             </SectionCard>
 
-            {/* Contacts */}
+            {/* Contacts — increased spacing, subtle per-type icons */}
             <SectionCard title="Contacts &amp; Links" icon={Users}>
-              <div className="space-y-0">
-                {CONTACTS.map((c, i) => (
-                  <div key={i} className="flex items-center justify-between gap-3 py-3 border-b border-slate-50 last:border-0">
-                    <div>
-                      <p className="text-xs text-slate-400 font-medium">{c.label}</p>
-                      <p className="text-sm font-semibold text-slate-800 mt-0.5">{c.name}</p>
+              <div>
+                {CONTACTS.map((c, i) => {
+                  const ContactIcon = c.icon;
+                  return (
+                    <div key={i} className="flex items-center justify-between gap-3 py-4 border-b border-slate-50 last:border-0">
+                      <div className="flex items-start gap-3">
+                        <ContactIcon className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-slate-400 font-medium">{c.label}</p>
+                          <p className="text-sm font-semibold text-slate-800 mt-0.5">{c.name}</p>
+                        </div>
+                      </div>
+                      <a
+                        href={c.href}
+                        className="flex items-center gap-1 text-xs text-teal-700 font-medium hover:text-teal-900 transition-colors flex-shrink-0"
+                      >
+                        {c.detail}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
                     </div>
-                    <a
-                      href={c.href}
-                      className="flex items-center gap-1 text-xs text-teal-700 font-medium hover:text-teal-900 transition-colors"
-                    >
-                      {c.detail}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </SectionCard>
 

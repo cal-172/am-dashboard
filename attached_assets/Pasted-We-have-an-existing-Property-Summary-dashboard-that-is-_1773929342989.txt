@@ -1,0 +1,199 @@
+We have an existing Property Summary dashboard that is already well-designed.
+
+This is a refinement pass only. Do NOT redesign the page. Do NOT change layout structure. Do NOT add new sections.
+
+Focus on improving:
+- visual hierarchy
+- scanability
+- consistency
+- usability for asset managers reviewing many assets
+
+Preserve:
+- current layout
+- card structure
+- color system
+- spacing system
+- KPI row design
+- modern SaaS styling
+
+--------------------------------------------------
+1. KPI ROW – CONSISTENCY IMPROVEMENT
+--------------------------------------------------
+
+Goal: Make all KPI cards feel consistent and system-driven.
+
+Currently:
+- DSCR includes a "Covenant" reference
+- Other KPIs do not have a similar anchor
+
+Update KPI cards to include a small “target” reference where appropriate:
+
+### DSCR
+Keep:
+- Covenant: 1.25x
+
+### Occupancy
+Add:
+- Target: 93%
+
+### Operating Reserves
+Add:
+- Target: 4.0 mo
+
+### CapEx
+Keep expected progress reference already shown
+
+Style:
+- small, muted text
+- consistent placement across all KPI cards
+- do not overpower the main KPI
+
+--------------------------------------------------
+2. NOI PERFORMANCE STRIP – HIERARCHY FIX
+--------------------------------------------------
+
+Goal: Make the NOI signal easier to read at a glance.
+
+Current issue:
+- $ value, variance, and “Favorable” all compete visually
+
+Update hierarchy:
+
+1. Primary: NOI value (e.g., $3.2M)
+2. Secondary: variance (e.g., +$148K vs Budget)
+3. Tertiary: status badge (Favorable)
+
+Changes:
+- slightly reduce font weight or prominence of the “Favorable” label
+- keep it as a badge/chip, not equal importance to numbers
+
+--------------------------------------------------
+3. SUMMARY CARD – REMOVE REDUNDANCY
+--------------------------------------------------
+
+The Property Name is already displayed in the page header.
+
+Remove “Property Name” field from the Summary card.
+
+Keep all other fields unchanged.
+
+--------------------------------------------------
+4. LOAN DETAILS – EMPHASIZE TIME RISK
+--------------------------------------------------
+
+Goal: Make loan timing risk more visible.
+
+Currently:
+- “45 months remaining” is present but visually subtle
+
+Update:
+- Make “months remaining” more prominent
+  - slightly larger font OR bold
+  - place directly under or next to Maturity Date
+
+This should read as a key risk indicator.
+
+Do NOT add new fields.
+
+--------------------------------------------------
+5. INVESTMENT DETAILS – REDUCE COGNITIVE LOAD
+--------------------------------------------------
+
+Goal: Reduce mental effort when scanning paired metrics.
+
+Update formatting:
+
+### Combine paired metrics onto single lines:
+
+Current:
+- ITD Distribution Paid ($)
+- ITD Distribution Paid (%)
+
+Change to:
+- ITD Distribution Paid → $1.84M (23.6%)
+
+Do the same for:
+- Current Distribution (Annual $ and %)
+
+Group visually but do NOT add borders.
+
+--------------------------------------------------
+6. KEY DATES – SORT BY URGENCY
+--------------------------------------------------
+
+Goal: Turn this into a task-oriented section.
+
+Update logic:
+Sort Key Dates in this order:
+
+1. Overdue
+2. Due Soon (within 30 days)
+3. Upcoming
+4. Complete
+
+Do NOT change visual design of date rows.
+
+Keep existing status chips:
+- Complete (green)
+- Upcoming (neutral/blue)
+- Due Soon (yellow)
+- Overdue (red)
+
+Only change ordering.
+
+--------------------------------------------------
+7. CONTACTS & LINKS – LIGHT POLISH
+--------------------------------------------------
+
+Goal: Improve readability slightly without redesign.
+
+Make small improvements:
+- slightly increase vertical spacing between items
+- optionally add subtle icons (email, link, document)
+
+Do NOT redesign this card.
+
+--------------------------------------------------
+8. GENERAL NUMBER FORMATTING CONSISTENCY
+--------------------------------------------------
+
+Ensure consistent formatting across the page:
+
+- Large numbers use abbreviated format where appropriate:
+  - $582,000 → $582K
+  - $1,280,000 → $1.28M
+
+- Keep precision where needed:
+  - DSCR: 1.32x
+  - Occupancy: 94.5%
+  - Months: 4.8 mo
+
+Ensure consistency across all cards.
+
+--------------------------------------------------
+9. DO NOT CHANGE
+--------------------------------------------------
+
+Do NOT:
+- redesign layout
+- move cards around
+- add new sections
+- add new KPI cards
+- introduce tables or spreadsheet styling
+- add input fields
+- overuse colors
+
+This is a polish pass only.
+
+--------------------------------------------------
+10. DELIVERABLE
+--------------------------------------------------
+
+Return an updated Property Summary page that:
+
+- feels cleaner and more consistent
+- improves scanability for multi-asset workflows
+- strengthens hierarchy without adding complexity
+- maintains the current design language
+
+The result should feel like the same page… just sharper and easier to use.
