@@ -427,11 +427,14 @@ async function loadData(){
 
     computeRemaining();
 
-    STATE.setup=(d.setupMetrics||[]).map(m=>({
-      key:m.key, name:m.name, group:m.group,
-      section: m.section||'setup',
-      value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
-    }));
+    const MONTHLY_KEYS=new Set(MONTHLY_STRUCTURE.map(s=>s.key));
+    STATE.setup=(d.setupMetrics||[])
+      .filter(m=>!MONTHLY_KEYS.has(m.key))
+      .map(m=>({
+        key:m.key, name:m.name, group:m.group,
+        section: m.section||'setup',
+        value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
+      }));
     STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:fmtVal(r.amount||'','cur')||r.amount||''}));
     STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:fmtVal(e.amount||'','cur')||e.amount||''}));
     STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
