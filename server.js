@@ -1138,6 +1138,13 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
   const opexStatus = aOpex == null ? 'nodata' : opexVsN == null ? 'nodata' : opexVsN <= 0 ? 'healthy' : (bOpex > 0 && opexVsN /bOpex < 0.05) ? 'watch' : 'issue';
   const noiISStatus= aNoi  == null ? 'nodata' : noiVsN  == null ? 'nodata' : noiVsN  >= 0 ? 'healthy' : 'issue';
 
+  // Economic Vacancy = 1 - (EGI / GPR)  where GPR = pri (potential rental income)
+  const aPri   = latestIS?.a?.pri  != null ? Math.abs(latestIS.a.pri)  : null;
+  const evPct  = (aEgi != null && aPri != null && aPri > 0)
+    ? Math.round((1 - aEgi / aPri) * 1000) / 10   // one decimal place
+    : null;
+  const evStatus = evPct == null ? 'nodata' : evPct < 5 ? 'healthy' : evPct < 10 ? 'watch' : 'issue';
+
   res.json({
     property: {
       name:            get(setup, 'property_name'),
@@ -1217,16 +1224,18 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       source: getLMMeta('noi_ltm')?.source || null,
     },
     incomeStatement: {
-      egi:           srvFmt(aEgi),
-      egiVsBudget:   egiVsN,
+      egi:              srvFmt(aEgi),
+      egiVsBudget:      egiVsN,
       egiStatus,
-      opex:          srvFmt(aOpex),
-      opexVsBudget:  opexVsN,
+      opex:             srvFmt(aOpex),
+      opexVsBudget:     opexVsN,
       opexStatus,
-      noi:           srvFmt(aNoi != null ? Math.abs(aNoi) : null),
-      noiVsBudget:   noiVsN,
-      noiStatus:     noiISStatus,
-      hasData:       aEgi != null || aOpex != null || aNoi != null,
+      noi:              srvFmt(aNoi != null ? Math.abs(aNoi) : null),
+      noiVsBudget:      noiVsN,
+      noiStatus:        noiISStatus,
+      econVacancyPct:   evPct,
+      econVacancyStatus:evStatus,
+      hasData:          aEgi != null || aOpex != null || aNoi != null,
     },
     kpi: {
       occupancy:      liveSnap?.occupancy_pct           ?? currentSnap?.occupancy_pct     ?? null,

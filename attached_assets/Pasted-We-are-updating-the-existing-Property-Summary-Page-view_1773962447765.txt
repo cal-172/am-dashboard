@@ -1,0 +1,136 @@
+We are updating the existing **Property Summary Page** (viewer screen only). The UI is already built. Do NOT redesign anything. This prompt is strictly for metric placement, definitions, and calculation logic.
+
+---
+
+1. UPDATE TOP KPI ROW (4-CARD STRUCTURE)
+
+---
+
+Update the top KPI row to include exactly 4 cards in this order:
+
+1. Effective Gross Income (EGI)
+2. Expenses
+3. Net Operating Income (NOI)
+4. DSCR
+
+Purpose:
+
+* This row should tell a single financial story:
+  Revenue → Expenses → Profit → Debt Coverage
+
+DSCR must be treated as a downstream metric of NOI (not an unrelated KPI).
+
+---
+
+2. DSCR POSITIONING + LOGIC
+
+---
+
+* DSCR remains a KPI card identical in style to others
+* Positioned as the 4th card in the top row
+* Display format:
+
+  * Value (e.g., 0.93x)
+  * Subtitle: "Debt service coverage ratio"
+  * Supporting text:
+    "Covenant: X.XXx · Headroom: ±X.XXx"
+
+Calculation:
+DSCR = NOI / Debt Service
+
+* NOI comes from the NOI KPI
+* Debt Service should come from loan data (or existing system input)
+
+Status logic:
+
+* Risk → DSCR < Covenant
+* Watch → DSCR within small buffer above covenant (e.g., < 1.10x or configurable)
+* Healthy → comfortably above covenant
+
+---
+
+3. REMOVE DSCR FROM SECOND ROW
+
+---
+
+* DSCR should no longer appear in the second KPI row
+* Do not duplicate this metric anywhere else
+
+---
+
+4. DEFINE ECONOMIC VACANCY (CRITICAL)
+
+---
+
+Economic Vacancy must be clearly defined and calculated consistently.
+
+Definition:
+Economic Vacancy (%) = 1 − (Effective Gross Income / Gross Potential Rent)
+
+Where:
+
+* Gross Potential Rent (GPR) = total possible rent at 100% occupancy (before vacancy and loss)
+* Effective Gross Income (EGI) = actual collected income after vacancy, concessions, and loss to lease
+
+Alternative interpretation (if GPR not available):
+Economic Vacancy (%) = Vacancy Loss + Concessions + Bad Debt + Loss to Lease (as % of GPR)
+
+Display:
+
+* Show as a % (e.g., 7.2%)
+* Subtitle: "Includes vacancy, concessions, and collection loss"
+
+Important:
+
+* Economic Vacancy is NOT the same as physical vacancy
+* It reflects total income leakage, not just empty units
+
+---
+
+5. SECOND KPI ROW (UPDATED STRUCTURE)
+
+---
+
+Second row should now contain:
+
+1. Occupancy
+2. Economic Vacancy
+3. Operating Reserves
+4. CapEx Progress
+
+These represent:
+Operational Health + Execution + Liquidity
+
+---
+
+6. RELATIONSHIP BETWEEN OCCUPANCY AND ECONOMIC VACANCY
+
+---
+
+* Occupancy = physical occupancy (leased units / total units)
+* Economic Vacancy = income loss (can exist even at high occupancy)
+
+Both must be shown separately and NOT derived from each other.
+
+---
+
+7. DO NOT CHANGE UI DESIGN
+
+---
+
+* Do NOT modify spacing, fonts, colors, or layout structure
+* Do NOT redesign KPI cards
+* Only update:
+
+  * metric placement
+  * calculation logic
+  * metric definitions
+
+---
+
+## GOAL
+
+Top row tells a complete financial story:
+Income → Expenses → Profit → Debt Coverage
+
+Second row shows operational and risk drivers behind that performance.

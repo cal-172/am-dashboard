@@ -172,7 +172,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .prop-asset-id .val{font-size:12px;font-weight:700;font-family:'Courier New',monospace;opacity:.75;margin-top:2px}
 .ps-content{padding:20px 24px}
 /* ── INCOME STATEMENT 3-CARD ROW ── */
-.income-stmt-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.income-stmt-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .income-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 18px;display:flex;flex-direction:column;gap:6px}
 .income-card.watch{border-left-color:#f59e0b}.income-card.issue{border-left-color:#ef4444}.income-card.nodata{border-left-color:#94a3b8}
 .income-row1{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -1411,10 +1411,19 @@ function renderPS(d){
       ${vsHtml}
     </div>`;
   }
+  // DSCR card (4th in top row): shows covenant + headroom instead of vs-budget
+  const dscrCovenantNum = loan.dscrCovenant ? psParseNum(loan.dscrCovenant) : 1.25;
+  const dscrCovenant    = dscrCovenantNum ?? 1.25;
+  const dscrHeadroom    = dscr != null ? dscr - dscrCovenant : null;
+  const dscrVsRow = dscr != null
+    ? `<span class="income-vs ${dStatus==='healthy'?'fav':dStatus==='issue'?'unfav':'nodata'}">Covenant: ${dscrCovenant.toFixed(2)}x · Headroom: ${dscrHeadroom!=null?(dscrHeadroom>=0?'+':'')+dscrHeadroom.toFixed(2)+'x':'—'}</span>`
+    : `<span class="income-vs nodata">Covenant: ${dscrCovenant.toFixed(2)}x</span>`;
+
   const incomeStmtHtml = `<div class="income-stmt-row">
     ${incomeCard(is.egiStatus||'nodata',  'Effective Gross Income', is.egi,  true, isVsHtml(is.egiVsBudget,         egiFav))}
     ${incomeCard(is.opexStatus||'nodata', 'Expenses',              is.opex, true, isVsHtmlExpense(is.opexVsBudget, opexFav))}
     ${incomeCard(is.noiStatus||'nodata',  'Net Operating Income',  is.noi,  true, isVsHtml(is.noiVsBudget,         noiFav2))}
+    ${incomeCard(dStatus,                 'DSCR',                  dscr!=null?dscr.toFixed(2)+'x':'—', false, dscrVsRow)}
   </div>`;
 
   const equityNum=psParseNum(inv.initialEquity), returnedNum=psParseNum(inv.capitalReturned);
@@ -1424,9 +1433,13 @@ function renderPS(d){
   const occDelta=occ!=null&&occPrev!=null?occ-occPrev:null;
   const capexDelta=capexPct!=null&&capexPctPrev!=null?capexPct-capexPctPrev:null;
 
+  // Economic Vacancy from incomeStatement (EV = 1 - EGI/GPR)
+  const evPct    = is.econVacancyPct    ?? null;
+  const evStatus = is.econVacancyStatus ?? 'nodata';
+
   const kpiCards=[
-    {icon:'📈',title:'DSCR',status:dStatus,main:dscr!=null?dscr.toFixed(2)+'x':'—',sub:'Debt service coverage ratio',trend:dscrDelta!=null?`${dscrDelta>=0?'+':''}${dscrDelta.toFixed(2)} vs last mo`:null,trendUp:dscrDelta!=null&&dscrDelta>=0,note:dscr!=null?`Covenant: 1.25x · Headroom: ${(dscr-1.25).toFixed(2)}x`:null},
-    {icon:'🏢',title:'Occupancy',status:oStatus,main:occ!=null?occ.toFixed(1)+'%':'—',sub:occ!=null?`Vacancy: ${(100-occ).toFixed(1)}%`:'No data',trend:occDelta!=null?`${occDelta>=0?'+':''}${occDelta.toFixed(1)}% vs last mo`:null,trendUp:occDelta!=null&&occDelta>=0,note:'Target: 93.0%'},
+    {icon:'🏢',title:'Occupancy',status:oStatus,main:occ!=null?occ.toFixed(1)+'%':'—',sub:'Physical occupancy (leased units)',trend:occDelta!=null?`${occDelta>=0?'+':''}${occDelta.toFixed(1)}% vs last mo`:null,trendUp:occDelta!=null&&occDelta>=0,note:'Target: 93.0%'},
+    {icon:'📉',title:'Economic Vacancy',status:evStatus,main:evPct!=null?evPct.toFixed(1)+'%':'—',sub:'Includes vacancy, concessions, and collection loss',trend:null,trendUp:false,note:'Definition: 1 − (EGI / GPR)'},
     {icon:'🛡',title:'Operating Reserves',status:resMos!=null?rStatus:'nodata',main:psV(opRes.remainingBalance),sub:resMos!=null?`${resMos.toFixed(2)} mo expense coverage`:'Remaining balance',trend:resMosPrev!=null?`${(resMos-resMosPrev)>=0?'+':''}${(resMos-resMosPrev).toFixed(2)} mo vs last mo`:null,trendUp:resMosPrev!=null&&(resMos-resMosPrev)>=0,note:resMos!=null?`Target: 4.0 mo${opRes.monthlyOpex!=null?' · Monthly opex: $'+Math.round(opRes.monthlyOpex).toLocaleString():''}`:null},
     {icon:'🔨',title:'CapEx Progress',status:cStatus,main:capexPct!=null?capexPct+'%':'—',sub:capexPct!=null?`${psCapexLabel(capexPct,capexExp)} · ${psV(capex.spendToDate)} of ${psV(capex.budget)}`:'No data',trend:capexDelta!=null?`+${capexDelta}% vs last update`:null,trendUp:true,note:capexPct!=null?`Expected: ${capexExp}% · Target: ${psV(capex.targetCompletion)}`:null}
   ];
