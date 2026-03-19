@@ -1,0 +1,618 @@
+We need to design a new Property Summary page for the Asset Management tool.
+
+This page should feel like a clean, modern, institutional asset management dashboard, not a generic property profile and not a spreadsheet clone.
+
+The design should support multifamily asset management across many properties, so it must be scalable, structured, and easy to scan.
+
+Core Objective
+
+Build a read-only Property Summary dashboard that gives an experienced asset manager a quick but complete understanding of:
+
+property basics
+
+loan position
+
+reserves and escrows
+
+operating liquidity
+
+capex status
+
+investment / distribution summary
+
+key dates and contacts
+
+top-level asset health indicators
+
+This page should be powered by data maintained in the Admin area.
+Do not make this page a primary data entry screen.
+
+Design Philosophy
+
+The page should answer, at a glance:
+
+What is this asset?
+
+Is it healthy?
+
+Are reserves adequate?
+
+How is capex progressing?
+
+Is loan coverage safe?
+
+Are there any upcoming deadlines or risks?
+
+The page should feel:
+
+professional
+
+minimal
+
+clean
+
+card-based
+
+easy to scan in under 10 seconds
+
+Avoid making it look like a spreadsheet with too many rows and borders.
+
+PAGE STRUCTURE
+
+Use a 3-layer layout:
+
+1. Header Section
+
+At the top, display:
+
+Property Name
+
+Address
+
+Unit Count
+
+Last Updated date
+
+Maybe a small subtitle for city / state
+
+This should be compact and polished.
+
+Example:
+
+Regatta Apartments
+
+12635 Scarsdale, San Antonio, TX 78217
+
+200 Units
+
+Updated: 8/20/2025
+
+2. KPI / Status Row
+
+Directly below the header, create a row of summary KPI cards.
+
+These are the highest-value health indicators and should be visually prominent.
+
+Include exactly these 4 KPI cards:
+
+A. DSCR
+
+Show:
+
+current DSCR
+
+status indicator
+
+small subtext such as debt coverage health
+
+Status thresholds:
+
+Healthy: DSCR >= 1.25
+
+Watch: DSCR >= 1.10 and < 1.25
+
+Issue: DSCR < 1.10
+
+B. Occupancy
+
+Show:
+
+current occupancy %
+
+small subtext: Vacancy: x.x%
+
+status indicator
+
+Status thresholds:
+
+Healthy: Occupancy >= 93%
+
+Watch: Occupancy >= 90% and < 93%
+
+Issue: Occupancy < 90%
+
+C. Operating Reserves
+
+Show:
+
+reserve balance
+
+months of coverage
+
+status indicator
+
+Status thresholds based on months of coverage:
+
+Healthy: >= 4.0 months
+
+Watch: >= 2.0 and < 4.0 months
+
+Issue: < 2.0 months
+
+D. CapEx Progress
+
+Show:
+
+% complete
+
+amount spent vs total budget
+
+status indicator
+
+Status thresholds based on actual % complete versus expected % complete:
+
+Healthy: within 10 percentage points of expected
+
+Watch: lagging by 10 to 20 points
+
+Issue: lagging by more than 20 points
+
+KPI Card UX
+
+Each KPI card should include:
+
+large main number
+
+smaller contextual subtext
+
+colored status chip or dot:
+
+green = Healthy
+
+yellow = Watch
+
+red = Issue
+
+Do not over-clutter these cards.
+
+3. Main Summary Grid
+
+Below the KPI row, create a clean grid of cards using the actual section structure of the property summary.
+
+Use a 2-column layout on desktop.
+
+Left Column
+
+Summary
+
+Loan Details
+
+Investment Details
+
+Right Column
+
+Lender Reserves
+
+Lender Escrows
+
+Operating Reserves
+
+CapEx
+
+Key Dates
+
+Contacts
+
+CARD CONTENT REQUIREMENTS
+1. Summary Card
+
+Fields:
+
+Name
+
+Address
+
+Unit Count
+
+Year Built
+
+Occupancy
+
+Pre-Leased
+
+Acquisition Date
+
+Purchase Price
+
+Total Capitalization
+
+Display this as a clean list, not editable.
+
+2. Loan Details Card
+
+Fields:
+
+Loan Amount
+
+Loan to Value (LTV)
+
+Lender
+
+Term
+
+Rate
+
+I/O Period
+
+I/O Remaining (mo)
+
+Prepay Penalty
+
+Maturity Date
+
+DSCR
+
+Also include a small secondary line:
+
+Remaining term / months remaining to maturity
+
+If possible, visually emphasize:
+
+Rate
+
+Maturity Date
+
+DSCR
+
+3. Investment Details Card
+
+Fields:
+
+Initial Equity Invested
+
+Capital Returned
+
+Unreturned Capital
+
+Preferred Return
+
+Current Distribution Annualized
+
+Current Distribution Annualized %
+
+Cumulative Pref Shortfall To Date ($)
+
+ITD Distribution Paid ($)
+
+ITD Distribution Paid (%)
+
+Important:
+Do not add a full preferred return waterfall calculator here.
+Keep only the summary outputs above.
+
+This section should remain scalable across many deals and should not become a custom one-off waterfall module.
+
+4. Lender Reserves Card
+
+Fields:
+
+Debt Service Reserve
+
+Repair Escrow
+
+Replacement Reserve
+
+Total Lender Reserves
+
+Total Lender Reserves should be clearly emphasized as a calculated rollup.
+
+5. Lender Escrows Card
+
+Fields:
+
+Insurance Escrow
+
+Tax Escrow
+
+Total Lender Escrows
+
+Total should be emphasized.
+
+6. Operating Reserves Card
+
+Fields:
+
+Initial Operating Balance
+
+Operating Surplus / (Draw) To Date
+
+Remaining Balance
+
+Months of Coverage
+
+Also include:
+
+status indicator based on months of coverage
+
+This is an important liquidity card and should visually stand out a bit more than a normal card.
+
+7. CapEx Card
+
+Fields:
+
+Initial CAPEX Amount
+
+Less Raise Shortfall
+
+CAPEX Spend To Date
+
+CAPEX Remaining
+
+CapEx % Complete
+
+Target Completion Date
+
+Also show:
+
+a progress bar for % complete
+
+status indicator for progress health
+
+CapEx should be visually easy to interpret.
+
+8. Key Dates Card
+
+Display key dates as a list with date labels and status indicators.
+
+Fields:
+
+Lender 90-Day Repairs
+
+Lender 360-Day Repairs
+
+Property Tax
+
+Insurance Renewal
+
+For each date, show:
+
+target date
+
+optional completed date if available
+
+status chip:
+
+Complete
+
+Upcoming
+
+Overdue
+
+Do not use spreadsheet-style checkboxes. Use clean status chips or badges.
+
+Suggested logic:
+
+Complete if completed date exists
+
+Upcoming if due date is in future and not completed
+
+Overdue if past due and not completed
+
+9. Contacts Card
+
+Show important links or contacts such as:
+
+SharePoint / document link
+
+Contact list link
+
+lender or PM contact reference
+
+Keep this simple and clean.
+
+VISUAL / UX GUIDELINES
+General Style
+
+Use a modern card-based UI with:
+
+soft shadows
+
+rounded corners
+
+strong spacing
+
+minimal borders
+
+clean typography
+
+Avoid heavy spreadsheet borders.
+
+Hierarchy
+
+Use typography hierarchy:
+
+section title
+
+label
+
+value
+
+supporting metadata
+
+Labels should be lighter and smaller.
+Values should be darker and more prominent.
+
+Density
+
+Do not make every section equally dense.
+Some cards should breathe more.
+
+Icons
+
+Use subtle icons only where helpful:
+
+loan
+
+calendar
+
+reserves
+
+capex
+
+contacts
+
+Do not overdo icons.
+
+Status Colors
+
+Use consistent status colors:
+
+Healthy / Complete = green
+
+Watch / Upcoming = yellow
+
+Issue / Overdue = red
+
+Use them sparingly and consistently.
+
+SECTION METADATA
+
+Each card should optionally show small metadata such as:
+
+Source
+
+As Of Date
+
+Last Updated
+
+Definitions:
+
+As Of = date the underlying data represents
+
+Last Updated = date the record was last saved in the app
+
+This metadata should be subtle, not dominant.
+
+Display it as small muted text in the card header or footer.
+
+Example:
+
+Source: Lender Statement
+
+As Of: 8/20/2025
+
+Updated: 8/22/2025
+
+IMPORTANT BUSINESS LOGIC
+
+This Property Summary page is read-only and should be fed from Admin-managed data.
+
+Do not place editable inputs directly on this page.
+
+Inputs are maintained in Admin and should map to the summary page.
+
+Many displayed values are calculated and should not be edited directly.
+
+Examples of calculated fields:
+
+Total Lender Reserves
+
+Total Lender Escrows
+
+Remaining Operating Balance
+
+CapEx Remaining
+
+CapEx % Complete
+
+Months of Coverage
+
+Unreturned Capital
+
+ITD Distribution Paid %
+
+DSCR
+
+DSCR REQUIREMENT
+
+Include DSCR in this version.
+
+Use available summary inputs and financial data to support DSCR display.
+
+Show DSCR as a first-class KPI and also within Loan Details.
+
+If exact DSCR source data is not yet fully wired, design the UI to support it cleanly now.
+
+RESPONSIVENESS
+
+Desktop:
+
+two-column card grid
+
+KPI row above
+
+comfortable spacing
+
+Tablet:
+
+cards stack more tightly
+
+KPI cards may go 2x2
+
+Mobile:
+
+single column stack
+
+preserve readability
+
+Do not let the page become cramped.
+
+WHAT TO AVOID
+
+Do not:
+
+make this look like a spreadsheet clone
+
+turn this into a giant editable form
+
+add the full pref waterfall math module
+
+use too many colors
+
+overload the user with every field at equal prominence
+
+create generic placeholder property profile widgets unrelated to asset management
+
+This page should feel specifically built for multifamily asset management.
+
+DELIVERABLE
+
+Please create a polished Property Summary page mockup / implementation with:
+
+Header
+
+KPI health row
+
+Two-column section card layout
+
+Proper section titles matching the summary structure above
+
+DSCR included now
+
+Occupancy, Reserves, and CapEx statuses included
+
+Clean metadata display for source / as-of / updated
+
+Read-only presentation fed by Admin data
+
+Use realistic example values and ensure the page feels like a professional asset management dashboard rather than a generic real estate profile.
