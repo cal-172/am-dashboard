@@ -144,6 +144,16 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 
 .cap-select{height:28px;padding:0 8px;border:1px solid #C5DDE0;border-radius:4px;background:#F7FBFC;color:#1A2B2C;font-size:11.5px;cursor:pointer;outline:none}
 .cap-select:focus{border-color:#13545E}
+
+/* Trend Analysis slicer layout */
+.tr-layout{display:flex;gap:14px;align-items:flex-start}
+.tr-slicer{width:206px;flex-shrink:0;background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);padding:8px 8px 12px;max-height:calc(100vh - 160px);overflow-y:auto;position:sticky;top:0}
+.tr-content{flex:1;min-width:0}
+.slicer-grp-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#13545E;padding:10px 6px 3px;margin:0}
+.slicer-grp-hdr:first-child{padding-top:4px}
+.slicer-btn{display:block;width:100%;text-align:left;background:none;border:none;padding:5px 8px;border-radius:4px;font-size:11px;color:#1A2B2C;cursor:pointer;line-height:1.3;margin-bottom:1px}
+.slicer-btn:hover:not(.active){background:#EEF7F8;color:#0E3D45}
+.slicer-btn.active{background:#13545E;color:#fff;font-weight:600}
 </style>
 </head>
 <body>
@@ -1057,18 +1067,15 @@ function renderTrendPage() {
   const dEl = document.getElementById('topbar-dates');
   if (dEl) dEl.innerHTML = `<div>${cat.label}</div>`;
 
-  const catOptions = TREND_CATS.map(g =>
-    `<optgroup label="${g.group}">${g.cats.map(c =>
-      `<option value="${c.key}"${c.key===trCat?' selected':''}>${c.label}</option>`
-    ).join('')}</optgroup>`
+  const slicerHTML = TREND_CATS.map(g => `
+    <div class="slicer-grp-hdr">${g.group}</div>
+    ${g.cats.map(c =>
+      `<button class="slicer-btn${c.key===trCat?' active':''}" onclick="setTrCat('${c.key}')">${c.label}</button>`
+    ).join('')}`
   ).join('');
 
   document.getElementById('app').innerHTML = `
     <div class="controls-bar">
-      <div class="cap-group">
-        <span class="cap-lbl">Category</span>
-        <select class="cap-select" id="tr-cat-sel" onchange="setTrCat(this.value)">${catOptions}</select>
-      </div>
       <div class="cap-group">
         <span class="cap-lbl">View</span>
         <div class="seg-btn">
@@ -1077,15 +1084,20 @@ function renderTrendPage() {
         </div>
       </div>
     </div>
-    <div class="wf-chart-wrap"><div id="tr-chart"></div></div>
-    <div class="wf-table-wrap">
-      <table class="wf-table">
-        <thead><tr>
-          <th style="text-align:left">Month</th>
-          <th>Actual</th><th>Budget</th><th>Variance</th><th>Var %</th><th>F/U</th>
-        </tr></thead>
-        <tbody id="tr-tbody"></tbody>
-      </table>
+    <div class="tr-layout">
+      <div class="tr-slicer">${slicerHTML}</div>
+      <div class="tr-content">
+        <div class="wf-chart-wrap"><div id="tr-chart"></div></div>
+        <div class="wf-table-wrap">
+          <table class="wf-table">
+            <thead><tr>
+              <th style="text-align:left">Month</th>
+              <th>Actual</th><th>Budget</th><th>Variance</th><th>Var %</th><th>F/U</th>
+            </tr></thead>
+            <tbody id="tr-tbody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>`;
 
   setTimeout(() => {

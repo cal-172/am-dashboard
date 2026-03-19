@@ -1,0 +1,171 @@
+We need to replace the Category dropdown on the Trend Analysis page with a left-side category slicer panel, similar to Excel slicers.
+
+GOAL
+Make category selection faster and more visual by using grouped button-style selectors on the left side of the chart instead of a dropdown.
+
+IMPORTANT
+Do not redesign the whole page.
+Keep the current Trend Analysis page structure, chart, and table.
+This is a targeted UI enhancement only.
+
+--------------------------------------------------
+CHANGE REQUIRED
+--------------------------------------------------
+
+Remove the Category dropdown from the top filter bar.
+
+Replace it with a left-side slicer panel positioned to the left of the chart area.
+
+The page should become a 2-column layout within the chart/content area:
+
+- Left column: category slicer panel
+- Right column: chart and detail table
+
+Keep the overall app shell, top nav, and page title unchanged.
+
+--------------------------------------------------
+SLICER PANEL REQUIREMENTS
+--------------------------------------------------
+
+Create a vertical slicer panel on the left side with grouped button selectors.
+
+Group categories into sections:
+
+Income
+- Potential Rental Income
+- Loss to Lease
+- Vacancy Loss
+- Model / Admin
+- Concessions
+- Bad Debt
+- Other Income
+- Utility Reimbursement
+- Total Rental Revenue
+- Total Other Income
+- Effective Gross Income
+
+Expenses
+- Payroll
+- Advertising & Marketing
+- General & Administrative
+- Utilities
+- Repairs & Maintenance
+- Contract Services
+- Management Fee
+- Make Ready
+- Taxes
+- Insurance
+- Total Operating Expenses
+
+Other
+- Net Operating Income
+- Asset Management Fee
+- Debt Service
+- Total Debt & Fees
+- Cash for Distribution
+- Capital Expenditures (CAPEX)
+- Non-Operating Expenses
+- Total Below the Line Expenses
+- Net Income
+
+--------------------------------------------------
+BUTTON / SLICER BEHAVIOR
+--------------------------------------------------
+
+Each category should be a clickable button.
+
+Behavior:
+- clicking a button updates the chart
+- clicking a button updates the detail table below
+- selected category is visually highlighted
+- only one category can be selected at a time
+
+Default selected category:
+- Net Operating Income
+
+--------------------------------------------------
+STYLING
+--------------------------------------------------
+
+The slicers should look like Excel slicers / BI filter chips:
+- clean rectangular buttons
+- compact vertical stack
+- grouped under section headers
+- active button uses dark teal fill with white text
+- inactive buttons use white or very light background with dark text
+- subtle hover state
+- consistent spacing between buttons
+- section headers slightly bolder
+
+Make sure the slicer panel feels polished and matches the app’s current color palette.
+
+--------------------------------------------------
+LAYOUT
+--------------------------------------------------
+
+Inside the main Trend Analysis content area:
+
+Left panel:
+- fixed width, примерно 220px to 260px
+- vertically scrollable if category list gets too long
+
+Right panel:
+- chart card
+- detail table below chart
+
+The chart area should expand to fill remaining width.
+
+Do not crush the chart. Maintain good visual balance.
+
+--------------------------------------------------
+TOP FILTER BAR
+--------------------------------------------------
+
+Keep the View toggle at the top:
+- Total
+- Per Unit
+
+Remove only the category dropdown from the top bar.
+
+Optionally, show the currently selected category as plain text in the top-right or as a chart subtitle.
+
+--------------------------------------------------
+RESPONSIVENESS
+--------------------------------------------------
+
+On smaller screens:
+- allow the slicer panel to scroll vertically
+- keep chart readable
+- avoid breaking the layout
+
+If needed, stack slicer above chart on very narrow screens only.
+
+--------------------------------------------------
+DO NOT CHANGE
+--------------------------------------------------
+
+Do not change:
+- chart logic
+- trend calculations
+- favorable/unfavorable logic
+- existing table logic
+- page title
+- top nav
+- other pages
+
+This is only a category selection UI upgrade.
+
+--------------------------------------------------
+ACCEPTANCE CRITERIA
+--------------------------------------------------
+
+This enhancement is complete when:
+
+1. Category dropdown is removed
+2. Left-side slicer panel exists
+3. Categories are grouped into Income / Expenses / Other
+4. Clicking a slicer updates the chart and table
+5. Active category is clearly highlighted
+6. Default selection is Net Operating Income
+7. Page remains visually balanced and readable
+8. No unrelated layout changes are introduced
