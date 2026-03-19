@@ -1,0 +1,314 @@
+We need to design the Admin screen for the Property Summary page in the Asset Management tool.
+
+IMPORTANT:
+- This is a UI/UX design task only
+- Do NOT build backend logic yet
+- Do NOT create database tables or schemas
+- Do NOT wire up real save behavior yet
+- Focus on designing the workflow and layout so monthly updating is fast, intuitive, and scalable
+
+GOAL
+Create an Admin screen that feeds the Property Summary dashboard.
+
+This screen should be designed for an asset manager or operator who may need to update many properties every month, so the experience must feel:
+- clean
+- fast
+- logical
+- low-friction
+- scalable across dozens of assets
+
+The admin screen should NOT feel like one giant form.
+
+--------------------------------------------------
+CORE UX PRINCIPLE
+--------------------------------------------------
+
+Design this as a workflow, not just a data form.
+
+There are 2 different types of information that need to be maintained:
+
+1. Property Setup / Static Data
+- entered rarely
+- examples: address, year built, loan terms, purchase price
+
+2. Monthly Update Data
+- entered repeatedly every month
+- examples: occupancy, reserve balances, capex spend, distributions, DSCR-related inputs
+
+These should be visually separated.
+
+The screen should make it obvious:
+- what gets updated monthly
+- what is one-time / infrequently changed setup data
+
+--------------------------------------------------
+PAGE STRUCTURE
+--------------------------------------------------
+
+Build the Admin screen using the same overall app shell and styling as the rest of the AM tool.
+
+At the top of the page, include:
+
+- Page title: Property Summary Admin
+- Property selector or current property context
+- Optional subtitle: “Manage Property Summary Inputs”
+- Optional month selector for Monthly Update section
+
+Below that, break the screen into 2 major areas:
+
+### A. Monthly Update
+This should appear first and be visually emphasized
+
+### B. Property Setup
+This should appear below and feel secondary
+
+--------------------------------------------------
+MONTHLY UPDATE SECTION
+--------------------------------------------------
+
+This is the most important section.
+
+Design it so a user can quickly update the latest monthly values without scrolling through static property info.
+
+Use an accordion layout.
+
+Create a clearly labeled section:
+
+## Monthly Update
+Subtitle:
+“These fields typically change month to month and drive dashboard KPIs and summary metrics.”
+
+Within Monthly Update, include these accordion sections:
+
+### 1. Performance Snapshot
+Fields:
+- Occupancy %
+- Vacancy % (optional display only if needed)
+- DSCR
+- NOI (LTM)
+- NOI vs Budget
+- NOI status (display only, no manual input if possible)
+- As Of Date
+- Source
+- Notes
+
+### 2. Operating Reserves
+Fields:
+- Remaining Operating Reserve Balance
+- Initial Operating Balance
+- Net Cash Flow / Surplus / (Draw) To Date
+- Expense Coverage (Months) [displayed as calculated/read-only placeholder in UI]
+- As Of Date
+- Source
+- Notes
+
+### 3. CapEx Progress
+Fields:
+- CapEx Spend To Date
+- CapEx % Complete [display read-only placeholder]
+- Target Completion Date
+- CapEx status [display-only placeholder]
+- As Of Date
+- Source
+- Notes
+
+### 4. Investment / Distribution Update
+Fields:
+- Current Distribution Annualized ($)
+- Current Distribution Annualized (%)
+- ITD Distribution Paid ($)
+- ITD Distribution Paid (%)
+- Cumulative Pref Shortfall To Date ($)
+- As Of Date
+- Source
+- Notes
+
+Important:
+In this Monthly Update section, show a month context such as:
+- “Updating March 2026”
+or
+- a month selector / period pill at the top
+
+The UX should make monthly updating feel quick and repeatable.
+
+--------------------------------------------------
+PROPERTY SETUP SECTION
+--------------------------------------------------
+
+Below Monthly Update, create a second area:
+
+## Property Setup
+Subtitle:
+“These fields are typically entered once and updated infrequently.”
+
+Use accordion sections that mirror the Property Summary page.
+
+### 1. Summary
+Fields:
+- Property Name
+- Address
+- Unit Count
+- Year Built
+- Acquisition Date
+- Purchase Price
+- Total Capitalization
+
+### 2. Loan Details
+Fields:
+- Loan Amount
+- Loan to Value (LTV)
+- Lender
+- Interest Rate
+- Term
+- I/O Period
+- I/O Remaining (mo)
+- Prepay Penalty
+- Maturity Date
+- DSCR Covenant / Threshold (for display context)
+
+### 3. Lender Reserves
+This section must support dynamic line items.
+
+UI behavior:
+- start with a list of reserve rows
+- each row has:
+  - Reserve Name
+  - Amount
+- Include:
+  - Add Line Item button
+  - Remove line item action
+
+Examples:
+- Debt Service Reserve
+- Repair Escrow
+- Replacement Reserve
+
+Do NOT hardcode the list visually.
+
+### 4. Lender Escrows
+Also dynamic.
+
+Default line items shown in UI:
+- Insurance Escrow
+- Tax Escrow
+
+Allow:
+- Add Line Item
+- Remove Line Item
+
+Each row:
+- Escrow Name
+- Amount
+
+### 5. Key Dates
+Dynamic list UI.
+
+Each row should include:
+- Date Label / Name
+- Due Date
+- Completed Date (optional)
+- Notes (optional)
+
+Allow:
+- Add Key Date
+- Remove Key Date
+
+### 6. Contacts & Links
+Dynamic list UI.
+
+Each row should include:
+- Contact / Link Label
+- Name (if applicable)
+- Email or URL
+- Type (contact, email, link, document)
+- Optional Notes
+
+Allow:
+- Add Contact / Link
+- Remove row
+
+--------------------------------------------------
+SECTION METADATA
+--------------------------------------------------
+
+For sections where applicable, include these admin fields:
+
+- Source
+- As Of Date
+- Notes
+
+Do NOT make “Last Updated” a manual input.
+That should be displayed as a system-generated read-only field placeholder in the UI only.
+
+Use helper text to clarify:
+- As Of Date = date the underlying source data represents
+- Last Updated = when the record was last edited in the app
+
+--------------------------------------------------
+UI / LAYOUT REQUIREMENTS
+--------------------------------------------------
+
+Use accordion sections for the main content.
+
+Each accordion header should show:
+- section title
+- small summary text if possible
+- maybe small metadata preview like:
+  Source: Lender Statement | As Of: Aug 20, 2025
+
+For the overall page:
+- clean, modern SaaS UI
+- consistent with the existing Property Summary styling
+- same typography, colors, and spacing system
+- strong hierarchy
+- not overly dense
+
+Use:
+- cards or panel containers
+- clear labels
+- consistent field spacing
+- subtle helper text where useful
+- clear Add / Remove buttons for dynamic sections
+
+--------------------------------------------------
+UX GOALS
+--------------------------------------------------
+
+The screen should feel like:
+- “I can quickly update this month’s numbers”
+- “I know which fields are static vs recurring”
+- “I can manage lender-specific reserve and escrow structures without fighting the UI”
+
+Avoid:
+- giant all-in-one form
+- spreadsheet-style layout
+- overly technical configuration panels
+- too many fields visible at once without grouping
+
+--------------------------------------------------
+OPTIONAL NICE-TO-HAVES (UI ONLY)
+--------------------------------------------------
+
+If it improves usability, include:
+- sticky action bar with Save / Cancel
+- unsaved changes indicator
+- small section badges like “Monthly” or “Setup”
+- helper text under complex fields
+
+But do NOT overbuild.
+
+--------------------------------------------------
+DELIVERABLE
+--------------------------------------------------
+
+Design a polished Admin screen mockup / UI for Property Summary inputs that includes:
+
+1. Monthly Update section first
+2. Property Setup section second
+3. Accordion-based structure
+4. Dynamic UI patterns for reserves, escrows, key dates, and contacts
+5. Source / As Of / Notes fields where relevant
+6. Consistent styling with the AM tool
+7. A workflow that feels fast and scalable for repeated monthly use
+
+This is a UI-only canvas/design pass. Do not implement backend behavior yet.
