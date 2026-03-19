@@ -924,7 +924,34 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
   const month = req.query.month || '2026-mar';
   const setupMetrics   = readSetupMetrics();
   const allMonthly     = readMonthlyMetrics();
-  const monthlyMetrics = allMonthly[month] || [];
+  let monthlyMetrics   = [...(allMonthly[month] || [])];
+
+  // Always merge live NOI/budget data from aggregated actuals — no save required
+  try {
+    const agg   = aggregateFromRawData();
+    const mData = agg[month];
+    if (mData) {
+      const now    = new Date().toISOString().slice(0, 10);
+      const noiFin = mData.a && mData.a.noi != null ? mData.a.noi : null;
+      const budNoi = mData.b && mData.b.noi != null ? mData.b.noi : null;
+      if (noiFin != null) {
+        const idxN = monthlyMetrics.findIndex(m => m.key === 'noi_ltm');
+        const noiRow = { key:'noi_ltm', name:'NOI (LTM)', group:'Performance',
+          value:`$${Math.round(Math.abs(noiFin)).toLocaleString()}`,
+          source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
+        if (idxN >= 0) monthlyMetrics[idxN] = noiRow; else monthlyMetrics.push(noiRow);
+      }
+      if (noiFin != null && budNoi != null) {
+        const vs   = noiFin - budNoi;
+        const idx2 = monthlyMetrics.findIndex(m => m.key === 'noi_vs_budget');
+        const vsRow = { key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
+          value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
+          source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
+        if (idx2 >= 0) monthlyMetrics[idx2] = vsRow; else monthlyMetrics.push(vsRow);
+      }
+    }
+  } catch (_) { /* no actuals data */ }
+
   res.json({
     setupMetrics,
     monthlyMetrics,
@@ -978,14 +1005,13 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
       if (idx >= 0) processed[idx] = computedRow; else processed.push(computedRow);
     }
 
-    // Pull NOI from uploaded financial actuals if available
+    // Pull NOI from aggregated actuals/budget data
     try {
-      const fin = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-      const mKey = Object.keys(fin.months || {}).find(k => k.toLowerCase() === month.replace('-','_'));
-      const mData = mKey ? fin.months[mKey] : null;
+      const agg = aggregateFromRawData();
+      const mData = agg[month]; // key format matches: "2026-feb"
       if (mData) {
-        const noiFin = mData.noi != null ? mData.noi : null;
-        const budNoi = mData.budget_noi != null ? mData.budget_noi : null;
+        const noiFin = mData.a && mData.a.noi != null ? mData.a.noi : null;
+        const budNoi = mData.b && mData.b.noi != null ? mData.b.noi : null;
         if (noiFin != null) {
           const idxN = processed.findIndex(m => m.key === 'noi_ltm');
           const noiRow = { key:'noi_ltm', name:'NOI (LTM)', group:'Performance',
@@ -1002,7 +1028,7 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
           if (idx2 >= 0) processed[idx2] = vsRow; else processed.push(vsRow);
         }
       }
-    } catch (_) { /* no financial data yet */ }
+    } catch (_) { /* no actuals data yet */ }
 
     all[month] = processed;
     writeJSON(PROP_MONTHLY_FILE, all);
