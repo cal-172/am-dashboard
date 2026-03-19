@@ -807,17 +807,9 @@ function renderWaterfallPage() {
 
   document.getElementById('app').innerHTML = `
     <div class="controls-bar">
-      <span class="ctrl-label">${PROPERTY}</span>
       <div class="cap-group">
         <span class="cap-lbl">Month</span>
         <div class="seg-btn">${monthBtns}</div>
-      </div>
-      <div class="cap-group">
-        <span class="cap-lbl">View</span>
-        <div class="seg-btn">
-          <button id="wf-btn-amt" class="${!wfPerUnit?'active':''}" onclick="setWfMode(false)">Total</button>
-          <button id="wf-btn-pu"  class="${wfPerUnit?'active':''}"  onclick="setWfMode(true)">Per Unit</button>
-        </div>
       </div>
     </div>
     <div class="wf-chart-wrap"><div id="wf-chart"></div></div>
