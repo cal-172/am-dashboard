@@ -1,0 +1,278 @@
+The current Property Summary page is strong. We do NOT want a redesign. We want a targeted refinement pass to improve scanability, hierarchy, and decision usefulness for an experienced asset manager managing many assets.
+
+IMPORTANT
+- Preserve the current overall layout, card structure, color palette, spacing style, and visual direction
+- Do not rebuild the page from scratch
+- Do not make this page editable
+- This is a refinement pass only
+
+GOAL
+Improve the page so it feels more like an asset management command center and less like a static summary. Focus on:
+1. better KPI usefulness
+2. better grouping within dense cards
+3. stronger emphasis on the most decision-critical metrics
+4. cleaner status/urgency communication
+
+--------------------------------------------------
+1. KPI ROW REFINEMENTS
+--------------------------------------------------
+
+Keep the existing 4 KPI cards:
+- DSCR
+- Occupancy
+- Operating Reserves
+- CapEx Progress
+
+Make the following updates:
+
+### A. Add trend context to each KPI card
+Add a small secondary trend line or delta indicator beneath the main KPI so the user can tell direction, not just current status.
+
+Examples:
+- DSCR: ▲ +0.08 vs last month
+- Occupancy: ▼ -0.6% vs last month
+- Operating Reserves: ▲ +0.3 months vs last month
+- CapEx Progress: ▲ +4% vs last update
+
+This trend indicator should be visually subtle:
+- small muted text
+- small arrow icon
+- not overpower the main KPI
+
+### B. DSCR card: add covenant context
+In the DSCR KPI card, add a small reference line such as:
+- Covenant: 1.25x
+or
+- Threshold: 1.25x
+
+This should help the user quickly understand headroom.
+
+### C. Occupancy card
+Keep Occupancy as the main KPI and Vacancy as subtext.
+Do not make Vacancy a separate KPI.
+
+### D. Operating Reserves card
+Make “Months of Coverage” more prominent than the reserve balance.
+The card should visually emphasize:
+- months of coverage first
+- reserve balance second
+
+The goal is to support how asset managers actually think about liquidity.
+
+### E. CapEx Progress card
+Keep the % complete as the primary metric, but add clearer plain-English context comparing actual progress vs expected progress.
+
+Examples:
+- Ahead of schedule
+- On track
+- Behind schedule
+
+This should be derived from actual % complete vs expected % complete.
+
+--------------------------------------------------
+2. LOAN DETAILS CARD REFINEMENT
+--------------------------------------------------
+
+Keep the same Loan Details card, but improve scanability by visually grouping the content into 3 subgroups:
+
+### Structure
+- Loan Amount
+- Loan to Value (LTV)
+- Lender
+
+### Terms
+- Rate
+- Term
+- I/O Period
+- I/O Remaining (mo)
+- Prepay Penalty
+
+### Risk / Timing
+- Maturity Date
+- Remaining term / months remaining
+- DSCR
+
+Use subtle visual grouping only:
+- spacing
+- micro-subheaders
+- slight separators if needed
+
+Do NOT add heavy borders.
+
+Also visually emphasize:
+- Rate
+- Maturity Date
+- DSCR
+
+These are more important than the other fields.
+
+--------------------------------------------------
+3. INVESTMENT DETAILS CARD REFINEMENT
+--------------------------------------------------
+
+Keep the same Investment Details content, but reduce cognitive load by grouping fields into 3 subsections:
+
+### Capital
+- Initial Equity Invested
+- Capital Returned
+- Unreturned Capital
+
+### Returns
+- Preferred Return
+- Current Distribution Annualized
+- Current Distribution Annualized %
+
+### Performance
+- Cumulative Pref Shortfall To Date ($)
+- ITD Distribution Paid ($)
+- ITD Distribution Paid (%)
+
+Use visual grouping only:
+- spacing
+- micro-subheaders
+- subtle layout rhythm
+
+Do not add additional metrics or the full pref waterfall calculator.
+
+--------------------------------------------------
+4. OPERATING RESERVES CARD REFINEMENT
+--------------------------------------------------
+
+Keep the same fields:
+- Initial Operating Balance
+- Operating Surplus / (Draw) To Date
+- Remaining Balance
+- Months of Coverage
+
+Updates:
+- Make Months of Coverage the most prominent value in the card
+- Keep Remaining Balance clearly visible, but secondary
+- Add a slightly stronger visual emphasis to this card because liquidity is critical
+  - subtle tinted border, soft background tint, or stronger status strip is fine
+- Do not overdo the styling
+
+--------------------------------------------------
+5. CAPEX CARD REFINEMENT
+--------------------------------------------------
+
+Keep the same fields:
+- Initial CAPEX Amount
+- Less Raise Shortfall
+- CAPEX Spend To Date
+- CAPEX Remaining
+- Target Completion
+- CapEx % Complete
+
+Updates:
+- Make the comparison between Actual % Complete and Expected % Complete easier to interpret
+- Add a plain-English status message:
+  - Ahead of schedule
+  - On track
+  - Behind schedule
+
+This should be based on the same status logic already used for CapEx.
+
+Keep the progress bar.
+
+The % complete should remain the primary value.
+
+--------------------------------------------------
+6. KEY DATES CARD REFINEMENT
+--------------------------------------------------
+
+Keep the Key Dates card, but improve urgency visibility.
+
+Required statuses:
+- Complete
+- Upcoming
+- Due Soon
+- Overdue
+
+Status logic recommendation:
+- Complete: completed date exists
+- Overdue: due date passed and no completion date
+- Due Soon: due within 30 days and not complete
+- Upcoming: future date outside due-soon window
+
+Use color-coded chips:
+- green = Complete
+- yellow = Due Soon
+- blue or neutral = Upcoming
+- red = Overdue
+
+Do not use spreadsheet-style checkboxes.
+
+--------------------------------------------------
+7. ADD A MINI NOI SIGNAL TO THE PAGE
+--------------------------------------------------
+
+Add a compact NOI performance signal somewhere near the top section of the page, without creating a large new section.
+
+This can be:
+- a small KPI card
+- or a compact strip near the header/KPI row
+
+Show:
+- Current NOI
+- Variance vs Budget
+- favorable/unfavorable indicator
+
+This should be compact and secondary to the 4 main KPI cards, but visible enough to quickly assess performance.
+
+Do not let it crowd the page.
+
+--------------------------------------------------
+8. NUMBER FORMATTING / LABEL POLISH
+--------------------------------------------------
+
+Refine display formatting for better scanability:
+
+### A. Shorten large values where appropriate
+Examples:
+- $582,000 -> $582K
+- $1,280,000 -> $1.28M
+
+Do this where it improves readability, especially in KPI cards and high-level displays.
+
+### B. Keep precision where needed
+- DSCR should stay like 1.32x
+- Occupancy should stay like 94.5%
+- Months of coverage can stay like 4.8 mo
+
+### C. Simplify overly technical labels where it improves clarity
+Example:
+- “Surplus / (Draw) To Date” could become “Net Cash Flow To Date”
+Only do this if it improves readability without losing meaning.
+
+--------------------------------------------------
+9. PRESERVE THE GOOD PARTS
+--------------------------------------------------
+
+Keep:
+- current page layout
+- current card structure
+- current top header style
+- current status chip styling direction
+- current metadata display for Source / As Of / Updated
+- current modern SaaS visual style
+
+Do NOT:
+- redesign the whole page
+- remove cards
+- add spreadsheets/tables
+- add edit fields
+- add too many colors
+- introduce visual clutter
+
+--------------------------------------------------
+10. DELIVERABLE
+--------------------------------------------------
+
+Please update the existing Property Summary page with the refinement changes above and keep the page polished, readable, and professional.
+
+The result should feel like:
+- the same page
+- but more useful to a real asset manager
+- more scannable
+- more decision-oriented
+- more clearly prioritized
