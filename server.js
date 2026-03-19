@@ -811,16 +811,20 @@ function parseMetricNum(raw) {
   if (!raw) return null;
   let s = String(raw).trim().replace(/,/g, '');
   if (!s || s === '—') return null;
+  // Handle accounting negative: ($31,680) or (31680)
+  let neg = false;
+  if (s.startsWith('(') && s.endsWith(')')) { neg = true; s = s.slice(1, -1); }
   if (s.startsWith('+')) s = s.slice(1);
-  let mul = 1;
+  if (s.startsWith('-')) { neg = true; s = s.slice(1); }
   if (s.startsWith('$')) s = s.slice(1);
+  let mul = 1;
   if (s.endsWith('K')) { mul = 1e3;  s = s.slice(0, -1); }
   if (s.endsWith('M')) { mul = 1e6;  s = s.slice(0, -1); }
   if (s.endsWith('B')) { mul = 1e9;  s = s.slice(0, -1); }
   if (s.endsWith('%')) s = s.slice(0, -1);
   if (s.endsWith('x')) s = s.slice(0, -1);
   const n = parseFloat(s);
-  return isNaN(n) ? null : n * mul;
+  return isNaN(n) ? null : (neg ? -n : n) * mul;
 }
 
 /* ── Status helpers ── */
@@ -829,7 +833,7 @@ function occupancyStatusStr(v){ return v == null ? null : v >= 93  ? 'healthy' :
 function reserveStatusStr(v) { return v == null ? null : v >= 4.0  ? 'healthy' : v >= 2.0  ? 'watch' : 'issue'; }
 function noiStatusStr(vs)    {
   if (vs == null) return null;
-  return vs >= 0 ? 'healthy' : vs >= -50000 ? 'watch' : 'issue';
+  return vs >= 0 ? 'healthy' : 'issue';
 }
 function capexStatusStr(pct, expected) {
   if (pct == null) return null;
@@ -942,12 +946,19 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
         if (idxN >= 0) monthlyMetrics[idxN] = noiRow; else monthlyMetrics.push(noiRow);
       }
       if (noiFin != null && budNoi != null) {
-        const vs   = noiFin - budNoi;
-        const idx2 = monthlyMetrics.findIndex(m => m.key === 'noi_vs_budget');
+        const vs    = noiFin - budNoi;
+        const idx2  = monthlyMetrics.findIndex(m => m.key === 'noi_vs_budget');
         const vsRow = { key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
           value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
           source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
         if (idx2 >= 0) monthlyMetrics[idx2] = vsRow; else monthlyMetrics.push(vsRow);
+
+        // Derive NOI status from the live variance
+        const status  = noiStatusStr(vs);
+        const idxSt   = monthlyMetrics.findIndex(m => m.key === 'noi_status');
+        const stRow   = { key:'noi_status', name:'NOI Status', group:'Performance',
+          value: status, source:'Financial Actuals', notes:'Derived from NOI vs Budget', lastUpdated: now };
+        if (idxSt >= 0) monthlyMetrics[idxSt] = stRow; else monthlyMetrics.push(stRow);
       }
     }
   } catch (_) { /* no actuals data */ }
@@ -1020,12 +1031,19 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
           if (idxN >= 0) processed[idxN] = noiRow; else processed.push(noiRow);
         }
         if (noiFin != null && budNoi != null) {
-          const vs = noiFin - budNoi;
-          const idx2 = processed.findIndex(m => m.key === 'noi_vs_budget');
+          const vs    = noiFin - budNoi;
+          const idx2  = processed.findIndex(m => m.key === 'noi_vs_budget');
           const vsRow = { key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
             value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
             source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
           if (idx2 >= 0) processed[idx2] = vsRow; else processed.push(vsRow);
+
+          // Derive NOI status from variance
+          const status  = noiStatusStr(vs);
+          const idxSt   = processed.findIndex(m => m.key === 'noi_status');
+          const stRow   = { key:'noi_status', name:'NOI Status', group:'Performance',
+            value: status, source:'Financial Actuals', notes:'Derived from NOI vs Budget', lastUpdated: now };
+          if (idxSt >= 0) processed[idxSt] = stRow; else processed.push(stRow);
         }
       }
     } catch (_) { /* no actuals data yet */ }
@@ -1158,22 +1176,26 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       asOf:   getLMMeta('noi_ltm')?.asOf   || null,
       source: getLMMeta('noi_ltm')?.source || null,
     },
-    kpi: {
-      occupancy:     currentSnap?.occupancy_pct     ?? null,
-      occupancyPrev: priorSnap?.occupancy_pct       ?? null,
-      dscr:          currentSnap?.dscr              ?? null,
-      dscrPrev:      priorSnap?.dscr                ?? null,
-      reserveMos:    currentSnap?.expense_coverage_months ?? null,
-      reserveMosPrev:priorSnap?.expense_coverage_months  ?? null,
-      capexPct:      currentSnap?.capex_pct_complete ?? null,
-      capexPctPrev:  priorSnap?.capex_pct_complete  ?? null,
-      noiStatus:     currentSnap?.noi_status        ?? null,
-      dscrStatus:    currentSnap?.dscr_status       ?? null,
-      occupancyStatus:currentSnap?.occupancy_status ?? null,
-      reserveStatus: currentSnap?.reserve_status    ?? null,
-      capexStatus:   currentSnap?.capex_status      ?? null,
-      latestMonth:   latestKey,
-    },
+    kpi: (() => {
+      // Always build a live snapshot for the latest month so statuses are current
+      const liveSnap = latestKey ? buildSnapshot(latestKey) : null;
+      return {
+        occupancy:     liveSnap?.occupancy_pct              ?? currentSnap?.occupancy_pct     ?? null,
+        occupancyPrev: priorSnap?.occupancy_pct             ?? null,
+        dscr:          liveSnap?.dscr                       ?? currentSnap?.dscr              ?? null,
+        dscrPrev:      priorSnap?.dscr                      ?? null,
+        reserveMos:    liveSnap?.expense_coverage_months    ?? currentSnap?.expense_coverage_months ?? null,
+        reserveMosPrev:priorSnap?.expense_coverage_months   ?? null,
+        capexPct:      liveSnap?.capex_pct_complete         ?? currentSnap?.capex_pct_complete ?? null,
+        capexPctPrev:  priorSnap?.capex_pct_complete        ?? null,
+        noiStatus:     liveSnap?.noi_status                 ?? null,
+        dscrStatus:    liveSnap?.dscr_status                ?? null,
+        occupancyStatus:liveSnap?.occupancy_status          ?? null,
+        reserveStatus: liveSnap?.reserve_status             ?? null,
+        capexStatus:   liveSnap?.capex_status               ?? null,
+        latestMonth:   latestKey,
+      };
+    })(),
     keyDates: readKeyDates(),
     contacts: readContacts(),
   });

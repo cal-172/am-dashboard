@@ -5,7 +5,7 @@
     "dscr": 0.93,
     "occupancy_pct": 94.5,
     "vacancy_pct": 5.5,
-    "reserve_balance": null,
+    "reserve_balance": 410078,
     "expense_coverage_months": null,
     "capex_pct_complete": 78,
     "total_lender_reserves": 485976,
@@ -15,6 +15,6 @@
     "occupancy_status": "healthy",
     "reserve_status": null,
     "capex_status": "healthy",
-    "snapshot_created_at": "2026-03-19T21:48:44.390Z"
+    "snapshot_created_at": "2026-03-19T21:52:23.813Z"
   }
 }

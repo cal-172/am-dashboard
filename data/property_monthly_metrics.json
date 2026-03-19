@@ -40,7 +40,7 @@
       "key": "initial_op_balance",
       "name": "Initial Operating Balance",
       "group": "Operating Reserves",
-      "value": "",
+      "value": "$335,853",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-19"
@@ -58,9 +58,9 @@
       "key": "remaining_reserve_bal",
       "name": "Remaining Reserve Balance",
       "group": "Operating Reserves",
-      "value": "",
-      "source": "",
-      "notes": "",
+      "value": "$410,078",
+      "source": "System",
+      "notes": "Auto-calculated: Initial Balance + Net Cash Flow",
       "lastUpdated": "2026-03-19"
     },
     {
