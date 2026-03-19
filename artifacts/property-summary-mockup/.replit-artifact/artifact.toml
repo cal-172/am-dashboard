@@ -1,0 +1,22 @@
+kind = "design"
+previewPath = "/__mockup/"
+title = "Property Summary Mockup"
+version = "1.0.0"
+id = "artifacts/property-summary-mockup"
+router = "path"
+
+[[integratedSkills]]
+name = "mockup-sandbox"
+version = "1.0.0"
+
+[[services]]
+name = "Component Preview Server"
+paths = [ "/__mockup/" ]
+localPort = 18380
+
+[services.development]
+run = "npm run dev"
+
+[services.env]
+PORT = "18380"
+BASE_PATH = "/__mockup/"
