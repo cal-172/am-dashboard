@@ -1,0 +1,69 @@
+We are refining the current Property Summary Admin UI.
+
+This is a UI-only refinement pass.
+Do NOT redesign the page. Do NOT introduce backend logic.
+
+We learned something useful from the current Setup section:
+- standard setup metrics work reasonably well in the shared grid
+- Contacts & Links does NOT fit the same metric grid structure and should be separated
+
+Please make the following updates:
+
+1. Restore Metric Group headers inside the Setup section
+
+The Setup section should not appear as one long undifferentiated list.
+
+Add back clear Metric Group headers within Setup for:
+- SUMMARY
+- LOAN DETAILS
+- LENDER RESERVES
+- LENDER ESCROWS
+- KEY DATES
+
+Requirements:
+- use the same visual style concept as the group headers in Monthly Updates
+- make the group headers clearly visible and easy to scan
+- add enough spacing/separation so the groups do not blur together
+- keep the Setup section in the same overall grid/table system
+
+2. Remove Contacts & Links from the Setup section
+
+The Contacts & Links rows should no longer appear inside Setup.
+
+Reason:
+- the fields required for Contacts & Links do not align cleanly with the metric-based grid
+- forcing them into the same structure makes the UI feel inconsistent
+
+3. Create a separate Contacts & Links section below Setup
+
+Add a new standalone section below Setup called:
+
+Contacts & Links
+
+This section should:
+- be visually separate from Setup
+- have its own appropriate column structure for contact/link records
+- not try to force those rows into the metric grid used by Monthly Updates and Setup
+
+Use columns that make sense for Contacts & Links, such as:
+- Label
+- Name
+- Email / URL
+- Type
+- Notes
+- Last Updated
+
+Keep it visually consistent with the rest of the admin page, but allow it to use a structure that fits contact/link records better.
+
+4. Keep Setup collapsed behavior as-is
+
+Do not redesign the expand/collapse behavior right now unless needed for layout consistency.
+
+5. Do not change Monthly Updates
+
+Leave Monthly Updates as-is.
+
+Goal:
+We want the screen to feel cleaner and more intentional by:
+- restoring clear metric grouping inside Setup
+- separating Contacts & Links into its own dedicated section where it fits naturally

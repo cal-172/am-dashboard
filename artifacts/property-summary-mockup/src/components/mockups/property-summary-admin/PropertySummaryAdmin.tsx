@@ -414,6 +414,81 @@ function MetricSection({
   );
 }
 
+// ─── CONTACTS SECTION (standalone, own column structure) ─────────────────────
+
+const CONTACT_COLS = 'grid grid-cols-[1fr_1fr_1.5fr_100px_1fr_110px_36px]';
+
+function ContactsSection({ items, onAdd, onRemove }: {
+  items: Contact[]; onAdd: () => void; onRemove: (id: number) => void;
+}) {
+  const [expanded, setExpanded] = useState(true);
+
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      {/* Header */}
+      <button
+        onClick={() => setExpanded(e => !e)}
+        className="w-full flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-slate-50 hover:brightness-95 transition-colors"
+      >
+        <div className="text-left">
+          <div className="flex items-center gap-2">
+            <Users className="w-3.5 h-3.5 text-slate-400" />
+            <h2 className="text-sm font-bold text-slate-800">Contacts &amp; Links</h2>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200/70 text-slate-500 uppercase tracking-wider">
+              {items.length} rows
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 mt-0.5">People, portals, and documents associated with this asset.</p>
+        </div>
+        {expanded
+          ? <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+          : <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        }
+      </button>
+
+      {expanded && (
+        <>
+          {/* Column headers */}
+          <div className={`${CONTACT_COLS} px-4 py-2 bg-slate-50 border-b border-slate-200`}>
+            {['Label','Name','Email / URL','Type','Notes','Last Updated',''].map((h, i) => (
+              <span key={i} className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{h}</span>
+            ))}
+          </div>
+
+          {/* Rows */}
+          {items.map(c => (
+            <div key={c.id} className={`${CONTACT_COLS} px-4 py-2 border-b border-slate-100 hover:bg-slate-50/80 transition-colors items-center`}>
+              <input type="text" defaultValue={c.label} placeholder="Label"
+                className={cellCls} />
+              <input type="text" defaultValue={c.name} placeholder="Name"
+                className={cellCls} />
+              <input type="text" defaultValue={c.emailOrUrl} placeholder="email or https://..."
+                className={cellCls} />
+              <select defaultValue={c.type}
+                className={`${cellCls} cursor-pointer`}>
+                <option value="email">Email</option>
+                <option value="link">Link</option>
+                <option value="document">Document</option>
+              </select>
+              <input type="text" defaultValue="" placeholder="Notes"
+                className={cellCls} />
+              <span className="text-xs text-slate-400">Sep 1, 2025</span>
+              <RemoveBtn onClick={() => onRemove(c.id)} />
+            </div>
+          ))}
+
+          {/* Add row */}
+          <div className="px-4 py-3 border-b border-slate-100">
+            <button onClick={onAdd} className="flex items-center gap-1.5 text-xs font-semibold text-teal-700 hover:text-teal-900 transition-colors">
+              <Plus className="w-3 h-3" /> Add contact or link
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 export function PropertySummaryAdmin() {
@@ -509,24 +584,26 @@ export function PropertySummaryAdmin() {
 
         <MetricSection
           title="Setup"
-          description="Metrics entered once or updated infrequently — property details, loan structure, reserves, and contacts."
+          description="Metrics entered once or updated infrequently — property details, loan structure, reserves, and key dates."
           accent={false}
           defaultExpanded={true}
-          ungrouped={true}
           metrics={setupMetrics}
           onGroupChange={handleGroupChange}
           reserves={reserves}
           escrows={escrows}
           keyDates={keyDates}
-          contacts={contacts}
           onAddReserve={() => setReserves(p => [...p, { id: dynId++, name: '', amount: '' }])}
           onRemoveReserve={id => setReserves(p => p.filter(r => r.id !== id))}
           onAddEscrow={() => setEscrows(p => [...p, { id: dynId++, name: '', amount: '' }])}
           onRemoveEscrow={id => setEscrows(p => p.filter(e => e.id !== id))}
           onAddKeyDate={() => setKeyDates(p => [...p, { id: dynId++, label: '', dueDate: '', completed: '', notes: '' }])}
           onRemoveKeyDate={id => setKeyDates(p => p.filter(d => d.id !== id))}
-          onAddContact={() => setContacts(p => [...p, { id: dynId++, label: '', name: '', emailOrUrl: '', type: 'email' }])}
-          onRemoveContact={id => setContacts(p => p.filter(c => c.id !== id))}
+        />
+
+        <ContactsSection
+          items={contacts}
+          onAdd={() => setContacts(p => [...p, { id: dynId++, label: '', name: '', emailOrUrl: '', type: 'email' }])}
+          onRemove={id => setContacts(p => p.filter(c => c.id !== id))}
         />
 
         <div className="h-8" />
