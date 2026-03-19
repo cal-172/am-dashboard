@@ -246,7 +246,7 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
         <span class="sb-icon">👥</span> User Permissions
       </button>
     </nav>
-    <script>(function(){var h=location.hash.replace('#','');var p=h==='users'?'users':h==='mappings'?'mappings':'files';if(p!=='files'){document.getElementById('page-files').style.display='none';document.getElementById('page-'+p).style.display='';document.getElementById('nav-files').classList.remove('active');document.getElementById('nav-'+p).classList.add('active');}})();</script>
+    <script>(function(){var h=location.hash.replace('#','');var p=h==='users'?'users':h==='mappings'?'mappings':'files';if(p!=='files'){var s=document.createElement('style');s.id='admin-init-style';s.textContent='#page-files{display:none!important}#page-'+p+'{display:block!important}';document.head.appendChild(s);}document.getElementById('nav-files').classList.toggle('active',p==='files');document.getElementById('nav-'+p).classList.add('active');})();</script>
     <div class="sb-footer">
       <div class="sb-user">
         <strong id="sb-email">Loading...</strong>
@@ -609,6 +609,8 @@ const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vac
    NAV
 ══════════════════════════════════════════════════════ */
 function showPage(page) {
+  // Remove the one-time init style so subsequent navigation works correctly
+  document.getElementById('admin-init-style')?.remove();
   ['files','users','mappings'].forEach(p => {
     document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
     document.getElementById('nav-'+p).classList.toggle('active', p===page);
