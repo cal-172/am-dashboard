@@ -1,0 +1,97 @@
+Please enhance the top KPI section on the Property Summary Page.
+
+IMPORTANT:
+- Do NOT redesign the page
+- Extend the existing NOI Performance component
+- Maintain current styling and spacing consistency
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Create a 3-card financial KPI row at the top:
+
+- Effective Gross Income (EGI)
+- Expenses
+- Net Operating Income (NOI)
+
+These should appear side-by-side in a single row.
+
+--------------------------------------------------
+KPI STRUCTURE (ALL THREE CARDS)
+--------------------------------------------------
+
+Each KPI card must follow this 3-row layout:
+
+Row 1:
+- Left: KPI label (EGI, Expenses, NOI)
+- Right: status chip (Healthy / Watch / Risk)
+
+Row 2:
+- Large KPI value (primary focus)
+- Include “LTM” label where applicable
+
+Row 3:
+- Change vs Budget
+- Format:
+  - ↑ $X,XXX vs Budget (positive)
+  - ↓ ($X,XXX) vs Budget (negative)
+
+--------------------------------------------------
+DATA REQUIREMENTS
+--------------------------------------------------
+
+EGI:
+- Value: Effective Gross Income (LTM)
+- Change: EGI vs Budget
+
+Expenses:
+- Value: Total Operating Expenses (LTM)
+- Change: Expenses vs Budget
+
+NOI:
+- Value: NOI (LTM)
+- Change: NOI vs Budget
+
+--------------------------------------------------
+COLOR LOGIC
+--------------------------------------------------
+
+EGI:
+- Positive variance vs budget = green
+- Negative variance vs budget = red
+
+NOI:
+- Positive variance vs budget = green
+- Negative variance vs budget = red
+
+Expenses (IMPORTANT - inverse logic):
+- Higher than budget = red (bad)
+- Lower than budget = green (good)
+
+--------------------------------------------------
+STATUS CHIP
+--------------------------------------------------
+
+- Use existing KPI status logic
+- Labels: Healthy / Watch / Risk
+- Position in top-right of each card
+
+--------------------------------------------------
+LAYOUT
+--------------------------------------------------
+
+- All 3 KPI cards should be equal width
+- Align horizontally in one row
+- Match existing card style used for NOI
+- Keep spacing tight and consistent
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Create a clean “mini income statement” at the top of the dashboard so users can immediately understand:
+
+Revenue → Expenses → NOI
+
+with clear performance vs budget and status indicators.

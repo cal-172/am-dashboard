@@ -171,16 +171,16 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .prop-asset-id .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.45;font-weight:600}
 .prop-asset-id .val{font-size:12px;font-weight:700;font-family:'Courier New',monospace;opacity:.75;margin-top:2px}
 .ps-content{padding:20px 24px}
-.noi-strip{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px}
-.noi-strip.issue{border-left-color:#ef4444}
-.noi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568;display:flex;align-items:center;gap:6px}
-.noi-main{font-size:18px;font-weight:700;color:#1A2B2C}
-.noi-period{font-size:10px;color:#6A8E91;margin-left:4px}
-.noi-vs{font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px}
-.noi-vs.fav{color:#15803d}.noi-vs.unfav{color:#dc2626}
-.noi-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
-.noi-badge.fav{background:#dcfce7;color:#15803d}.noi-badge.unfav{background:#fee2e2;color:#dc2626}
-.noi-asof{margin-left:auto;font-size:10.5px;color:#6A8E91}
+/* ── INCOME STATEMENT 3-CARD ROW ── */
+.income-stmt-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.income-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 18px;display:flex;flex-direction:column;gap:6px}
+.income-card.watch{border-left-color:#f59e0b}.income-card.issue{border-left-color:#ef4444}.income-card.nodata{border-left-color:#94a3b8}
+.income-row1{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.income-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568}
+.income-val{font-size:26px;font-weight:700;color:#1A2B2C;line-height:1}
+.income-ltm{font-size:10px;color:#6A8E91;margin-left:4px;font-weight:400}
+.income-vs{font-size:11px;font-weight:600}
+.income-vs.fav{color:#15803d}.income-vs.unfav{color:#dc2626}.income-vs.nodata{color:#94a3b8}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 @media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
 .kpi-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
@@ -1380,6 +1380,35 @@ function renderPS(d){
   const fav=noi.favorable!==false;
   const mToMat=psMonthsToMat(loan.maturityDate);
 
+  // ── Income statement cards
+  const is = d.incomeStatement || {};
+  function isVsHtml(varN, favorable, label) {
+    if (varN == null) return `<span class="income-vs nodata">— vs Budget</span>`;
+    const abs = Math.abs(varN);
+    const aabs = abs >= 1e6 ? '$'+(abs/1e6).toFixed(1)+'M' : abs >= 1e3 ? '$'+Math.round(abs/1e3)+'K' : '$'+Math.round(abs).toLocaleString();
+    const fmtd = favorable ? `↑ ${aabs}` : `↓ (${aabs})`;
+    return `<span class="income-vs ${favorable?'fav':'unfav'}">${fmtd} vs Budget</span>`;
+  }
+  const egiFav   = is.egiVsBudget  != null ? is.egiVsBudget  >= 0 : null;
+  const opexFav  = is.opexVsBudget != null ? is.opexVsBudget <= 0 : null; // lower = good
+  const noiFav2  = is.noiVsBudget  != null ? is.noiVsBudget  >= 0 : null;
+  const badgeMap = {healthy:'Healthy',watch:'Watch',issue:'Risk',nodata:'No Data'};
+  function incomeCard(status, label, value, ltm, vsHtml) {
+    return `<div class="income-card ${status}">
+      <div class="income-row1">
+        <span class="income-lbl">${label}</span>
+        <span class="kpi-badge ${status}">${badgeMap[status]||'No Data'}</span>
+      </div>
+      <div class="income-val">${value||'—'}${ltm?`<span class="income-ltm">LTM</span>`:''}</div>
+      ${vsHtml}
+    </div>`;
+  }
+  const incomeStmtHtml = `<div class="income-stmt-row">
+    ${incomeCard(is.egiStatus||'nodata',  'Effective Gross Income', is.egi,  true, isVsHtml(is.egiVsBudget,  egiFav))}
+    ${incomeCard(is.opexStatus||'nodata', 'Expenses',              is.opex, true, isVsHtml(is.opexVsBudget, opexFav))}
+    ${incomeCard(is.noiStatus||'nodata',  'Net Operating Income',  is.noi,  true, isVsHtml(is.noiVsBudget,  noiFav2))}
+  </div>`;
+
   const equityNum=psParseNum(inv.initialEquity), returnedNum=psParseNum(inv.capitalReturned);
   const unreturnedNum=equityNum!=null&&returnedNum!=null?equityNum-returnedNum:null;
 
@@ -1431,13 +1460,7 @@ function renderPS(d){
       </div>
     </div>
     <div class="ps-content">
-      <div class="noi-strip${fav?'':' issue'}">
-        <span class="noi-label">📊 NOI Performance</span>
-        <span class="noi-main">${psV(noi.current)}<span class="noi-period">LTM</span></span>
-        <span class="noi-vs ${fav?'fav':'unfav'}">${fav?'↑':'↓'} ${psV(noi.vsBudget)} vs Budget</span>
-        <span class="noi-badge ${fav?'fav':'unfav'}">${fav?'Healthy':'Risk'}</span>
-        ${noi.asOf?`<span class="noi-asof">As Of: ${noi.asOf}</span>`:''}
-      </div>
+      ${incomeStmtHtml}
       <div class="kpi-row">${kpiHtml}</div>
       <div class="two-col">
         <div class="col-stack">${leftHtml}</div>

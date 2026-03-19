@@ -1110,6 +1110,34 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
   // Build a live snapshot for the latest month — used by both kpi and opReserves
   const liveSnap = latestKey ? buildSnapshot(latestKey) : null;
 
+  // Income statement (EGI / Expenses / NOI) from raw aggregated actuals vs budget
+  const aggIS    = aggregateFromRawData();
+  const latestIS = latestKey ? (aggIS[latestKey] || null) : null;
+  const srvFmt   = n => {
+    if (n == null) return null;
+    const abs = Math.abs(n);
+    let s;
+    if      (abs >= 1e9) s = '$' + (abs/1e9).toFixed(1) + 'B';
+    else if (abs >= 1e6) s = '$' + (abs/1e6).toFixed(1) + 'M';
+    else if (abs >= 1e3) s = '$' + Math.round(abs/1e3)  + 'K';
+    else                 s = '$' + Math.round(abs).toLocaleString();
+    return n < 0 ? `(${s})` : s;
+  };
+  const aEgi  = latestIS?.a?.egi  != null ? Math.abs(latestIS.a.egi)  : null;
+  const bEgi  = latestIS?.b?.egi  != null ? Math.abs(latestIS.b.egi)  : null;
+  const aOpex = latestIS?.a?.opex != null ? Math.abs(latestIS.a.opex) : null;
+  const bOpex = latestIS?.b?.opex != null ? Math.abs(latestIS.b.opex) : null;
+  const aNoi  = latestIS?.a?.noi  != null ? latestIS.a.noi  : null;
+  const bNoi  = latestIS?.b?.noi  != null ? latestIS.b.noi  : null;
+
+  const egiVsN   = (aEgi  != null && bEgi  != null) ? aEgi  - bEgi  : null;  // +good
+  const opexVsN  = (aOpex != null && bOpex != null) ? aOpex - bOpex : null;  // +bad (over budget)
+  const noiVsN   = (aNoi  != null && bNoi  != null) ? aNoi  - bNoi  : null;  // +good
+
+  const egiStatus  = aEgi  == null ? 'nodata' : egiVsN  == null ? 'nodata' : egiVsN  >= 0 ? 'healthy' : (bEgi  > 0 && Math.abs(egiVsN) /bEgi  < 0.05) ? 'watch' : 'issue';
+  const opexStatus = aOpex == null ? 'nodata' : opexVsN == null ? 'nodata' : opexVsN <= 0 ? 'healthy' : (bOpex > 0 && opexVsN /bOpex < 0.05) ? 'watch' : 'issue';
+  const noiISStatus= aNoi  == null ? 'nodata' : noiVsN  == null ? 'nodata' : noiVsN  >= 0 ? 'healthy' : 'issue';
+
   res.json({
     property: {
       name:            get(setup, 'property_name'),
@@ -1187,6 +1215,18 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       favorable:  (() => { const v = parseMetricNum(getLM('noi_vs_budget')); return v != null ? v >= 0 : true; })(),
       asOf:   getLMMeta('noi_ltm')?.asOf   || null,
       source: getLMMeta('noi_ltm')?.source || null,
+    },
+    incomeStatement: {
+      egi:           srvFmt(aEgi),
+      egiVsBudget:   egiVsN,
+      egiStatus,
+      opex:          srvFmt(aOpex),
+      opexVsBudget:  opexVsN,
+      opexStatus,
+      noi:           srvFmt(aNoi != null ? Math.abs(aNoi) : null),
+      noiVsBudget:   noiVsN,
+      noiStatus:     noiISStatus,
+      hasData:       aEgi != null || aOpex != null || aNoi != null,
     },
     kpi: {
       occupancy:      liveSnap?.occupancy_pct           ?? currentSnap?.occupancy_pct     ?? null,
