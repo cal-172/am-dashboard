@@ -85,7 +85,7 @@
       "key": "target_completion_date",
       "name": "Target Completion Date",
       "group": "CapEx",
-      "value": "12/1/2026",
+      "value": "6/1/26",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-19"
@@ -104,6 +104,116 @@
       "name": "CapEx Status",
       "group": "CapEx",
       "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "current_distrib_ann_usd",
+      "name": "Current Distrib. Ann. ($)",
+      "group": "Investment",
+      "value": "$158,747",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "current_distrib_ann_pct",
+      "name": "Current Distrib. Ann. (%)",
+      "group": "Investment",
+      "value": "5.1%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "itd_distrib_paid_usd",
+      "name": "ITD Distribution Paid ($)",
+      "group": "Investment",
+      "value": "$158,747",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "itd_distrib_paid_pct",
+      "name": "ITD Distribution Paid (%)",
+      "group": "Investment",
+      "value": "1.3%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "cum_pref_shortfall",
+      "name": "Cumulative Pref Shortfall",
+      "group": "Investment",
+      "value": "$964,117",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "capital_returned",
+      "name": "Capital Returned",
+      "group": "Investment",
+      "value": "$158,747",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    }
+  ],
+  "2026-feb": [
+    {
+      "key": "occupancy_pct",
+      "name": "Occupancy %",
+      "group": "Performance",
+      "value": "94.5%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "vacancy_pct",
+      "name": "Vacancy %",
+      "group": "Performance",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "dscr",
+      "name": "DSCR",
+      "group": "Performance",
+      "value": "0.93x",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "noi_status",
+      "name": "NOI Status",
+      "group": "Performance",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "net_cash_flow",
+      "name": "Net Cash Flow To Date",
+      "group": "Operating Reserves",
+      "value": "$74,225",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "capex_spend",
+      "name": "CapEx Spend To Date",
+      "group": "CapEx",
+      "value": "$2,419,835",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-19"

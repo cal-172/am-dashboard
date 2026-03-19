@@ -358,16 +358,8 @@ function commitEscrow(i,field,el) {
   markChanged(); 
 }
 function changeSection(fromType, i, newSection){
-  if(fromType===newSection) return;
-  if(fromType==='monthly' && newSection==='setup'){
-    const m=STATE.monthly[i];
-    STATE.setup.push({key:m.key,name:m.name,group:m.group,value:m.value||'',asOf:'',source:m.source||'',notes:m.notes||''});
-    STATE.monthly.splice(i,1);
-  } else if(fromType==='setup' && newSection==='monthly'){
-    const m=STATE.setup[i];
-    STATE.monthly.push({key:m.key,name:m.name,group:m.group,readOnly:false,fmt:null,calcType:null,calcNote:null,value:m.value||'',source:m.source||'',notes:m.notes||''});
-    STATE.setup.splice(i,1);
-  }
+  if(fromType==='monthly') STATE.monthly[i].section=newSection;
+  else                     STATE.setup[i].section=newSection;
   markChanged();
   renderAll();
 }
@@ -429,6 +421,7 @@ async function loadData(){
       const display=(!s.readOnly&&s.fmt)?fmtVal(raw,s.fmt)||raw:raw;
       return { key:s.key, name:s.name, group:s.group, readOnly:s.readOnly,
                fmt:s.fmt, calcType:s.calcType, calcNote:s.calcNote,
+               section: a.section||'monthly',
                value:display, source:a.source||'', notes:a.notes||'' };
     });
 
@@ -436,6 +429,7 @@ async function loadData(){
 
     STATE.setup=(d.setupMetrics||[]).map(m=>({
       key:m.key, name:m.name, group:m.group,
+      section: m.section||'setup',
       value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
     }));
     STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:fmtVal(r.amount||'','cur')||r.amount||''}));
@@ -480,15 +474,24 @@ function monthlyValCell(m, ki){
 function renderAll(){
   const monthLabel=document.getElementById('month-sel').value;
 
-  // ── Group monthly
+  // ── Build panel lists: each entry carries _src ('monthly'|'setup') and _idx
+  const inMonthly=[], inSetup=[];
+  STATE.monthly.forEach((m,i)=>{
+    (m.section==='setup'?inSetup:inMonthly).push({...m,_src:'monthly',_idx:i});
+  });
+  STATE.setup.forEach((m,i)=>{
+    (m.section==='monthly'?inMonthly:inSetup).push({...m,_src:'setup',_idx:i});
+  });
+
+  // ── Group monthly-panel items
   const gm={}, om=[];
-  for(const m of STATE.monthly){
+  for(const m of inMonthly){
     if(!gm[m.group]){gm[m.group]=[];om.push(m.group);}
     gm[m.group].push(m);
   }
-  // ── Group setup
+  // ── Group setup-panel items
   const gs={}, os=[];
-  for(const m of STATE.setup){
+  for(const m of inSetup){
     if(!gs[m.group]){gs[m.group]=[];os.push(m.group);}
     gs[m.group].push(m);
   }
@@ -504,22 +507,24 @@ function renderAll(){
   for(const g of om){
     mHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
     for(const m of gm[g]){
-      const ki=STATE.monthly.indexOf(m);
+      const ki=m._idx, src=m._src;
       const ro=m.readOnly;
+      let valCell, srcCell, noteCell;
+      if(src==='monthly'){
+        valCell=monthlyValCell(m,ki);
+        srcCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`:inp(m.source,false,`commitMonthly(${ki},'source',this)`);
+        noteCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`:inp(m.notes,false,`commitMonthly(${ki},'notes',this)`);
+      } else {
+        valCell=inp(m.value,true,`commitSetup(${ki},'value',this)`);
+        srcCell=inp(m.source,false,`commitSetup(${ki},'source',this)`);
+        noteCell=inp(m.notes,false,`commitSetup(${ki},'notes',this)`);
+      }
       mHTML+=`<div class="m-grid-row m-cols">
         <div class="cell-name ${ro?'dimmed':''}">
           <span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span>
         </div>
-        ${monthlyValCell(m,ki)}
-        ${ro
-          ? `<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`
-          : inp(m.source,false,`commitMonthly(${ki},'source',this)`)
-        }
-        ${ro
-          ? `<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`
-          : inp(m.notes,false,`commitMonthly(${ki},'notes',this)`)
-        }
-        <select class="cell-sel" onchange="changeSection('monthly',${ki},this.value)">
+        ${valCell}${srcCell}${noteCell}
+        <select class="cell-sel" onchange="changeSection('${src}',${ki},this.value)">
           <option value="monthly" selected>Monthly Updates</option>
           <option value="setup">Setup &amp; Property Data</option>
         </select>
@@ -539,14 +544,24 @@ function renderAll(){
   for(const g of os){
     sHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
     for(const m of gs[g]){
-      const ki=STATE.setup.indexOf(m);
+      const ki=m._idx, src=m._src;
+      const ro=m.readOnly;
+      let valCell, asOfCell, srcCell, noteCell;
+      if(src==='monthly'){
+        valCell=monthlyValCell(m,ki);
+        asOfCell=`<div></div>`;
+        srcCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`:inp(m.source,false,`commitMonthly(${ki},'source',this)`);
+        noteCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`:inp(m.notes,false,`commitMonthly(${ki},'notes',this)`);
+      } else {
+        valCell=inp(m.value,true,`commitSetup(${ki},'value',this)`);
+        asOfCell=inp(m.asOf,true,`commitSetup(${ki},'asOf',this)`);
+        srcCell=inp(m.source,false,`commitSetup(${ki},'source',this)`);
+        noteCell=inp(m.notes,false,`commitSetup(${ki},'notes',this)`);
+      }
       sHTML+=`<div class="s-grid-row s-cols">
-        <div class="cell-name"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>
-        ${inp(m.value,true,`commitSetup(${ki},'value',this)`)}
-        ${inp(m.asOf,true,`commitSetup(${ki},'asOf',this)`)}
-        ${inp(m.source,false,`commitSetup(${ki},'source',this)`)}
-        ${inp(m.notes,false,`commitSetup(${ki},'notes',this)`)}
-        <select class="cell-sel" onchange="changeSection('setup',${ki},this.value)">
+        <div class="cell-name ${ro?'dimmed':''}"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>
+        ${valCell}${asOfCell}${srcCell}${noteCell}
+        <select class="cell-sel" onchange="changeSection('${src}',${ki},this.value)">
           <option value="monthly">Monthly Updates</option>
           <option value="setup" selected>Setup &amp; Property Data</option>
         </select>
@@ -697,7 +712,7 @@ async function saveAll(){
 
   const monthlyToSave=STATE.monthly
     .filter(m=>m.calcType!=='system')
-    .map(m=>({key:m.key,name:m.name,group:m.group,value:m.value,source:m.source,notes:m.notes}));
+    .map(m=>({key:m.key,name:m.name,group:m.group,section:m.section||'monthly',value:m.value,source:m.source,notes:m.notes}));
 
   try{
     const res=await fetch('/api/property-summary/admin/save',{
@@ -706,7 +721,7 @@ async function saveAll(){
       body:JSON.stringify({
         month:STATE.month,
         monthlyMetrics:monthlyToSave,
-        setupMetrics:STATE.setup.map(m=>({key:m.key,name:m.name,group:m.group,value:m.value,asOf:m.asOf,source:m.source,notes:m.notes})),
+        setupMetrics:STATE.setup.map(m=>({key:m.key,name:m.name,group:m.group,section:m.section||'setup',value:m.value,asOf:m.asOf,source:m.source,notes:m.notes})),
         reserves:STATE.reserves,
         escrows:STATE.escrows,
         keyDates:STATE.keyDates,

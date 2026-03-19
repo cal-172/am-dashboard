@@ -1,0 +1,101 @@
+Please fix the metric behavior and Update Group save logic in Property Summary Admin.
+
+There are 3 issues:
+
+1. Remaining Reserve Balance should always be calculated
+2. Expense Coverage (Months) should always be calculated
+3. Changing a metric’s Update Group is not persisting correctly
+
+IMPORTANT:
+- Do NOT redesign the UI
+- Do NOT change layout
+- This is a logic / persistence fix only
+
+--------------------------------------------------
+1. SEPARATE UPDATE GROUP FROM METRIC BEHAVIOR
+--------------------------------------------------
+
+The Update Group field should control ONLY where the metric appears:
+
+- Monthly Updates
+- Setup & Property Data
+
+Changing Update Group must NOT change:
+- whether the metric is calculated
+- the formula used
+- whether the field is editable or read-only
+
+Metric behavior must remain fixed by metric definition.
+
+--------------------------------------------------
+2. REMAINING RESERVE BALANCE
+--------------------------------------------------
+
+Remaining Reserve Balance must always be a calculated field.
+
+Formula:
+Remaining Reserve Balance = Initial Operating Balance + Net Cash Flow To Date
+
+Requirements:
+- read-only
+- auto-calculated
+- should work whether the metric is assigned to Monthly Updates or Setup
+- moving the row between sections must not break the calculation
+
+--------------------------------------------------
+3. EXPENSE COVERAGE (MONTHS)
+--------------------------------------------------
+
+Expense Coverage (Months) must always be a calculated field.
+
+Formula:
+Expense Coverage (Months) = Remaining Reserve Balance / Monthly Operating Expenses
+
+If monthly expense data is unavailable:
+- show blank / placeholder gracefully
+- do not allow manual input
+
+Requirements:
+- read-only
+- auto-calculated
+- should work whether the metric is assigned to Monthly Updates or Setup
+- moving the row between sections must not break the calculation
+
+--------------------------------------------------
+4. FIX UPDATE GROUP SAVE / PERSISTENCE
+--------------------------------------------------
+
+When a user changes a metric’s Update Group:
+
+- persist the new Update Group value
+- save it correctly
+- move the row to the correct section after save/load
+- do not lose row data
+- do not break formulas
+
+Examples:
+- If changed to Monthly Updates, the row should appear under Monthly Updates
+- If changed to Setup & Property Data, the row should appear under Setup
+
+This needs to persist after refresh.
+
+--------------------------------------------------
+5. IMPORTANT ARCHITECTURE RULE
+--------------------------------------------------
+
+Metric definition and metric placement are different things.
+
+Each metric should retain:
+- metric_key
+- is_calculated
+- calculation logic
+
+Only Update Group should control section placement.
+
+Do NOT tie calculation behavior to section placement.
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make Update Group purely a display/storage grouping control, while calculated metrics continue to behave correctly regardless of which section they live in.

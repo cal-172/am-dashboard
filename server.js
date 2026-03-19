@@ -940,12 +940,14 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
     const netCF    = getMetricNum('net_cash_flow');
     if (initial != null && netCF != null) {
       const remaining = initial + netCF;
+      const idx = processed.findIndex(m => m.key === 'remaining_reserve_bal');
+      const existingSection = idx >= 0 ? (processed[idx].section || 'monthly') : 'monthly';
       const computedRow = {
         key: 'remaining_reserve_bal', name: 'Remaining Reserve Balance',
-        group: 'Operating Reserves', value: `$${Math.round(remaining).toLocaleString()}`,
+        group: 'Operating Reserves', section: existingSection,
+        value: `$${Math.round(remaining).toLocaleString()}`,
         source: 'System', notes: 'Auto-calculated: Initial Balance + Net Cash Flow', lastUpdated: now
       };
-      const idx = processed.findIndex(m => m.key === 'remaining_reserve_bal');
       if (idx >= 0) processed[idx] = computedRow; else processed.push(computedRow);
     }
 
@@ -958,18 +960,20 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
         const noiFin = mData.noi != null ? mData.noi : null;
         const budNoi = mData.budget_noi != null ? mData.budget_noi : null;
         if (noiFin != null) {
+          const idxN = processed.findIndex(m => m.key === 'noi_ltm');
           const noiRow = { key:'noi_ltm', name:'NOI (LTM)', group:'Performance',
+            section: idxN >= 0 ? (processed[idxN].section || 'monthly') : 'monthly',
             value:`$${Math.round(Math.abs(noiFin)).toLocaleString()}`, source:'Financial Actuals',
             notes:'Auto-populated from uploaded actuals', lastUpdated: now };
-          const idx = processed.findIndex(m => m.key === 'noi_ltm');
-          if (idx >= 0) processed[idx] = noiRow; else processed.push(noiRow);
+          if (idxN >= 0) processed[idxN] = noiRow; else processed.push(noiRow);
         }
         if (noiFin != null && budNoi != null) {
           const vs = noiFin - budNoi;
+          const idx2 = processed.findIndex(m => m.key === 'noi_vs_budget');
           const vsRow = { key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
+            section: idx2 >= 0 ? (processed[idx2].section || 'monthly') : 'monthly',
             value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
             source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
-          const idx2 = processed.findIndex(m => m.key === 'noi_vs_budget');
           if (idx2 >= 0) processed[idx2] = vsRow; else processed.push(vsRow);
         }
       }
