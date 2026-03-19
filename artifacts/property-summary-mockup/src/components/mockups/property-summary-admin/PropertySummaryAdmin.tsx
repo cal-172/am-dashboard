@@ -131,6 +131,7 @@ const isRightAlign = (v: string) => {
   if (/^[\+\-]?\$?[\d,\.]+[KMBx%]?$/.test(s)) return true;         // numeric
   if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/i.test(s)) return true; // date with month name
   if (/^\d{4}$/.test(s)) return true;                                // bare year
+  if (/^\d+\s+(years?|months?|mo)$/i.test(s)) return true;          // term/period (e.g. "10 years", "24 months")
   return false;
 };
 
