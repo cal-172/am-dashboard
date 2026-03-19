@@ -333,7 +333,7 @@ export function PropertySummary() {
           </div>
           {/* Tertiary: badge — smaller weight so it doesn't compete */}
           <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${NOI.favorable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-            {NOI.favorable ? 'Favorable' : 'Unfavorable'}
+            {NOI.favorable ? 'Healthy' : 'Issue'}
           </span>
           <span className="ml-auto text-xs text-slate-400">As Of: {NOI.asOf}</span>
         </div>
@@ -365,7 +365,7 @@ export function PropertySummary() {
             sub={`${OP_RESERVES.remainingBalance} remaining balance`}
             status={rStatus}
             trend={{ delta: (mosDelta >= 0 ? '+' : '') + mosDelta.toFixed(1) + ' mo vs last mo', up: mosDelta >= 0 }}
-            note={'Target: ' + OP_RESERVES.targetMonths.toFixed(1) + ' mo'}
+            note={'Target: ' + OP_RESERVES.targetMonths.toFixed(1) + ' mo of expense coverage'}
           />
           <KpiCard
             icon={Hammer}
@@ -390,7 +390,6 @@ export function PropertySummary() {
               <Field label="Unit Count"           value={PROPERTY.units} />
               <Field label="Year Built"           value={PROPERTY.yearBuilt} />
               <Field label="Occupancy"            value={PROPERTY.occupancy.toFixed(1) + '%'} />
-              <Field label="Pre-Leased"           value={PROPERTY.preleased.toFixed(1) + '%'} />
               <Field label="Acquisition Date"     value={PROPERTY.acquisitionDate} />
               <Field label="Purchase Price"       value={PROPERTY.purchasePrice} mono />
               <Field label="Total Capitalization" value={PROPERTY.totalCapitalization} mono />
@@ -495,11 +494,11 @@ export function PropertySummary() {
               <CardMeta source={LENDER_ESCROWS.source} asOf={LENDER_ESCROWS.asOf} />
             </SectionCard>
 
-            {/* Operating Reserves — months of coverage prominently first */}
-            <SectionCard title="Operating Reserves" icon={ShieldCheck} highlight>
-              <div className="flex items-end justify-between mb-4 pb-4 border-b border-teal-100">
+            {/* Operating Reserves — months of expense coverage prominently first */}
+            <SectionCard title="Operating Reserves" icon={ShieldCheck}>
+              <div className="flex items-end justify-between mb-4 pb-4 border-b border-slate-100">
                 <div>
-                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Months of Coverage</p>
+                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Months of Expense Coverage</p>
                   <p className="text-4xl font-bold text-slate-900 leading-none">{OP_RESERVES.monthsOfCoverage.toFixed(1)}</p>
                   <p className="text-sm text-slate-500 mt-1">months</p>
                 </div>
@@ -514,37 +513,39 @@ export function PropertySummary() {
               <CardMeta source={OP_RESERVES.source} asOf={OP_RESERVES.asOf} />
             </SectionCard>
 
-            {/* CapEx */}
+            {/* CapEx — progress bar at top for immediate visibility */}
             <SectionCard title="CapEx" icon={Hammer}>
-              <Field label="Initial CapEx Amount" value={CAPEX.initialAmount}  mono />
-              <Field label="Less Raise Shortfall" value={CAPEX.raiseShortfall} mono />
-              <Field label="CapEx Spend To Date"  value={CAPEX.spendToDate}    mono highlight />
-              <Field label="CapEx Remaining"      value={CAPEX.remaining}      mono />
-              <Field label="Target Completion"    value={CAPEX.targetCompletion} />
-              <div className="mt-4">
+              {/* Progress at top */}
+              <div className="mb-5 pb-5 border-b border-slate-100">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-medium text-slate-500">CapEx % Complete</span>
+                  <span className="text-xs font-medium text-slate-500">% Complete</span>
                   <span className="flex items-center gap-2">
                     <span className="text-sm font-bold text-slate-900">{CAPEX.pctComplete}%</span>
                     <StatusChip status={cStatus} />
                   </span>
                 </div>
-                <p className={`text-xs font-semibold mb-2 ${cStatus === 'healthy' ? 'text-green-700' : cStatus === 'watch' ? 'text-yellow-700' : 'text-red-600'}`}>
+                <div className="w-full bg-slate-200 rounded-full h-2.5 relative">
+                  <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: `${CAPEX.pctComplete}%` }}></div>
+                  <div className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70" style={{ left: `${CAPEX.expectedPct}%` }}></div>
+                </div>
+                <div className="flex justify-between mt-1 mb-2">
+                  <span className="text-xs text-slate-400">0%</span>
+                  <span className="text-xs text-slate-400">Expected: {CAPEX.expectedPct}%</span>
+                  <span className="text-xs text-slate-400">100%</span>
+                </div>
+                <p className={`text-xs font-semibold ${cStatus === 'healthy' ? 'text-green-700' : cStatus === 'watch' ? 'text-yellow-700' : 'text-red-600'}`}>
                   {scheduleLabel} — {CAPEX.pctComplete - CAPEX.expectedPct > 0
                     ? `${CAPEX.pctComplete - CAPEX.expectedPct}% ahead of expected ${CAPEX.expectedPct}%`
                     : `${CAPEX.expectedPct - CAPEX.pctComplete}% behind expected ${CAPEX.expectedPct}%`
                   }
                 </p>
-                <div className="w-full bg-slate-200 rounded-full h-2.5 relative">
-                  <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: `${CAPEX.pctComplete}%` }}></div>
-                  <div className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70" style={{ left: `${CAPEX.expectedPct}%` }}></div>
-                </div>
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-slate-400">0%</span>
-                  <span className="text-xs text-slate-400">Expected: {CAPEX.expectedPct}%</span>
-                  <span className="text-xs text-slate-400">100%</span>
-                </div>
               </div>
+              {/* Detail fields */}
+              <Field label="Initial CapEx Amount" value={CAPEX.initialAmount}    mono />
+              <Field label="Less Raise Shortfall" value={CAPEX.raiseShortfall}   mono />
+              <Field label="CapEx Spend To Date"  value={CAPEX.spendToDate}      mono highlight />
+              <Field label="CapEx Remaining"      value={CAPEX.remaining}        mono />
+              <Field label="Target Completion"    value={CAPEX.targetCompletion} />
               <CardMeta source={CAPEX.source} asOf={CAPEX.asOf} />
             </SectionCard>
 

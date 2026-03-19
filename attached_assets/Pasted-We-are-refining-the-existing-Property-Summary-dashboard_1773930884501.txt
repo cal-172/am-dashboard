@@ -1,0 +1,191 @@
+We are refining the existing Property Summary dashboard.
+
+IMPORTANT:
+- This is a UI/UX refinement pass only
+- Do NOT introduce backend logic, data models, or database structures
+- Do NOT redesign the page
+- Do NOT change layout structure
+- Do NOT add new sections
+
+Focus only on:
+- visual consistency
+- labeling clarity
+- hierarchy
+- small layout improvements
+
+--------------------------------------------------
+1. REMOVE GREEN BORDER (CONSISTENCY FIX)
+--------------------------------------------------
+
+Issue:
+The Operating Reserves card has a green border, while all other cards use a neutral border. This creates confusion because it implies importance or status without a clear rule.
+
+Update:
+- Remove the green border from the Operating Reserves card
+- All cards should use the same neutral grey border
+- Keep status indicators inside cards (chips, labels), not on the card container
+
+--------------------------------------------------
+2. STANDARDIZE STATUS LABELS
+--------------------------------------------------
+
+Update all status labels across the UI to use ONLY:
+
+- Healthy (green)
+- Watch (yellow)
+- Issue (red)
+
+Changes:
+- Replace “Favorable” in the NOI KPI with “Healthy”
+- Ensure no other wording exists (e.g., Favorable, Good, Unfavorable, etc.)
+
+This applies to:
+- KPI row
+- cards
+- key dates
+
+--------------------------------------------------
+3. OPERATING RESERVES LABEL CLARITY
+--------------------------------------------------
+
+Update the label:
+
+Change:
+“Months of Coverage”
+
+To:
+“Months of Expense Coverage”
+
+Goal:
+Make it immediately clear what the number represents.
+
+--------------------------------------------------
+4. CAPEX CARD – MOVE PROGRESS BAR
+--------------------------------------------------
+
+Update layout of the CapEx card:
+
+Move the progress bar to the top of the card, directly under the title.
+
+New visual structure:
+
+CAPEX
+[progress bar]
+[status text: On track / Ahead / Behind]
+--------------------------------
+Initial CapEx Amount
+Less Raise Shortfall
+CapEx Spend To Date
+CapEx Remaining
+Target Completion
+
+Goal:
+Make progress visible immediately without scanning the card.
+
+--------------------------------------------------
+5. KPI ROW – TARGET LABEL CONSISTENCY
+--------------------------------------------------
+
+Make KPI cards more consistent by ensuring each includes a small “target” reference where applicable.
+
+Ensure consistent placement and styling (small, muted text):
+
+- DSCR → “Covenant: 1.25x”
+- Occupancy → “Target: 93%”
+- Operating Reserves → “Target: 4.0 mo”
+- CapEx → keep expected % reference already shown
+
+Do not change styling significantly—just ensure consistency.
+
+--------------------------------------------------
+6. NOI PERFORMANCE STRIP – HIERARCHY IMPROVEMENT
+--------------------------------------------------
+
+Improve visual hierarchy in the NOI strip:
+
+Ensure clear priority:
+1. NOI value (largest)
+2. Variance vs budget (secondary)
+3. Status chip (tertiary)
+
+Update:
+- Reduce visual weight of the status chip (“Healthy”)
+- Keep it as a badge, not competing with numbers
+
+--------------------------------------------------
+7. SUMMARY CARD – REMOVE PRE-LEASED
+--------------------------------------------------
+
+Remove:
+- Pre-Leased field
+
+Do not replace it with anything.
+
+--------------------------------------------------
+8. INVESTMENT DETAILS – COMBINE PAIRED VALUES
+--------------------------------------------------
+
+Reduce visual clutter by combining related metrics onto a single line.
+
+Update:
+
+Instead of:
+- ITD Distribution Paid ($)
+- ITD Distribution Paid (%)
+
+Display as:
+- ITD Distribution Paid → $1.84M (23.6%)
+
+Apply same approach to:
+- Current Distribution ($ and %)
+
+Keep layout clean and consistent.
+
+--------------------------------------------------
+9. KEY DATES – SORT BY URGENCY
+--------------------------------------------------
+
+Update ordering of Key Dates to improve usability.
+
+Sort in this order:
+1. Overdue
+2. Due Soon
+3. Upcoming
+4. Complete
+
+Do NOT change styling of the rows.
+Only change order.
+
+--------------------------------------------------
+10. CONTACTS & LINKS – LIGHT POLISH
+--------------------------------------------------
+
+Make small visual improvements:
+- slightly increase spacing between rows
+- optionally add subtle icons (email, link, document)
+
+Do NOT redesign the card.
+
+--------------------------------------------------
+11. DO NOT CHANGE
+--------------------------------------------------
+
+Do NOT:
+- redesign layout
+- move cards
+- add new sections
+- introduce backend logic
+- change spacing system significantly
+- introduce new colors or heavy styling
+
+--------------------------------------------------
+12. DELIVERABLE
+--------------------------------------------------
+
+Return an updated Property Summary UI that:
+
+- feels more consistent
+- improves clarity and scanability
+- maintains the current layout and design language
+- removes confusing visual signals
+- improves hierarchy without adding complexity
