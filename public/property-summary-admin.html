@@ -475,10 +475,14 @@ async function loadData(){
     STATE.contacts=(d.contacts||[]).map((c,i)=>({id:c.id??500+i,label:c.label||'',name:c.name||'',emailOrUrl:c.emailOrUrl||'',type:c.type||'email',notes:c.notes||''}));
 
     STATE.hasChanges=false;
+    document.getElementById('btn-save').disabled=false;
+    document.getElementById('btn-cancel').disabled=false;
     renderAll();
     setStatus('ok','All changes saved');
   }catch(e){
     setStatus('error','Failed to load data');
+    document.getElementById('btn-save').disabled=false;
+    document.getElementById('btn-cancel').disabled=false;
     document.getElementById('content').innerHTML='<div class="loading-state">Failed to load data.</div>';
   }
 }

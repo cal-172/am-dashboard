@@ -37,6 +37,15 @@
       "lastUpdated": "2026-03-19"
     },
     {
+      "key": "initial_op_balance",
+      "name": "Initial Operating Balance",
+      "group": "Operating Reserves",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
       "key": "net_cash_flow",
       "name": "Net Cash Flow To Date",
       "group": "Operating Reserves",
@@ -46,10 +55,55 @@
       "lastUpdated": "2026-03-19"
     },
     {
+      "key": "remaining_reserve_bal",
+      "name": "Remaining Reserve Balance",
+      "group": "Operating Reserves",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "expense_coverage_months",
+      "name": "Expense Coverage (Months)",
+      "group": "Operating Reserves",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
       "key": "capex_spend",
       "name": "CapEx Spend To Date",
       "group": "CapEx",
       "value": "$2,419,835",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "target_completion_date",
+      "name": "Target Completion Date",
+      "group": "CapEx",
+      "value": "6/1/2026",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "capex_pct_complete",
+      "name": "CapEx % Complete",
+      "group": "CapEx",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "capex_status",
+      "name": "CapEx Status",
+      "group": "CapEx",
+      "value": "",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-19"
@@ -106,6 +160,24 @@
       "value": "$158,747",
       "source": "",
       "notes": "",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "noi_ltm",
+      "name": "NOI (LTM)",
+      "group": "Performance",
+      "value": "$54,984",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-03-19"
+    },
+    {
+      "key": "noi_vs_budget",
+      "name": "NOI vs Budget",
+      "group": "Performance",
+      "value": "($31,680)",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
       "lastUpdated": "2026-03-19"
     }
   ]
