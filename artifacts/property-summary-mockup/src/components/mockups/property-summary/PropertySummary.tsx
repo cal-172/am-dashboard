@@ -1,119 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Building2, DollarSign, Calendar, ShieldCheck, Hammer,
   TrendingUp, TrendingDown, Users, ExternalLink, BarChart3,
   Minus, Mail, FileText, Link2
 } from 'lucide-react';
-
-// ─── MOCK DATA (fed from Admin in production) ───────────────────────────────
-const PROPERTY = {
-  name: 'Regatta Apartments',
-  address: '12635 Scarsdale, San Antonio, TX 78217',
-  units: 200,
-  yearBuilt: 1985,
-  occupancy: 94.5,
-  occupancyPrev: 95.1,
-  preleased: 3.2,
-  acquisitionDate: 'Jan 15, 2020',
-  purchasePrice: '$32.5M',
-  totalCapitalization: '$37.2M',
-  updatedAt: 'Aug 20, 2025',
-};
-
-const LOAN = {
-  amount: '$28.5M',
-  ltv: '65.0%',
-  lender: 'Metropolitan Life Insurance Co.',
-  term: '10 years',
-  rate: '4.25%',
-  ioPeriod: '24 months',
-  ioRemaining: 0,
-  prepayPenalty: 'Step-down (3-2-1-0)',
-  maturityDate: 'Jan 15, 2030',
-  dscr: 1.32,
-  dscrPrev: 1.24,
-  monthsToMaturity: 45,
-  asOf: 'Aug 20, 2025',
-  source: 'Lender Statement',
-};
-
-const INVESTMENT = {
-  initialEquity: '$7.8M',
-  capitalReturned: '$1.2M',
-  unreturnedCapital: '$6.6M',
-  preferredReturn: '7.00%',
-  currentDistributionAnnualized: '$624K',
-  currentDistributionAnnualizedPct: '8.00%',
-  cumPrefShortfall: '$320K',
-  itdDistributionPaid: '$1.84M',
-  itdDistributionPaidPct: '23.6%',
-  asOf: 'Aug 20, 2025',
-  source: 'Investor Records',
-};
-
-const LENDER_RESERVES = {
-  debtServiceReserve: '$850K',
-  repairEscrow: '$120K',
-  replacementReserve: '$680K',
-  total: '$1.65M',
-  asOf: 'Aug 20, 2025',
-  source: 'Lender Statement',
-};
-
-const LENDER_ESCROWS = {
-  insuranceEscrow: '$48K',
-  taxEscrow: '$142K',
-  total: '$190K',
-  asOf: 'Aug 20, 2025',
-  source: 'Lender Statement',
-};
-
-const OP_RESERVES = {
-  initialBalance: '$500K',
-  netCashFlowToDate: '+$82K',
-  remainingBalance: '$582K',
-  monthsOfCoverage: 4.8,
-  monthsOfCoveragePrev: 4.5,
-  targetMonths: 4.0,
-  asOf: 'Aug 20, 2025',
-  source: 'Operating Account',
-};
-
-const CAPEX = {
-  initialAmount: '$2.1M',
-  raiseShortfall: '($150K)',
-  spendToDate: '$1.28M',
-  remaining: '$670K',
-  pctComplete: 61,
-  expectedPct: 55,
-  pctCompletePrev: 57,
-  targetCompletion: 'Dec 2026',
-  asOf: 'Aug 20, 2025',
-  source: 'General Contractor',
-};
-
-const NOI = {
-  current: '$3.2M',
-  vsBudget: '+$148K',
-  favorable: true,
-  period: 'LTM',
-  asOf: 'Aug 20, 2025',
-};
-
-// Due Soon = within 30 days from mock today = Aug 20, 2025
-const KEY_DATES_RAW = [
-  { label: 'Lender 90-Day Repairs',  date: 'Apr 1, 2026',  completedDate: null },
-  { label: 'Lender 360-Day Repairs', date: 'Jan 1, 2027',  completedDate: null },
-  { label: 'Property Tax',           date: 'Jun 15, 2026', completedDate: 'Jun 10, 2025' },
-  { label: 'Insurance Renewal',      date: 'Sep 5, 2025',  completedDate: null },
-];
-
-const CONTACTS = [
-  { label: 'Lender Contact',   name: 'John Smith',         detail: 'john.smith@metlife.com', href: '#', icon: Mail     },
-  { label: 'Property Manager', name: 'Emily Chen',         detail: 'emily@regattapm.com',    href: '#', icon: Mail     },
-  { label: 'SharePoint',       name: 'Document Library',   detail: 'View files →',           href: '#', icon: FileText },
-  { label: 'Investor Portal',  name: 'Contact Directory',  detail: 'View contacts →',        href: '#', icon: Link2    },
-];
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 
@@ -138,14 +28,54 @@ function capexScheduleLabel(actual: number, expected: number): string {
   return 'Significantly behind';
 }
 
-const TODAY = new Date('2025-08-20');
 function keyDateStatus(date: string, completed: string | null): DateStatus {
   if (completed) return 'complete';
+  const today = new Date();
   const d = new Date(date);
-  if (d < TODAY) return 'overdue';
-  const msIn30Days = 30 * 24 * 60 * 60 * 1000;
-  if (d.getTime() - TODAY.getTime() <= msIn30Days) return 'due-soon';
+  if (isNaN(d.getTime())) return 'upcoming';
+  if (d < today) return 'overdue';
+  if (d.getTime() - today.getTime() <= 30 * 24 * 60 * 60 * 1000) return 'due-soon';
   return 'upcoming';
+}
+
+function parseDisplayNum(s: string | null | undefined): number | null {
+  if (!s) return null;
+  let str = String(s).trim();
+  if (!str || str === '—') return null;
+  if (str.startsWith('+')) str = str.slice(1);
+  if (str.startsWith('(') && str.endsWith(')')) str = '-' + str.slice(1, -1);
+  let neg = false;
+  if (str.startsWith('-$')) { neg = true; str = str.slice(2); }
+  else if (str.startsWith('$')) str = str.slice(1);
+  let mul = neg ? -1 : 1;
+  if (str.endsWith('K')) { mul *= 1e3; str = str.slice(0, -1); }
+  else if (str.endsWith('M')) { mul *= 1e6; str = str.slice(0, -1); }
+  else if (str.endsWith('B')) { mul *= 1e9; str = str.slice(0, -1); }
+  if (str.endsWith('%')) str = str.slice(0, -1);
+  if (str.endsWith('x')) str = str.slice(0, -1);
+  const n = parseFloat(str.replace(/,/g, ''));
+  return isNaN(n) ? null : n * mul;
+}
+
+function formatCurrency(n: number | null): string {
+  if (n == null) return '—';
+  const abs = Math.abs(n);
+  const neg = n < 0;
+  let s: string;
+  if (abs >= 1e9)      s = '$' + (abs / 1e9).toFixed(1) + 'B';
+  else if (abs >= 1e6) s = '$' + (abs / 1e6).toFixed(1) + 'M';
+  else if (abs >= 1e3) s = '$' + Math.round(abs / 1e3) + 'K';
+  else                 s = '$' + Math.round(abs).toLocaleString();
+  return neg ? `(${s})` : s;
+}
+
+function computeMonthsToMaturity(dateStr: string | null | undefined): number {
+  if (!dateStr) return 0;
+  const today = new Date();
+  const mat = new Date(dateStr);
+  if (isNaN(mat.getTime())) return 0;
+  const diff = (mat.getFullYear() - today.getFullYear()) * 12 + (mat.getMonth() - today.getMonth());
+  return Math.max(0, diff);
 }
 
 const STATUS_COLORS: Record<Status, { chip: string; dot: string; border: string; label: string }> = {
@@ -267,18 +197,175 @@ function SubGroupHeader({ label }: { label: string }) {
 // ─── MAIN COMPONENT ─────────────────────────────────────────────────────────
 
 export function PropertySummary() {
-  const dStatus = dscrStatus(LOAN.dscr);
-  const oStatus = occupancyStatus(PROPERTY.occupancy);
-  const rStatus = opReserveStatus(OP_RESERVES.monthsOfCoverage);
-  const cStatus = capexStatus(CAPEX.pctComplete, CAPEX.expectedPct);
-  const scheduleLabel = capexScheduleLabel(CAPEX.pctComplete, CAPEX.expectedPct);
+  const [apiData, setApiData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const dscrDelta       = LOAN.dscr - LOAN.dscrPrev;
-  const occupancyDelta  = PROPERTY.occupancy - PROPERTY.occupancyPrev;
-  const mosDelta        = OP_RESERVES.monthsOfCoverage - OP_RESERVES.monthsOfCoveragePrev;
-  const capexDeltaPct   = CAPEX.pctComplete - CAPEX.pctCompletePrev;
+  useEffect(() => {
+    fetch('/api/property-summary/viewer')
+      .then(r => r.json())
+      .then(d => { setApiData(d); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
 
-  // Sort key dates by urgency: overdue → due-soon → upcoming → complete
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <span className="text-slate-400 text-sm">Loading…</span>
+      </div>
+    );
+  }
+
+  const d = apiData || {};
+  const kpi = d.kpi || {};
+
+  // ── Derive numeric KPIs (null-safe) ────────────────────────────────────────
+  const dscr         = kpi.dscr         ?? null;
+  const dscrPrev     = kpi.dscrPrev     ?? null;
+  const occupancy    = kpi.occupancy    ?? null;
+  const occupancyPrev= kpi.occupancyPrev?? null;
+  const capexPct     = kpi.capexPct     ?? null;
+  const capexPctPrev = kpi.capexPctPrev ?? null;
+  const monthsCoverage= null; // not yet calculable without expense data
+
+  // Deltas (null if either side missing)
+  const dscrDelta      = dscr != null && dscrPrev != null    ? dscr - dscrPrev          : null;
+  const occupancyDelta = occupancy != null && occupancyPrev != null ? occupancy - occupancyPrev : null;
+  const mosDelta       = null;
+  const capexDeltaPct  = capexPct != null && capexPctPrev != null ? capexPct - capexPctPrev : null;
+
+  // Status — fall back to 'watch' when no data
+  const dStatus: Status = dscr != null      ? dscrStatus(dscr)              : 'watch';
+  const oStatus: Status = occupancy != null ? occupancyStatus(occupancy)    : 'watch';
+  const rStatus: Status = monthsCoverage != null ? opReserveStatus(monthsCoverage) : 'watch';
+  const capexExpected  = capexPctPrev ?? capexPct ?? 0;
+  const cStatus: Status = capexPct != null  ? capexStatus(capexPct, capexExpected) : 'watch';
+  const scheduleLabel   = capexPct != null  ? capexScheduleLabel(capexPct, capexExpected) : '—';
+
+  // ── Named constants matching the original mock shape ──────────────────────
+  const prop = d.property || {};
+  const loan = d.loan || {};
+  const inv  = d.investment || {};
+  const opRes= d.opReserves || {};
+  const capex= d.capex || {};
+  const noi  = d.noi || {};
+  const lr   = d.lenderReserves || {};
+  const le   = d.lenderEscrows  || {};
+
+  const PROPERTY = {
+    name:             prop.name            || 'Regatta Apartments',
+    address:          prop.address         || '—',
+    units:            prop.units           || '—',
+    yearBuilt:        prop.yearBuilt       || '—',
+    occupancy:        occupancy            ?? 0,
+    occupancyPrev:    occupancyPrev        ?? 0,
+    acquisitionDate:  prop.acquisitionDate || '—',
+    purchasePrice:    prop.purchasePrice   || '—',
+    totalCapitalization: prop.totalCap    || '—',
+    updatedAt:        prop.updatedAt       || '—',
+  };
+
+  const LOAN = {
+    amount:          loan.amount          || '—',
+    ltv:             loan.ltv             || '—',
+    lender:          loan.lender          || '—',
+    rate:            loan.rate            || '—',
+    term:            loan.term            || '—',
+    ioPeriod:        loan.ioPeriod        || '—',
+    ioRemaining:     loan.ioRemaining     ?? 0,
+    prepayPenalty:   loan.prepayPenalty   || '—',
+    maturityDate:    loan.maturityDate    || '—',
+    monthsToMaturity:computeMonthsToMaturity(loan.maturityDate),
+    dscr:            dscr                 ?? 0,
+    dscrPrev:        dscrPrev             ?? 0,
+    asOf:            loan.asOf            || '',
+    source:          loan.source          || '',
+  };
+
+  const equityNum   = parseDisplayNum(inv.initialEquity);
+  const returnedNum = parseDisplayNum(inv.capitalReturned);
+  const unreturnedNum = equityNum != null && returnedNum != null ? equityNum - returnedNum : null;
+
+  const INVESTMENT = {
+    initialEquity:               inv.initialEquity               || '—',
+    capitalReturned:             inv.capitalReturned             || '—',
+    unreturnedCapital:           formatCurrency(unreturnedNum),
+    preferredReturn:             inv.preferredReturn             || '—',
+    currentDistributionAnnualized:    inv.currentDistribAnnualized    || '—',
+    currentDistributionAnnualizedPct: inv.currentDistribAnnualizedPct || '—',
+    cumPrefShortfall:            inv.cumPrefShortfall            || '—',
+    itdDistributionPaid:         inv.itdDistribPaid              || '—',
+    itdDistributionPaidPct:      inv.itdDistribPaidPct           || '—',
+    asOf:                        inv.asOf                        || '',
+    source:                      inv.source                      || '',
+  };
+
+  const OP_RESERVES = {
+    initialBalance:    opRes.initialBalance    || '—',
+    netCashFlowToDate: opRes.netCashFlowToDate || '—',
+    remainingBalance:  opRes.remainingBalance  || '—',
+    monthsOfCoverage:  monthsCoverage          ?? 0,
+    monthsOfCoveragePrev: 0,
+    targetMonths:      opRes.targetMonths      ?? 4.0,
+    asOf:              opRes.asOf              || '',
+    source:            opRes.source            || '',
+  };
+
+  const capexBudgetNum = parseDisplayNum(capex.budget);
+  const capexSpendNum  = parseDisplayNum(capex.spendToDate);
+  const capexRemainingNum = capexBudgetNum != null && capexSpendNum != null ? capexBudgetNum - capexSpendNum : null;
+
+  const CAPEX = {
+    initialAmount:   capex.budget          || '—',
+    raiseShortfall:  '—',
+    spendToDate:     capex.spendToDate     || '—',
+    remaining:       formatCurrency(capexRemainingNum),
+    pctComplete:     capexPct              ?? 0,
+    expectedPct:     capexExpected,
+    pctCompletePrev: capexPctPrev          ?? 0,
+    targetCompletion:capex.targetCompletion|| '—',
+    asOf:            capex.asOf            || '',
+    source:          capex.source          || '',
+  };
+
+  const NOI = {
+    current:  noi.current  || '—',
+    vsBudget: noi.vsBudget || '—',
+    favorable:noi.favorable ?? true,
+    period:   'LTM',
+    asOf:     noi.asOf     || '',
+  };
+
+  const LENDER_RESERVES = {
+    items: lr.items || [],
+    total: lr.total || '—',
+    asOf:  lr.asOf  || '',
+    source:lr.source|| '',
+  };
+
+  const LENDER_ESCROWS = {
+    items: le.items || [],
+    total: le.total || '—',
+    asOf:  le.asOf  || '',
+    source:le.source|| '',
+  };
+
+  const rawContacts: any[] = d.contacts || [];
+  const CONTACTS = rawContacts.map(c => {
+    const iconMap: Record<string, React.ElementType> = { email: Mail, link: Link2, document: FileText };
+    const icon = iconMap[c.type] || Link2;
+    const isEmail = c.type === 'email';
+    const href = isEmail ? `mailto:${c.emailOrUrl}` : (c.emailOrUrl || '#');
+    const detail = isEmail ? c.emailOrUrl : 'View →';
+    return { label: c.label, name: c.name, detail, href, icon };
+  });
+
+  const rawKeyDates: any[] = d.keyDates || [];
+  const KEY_DATES_RAW = rawKeyDates.map(kd => ({
+    label: kd.label,
+    date: kd.dueDate,
+    completedDate: kd.completed || null,
+  }));
+
   const KEY_DATES = [...KEY_DATES_RAW]
     .map(d => ({ ...d, _status: keyDateStatus(d.date, d.completedDate) }))
     .sort((a, b) => DATE_ORDER[a._status] - DATE_ORDER[b._status]);
@@ -315,66 +402,63 @@ export function PropertySummary() {
 
       <div className="max-w-7xl mx-auto px-8 py-8 space-y-6">
 
-        {/* ── NOI Signal Strip — primary > secondary > tertiary hierarchy ──── */}
+        {/* ── NOI Signal Strip ──────────────────────────────────────────────── */}
         <div className={`bg-white rounded-xl border border-slate-200 border-l-4 ${NOI.favorable ? 'border-l-green-500' : 'border-l-red-500'} shadow-sm px-6 py-4 flex items-center gap-6 flex-wrap`}>
           <div className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-slate-400" />
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">NOI Performance</span>
           </div>
-          {/* Primary: value */}
           <div className="flex items-baseline gap-2">
             <span className="text-xl font-bold text-slate-900">{NOI.current}</span>
             <span className="text-xs text-slate-400">{NOI.period}</span>
           </div>
-          {/* Secondary: variance */}
           <div className={`flex items-center gap-1.5 ${NOI.favorable ? 'text-green-700' : 'text-red-600'}`}>
             {NOI.favorable ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
             <span className="text-sm font-semibold">{NOI.vsBudget} vs Budget</span>
           </div>
-          {/* Tertiary: badge — smaller weight so it doesn't compete */}
           <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${NOI.favorable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
             {NOI.favorable ? 'Healthy' : 'Issue'}
           </span>
           <span className="ml-auto text-xs text-slate-400">As Of: {NOI.asOf}</span>
         </div>
 
-        {/* ── KPI Row — all 4 cards with consistent target/covenant notes ───── */}
+        {/* ── KPI Cards ────────────────────────────────────────────────────── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <KpiCard
             icon={TrendingUp}
             title="DSCR"
-            main={LOAN.dscr.toFixed(2) + 'x'}
+            main={dscr != null ? dscr.toFixed(2) + 'x' : '—'}
             sub="Debt service coverage ratio"
             status={dStatus}
-            trend={{ delta: (dscrDelta >= 0 ? '+' : '') + dscrDelta.toFixed(2) + ' vs last mo', up: dscrDelta >= 0 }}
-            note={'Covenant: 1.25x · Headroom: ' + (LOAN.dscr - 1.25).toFixed(2) + 'x'}
+            trend={dscrDelta != null ? { delta: (dscrDelta >= 0 ? '+' : '') + dscrDelta.toFixed(2) + ' vs last mo', up: dscrDelta >= 0 } : undefined}
+            note={dscr != null ? 'Covenant: 1.25x · Headroom: ' + (dscr - 1.25).toFixed(2) + 'x' : undefined}
           />
           <KpiCard
             icon={Building2}
             title="Occupancy"
-            main={PROPERTY.occupancy.toFixed(1) + '%'}
-            sub={`Vacancy: ${(100 - PROPERTY.occupancy).toFixed(1)}%`}
+            main={occupancy != null ? occupancy.toFixed(1) + '%' : '—'}
+            sub={occupancy != null ? `Vacancy: ${(100 - occupancy).toFixed(1)}%` : 'No data'}
             status={oStatus}
-            trend={{ delta: (occupancyDelta >= 0 ? '+' : '') + occupancyDelta.toFixed(1) + '% vs last mo', up: occupancyDelta >= 0 }}
+            trend={occupancyDelta != null ? { delta: (occupancyDelta >= 0 ? '+' : '') + occupancyDelta.toFixed(1) + '% vs last mo', up: occupancyDelta >= 0 } : undefined}
             note="Target: 93.0%"
           />
           <KpiCard
             icon={ShieldCheck}
             title="Operating Reserves"
-            main={OP_RESERVES.monthsOfCoverage.toFixed(1) + ' mo'}
-            sub={`${OP_RESERVES.remainingBalance} remaining balance`}
+            main={monthsCoverage != null ? monthsCoverage.toFixed(1) + ' mo' : OP_RESERVES.remainingBalance}
+            sub={monthsCoverage != null ? `${OP_RESERVES.remainingBalance} remaining balance` : 'Remaining balance'}
             status={rStatus}
-            trend={{ delta: (mosDelta >= 0 ? '+' : '') + mosDelta.toFixed(1) + ' mo vs last mo', up: mosDelta >= 0 }}
+            trend={mosDelta != null ? { delta: (mosDelta >= 0 ? '+' : '') + (mosDelta as number).toFixed(1) + ' mo vs last mo', up: (mosDelta as number) >= 0 } : undefined}
             note={'Target: ' + OP_RESERVES.targetMonths.toFixed(1) + ' mo of expense coverage'}
           />
           <KpiCard
             icon={Hammer}
             title="CapEx Progress"
-            main={CAPEX.pctComplete + '%'}
-            sub={`${scheduleLabel} · ${CAPEX.spendToDate} of ${CAPEX.initialAmount}`}
+            main={capexPct != null ? capexPct + '%' : '—'}
+            sub={capexPct != null ? `${scheduleLabel} · ${CAPEX.spendToDate} of ${CAPEX.initialAmount}` : 'No data'}
             status={cStatus}
-            trend={{ delta: '+' + capexDeltaPct + '% vs last update', up: true }}
-            note={'Expected: ' + CAPEX.expectedPct + '% · Target: ' + CAPEX.targetCompletion}
+            trend={capexDeltaPct != null ? { delta: '+' + capexDeltaPct + '% vs last update', up: true } : undefined}
+            note={capexPct != null ? 'Expected: ' + CAPEX.expectedPct + '% · Target: ' + CAPEX.targetCompletion : undefined}
           />
         </div>
 
@@ -384,19 +468,17 @@ export function PropertySummary() {
           {/* ── LEFT COLUMN ────────────────────────────────────────────────── */}
           <div className="space-y-6">
 
-            {/* Summary — Property Name removed (shown in header) */}
             <SectionCard title="Summary" icon={Building2}>
               <Field label="Address"              value={PROPERTY.address} />
               <Field label="Unit Count"           value={PROPERTY.units} />
               <Field label="Year Built"           value={PROPERTY.yearBuilt} />
-              <Field label="Occupancy"            value={PROPERTY.occupancy.toFixed(1) + '%'} />
+              <Field label="Occupancy"            value={occupancy != null ? occupancy.toFixed(1) + '%' : '—'} />
               <Field label="Acquisition Date"     value={PROPERTY.acquisitionDate} />
               <Field label="Purchase Price"       value={PROPERTY.purchasePrice} mono />
               <Field label="Total Capitalization" value={PROPERTY.totalCapitalization} mono />
               <CardMeta updated={PROPERTY.updatedAt} />
             </SectionCard>
 
-            {/* Loan Details — grouped, months remaining prominently bold */}
             <SectionCard title="Loan Details" icon={DollarSign}>
               <SubGroupHeader label="Structure" />
               <Field label="Loan Amount"         value={LOAN.amount} mono />
@@ -416,7 +498,6 @@ export function PropertySummary() {
                 value={
                   <span className="flex flex-col items-end gap-1">
                     <span className="text-sm font-bold text-teal-700">{LOAN.maturityDate}</span>
-                    {/* Months remaining as a risk signal — bold and prominent */}
                     <span className="text-sm font-bold text-slate-700">{LOAN.monthsToMaturity} months remaining</span>
                   </span>
                 }
@@ -424,14 +505,13 @@ export function PropertySummary() {
               <div className="flex items-center justify-between py-2.5 border-b border-slate-50">
                 <span className="text-xs text-slate-500 font-medium">DSCR</span>
                 <span className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-900">{LOAN.dscr.toFixed(2)}x</span>
+                  <span className="text-sm font-bold text-slate-900">{dscr != null ? dscr.toFixed(2) + 'x' : '—'}</span>
                   <StatusChip status={dStatus} />
                 </span>
               </div>
               <CardMeta source={LOAN.source} asOf={LOAN.asOf} updated={PROPERTY.updatedAt} />
             </SectionCard>
 
-            {/* Investment Details — paired metrics combined onto single lines */}
             <SectionCard title="Investment Details" icon={TrendingUp}>
               <SubGroupHeader label="Capital" />
               <Field label="Initial Equity Invested" value={INVESTMENT.initialEquity}     mono />
@@ -440,7 +520,6 @@ export function PropertySummary() {
 
               <SubGroupHeader label="Returns" />
               <Field label="Preferred Return" value={INVESTMENT.preferredReturn} />
-              {/* Current Distribution: $ and % combined on one line */}
               <Field
                 label="Current Distribution (Ann.)"
                 value={
@@ -453,7 +532,6 @@ export function PropertySummary() {
 
               <SubGroupHeader label="Performance" />
               <Field label="Cumulative Pref Shortfall" value={INVESTMENT.cumPrefShortfall} mono />
-              {/* ITD Distribution: $ and % combined on one line */}
               <Field
                 label="ITD Distribution Paid"
                 value={
@@ -466,9 +544,9 @@ export function PropertySummary() {
               <CardMeta source={INVESTMENT.source} asOf={INVESTMENT.asOf} />
             </SectionCard>
 
-            {/* Contacts — moved to left column below Investment Details */}
             <SectionCard title="Contacts &amp; Links" icon={Users}>
               <div>
+                {CONTACTS.length === 0 && <p className="text-sm text-slate-400">No contacts configured.</p>}
                 {CONTACTS.map((c, i) => {
                   const ContactIcon = c.icon;
                   return (
@@ -498,11 +576,11 @@ export function PropertySummary() {
           {/* ── RIGHT COLUMN ───────────────────────────────────────────────── */}
           <div className="space-y-6">
 
-            {/* Lender Reserves */}
             <SectionCard title="Lender Reserves" icon={ShieldCheck}>
-              <Field label="Debt Service Reserve" value={LENDER_RESERVES.debtServiceReserve} mono />
-              <Field label="Repair Escrow"         value={LENDER_RESERVES.repairEscrow}       mono />
-              <Field label="Replacement Reserve"   value={LENDER_RESERVES.replacementReserve} mono />
+              {LENDER_RESERVES.items.map((r: any, i: number) => (
+                <Field key={i} label={r.name} value={r.amount} mono />
+              ))}
+              {LENDER_RESERVES.items.length === 0 && <p className="text-sm text-slate-400">No reserves configured.</p>}
               <div className="flex items-center justify-between py-3 mt-3 bg-slate-50 rounded-lg px-3">
                 <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">Total Lender Reserves</span>
                 <span className="text-base font-bold text-slate-900 font-mono">{LENDER_RESERVES.total}</span>
@@ -510,10 +588,11 @@ export function PropertySummary() {
               <CardMeta source={LENDER_RESERVES.source} asOf={LENDER_RESERVES.asOf} />
             </SectionCard>
 
-            {/* Lender Escrows */}
             <SectionCard title="Lender Escrows" icon={ShieldCheck}>
-              <Field label="Insurance Escrow" value={LENDER_ESCROWS.insuranceEscrow} mono />
-              <Field label="Tax Escrow"        value={LENDER_ESCROWS.taxEscrow}       mono />
+              {LENDER_ESCROWS.items.map((e: any, i: number) => (
+                <Field key={i} label={e.name} value={e.amount} mono />
+              ))}
+              {LENDER_ESCROWS.items.length === 0 && <p className="text-sm text-slate-400">No escrows configured.</p>}
               <div className="flex items-center justify-between py-3 mt-3 bg-slate-50 rounded-lg px-3">
                 <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">Total Lender Escrows</span>
                 <span className="text-base font-bold text-slate-900 font-mono">{LENDER_ESCROWS.total}</span>
@@ -521,17 +600,18 @@ export function PropertySummary() {
               <CardMeta source={LENDER_ESCROWS.source} asOf={LENDER_ESCROWS.asOf} />
             </SectionCard>
 
-            {/* Operating Reserves — months of expense coverage prominently first */}
             <SectionCard title="Operating Reserves" icon={ShieldCheck}>
               <div className="flex items-end justify-between mb-4 pb-4 border-b border-slate-100">
                 <div>
                   <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Expense Coverage (Months)</p>
-                  <p className="text-4xl font-bold text-slate-900 leading-none">{OP_RESERVES.monthsOfCoverage.toFixed(1)}</p>
+                  <p className="text-4xl font-bold text-slate-900 leading-none">
+                    {monthsCoverage != null ? monthsCoverage.toFixed(1) : '—'}
+                  </p>
                   <p className="text-sm text-slate-500 mt-1">months</p>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
                   <StatusChip status={rStatus} />
-                  <TrendBadge delta={`+${mosDelta.toFixed(1)} mo vs last mo`} up />
+                  {mosDelta != null && <TrendBadge delta={`+${(mosDelta as number).toFixed(1)} mo vs last mo`} up />}
                 </div>
               </div>
               <Field label="Remaining Balance"     value={OP_RESERVES.remainingBalance}  mono highlight />
@@ -540,34 +620,37 @@ export function PropertySummary() {
               <CardMeta source={OP_RESERVES.source} asOf={OP_RESERVES.asOf} />
             </SectionCard>
 
-            {/* CapEx — progress bar at top for immediate visibility */}
             <SectionCard title="CapEx Progress" icon={Hammer}>
-              {/* Progress at top */}
               <div className="mb-5 pb-5 border-b border-slate-100">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-medium text-slate-500">% Complete</span>
                   <span className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-slate-900">{CAPEX.pctComplete}%</span>
+                    <span className="text-sm font-bold text-slate-900">{capexPct != null ? capexPct + '%' : '—'}</span>
                     <StatusChip status={cStatus} />
                   </span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2.5 relative">
-                  <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: `${CAPEX.pctComplete}%` }}></div>
-                  <div className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70" style={{ left: `${CAPEX.expectedPct}%` }}></div>
-                </div>
-                <div className="flex justify-between mt-1 mb-2">
-                  <span className="text-xs text-slate-400">0%</span>
-                  <span className="text-xs text-slate-400">Expected: {CAPEX.expectedPct}%</span>
-                  <span className="text-xs text-slate-400">100%</span>
-                </div>
-                <p className={`text-xs font-semibold ${cStatus === 'healthy' ? 'text-green-700' : cStatus === 'watch' ? 'text-yellow-700' : 'text-red-600'}`}>
-                  {scheduleLabel} — {CAPEX.pctComplete - CAPEX.expectedPct > 0
-                    ? `${CAPEX.pctComplete - CAPEX.expectedPct}% ahead of expected ${CAPEX.expectedPct}%`
-                    : `${CAPEX.expectedPct - CAPEX.pctComplete}% behind expected ${CAPEX.expectedPct}%`
-                  }
-                </p>
+                {capexPct != null ? (
+                  <>
+                    <div className="w-full bg-slate-200 rounded-full h-2.5 relative">
+                      <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: `${CAPEX.pctComplete}%` }}></div>
+                      <div className="absolute top-0 h-2.5 border-r-2 border-dashed border-slate-500 opacity-70" style={{ left: `${CAPEX.expectedPct}%` }}></div>
+                    </div>
+                    <div className="flex justify-between mt-1 mb-2">
+                      <span className="text-xs text-slate-400">0%</span>
+                      <span className="text-xs text-slate-400">Expected: {CAPEX.expectedPct}%</span>
+                      <span className="text-xs text-slate-400">100%</span>
+                    </div>
+                    <p className={`text-xs font-semibold ${cStatus === 'healthy' ? 'text-green-700' : cStatus === 'watch' ? 'text-yellow-700' : 'text-red-600'}`}>
+                      {scheduleLabel} — {CAPEX.pctComplete - CAPEX.expectedPct > 0
+                        ? `${CAPEX.pctComplete - CAPEX.expectedPct}% ahead of expected ${CAPEX.expectedPct}%`
+                        : `${CAPEX.expectedPct - CAPEX.pctComplete}% behind expected ${CAPEX.expectedPct}%`
+                      }
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-xs text-slate-400">No CapEx data available.</p>
+                )}
               </div>
-              {/* Detail fields */}
               <Field label="Initial CapEx Amount" value={CAPEX.initialAmount}    mono />
               <Field label="Less Raise Shortfall" value={CAPEX.raiseShortfall}   mono />
               <Field label="CapEx Spend To Date"  value={CAPEX.spendToDate}      mono highlight />
@@ -576,9 +659,9 @@ export function PropertySummary() {
               <CardMeta source={CAPEX.source} asOf={CAPEX.asOf} />
             </SectionCard>
 
-            {/* Key Dates — sorted by urgency: overdue → due-soon → upcoming → complete */}
             <SectionCard title="Key Dates" icon={Calendar}>
               <div>
+                {KEY_DATES.length === 0 && <p className="text-sm text-slate-400">No key dates configured.</p>}
                 {KEY_DATES.map((d, i) => {
                   const chip = DATE_CHIP[d._status];
                   return (

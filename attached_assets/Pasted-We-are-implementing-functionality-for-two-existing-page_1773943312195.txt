@@ -1,0 +1,255 @@
+We are implementing functionality for two existing pages:
+
+1. Property Summary Page (viewer)
+2. Property Summary Admin (input grid)
+
+IMPORTANT:
+- The UI for both pages is already fully designed
+- Do NOT change layout, structure, styling, spacing, grouping, or interaction patterns
+- Do NOT redesign anything
+- Only implement data, persistence, calculations, and behavior
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Build the full Property Summary system including:
+
+- Flexible metric storage (supports Setup + Monthly)
+- Monthly KPI snapshot system
+- Calculations and status logic
+- Month-over-month deltas
+- Dynamic row support
+- Viewer driven entirely by saved + calculated data
+
+--------------------------------------------------
+PART 1: METRIC MODEL (FLEXIBLE)
+--------------------------------------------------
+
+Do NOT hardcode metrics as strictly “Setup” or “Monthly”.
+
+Each metric should support:
+
+- metric_key
+- metric_name
+- metric_group
+- update_group (Monthly Updates or Setup)
+- data_type (number, percent, currency, date, text)
+- is_calculated (true/false)
+
+--------------------------------------------------
+PART 2: METRIC VALUE STORAGE
+--------------------------------------------------
+
+Use ONE unified metric value structure.
+
+Table: property_metric_values
+
+Fields:
+- property_id
+- metric_key
+- value
+- as_of_date
+- source
+- notes
+- last_updated
+- effective_month (nullable)
+
+Rules:
+
+- If effective_month is NULL → Setup value
+- If effective_month has a value → Monthly value
+
+This allows any metric to exist in either group.
+
+--------------------------------------------------
+PART 3: PROPERTY SUMMARY ADMIN (INPUT)
+--------------------------------------------------
+
+Behavior:
+
+1. Month Selector
+- Controls which monthly values are being edited
+- Switching month loads that month's data
+- Saving updates only that month
+
+2. Editing
+- Inline editing only (already in UI)
+- Calculated fields are read-only
+
+3. Last Updated
+- Auto-set when a value is created or changed
+
+4. Dynamic Rows
+Support add/remove for:
+- Lender Reserves
+- Lender Escrows
+- Key Dates
+- Contacts & Links
+
+5. Update Group Behavior
+- Each metric has an Update Group
+- If changed:
+  - Monthly → save using effective_month
+  - Setup → save with effective_month = NULL
+
+--------------------------------------------------
+PART 4: KPI SNAPSHOT SYSTEM
+--------------------------------------------------
+
+Snapshots store ONLY viewer KPIs (not all metrics).
+
+Table: property_kpi_snapshots
+
+Fields:
+- property_id
+- month
+
+KPI values:
+- noi_ltm
+- noi_vs_budget
+- dscr
+- occupancy_pct
+- vacancy_pct
+- reserve_balance
+- expense_coverage_months
+- capex_pct_complete
+
+Statuses:
+- noi_status
+- dscr_status
+- occupancy_status
+- reserve_status
+- capex_status
+
+- snapshot_created_at
+
+--------------------------------------------------
+SNAPSHOT GENERATION RULES
+--------------------------------------------------
+
+Do NOT create a separate "Save Snapshot" button.
+
+Snapshots are generated automatically when saving data.
+
+When user clicks Save Changes:
+
+1. Save all metric values
+
+2. Check if any saved rows include:
+   effective_month = selected month
+
+3. If YES:
+   - Calculate KPIs for that property + month
+   - UPSERT snapshot (overwrite existing record for that month)
+
+4. If NO:
+   - Do NOT create or update snapshot
+
+One property + one month = one snapshot
+
+Snapshots must be overwritten when the same month is re-saved.
+
+--------------------------------------------------
+PART 5: CALCULATIONS
+--------------------------------------------------
+
+1. Vacancy %
+= 100% - Occupancy %
+
+2. Expense Coverage (Months)
+= Remaining Reserve Balance / Monthly Expenses
+
+(If expenses not available, return null safely)
+
+3. CapEx % Complete
+= CapEx Spend To Date / Initial CapEx Amount
+
+4. Unreturned Capital
+= Initial Equity Invested - Capital Returned
+
+5. Current Distribution (%)
+= Current Distribution ($) / Initial Equity Invested
+
+6. ITD Distribution (%)
+= ITD Distribution Paid ($) / Initial Equity Invested
+
+7. Total Lender Reserves
+= sum of reserve rows
+
+8. Total Lender Escrows
+= sum of escrow rows
+
+--------------------------------------------------
+PART 6: STATUS LOGIC
+--------------------------------------------------
+
+Use:
+
+Healthy / Watch / Issue
+
+DSCR:
+- >= 1.25 → Healthy
+- 1.10–1.24 → Watch
+- < 1.10 → Issue
+
+Occupancy:
+- >= 93% → Healthy
+- 90–92.9% → Watch
+- < 90% → Issue
+
+Operating Reserves:
+- >= 4.0 → Healthy
+- 2.0–3.9 → Watch
+- < 2.0 → Issue
+
+NOI:
+- positive/near plan → Healthy
+- slightly negative → Watch
+- materially negative → Issue
+
+CapEx:
+- on track → Healthy
+- slightly behind → Watch
+- materially behind → Issue
+
+--------------------------------------------------
+PART 7: PROPERTY SUMMARY PAGE (VIEWER)
+--------------------------------------------------
+
+This page is READ-ONLY.
+
+It should load:
+
+- Setup values
+- Latest monthly snapshot
+- Prior month snapshot
+
+Use snapshot data for:
+- KPI display
+- Status indicators
+- Month-over-month deltas
+
+Delta formula:
+current month - prior month
+
+If prior month does not exist:
+- show no delta
+
+--------------------------------------------------
+PART 8: IMPORTANT CONSTRAINTS
+--------------------------------------------------
+
+- Do NOT change UI
+- Do NOT restructure pages
+- Do NOT convert grid to forms
+- Do NOT remove any fields
+- Do NOT introduce unnecessary complexity
+
+--------------------------------------------------
+FINAL GOAL
+--------------------------------------------------
+
+- Property Summary Admin = single source of truth for inputs
+- KPI snapshots = stable historical performance records
+- Property Summary Page = clean, fast, accurate viewer

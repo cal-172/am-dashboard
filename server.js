@@ -777,6 +777,299 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
   return results;
 }
 
+/* ══════════════════════════════════════════════════════
+   PROPERTY SUMMARY — DATA FILES
+══════════════════════════════════════════════════════ */
+const PROP_SETUP_FILE     = path.join(__dirname, 'data', 'property_setup_metrics.json');
+const PROP_MONTHLY_FILE   = path.join(__dirname, 'data', 'property_monthly_metrics.json');
+const PROP_RESERVES_FILE  = path.join(__dirname, 'data', 'property_reserves.json');
+const PROP_ESCROWS_FILE   = path.join(__dirname, 'data', 'property_escrows.json');
+const PROP_KEYDATES_FILE  = path.join(__dirname, 'data', 'property_keydates.json');
+const PROP_CONTACTS_FILE  = path.join(__dirname, 'data', 'property_contacts.json');
+const PROP_SNAPSHOTS_FILE = path.join(__dirname, 'data', 'property_kpi_snapshots.json');
+
+function readSetupMetrics()    { return readJSON(PROP_SETUP_FILE,    []); }
+function readMonthlyMetrics()  { return readJSON(PROP_MONTHLY_FILE,  {}); }
+function readReserves()        { return readJSON(PROP_RESERVES_FILE,  []); }
+function readEscrows()         { return readJSON(PROP_ESCROWS_FILE,   []); }
+function readKeyDates()        { return readJSON(PROP_KEYDATES_FILE,  []); }
+function readContacts()        { return readJSON(PROP_CONTACTS_FILE,  []); }
+function readSnapshots()       { return readJSON(PROP_SNAPSHOTS_FILE, {}); }
+
+/* ── Number parser: "$3.2M" → 3200000, "94.5%" → 94.5, "1.32x" → 1.32 ── */
+function parseMetricNum(raw) {
+  if (!raw) return null;
+  let s = String(raw).trim().replace(/,/g, '');
+  if (!s || s === '—') return null;
+  if (s.startsWith('+')) s = s.slice(1);
+  let mul = 1;
+  if (s.startsWith('$')) s = s.slice(1);
+  if (s.endsWith('K')) { mul = 1e3;  s = s.slice(0, -1); }
+  if (s.endsWith('M')) { mul = 1e6;  s = s.slice(0, -1); }
+  if (s.endsWith('B')) { mul = 1e9;  s = s.slice(0, -1); }
+  if (s.endsWith('%')) s = s.slice(0, -1);
+  if (s.endsWith('x')) s = s.slice(0, -1);
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n * mul;
+}
+
+/* ── Status helpers ── */
+function dscrStatusStr(v)    { return v == null ? null : v >= 1.25 ? 'healthy' : v >= 1.10 ? 'watch' : 'issue'; }
+function occupancyStatusStr(v){ return v == null ? null : v >= 93  ? 'healthy' : v >= 90   ? 'watch' : 'issue'; }
+function reserveStatusStr(v) { return v == null ? null : v >= 4.0  ? 'healthy' : v >= 2.0  ? 'watch' : 'issue'; }
+function noiStatusStr(vs)    {
+  if (vs == null) return null;
+  return vs >= 0 ? 'healthy' : vs >= -50000 ? 'watch' : 'issue';
+}
+function capexStatusStr(pct, expected) {
+  if (pct == null) return null;
+  const exp = expected ?? pct;
+  const lag = exp - pct;
+  return lag <= 10 ? 'healthy' : lag <= 20 ? 'watch' : 'issue';
+}
+
+/* ── Build a KPI snapshot from saved metric data ── */
+function buildSnapshot(monthKey) {
+  const allMonthly = readMonthlyMetrics();
+  const monthMetrics = allMonthly[monthKey] || [];
+  const setup = readSetupMetrics();
+  const allMetrics = [...setup, ...monthMetrics];
+
+  const get = key => {
+    const m = allMetrics.find(x => x.key === key);
+    return m ? parseMetricNum(m.value) : null;
+  };
+  const getRaw = key => {
+    const m = allMetrics.find(x => x.key === key);
+    return m ? m.value : null;
+  };
+
+  const occupancy   = get('occupancy_pct');
+  const dscr        = get('dscr');
+  const noiLtm      = get('noi_ltm');
+  const noiVsBudget = get('noi_vs_budget');
+  const reserveBal  = get('remaining_reserve_bal');
+  const capexSpend  = get('capex_spend');
+  const capexBudget = get('capex_budget');
+  const capexPct    = capexBudget && capexSpend != null ? Math.round((capexSpend / capexBudget) * 100) : null;
+
+  const reserves  = readReserves();
+  const escrows   = readEscrows();
+  const totalRes  = reserves.reduce((s, r) => s + (parseMetricNum(r.amount) || 0), 0);
+  const totalEsc  = escrows.reduce((s,  e) => s + (parseMetricNum(e.amount) || 0), 0);
+
+  return {
+    noi_ltm:              noiLtm,
+    noi_vs_budget:        noiVsBudget,
+    dscr,
+    occupancy_pct:        occupancy,
+    vacancy_pct:          occupancy != null ? Math.round((100 - occupancy) * 10) / 10 : null,
+    reserve_balance:      reserveBal,
+    expense_coverage_months: null,
+    capex_pct_complete:   capexPct,
+    total_lender_reserves: totalRes || null,
+    total_lender_escrows:  totalEsc || null,
+    noi_status:      noiStatusStr(noiVsBudget),
+    dscr_status:     dscrStatusStr(dscr),
+    occupancy_status:occupancyStatusStr(occupancy),
+    reserve_status:  reserveStatusStr(null),
+    capex_status:    capexStatusStr(capexPct, null),
+    snapshot_created_at: new Date().toISOString(),
+  };
+}
+
+/* ── Find sorted month keys from snapshot store ── */
+function sortedMonthKeys(snapshots) {
+  return Object.keys(snapshots).sort((a, b) => {
+    const MONTHS_MAP = { jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12 };
+    const parse = k => { const [y, m] = k.split('-'); return parseInt(y) * 100 + (MONTHS_MAP[m] || 0); };
+    return parse(a) - parse(b);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   PROPERTY SUMMARY — API ROUTES
+══════════════════════════════════════════════════════ */
+
+/* GET /api/property-summary/admin?month=2026-mar */
+app.get('/api/property-summary/admin', requireAuth, (req, res) => {
+  const month = req.query.month || '2026-mar';
+  const setupMetrics   = readSetupMetrics();
+  const allMonthly     = readMonthlyMetrics();
+  const monthlyMetrics = allMonthly[month] || [];
+  res.json({
+    setupMetrics,
+    monthlyMetrics,
+    reserves:  readReserves(),
+    escrows:   readEscrows(),
+    keyDates:  readKeyDates(),
+    contacts:  readContacts(),
+  });
+});
+
+/* POST /api/property-summary/admin/save */
+app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
+  const { month, setupMetrics, monthlyMetrics, reserves, escrows, keyDates, contacts } = req.body;
+  if (!month) return res.status(400).json({ error: 'month required' });
+
+  const now = new Date().toISOString().slice(0, 10);
+
+  if (Array.isArray(setupMetrics)) {
+    const updated = setupMetrics.map(m => ({ ...m, lastUpdated: now }));
+    writeJSON(PROP_SETUP_FILE, updated);
+  }
+
+  if (Array.isArray(monthlyMetrics)) {
+    const all = readMonthlyMetrics();
+    all[month] = monthlyMetrics.map(m => ({ ...m, lastUpdated: now }));
+    writeJSON(PROP_MONTHLY_FILE, all);
+  }
+
+  if (Array.isArray(reserves))  writeJSON(PROP_RESERVES_FILE, reserves);
+  if (Array.isArray(escrows))   writeJSON(PROP_ESCROWS_FILE,  escrows);
+  if (Array.isArray(keyDates))  writeJSON(PROP_KEYDATES_FILE, keyDates);
+  if (Array.isArray(contacts))  writeJSON(PROP_CONTACTS_FILE, contacts);
+
+  if (Array.isArray(monthlyMetrics) && monthlyMetrics.length > 0) {
+    const snapshots = readSnapshots();
+    snapshots[month] = buildSnapshot(month);
+    writeJSON(PROP_SNAPSHOTS_FILE, snapshots);
+  }
+
+  res.json({ ok: true, month });
+});
+
+/* GET /api/property-summary/viewer */
+app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
+  const setup    = readSetupMetrics();
+  const allMonthly = readMonthlyMetrics();
+  const snapshots  = readSnapshots();
+
+  const get = (src, key) => { const m = src.find(x => x.key === key); return m ? m.value : null; };
+  const getMeta = (src, key) => {
+    const m = src.find(x => x.key === key);
+    return m ? { value: m.value, asOf: m.asOf, source: m.source, lastUpdated: m.lastUpdated } : null;
+  };
+
+  const sortedKeys   = sortedMonthKeys(snapshots);
+  const latestKey    = sortedKeys[sortedKeys.length - 1] || null;
+  const priorKey     = sortedKeys[sortedKeys.length - 2] || null;
+  const currentSnap  = latestKey ? snapshots[latestKey]  : null;
+  const priorSnap    = priorKey  ? snapshots[priorKey]   : null;
+
+  const latestMonthly   = latestKey ? (allMonthly[latestKey]  || []) : [];
+  const getLM = key => get(latestMonthly, key);
+  const getLMMeta = key => getMeta(latestMonthly, key);
+
+  const reserves = readReserves();
+  const escrows  = readEscrows();
+
+  const sumItems = items => {
+    const t = items.reduce((s, i) => s + (parseMetricNum(i.amount) || 0), 0);
+    if (!t) return null;
+    if (t >= 1e6) return `$${(t/1e6).toFixed(2)}M`;
+    if (t >= 1e3) return `$${Math.round(t/1e3)}K`;
+    return `$${t}`;
+  };
+
+  res.json({
+    property: {
+      name:            get(setup, 'property_name'),
+      address:         get(setup, 'address'),
+      units:           get(setup, 'unit_count'),
+      yearBuilt:       get(setup, 'year_built'),
+      acquisitionDate: get(setup, 'acquisition_date'),
+      purchasePrice:   get(setup, 'purchase_price'),
+      totalCap:        get(setup, 'total_cap'),
+      updatedAt:       latestKey,
+    },
+    loan: {
+      amount:       get(setup, 'loan_amount'),
+      ltv:          get(setup, 'ltv'),
+      lender:       get(setup, 'lender'),
+      rate:         get(setup, 'interest_rate'),
+      term:         get(setup, 'term'),
+      ioPeriod:     get(setup, 'io_period'),
+      ioRemaining:  get(setup, 'io_remaining_mo'),
+      prepayPenalty:get(setup, 'prepay_penalty'),
+      maturityDate: get(setup, 'maturity_date'),
+      dscrCovenant: get(setup, 'dscr_covenant'),
+      dscr:         currentSnap?.dscr ?? null,
+      dscrPrev:     priorSnap?.dscr   ?? null,
+      asOf:         getLMMeta('dscr')?.asOf    || null,
+      source:       getLMMeta('dscr')?.source  || null,
+    },
+    investment: {
+      initialEquity:               get(setup, 'initial_equity'),
+      capitalReturned:             getLM('capital_returned'),
+      preferredReturn:             get(setup, 'preferred_return'),
+      currentDistribAnnualized:    getLM('current_distrib_ann_usd'),
+      currentDistribAnnualizedPct: getLM('current_distrib_ann_pct'),
+      cumPrefShortfall:            getLM('cum_pref_shortfall'),
+      itdDistribPaid:              getLM('itd_distrib_paid_usd'),
+      itdDistribPaidPct:           getLM('itd_distrib_paid_pct'),
+      asOf:   getLMMeta('capital_returned')?.asOf   || null,
+      source: getLMMeta('capital_returned')?.source || null,
+    },
+    opReserves: {
+      initialBalance:    getLM('initial_op_balance'),
+      netCashFlowToDate: getLM('net_cash_flow'),
+      remainingBalance:  getLM('remaining_reserve_bal'),
+      monthsOfCoverage:  currentSnap?.expense_coverage_months ?? null,
+      monthsOfCoveragePrev: priorSnap?.expense_coverage_months ?? null,
+      targetMonths:      4.0,
+      asOf:   getLMMeta('remaining_reserve_bal')?.asOf   || null,
+      source: getLMMeta('remaining_reserve_bal')?.source || null,
+    },
+    lenderReserves: {
+      items: reserves,
+      total: sumItems(reserves),
+      asOf:   getLMMeta('remaining_reserve_bal')?.asOf   || null,
+      source: getLMMeta('remaining_reserve_bal')?.source || null,
+    },
+    lenderEscrows: {
+      items: escrows,
+      total: sumItems(escrows),
+      asOf:   getLMMeta('remaining_reserve_bal')?.asOf   || null,
+      source: getLMMeta('remaining_reserve_bal')?.source || null,
+    },
+    capex: {
+      budget:          get(setup, 'capex_budget'),
+      spendToDate:     getLM('capex_spend'),
+      pctComplete:     currentSnap?.capex_pct_complete  ?? null,
+      pctCompletePrev: priorSnap?.capex_pct_complete    ?? null,
+      targetCompletion:getLM('target_completion_date'),
+      asOf:   getLMMeta('capex_spend')?.asOf   || null,
+      source: getLMMeta('capex_spend')?.source || null,
+    },
+    noi: {
+      current:    getLM('noi_ltm'),
+      vsBudget:   getLM('noi_vs_budget'),
+      favorable:  (() => { const v = parseMetricNum(getLM('noi_vs_budget')); return v != null ? v >= 0 : true; })(),
+      asOf:   getLMMeta('noi_ltm')?.asOf   || null,
+      source: getLMMeta('noi_ltm')?.source || null,
+    },
+    kpi: {
+      occupancy:     currentSnap?.occupancy_pct     ?? null,
+      occupancyPrev: priorSnap?.occupancy_pct       ?? null,
+      dscr:          currentSnap?.dscr              ?? null,
+      dscrPrev:      priorSnap?.dscr                ?? null,
+      reserveMos:    currentSnap?.expense_coverage_months ?? null,
+      reserveMosPrev:priorSnap?.expense_coverage_months  ?? null,
+      capexPct:      currentSnap?.capex_pct_complete ?? null,
+      capexPctPrev:  priorSnap?.capex_pct_complete  ?? null,
+      noiStatus:     currentSnap?.noi_status        ?? null,
+      dscrStatus:    currentSnap?.dscr_status       ?? null,
+      occupancyStatus:currentSnap?.occupancy_status ?? null,
+      reserveStatus: currentSnap?.reserve_status    ?? null,
+      capexStatus:   currentSnap?.capex_status      ?? null,
+      latestMonth:   latestKey,
+    },
+    keyDates: readKeyDates(),
+    contacts: readContacts(),
+  });
+});
+
 /* ── STATIC ── */
 app.use(express.static(path.join(__dirname, 'public')));
 

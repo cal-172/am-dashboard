@@ -68,6 +68,36 @@ public/
 | `ADMIN_PASS` | `regatta2026` | Initial admin password (used on first boot only) |
 | `SESSION_SECRET` | fallback string | Express session secret |
 
+## Property Summary Module
+
+### Data Files (`data/`)
+| File | Description |
+|---|---|
+| `property_setup_metrics.json` | One-time / rarely-changed metrics (name, address, loan details, 20 rows) |
+| `property_monthly_metrics.json` | Month-keyed object `{ "2026-mar": [...] }` — 15 editable metrics per month |
+| `property_reserves.json` | Lender reserves array `[{id, name, amount}]` |
+| `property_escrows.json` | Lender escrows array |
+| `property_keydates.json` | Key dates array `[{id, label, dueDate, completed, notes}]` |
+| `property_contacts.json` | Contacts array `[{id, label, name, emailOrUrl, type, notes}]` |
+| `property_kpi_snapshots.json` | Month-keyed KPI snapshots auto-generated on every save |
+
+### API Routes
+| Route | Access | Description |
+|---|---|---|
+| `GET /api/property-summary/admin?month=` | Auth | Returns all data for admin grid |
+| `POST /api/property-summary/admin/save` | Auth | Saves all sections + auto-generates snapshot |
+| `GET /api/property-summary/viewer` | Auth | Returns shaped viewer data from latest snapshots |
+
+### Mockup Components (`artifacts/property-summary-mockup/`)
+- **PropertySummary.tsx** — Viewer page; fetches from `/api/property-summary/viewer`; null-safe KPI rendering
+- **PropertySummaryAdmin.tsx** — Admin grid; fully controlled inputs; loads on mount + month change; saves to API
+
+### Month Key Format
+`YYYY-mon` (e.g. `2026-mar`). The admin dropdown converts "March 2026" → `2026-mar` via `toMonthKey()`.
+
+### Calculated (Read-Only) Monthly Metrics
+`vacancy_pct`, `noi_status`, `expense_coverage_months`, `capex_pct_complete`, `capex_status` — shown in admin grid with "Auto-calc" badge; never persisted to JSON.
+
 ## Data Model
 Each month has `a` (actual) and `b` (budget) objects with keys:
 `pri, ltl, vac, mod, con, bd, trr, oi, ur, toi, egi, payroll, adv, ga, util, rm, contract, mgmt, mr, taxes, ins, opex, noi, amfee, debt, capex, ncf`
