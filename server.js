@@ -901,6 +901,24 @@ function sortedMonthKeys(snapshots) {
    PROPERTY SUMMARY — API ROUTES
 ══════════════════════════════════════════════════════ */
 
+/* GET /api/property-summary/actuals-months
+   Returns months (descending) that have at least one actual value uploaded */
+app.get('/api/property-summary/actuals-months', requireAuth, (req, res) => {
+  const MONTH_ORDER = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  const agg = aggregateFromRawData();
+  const withActuals = Object.entries(agg)
+    .filter(([, v]) => Object.keys(v.a || {}).length > 0)
+    .map(([k]) => k)
+    .sort((a, b) => {
+      const [ay, am] = a.split('-');
+      const [by, bm] = b.split('-');
+      const aNum = parseInt(ay) * 100 + (MONTH_ORDER[am] || 0);
+      const bNum = parseInt(by) * 100 + (MONTH_ORDER[bm] || 0);
+      return bNum - aNum; // descending: most recent first
+    });
+  res.json({ months: withActuals });
+});
+
 /* GET /api/property-summary/admin?month=2026-mar */
 app.get('/api/property-summary/admin', requireAuth, (req, res) => {
   const month = req.query.month || '2026-mar';

@@ -190,14 +190,7 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
       <div class="month-sel-wrap">
         <label>📅 Updating:</label>
         <select id="month-sel">
-          <option>January 2026</option>
-          <option>February 2026</option>
-          <option selected>March 2026</option>
-          <option>April 2026</option>
-          <option>May 2026</option>
-          <option>June 2026</option>
-          <option>July 2026</option>
-          <option>August 2026</option>
+          <option value="">Loading…</option>
         </select>
       </div>
       <div class="status-msg ok" id="status-msg"><span class="icon">✓</span> <span id="status-text">All changes saved</span></div>
@@ -263,6 +256,38 @@ const MONTHLY_STRUCTURE = [
 function toMonthKey(label){
   const p=label.trim().split(/\s+/);
   return `${p[p.length-1]}-${p[0].slice(0,3).toLowerCase()}`;
+}
+
+const MONTH_LABELS={jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',
+  jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
+
+function monthKeyToLabel(key){
+  // "2026-jan" → "January 2026"
+  const [year,mon]=key.split('-');
+  return `${MONTH_LABELS[mon]||mon} ${year}`;
+}
+
+async function populateMonthDropdown(){
+  const sel=document.getElementById('month-sel');
+  try{
+    const data=await fetch('/api/property-summary/actuals-months').then(r=>r.json());
+    const months=data.months||[];
+    if(months.length===0){
+      sel.innerHTML='<option value="">No actuals available</option>';
+      sel.disabled=true;
+      STATE.month='';
+      return false;
+    }
+    sel.innerHTML=months.map(k=>`<option value="${monthKeyToLabel(k)}">${monthKeyToLabel(k)}</option>`).join('');
+    sel.disabled=false;
+    STATE.month=months[0]; // most recent first
+    return true;
+  }catch(e){
+    sel.innerHTML='<option value="">No actuals available</option>';
+    sel.disabled=true;
+    STATE.month='';
+    return false;
+  }
 }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -764,9 +789,13 @@ async function saveAll(){
 function cancelChanges(){ loadData(); }
 
 /* ═══════════════════════════════════════════════════════════════════
-   INIT
+   INIT — populate month dropdown from actuals, then load data
 ═══════════════════════════════════════════════════════════════════ */
-loadData();
+(async()=>{
+  const hasMonths=await populateMonthDropdown();
+  if(hasMonths) await loadData();
+  else { renderAll(); setStatus('ok','No actuals uploaded yet'); }
+})();
 </script>
 </body>
 </html>

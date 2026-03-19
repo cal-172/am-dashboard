@@ -1,0 +1,68 @@
+Please update the logic for the “Updating” month dropdown in Property Summary Admin.
+
+IMPORTANT:
+- Do NOT change UI design or styling
+- This is a data filtering / logic update only
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+The “Updating” dropdown should only show months where Actuals data exists for the selected property.
+
+--------------------------------------------------
+REQUIREMENTS
+--------------------------------------------------
+
+1. SOURCE OF TRUTH
+
+The list of available months should be derived from Actuals data.
+
+Only include months where:
+- Actuals data has been uploaded
+- AND the data contains valid financial records for that month
+
+--------------------------------------------------
+2. FILTER LOGIC
+
+Populate the dropdown with only months that meet:
+
+- Actuals exist for that property AND month
+
+Do NOT include months:
+- that only have budget data
+- that exist in the calendar but have no data
+- that are future months with no actuals
+
+--------------------------------------------------
+3. SORT ORDER
+
+- Show months in descending order (most recent first)
+
+Example:
+March 2026
+February 2026
+January 2026
+
+--------------------------------------------------
+4. EMPTY STATE (IMPORTANT)
+
+If no Actuals data exists:
+
+- Disable the dropdown
+- Show placeholder text:
+  "No actuals available"
+
+--------------------------------------------------
+5. OPTIONAL (IF EASY TO IMPLEMENT)
+
+If a month has been partially configured in Property Summary Admin but has no actuals yet:
+- DO NOT include it in the dropdown
+
+We want this dropdown to represent completed reporting periods only.
+
+--------------------------------------------------
+GOAL SUMMARY
+--------------------------------------------------
+
+The Updating dropdown should represent real, valid operating months based strictly on Actuals data, ensuring users only work with meaningful reporting periods.
