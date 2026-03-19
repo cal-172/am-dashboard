@@ -1,0 +1,77 @@
+Please fix the persistence logic for metric section assignment in Property Summary Admin.
+
+IMPORTANT:
+- Do NOT redesign the UI
+- This is a persistence / data behavior fix only
+
+Issue:
+When I move a metric from “Monthly Updates” to “Setup & Property Data” (or vice versa), that change only applies to the currently selected month.
+
+This is incorrect.
+
+--------------------------------------------------
+CORRECT BEHAVIOR
+--------------------------------------------------
+
+The metric’s section assignment must persist across all months for that property.
+
+If I assign a metric to:
+- Monthly Updates
+or
+- Setup & Property Data
+
+that assignment should remain the same no matter which month I select in the Updating dropdown.
+
+Example:
+- I move “Remaining Reserve Balance” to Setup while viewing March 2026
+- When I switch to February 2026, it should still appear in Setup
+- The selected month should not change the section assignment
+
+--------------------------------------------------
+WHAT THIS MEANS
+--------------------------------------------------
+
+The section/group placement of a metric is NOT monthly data.
+
+It should be stored as property-level metric configuration.
+
+Do NOT store section assignment inside the month-specific metric value record.
+
+Instead, persist it separately as a property-level setting for that metric.
+
+--------------------------------------------------
+SEPARATE THESE CONCEPTS
+--------------------------------------------------
+
+Please separate:
+
+1. Metric value
+- can be monthly or setup-level depending on the metric/value
+
+2. Metric section assignment
+- controls whether the row appears in Monthly Updates or Setup & Property Data
+- must persist across all months for that property
+
+3. Metric calculation behavior
+- whether the metric is calculated or manual
+- must also remain independent of month selection
+
+--------------------------------------------------
+REQUIRED FIX
+--------------------------------------------------
+
+When a metric’s section assignment is changed:
+
+- save it at the property + metric level
+- do not save it at the property + metric + month level
+- load that same assignment regardless of selected month
+
+After this fix:
+- changing months should only change monthly values
+- changing months should NOT change where a metric appears in the UI
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make metric section assignment persistent across all updating months for a property, so the admin layout stays consistent regardless of which month is selected.

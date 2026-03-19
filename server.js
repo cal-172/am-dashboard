@@ -795,14 +795,16 @@ const PROP_ESCROWS_FILE   = path.join(__dirname, 'data', 'property_escrows.json'
 const PROP_KEYDATES_FILE  = path.join(__dirname, 'data', 'property_keydates.json');
 const PROP_CONTACTS_FILE  = path.join(__dirname, 'data', 'property_contacts.json');
 const PROP_SNAPSHOTS_FILE = path.join(__dirname, 'data', 'property_kpi_snapshots.json');
+const PROP_SECTIONS_FILE  = path.join(__dirname, 'data', 'property_metric_sections.json');
 
-function readSetupMetrics()    { return readJSON(PROP_SETUP_FILE,    []); }
-function readMonthlyMetrics()  { return readJSON(PROP_MONTHLY_FILE,  {}); }
-function readReserves()        { return readJSON(PROP_RESERVES_FILE,  []); }
-function readEscrows()         { return readJSON(PROP_ESCROWS_FILE,   []); }
-function readKeyDates()        { return readJSON(PROP_KEYDATES_FILE,  []); }
-function readContacts()        { return readJSON(PROP_CONTACTS_FILE,  []); }
-function readSnapshots()       { return readJSON(PROP_SNAPSHOTS_FILE, {}); }
+function readSetupMetrics()       { return readJSON(PROP_SETUP_FILE,    []); }
+function readMonthlyMetrics()     { return readJSON(PROP_MONTHLY_FILE,  {}); }
+function readReserves()           { return readJSON(PROP_RESERVES_FILE,  []); }
+function readEscrows()            { return readJSON(PROP_ESCROWS_FILE,   []); }
+function readKeyDates()           { return readJSON(PROP_KEYDATES_FILE,  []); }
+function readContacts()           { return readJSON(PROP_CONTACTS_FILE,  []); }
+function readSnapshots()          { return readJSON(PROP_SNAPSHOTS_FILE, {}); }
+function readSectionAssignments() { return readJSON(PROP_SECTIONS_FILE,  {}); }
 
 /* ── Number parser: "$3.2M" → 3200000, "94.5%" → 94.5, "1.32x" → 1.32 ── */
 function parseMetricNum(raw) {
@@ -908,6 +910,7 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
   res.json({
     setupMetrics,
     monthlyMetrics,
+    sectionAssignments: readSectionAssignments(),
     reserves:  readReserves(),
     escrows:   readEscrows(),
     keyDates:  readKeyDates(),
@@ -917,19 +920,26 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
 
 /* POST /api/property-summary/admin/save */
 app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
-  const { month, setupMetrics, monthlyMetrics, reserves, escrows, keyDates, contacts } = req.body;
+  const { month, setupMetrics, monthlyMetrics, sectionAssignments, reserves, escrows, keyDates, contacts } = req.body;
   if (!month) return res.status(400).json({ error: 'month required' });
 
   const now = new Date().toISOString().slice(0, 10);
 
+  // Save property-level section assignments (separate from month data)
+  if (sectionAssignments && typeof sectionAssignments === 'object' && !Array.isArray(sectionAssignments)) {
+    writeJSON(PROP_SECTIONS_FILE, sectionAssignments);
+  }
+
   if (Array.isArray(setupMetrics)) {
-    const updated = setupMetrics.map(m => ({ ...m, lastUpdated: now }));
+    // Strip section field — stored in PROP_SECTIONS_FILE, not per-record
+    const updated = setupMetrics.map(({ section, ...m }) => ({ ...m, lastUpdated: now }));
     writeJSON(PROP_SETUP_FILE, updated);
   }
 
   if (Array.isArray(monthlyMetrics)) {
     const all = readMonthlyMetrics();
-    let processed = monthlyMetrics.map(m => ({ ...m, lastUpdated: now }));
+    // Strip section field — stored in PROP_SECTIONS_FILE, not per-month
+    let processed = monthlyMetrics.map(({ section, ...m }) => ({ ...m, lastUpdated: now }));
 
     // Auto-compute Remaining Reserve Balance = Initial Operating Balance + Net Cash Flow
     const getMetricNum = key => {
@@ -941,10 +951,9 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
     if (initial != null && netCF != null) {
       const remaining = initial + netCF;
       const idx = processed.findIndex(m => m.key === 'remaining_reserve_bal');
-      const existingSection = idx >= 0 ? (processed[idx].section || 'monthly') : 'monthly';
       const computedRow = {
         key: 'remaining_reserve_bal', name: 'Remaining Reserve Balance',
-        group: 'Operating Reserves', section: existingSection,
+        group: 'Operating Reserves',
         value: `$${Math.round(remaining).toLocaleString()}`,
         source: 'System', notes: 'Auto-calculated: Initial Balance + Net Cash Flow', lastUpdated: now
       };
@@ -962,7 +971,6 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
         if (noiFin != null) {
           const idxN = processed.findIndex(m => m.key === 'noi_ltm');
           const noiRow = { key:'noi_ltm', name:'NOI (LTM)', group:'Performance',
-            section: idxN >= 0 ? (processed[idxN].section || 'monthly') : 'monthly',
             value:`$${Math.round(Math.abs(noiFin)).toLocaleString()}`, source:'Financial Actuals',
             notes:'Auto-populated from uploaded actuals', lastUpdated: now };
           if (idxN >= 0) processed[idxN] = noiRow; else processed.push(noiRow);
@@ -971,7 +979,6 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
           const vs = noiFin - budNoi;
           const idx2 = processed.findIndex(m => m.key === 'noi_vs_budget');
           const vsRow = { key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
-            section: idx2 >= 0 ? (processed[idx2].section || 'monthly') : 'monthly',
             value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
             source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: now };
           if (idx2 >= 0) processed[idx2] = vsRow; else processed.push(vsRow);

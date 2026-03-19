@@ -221,6 +221,7 @@ let STATE = {
   month: '2026-mar',
   monthly: [],
   setup: [],
+  sectionAssignments: {},   // property-level: { key: 'monthly'|'setup' }
   reserves: [],
   escrows: [],
   keyDates: [],
@@ -358,8 +359,9 @@ function commitEscrow(i,field,el) {
   markChanged(); 
 }
 function changeSection(fromType, i, newSection){
-  if(fromType==='monthly') STATE.monthly[i].section=newSection;
-  else                     STATE.setup[i].section=newSection;
+  const m = fromType==='monthly' ? STATE.monthly[i] : STATE.setup[i];
+  m.section = newSection;
+  STATE.sectionAssignments[m.key] = newSection;   // persist at property level
   markChanged();
   renderAll();
 }
@@ -412,6 +414,10 @@ async function loadData(){
     ]);
     document.getElementById('sb-email').textContent=me.email||'Admin';
 
+    // Property-level section assignments: persist across month switches
+    STATE.sectionAssignments = d.sectionAssignments || {};
+    const sec = STATE.sectionAssignments;
+
     const apiMap={};
     for(const m of (d.monthlyMetrics||[])) apiMap[m.key]=m;
 
@@ -419,9 +425,11 @@ async function loadData(){
       const a=apiMap[s.key]||{};
       const raw=a.value||'';
       const display=(!s.readOnly&&s.fmt)?fmtVal(raw,s.fmt)||raw:raw;
+      // Section comes from property-level assignments, NOT per-month data
+      const section = sec[s.key] !== undefined ? sec[s.key] : 'monthly';
       return { key:s.key, name:s.name, group:s.group, readOnly:s.readOnly,
                fmt:s.fmt, calcType:s.calcType, calcNote:s.calcNote,
-               section: a.section||'monthly',
+               section,
                value:display, source:a.source||'', notes:a.notes||'' };
     });
 
@@ -432,7 +440,8 @@ async function loadData(){
       .filter(m=>!MONTHLY_KEYS.has(m.key))
       .map(m=>({
         key:m.key, name:m.name, group:m.group,
-        section: m.section||'setup',
+        // Section comes from property-level assignments, NOT per-record data
+        section: sec[m.key] !== undefined ? sec[m.key] : 'setup',
         value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
       }));
     STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:fmtVal(r.amount||'','cur')||r.amount||''}));
@@ -713,9 +722,14 @@ async function saveAll(){
   document.getElementById('btn-cancel').disabled=true;
   setStatus('loading','Saving…');
 
+  // Build property-level section map from current STATE
+  const sectionAssignments = {};
+  STATE.monthly.forEach(m=>{ sectionAssignments[m.key]=m.section||'monthly'; });
+  STATE.setup.forEach(m=>{ sectionAssignments[m.key]=m.section||'setup'; });
+
   const monthlyToSave=STATE.monthly
     .filter(m=>m.calcType!=='system')
-    .map(m=>({key:m.key,name:m.name,group:m.group,section:m.section||'monthly',value:m.value,source:m.source,notes:m.notes}));
+    .map(({section,...m})=>({key:m.key,name:m.name,group:m.group,value:m.value,source:m.source,notes:m.notes}));
 
   try{
     const res=await fetch('/api/property-summary/admin/save',{
@@ -724,7 +738,8 @@ async function saveAll(){
       body:JSON.stringify({
         month:STATE.month,
         monthlyMetrics:monthlyToSave,
-        setupMetrics:STATE.setup.map(m=>({key:m.key,name:m.name,group:m.group,section:m.section||'setup',value:m.value,asOf:m.asOf,source:m.source,notes:m.notes})),
+        sectionAssignments,
+        setupMetrics:STATE.setup.map(({section,...m})=>({key:m.key,name:m.name,group:m.group,value:m.value,asOf:m.asOf,source:m.source,notes:m.notes})),
         reserves:STATE.reserves,
         escrows:STATE.escrows,
         keyDates:STATE.keyDates,
