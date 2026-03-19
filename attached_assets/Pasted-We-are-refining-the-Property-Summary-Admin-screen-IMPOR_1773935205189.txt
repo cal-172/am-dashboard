@@ -1,0 +1,156 @@
+We are refining the Property Summary Admin screen.
+
+IMPORTANT:
+- This is a UI/UX refinement pass only
+- Do NOT build backend logic
+- Do NOT redesign the page from scratch
+- Keep the overall structure and styling direction
+- Focus on improving usability, alignment, and flow
+
+GOAL
+Make the Property Summary Admin screen feel cleaner, faster, and more polished for repeated monthly use.
+
+The current version has 3 key issues:
+1. Save action is too far away and should be sticky at the top
+2. Property Setup sections are collapsed, making it impossible to evaluate the workflow
+3. Field placement feels chunky, oversized, and visually unaligned
+
+--------------------------------------------------
+1. STICKY TOP ACTION BAR
+--------------------------------------------------
+
+Move the primary action area to a sticky top action bar.
+
+Requirements:
+- Place Save Changes in a sticky bar near the top of the admin content area
+- Keep Cancel there as well
+- Keep the current month context visible
+- Keep unsaved changes indicator visible if possible
+- The bar should remain visible while scrolling
+- It should feel lightweight, not bulky
+
+Suggested contents of sticky top bar:
+- Current property / current section context if helpful
+- Unsaved changes indicator
+- Cancel
+- Save Changes
+
+Do NOT keep the main action buttons only at the bottom.
+Bottom actions can be removed or de-emphasized once the top sticky bar is added.
+
+--------------------------------------------------
+2. EXPAND ALL PROPERTY SETUP SECTIONS
+--------------------------------------------------
+
+For this design pass, expand all sections inside Property Setup by default so we can evaluate the full input flow.
+
+Expand:
+- Summary
+- Loan Details
+- Lender Reserves
+- Lender Escrows
+- Key Dates
+- Contacts & Links
+
+The goal is to visibly review:
+- field grouping
+- spacing
+- alignment
+- form rhythm
+- dynamic list UX
+
+Keep accordion behavior available, but for now default these to expanded in the mockup.
+
+--------------------------------------------------
+3. IMPROVE FIELD ALIGNMENT AND FORM RHYTHM
+--------------------------------------------------
+
+The current form feels too chunky and uneven.
+
+Please refine the input layout so it feels tighter, cleaner, and more aligned.
+
+Requirements:
+- Reduce oversized vertical spacing between fields
+- Align labels and inputs consistently across sections
+- Use a more structured grid so fields line up cleanly
+- Reduce the “stacked card inside card” feeling
+- Make the form feel more like a polished admin workflow and less like separate blocks pasted together
+
+Preferred direction:
+- Use a consistent 2-column form grid where appropriate
+- Use full-width rows only when needed (for notes, dynamic items, long text)
+- Keep metadata fields like Source / As Of Date / Notes aligned cleanly
+- Improve spacing consistency between sections and between fields inside a section
+
+Goal:
+The form should feel compact enough for efficient data entry, but still breathable.
+
+--------------------------------------------------
+4. CLEANER MONTHLY UPDATE FLOW
+--------------------------------------------------
+
+Refine the Monthly Update area so it feels more like a repeatable workflow.
+
+Suggestions:
+- Keep Monthly Update visually dominant
+- Make each subsection feel like part of one coordinated update flow
+- Reduce excess padding around subsection wrappers
+- Ensure the month context is obvious throughout this section
+
+Do not radically redesign it. Just tighten the rhythm and alignment.
+
+--------------------------------------------------
+5. DYNAMIC SECTION UX PREVIEW
+--------------------------------------------------
+
+For these setup sections:
+- Lender Reserves
+- Lender Escrows
+- Key Dates
+- Contacts & Links
+
+Show the expanded UI clearly enough that we can understand how add/remove rows will work.
+
+We do NOT need backend behavior yet, but visually show:
+- repeated rows
+- Add Line Item / Add Date / Add Contact button placement
+- remove row affordance
+- row alignment
+
+These dynamic sections should feel clean and scalable, not messy.
+
+--------------------------------------------------
+6. VISUAL POLISH
+--------------------------------------------------
+
+Refine the form styling to reduce heaviness:
+- slightly tighter spacing
+- cleaner grouping
+- more consistent label placement
+- more deliberate input widths
+- avoid giant empty gaps
+- avoid awkward misalignment between left and right columns
+
+Make the admin screen feel more professional and less blocky.
+
+--------------------------------------------------
+7. DO NOT CHANGE
+--------------------------------------------------
+
+Do NOT:
+- build backend logic
+- change the overall app shell
+- redesign the entire screen
+- remove the Monthly Update / Property Setup separation
+- add new sections not already planned
+
+--------------------------------------------------
+8. DELIVERABLE
+--------------------------------------------------
+
+Return an updated admin screen mockup where:
+- Save Changes is sticky at the top
+- Property Setup sections are expanded by default
+- field layout is cleaner and more aligned
+- dynamic sections are visually understandable
+- the screen feels more polished, efficient, and less chunky
