@@ -1,0 +1,82 @@
+Please update the KPI cards on the Property Summary Page.
+
+IMPORTANT:
+- Do NOT redesign the overall card layout
+- Do NOT change spacing beyond what is required below
+- This is a targeted refinement to improve clarity and compactness
+
+--------------------------------------------------
+1. UPDATE KPI STATUS TEXT
+--------------------------------------------------
+
+Replace the status label:
+
+- “Issue” → “Risk”
+
+Final status labels should be:
+- Healthy
+- Watch
+- Risk
+
+Do NOT change:
+- status thresholds
+- colors
+- styling
+
+--------------------------------------------------
+2. MOVE KPI STATUS CHIP TO TOP RIGHT
+--------------------------------------------------
+
+Update the KPI card layout as follows:
+
+Top row:
+- Left: KPI title (e.g., DSCR, Occupancy, NOI)
+- Right: status chip (Healthy / Watch / Risk)
+
+The status chip should:
+- be aligned to the top-right corner of the card
+- remain visually consistent with current styling
+- not increase in size or visual weight
+
+--------------------------------------------------
+3. REMOVE UNUSED STATUS ROW
+--------------------------------------------------
+
+- Remove the separate row currently used to display the status chip
+- Eliminate the empty space created by that row
+
+--------------------------------------------------
+4. REDUCE CARD HEIGHT
+--------------------------------------------------
+
+- Reduce overall KPI card height to reflect removal of the status row
+- Maintain consistent padding between elements
+- Do not compress spacing to the point of crowding
+
+--------------------------------------------------
+5. PRESERVE CONTENT HIERARCHY
+--------------------------------------------------
+
+Each KPI card should follow this structure:
+
+Top row:
+- KPI title (left)
+- Status chip (right)
+
+Main:
+- Large KPI value (primary focus)
+
+Below:
+- KPI description / label
+- Supporting details (e.g., covenant, headroom, delta)
+
+The KPI value must remain the most visually prominent element.
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make KPI cards more compact and polished by:
+- removing wasted vertical space
+- improving visual hierarchy
+- using clearer, more professional status language

@@ -56,17 +56,16 @@ html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple
 /* ── KPI CARDS ── */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 @media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
-.kpi-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kpi-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
 .kpi-card.watch{border-left-color:#f59e0b}
 .kpi-card.issue{border-left-color:#ef4444}
 .kpi-card.nodata{border-left-color:#94a3b8}
-.kpi-top{display:flex;align-items:center;justify-content:space-between}
-.kpi-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kpi-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568;flex:1}
 .kpi-icon{font-size:14px;opacity:.5}
 .kpi-main{font-size:26px;font-weight:700;color:#1A2B2C;line-height:1}
 .kpi-sub{font-size:10.5px;color:#6A8E91}
-.kpi-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #EEF4F5;padding-top:7px;margin-top:2px}
-.kpi-badge{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px}
+.kpi-badge{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px;flex-shrink:0}
 .kpi-badge.healthy{background:#dcfce7;color:#15803d}
 .kpi-badge.watch{background:#fef3c7;color:#92400e}
 .kpi-badge.issue{background:#fee2e2;color:#dc2626}
@@ -74,7 +73,7 @@ html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple
 .kpi-trend{font-size:9.5px;font-weight:500;color:#6A8E91}
 .kpi-trend.up{color:#15803d}
 .kpi-trend.dn{color:#dc2626}
-.kpi-note{font-size:9px;color:#94a3b8;padding-top:5px;border-top:1px solid #f1f5f9}
+.kpi-note{font-size:9px;color:#94a3b8;padding-top:4px;border-top:1px solid #f1f5f9}
 
 /* ── GRID ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
@@ -207,7 +206,7 @@ function statusClass(s){ return s==='healthy'?'healthy':s==='watch'?'watch':s===
 
 function chip(status,label){
   const cls=statusClass(status);
-  const lbl=label||(cls==='healthy'?'Healthy':cls==='watch'?'Watch':cls==='issue'?'Issue':'No Data');
+  const lbl=label||(cls==='healthy'?'Healthy':cls==='watch'?'Watch':cls==='issue'?'Risk':'No Data');
   return `<span class="status-chip ${cls}"><span class="dot"></span>${lbl}</span>`;
 }
 
@@ -364,7 +363,7 @@ function render(d){
     <span class="noi-label">📊 NOI Performance</span>
     <span class="noi-main">${V(noi.current)}<span class="noi-period">LTM</span></span>
     <span class="noi-vs ${fav?'fav':'unfav'}">${fav?'↑':'↓'} ${V(noi.vsBudget)} vs Budget</span>
-    <span class="noi-badge ${fav?'fav':'unfav'}">${fav?'Healthy':'Issue'}</span>
+    <span class="noi-badge ${fav?'fav':'unfav'}">${fav?'Healthy':'Risk'}</span>
     ${noi.asOf?`<span class="noi-asof">As Of: ${noi.asOf}</span>`:''}
   </div>`;
 
@@ -411,13 +410,11 @@ function render(d){
   <div class="kpi-card ${k.status}">
     <div class="kpi-top">
       <span class="kpi-title">${k.icon} ${k.title}</span>
+      <span class="kpi-badge ${k.status}">${{healthy:'Healthy',watch:'Watch',issue:'Risk',nodata:'No Data'}[k.status]}</span>
     </div>
     <div class="kpi-main">${k.main}</div>
     <div class="kpi-sub">${k.sub}</div>
-    <div class="kpi-footer">
-      <span class="kpi-badge ${k.status}">${{healthy:'Healthy',watch:'Watch',issue:'Issue',nodata:'No Data'}[k.status]}</span>
-      ${k.trend?`<span class="kpi-trend ${k.trendUp?'up':'dn'}">${k.trendUp?'↑':'↓'} ${k.trend}</span>`:''}
-    </div>
+    ${k.trend?`<span class="kpi-trend ${k.trendUp?'up':'dn'}">${k.trendUp?'↑':'↓'} ${k.trend}</span>`:''}
     ${k.note?`<div class="kpi-note">${k.note}</div>`:''}
   </div>`).join('');
 
