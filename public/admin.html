@@ -246,6 +246,7 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
         <span class="sb-icon">👥</span> User Permissions
       </button>
     </nav>
+    <script>(function(){var h=location.hash.replace('#','');var p=h==='users'?'users':h==='mappings'?'mappings':'files';if(p!=='files'){document.getElementById('page-files').style.display='none';document.getElementById('page-'+p).style.display='';document.getElementById('nav-files').classList.remove('active');document.getElementById('nav-'+p).classList.add('active');}})();</script>
     <div class="sb-footer">
       <div class="sb-user">
         <strong id="sb-email">Loading...</strong>
@@ -612,6 +613,7 @@ function showPage(page) {
     document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
     document.getElementById('nav-'+p).classList.toggle('active', p===page);
   });
+  location.hash = page;
   if (page === 'users')    loadUsers();
   if (page === 'files')    { loadCoverage(); loadUploads(); }
   if (page === 'mappings') loadMappings();
@@ -857,8 +859,9 @@ async function init() {
   const me = await fetch('/api/me').then(r=>r.json());
   meEmail = me.email;
   document.getElementById('sb-email').textContent = me.email;
-  loadCoverage();
-  loadUploads();
+  const h = location.hash.replace('#','');
+  const startPage = h==='users'?'users':h==='mappings'?'mappings':'files';
+  showPage(startPage);
 
   // Drag & drop
   const dz = document.getElementById('drop-zone');
