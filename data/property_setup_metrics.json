@@ -1,1 +1,29 @@
-[]
+[
+  {"key":"property_name",    "name":"Property Name",          "group":"Property Info","value":"Regatta Apartments","asOf":"","source":"","notes":""},
+  {"key":"address",          "name":"Address",                "group":"Property Info","value":"1163 Regatta Drive, Denver CO 80202","asOf":"","source":"","notes":""},
+  {"key":"unit_count",       "name":"Unit Count",             "group":"Property Info","value":"240","asOf":"","source":"","notes":""},
+  {"key":"year_built",       "name":"Year Built",             "group":"Property Info","value":"1997","asOf":"","source":"","notes":""},
+  {"key":"acquisition_date", "name":"Acquisition Date",       "group":"Property Info","value":"June 2021","asOf":"","source":"","notes":""},
+  {"key":"purchase_price",   "name":"Purchase Price",         "group":"Property Info","value":"$55,000,000","asOf":"","source":"","notes":""},
+  {"key":"total_cap",        "name":"Total Capitalization",   "group":"Property Info","value":"$58,200,000","asOf":"","source":"","notes":""},
+
+  {"key":"lender",           "name":"Lender",                 "group":"Loan Details","value":"Freddie Mac","asOf":"","source":"Loan Agreement","notes":""},
+  {"key":"loan_amount",      "name":"Loan Amount",            "group":"Loan Details","value":"$38,500,000","asOf":"Jun 2021","source":"Loan Agreement","notes":""},
+  {"key":"ltv",              "name":"Loan to Value (LTV)",    "group":"Loan Details","value":"70.0%","asOf":"Jun 2021","source":"","notes":""},
+  {"key":"interest_rate",    "name":"Interest Rate",          "group":"Loan Details","value":"5.375%","asOf":"","source":"","notes":"Fixed"},
+  {"key":"term",             "name":"Loan Term",              "group":"Loan Details","value":"10 years","asOf":"","source":"","notes":""},
+  {"key":"io_period",        "name":"I/O Period",             "group":"Loan Details","value":"3 years","asOf":"","source":"","notes":""},
+  {"key":"io_remaining_mo",  "name":"I/O Remaining (Mo)",     "group":"Loan Details","value":"0","asOf":"","source":"","notes":""},
+  {"key":"prepay_penalty",   "name":"Prepay Penalty",         "group":"Loan Details","value":"Step-down","asOf":"","source":"","notes":""},
+  {"key":"maturity_date",    "name":"Maturity Date",          "group":"Loan Details","value":"July 2031","asOf":"","source":"","notes":""},
+  {"key":"dscr_covenant",    "name":"DSCR Covenant",          "group":"Loan Details","value":"1.25x","asOf":"","source":"","notes":""},
+
+  {"key":"initial_equity",   "name":"Initial Equity Invested","group":"Investment","value":"$12,380,000","asOf":"Jun 2021","source":"","notes":""},
+  {"key":"preferred_return", "name":"Preferred Return",       "group":"Investment","value":"8.0%","asOf":"","source":"","notes":""},
+
+  {"key":"capex_budget",     "name":"Initial CapEx Budget",   "group":"CapEx","value":"$3,100,000","asOf":"Jun 2021","source":"CapEx Budget","notes":""},
+
+  {"key":"dscr_target",                "name":"DSCR Target",                     "group":"KPI Targets","value":"1.25x","asOf":"","source":"","notes":"Minimum covenant threshold"},
+  {"key":"occupancy_target",           "name":"Occupancy Target",                "group":"KPI Targets","value":"93.0%","asOf":"","source":"","notes":""},
+  {"key":"op_reserve_target_months",   "name":"Operating Reserve Target (Months)","group":"KPI Targets","value":"4.0","asOf":"","source":"","notes":"Months of operating expense coverage"}
+]

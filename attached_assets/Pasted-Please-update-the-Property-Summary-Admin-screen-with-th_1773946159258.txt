@@ -1,0 +1,68 @@
+Please update the Property Summary Admin screen with the following functional and UX changes.
+
+IMPORTANT:
+- Do not redesign the UI
+- Keep the existing grid structure
+- This is a refinement pass to improve logic, field behavior, and formatting
+
+1. AUTO-POPULATE NOI METRICS
+- NOI (LTM) should auto-populate from the uploaded Actuals data already in the system
+- NOI vs Budget should auto-populate from the current month Actuals vs Budget data already loaded
+- These should not be manual inputs in Monthly Updates
+- They should display as calculated / system-driven values
+
+2. OPERATING RESERVES CALCULATION
+- Remaining Reserve Balance should be calculated, not manually entered
+- Use formula:
+  Remaining Reserve Balance = Initial Operating Balance + Net Cash Flow To Date
+- Reorder the Operating Reserves rows to:
+  1. Initial Operating Balance
+  2. Net Cash Flow To Date
+  3. Remaining Reserve Balance
+  4. Expense Coverage (Months)
+
+3. ADD KPI TARGET INPUTS
+- Add a new Setup metric group called:
+  KPI Targets
+- Include:
+  - DSCR Target
+  - Occupancy Target
+  - Operating Reserve Target (Months)
+- These should be editable setup-level inputs
+- These targets will support viewer KPI logic and status comparisons
+
+4. VALUE FORMATTING
+Apply proper formatting throughout the admin grid:
+- Currency: $379,996
+- Percentages: 94.5%
+- DSCR: 1.32x
+- Dates: consistent date formatting
+- Negative values should display clearly and consistently
+
+5. DATE ALIGNMENT
+- Right-align all date values
+- Keep date alignment consistent with numeric value alignment
+- Do not left-align date fields
+
+6. REMOVE AS OF DATE FROM MONTHLY UPDATES
+- Remove row-level As Of Date from Monthly Update metrics
+- The selected month in the header (“Updating: March 2026”) should be the time context for those rows
+- Keep As Of Date only where it is useful in Setup items, such as:
+  - Loan Details
+  - Lender Reserves
+  - Lender Escrows
+  - other static/source-driven rows if appropriate
+
+7. KEEP CALCULATED MONTHLY ROWS READ-ONLY
+Ensure these remain system-calculated / non-editable where applicable:
+- Vacancy %
+- NOI (LTM)
+- NOI vs Budget
+- NOI Status
+- Remaining Reserve Balance
+- Expense Coverage (Months)
+- CapEx % Complete
+- CapEx Status
+
+Goal:
+Make the admin screen cleaner, more trustworthy, and more aligned with how the underlying data should actually flow through the system.

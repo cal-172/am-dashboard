@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 9001,
+    "name": "Debt Service Reserve",
+    "amount": "379996"
+  },
+  {
+    "id": 9003,
+    "name": "Replacement Reserve",
+    "amount": "105980"
+  }
+]

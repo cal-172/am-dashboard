@@ -18,21 +18,21 @@
     "snapshot_created_at": "2026-02-01T00:00:00Z"
   },
   "2026-mar": {
-    "noi_ltm": 3200000,
-    "noi_vs_budget": 148000,
-    "dscr": 1.32,
+    "noi_ltm": 45836.57,
+    "noi_vs_budget": -34000,
+    "dscr": 0.92,
     "occupancy_pct": 94.5,
     "vacancy_pct": 5.5,
-    "reserve_balance": 582000,
+    "reserve_balance": 410078,
     "expense_coverage_months": null,
-    "capex_pct_complete": 61,
-    "total_lender_reserves": 1650000,
-    "total_lender_escrows": 190000,
-    "noi_status": "healthy",
-    "dscr_status": "healthy",
+    "capex_pct_complete": null,
+    "total_lender_reserves": 485976,
+    "total_lender_escrows": 463489,
+    "noi_status": "watch",
+    "dscr_status": "issue",
     "occupancy_status": "healthy",
     "reserve_status": null,
-    "capex_status": "healthy",
-    "snapshot_created_at": "2026-03-01T00:00:00Z"
+    "capex_status": null,
+    "snapshot_created_at": "2026-03-19T18:44:34.328Z"
   }
 }

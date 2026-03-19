@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 9004,
+    "name": "Insurance Escrow",
+    "amount": "89904"
+  },
+  {
+    "id": 9005,
+    "name": "Tax Escrow",
+    "amount": "319976"
+  },
+  {
+    "id": 9006,
+    "name": "Repair Escrow",
+    "amount": "53609"
+  }
+]
