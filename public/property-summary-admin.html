@@ -43,10 +43,7 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
 .month-sel-wrap select:focus{border-color:#13545E}
 .status-msg{display:flex;align-items:center;gap:6px;font-size:11.5px;flex:1}
 .status-msg .icon{font-size:13px}
-.status-msg.saved{color:#15803d}
-.status-msg.error{color:#dc2626}
-.status-msg.pending{color:#92400e}
-.status-msg.ok{color:#15803d}
+.status-msg.saved{color:#15803d}.status-msg.error{color:#dc2626}.status-msg.pending{color:#92400e}.status-msg.ok{color:#15803d}
 .ab-btns{display:flex;gap:8px;align-items:center;margin-left:auto}
 .btn-cancel{padding:5px 14px;font-size:11.5px;font-weight:500;border:1px solid #D2E8EA;background:#fff;border-radius:5px;cursor:pointer;color:#4A6568;font-family:inherit}
 .btn-cancel:hover{background:#F4F8F9}
@@ -57,7 +54,7 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
 /* ── CONTENT ── */
 .content{padding:18px 24px;flex:1}
 
-/* ── SECTION PANEL ── */
+/* ── PANELS ── */
 .panel{background:#fff;border-radius:8px;border:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px;overflow:hidden}
 .panel-head{padding:12px 18px;border-bottom:1px solid #D2E8EA;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
 .panel-head.accent{background:#EDF8F6}
@@ -68,48 +65,53 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
 .panel-body{display:none}
 .panel-body.open{display:block}
 
-/* ── MONTHLY GRID (no As Of Date column) ── */
-.m-cols{grid-template-columns:minmax(145px,.9fr) 130px 140px minmax(110px,1fr)}
-.m-grid-header{display:grid;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+/* ── MONTHLY GRID — Metric | Value | Source | Notes | Group ── */
+.m-cols{grid-template-columns:minmax(140px,.85fr) 135px 130px minmax(90px,.7fr) 85px}
+.m-grid-header,.m-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+.m-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
 .m-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
-.m-grid-row{display:grid;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center;transition:background .08s}
+.m-grid-row{border-bottom:1px solid #F4F8F9;transition:background .08s}
 .m-grid-row:last-child{border-bottom:none}
 .m-grid-row:hover{background:#FAFCFC}
 
-/* ── SETUP GRID (with As Of Date column) ── */
-.s-cols{grid-template-columns:minmax(145px,.9fr) 130px 95px 130px minmax(110px,1fr)}
-.s-grid-header{display:grid;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+/* ── SETUP GRID — Metric | Value | As Of Date | Source | Notes | Group ── */
+.s-cols{grid-template-columns:minmax(140px,.85fr) 130px 90px 130px minmax(90px,.7fr) 85px}
+.s-grid-header,.s-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+.s-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
 .s-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
-.s-grid-row{display:grid;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center;transition:background .08s}
+.s-grid-row{border-bottom:1px solid #F4F8F9;transition:background .08s}
 .s-grid-row:last-child{border-bottom:none}
 .s-grid-row:hover{background:#FAFCFC}
 
-/* ── RESERVES / ESCROWS GRID ── */
-.r-cols{grid-template-columns:minmax(145px,.9fr) 130px 95px 130px minmax(110px,1fr) 32px}
-.r-grid-header{display:grid;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+/* ── RESERVES GRID — Name | Amount | (blank) | (blank) | Notes | del ── */
+.r-cols{grid-template-columns:minmax(140px,.85fr) 130px 90px 130px minmax(90px,.7fr) 32px}
+.r-grid-header,.r-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+.r-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
 .r-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
-.r-grid-row{display:grid;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center}
+.r-grid-row{border-bottom:1px solid #F4F8F9}
 .r-grid-row:hover{background:#FAFCFC}
 
 /* ── KEY DATES GRID ── */
-.kd-cols{grid-template-columns:minmax(145px,.9fr) 120px 120px minmax(110px,1fr) 32px}
-.kd-grid-header{display:grid;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+.kd-cols{grid-template-columns:minmax(140px,.85fr) 115px 115px minmax(90px,1fr) 32px}
+.kd-grid-header,.kd-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+.kd-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
 .kd-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
-.kd-grid-row{display:grid;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center}
+.kd-grid-row{border-bottom:1px solid #F4F8F9}
 .kd-grid-row:hover{background:#FAFCFC}
 
 /* ── CONTACTS GRID ── */
-.c-cols{grid-template-columns:1fr 1fr 1.5fr 100px 1fr 32px}
-.c-grid-header{display:grid;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+.c-cols{grid-template-columns:1fr 1fr 1.5fr 90px 1fr 32px}
+.c-grid-header,.c-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+.c-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
 .c-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
-.c-grid-row{display:grid;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center}
+.c-grid-row{border-bottom:1px solid #F4F8F9}
 .c-grid-row:hover{background:#FAFCFC}
 
 /* ── GROUP HEADER ── */
 .group-hdr{padding:6px 18px;background:#F4F8F9;border-bottom:1px solid #EEF4F5;border-top:1px solid #EEF4F5}
 .group-hdr-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#13545E;display:flex;align-items:center;gap:5px}
 
-/* ── GRID CELLS ── */
+/* ── INPUTS ── */
 .cell-name{font-size:12px;color:#1A2B2C;display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden}
 .cell-name.dimmed{color:#94a3b8}
 .cell-name-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -117,28 +119,24 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
 .cell-inp:focus{border-bottom-color:#13545E}
 .cell-inp:hover:not(:focus){border-bottom-color:#D2E8EA}
 .cell-inp.right{text-align:right}
+.cell-inp.group-inp{font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;color:#6A8E91}
 
-/* ── CALC / SYSTEM BADGES ── */
+/* ── CALC BADGES ── */
 .cell-autocalc{display:flex;align-items:center;gap:4px;color:#94a3b8;font-size:10px;font-style:italic}
-.cell-autocalc .icon{font-size:10px}
 .cell-system{display:inline-flex;align-items:center;gap:4px;background:#EEF6FF;border:1px solid #BFDBFE;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;color:#1d4ed8;white-space:nowrap}
-.cell-system .icon{font-size:9px}
 .cell-system-val{font-size:11.5px;font-weight:600;color:#1A2B2C;font-family:'Courier New',monospace;text-align:right}
 .cell-calc{display:inline-flex;align-items:center;gap:4px;background:#F4F8F9;border:1px solid #D2E8EA;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;color:#4A6568;white-space:nowrap}
 .cell-calc-val{font-size:11.5px;font-weight:600;color:#1A2B2C;font-family:'Courier New',monospace;text-align:right}
-.cell-sel{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:11px;color:#6A8E91;padding:2px 0;outline:none;font-family:inherit;cursor:pointer;transition:border-color .1s}
+
+/* ── MISC ── */
+.cell-sel{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:11px;color:#6A8E91;padding:2px 0;outline:none;font-family:inherit;cursor:pointer}
 .cell-sel:focus{border-bottom-color:#13545E}
-.cell-sel:hover{border-bottom-color:#D2E8EA}
 .cell-remove{display:flex;align-items:center;justify-content:flex-end}
 .btn-remove{border:none;background:none;cursor:pointer;color:#D2E8EA;font-size:15px;padding:0 2px;transition:color .1s}
 .btn-remove:hover{color:#dc2626}
-
-/* ── ADD ROW ── */
 .add-row{padding:8px 18px;border-top:1px solid #F4F8F9}
 .btn-add{background:none;border:none;cursor:pointer;font-size:11.5px;font-weight:600;color:#13545E;font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
 .btn-add:hover{color:#0D3D45}
-
-/* ── LOADING ── */
 .loading-state{padding:40px;text-align:center;color:#6A8E91}
 </style>
 </head>
@@ -213,11 +211,10 @@ html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple
   </div>
 
 </div>
-
 <script>
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    STATE
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 let STATE = {
   month: '2026-mar',
   monthly: [],
@@ -228,49 +225,38 @@ let STATE = {
   contacts: [],
   hasChanges: false,
 };
-
 let _dynId = 9000;
 function nextId(){ return ++_dynId; }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    MONTHLY STRUCTURE
-   calcType: 'auto'   = computed server-side (Vacancy %, NOI Status, CapEx %, CapEx Status)
-             'system' = pulled from financial actuals upload (NOI LTM, NOI vs Budget)
-             'calc'   = derived from other monthly inputs (Remaining Reserve Bal)
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 const MONTHLY_STRUCTURE = [
-  // Performance
-  {key:'occupancy_pct',    name:'Occupancy %',               group:'Performance',       readOnly:false, fmt:'pct'},
-  {key:'vacancy_pct',      name:'Vacancy %',                 group:'Performance',       readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= 100% − Occupancy %'},
-  {key:'dscr',             name:'DSCR',                      group:'Performance',       readOnly:false, fmt:'dscr'},
-  {key:'noi_ltm',          name:'NOI (LTM)',                 group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
-  {key:'noi_vs_budget',    name:'NOI vs Budget',             group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
-  {key:'noi_status',       name:'NOI Status',                group:'Performance',       readOnly:true,             calcType:'auto',   calcNote:'Derived from NOI vs Budget'},
-
-  // Operating Reserves — order: Initial → Net CF → Remaining (calc) → Coverage (auto)
-  {key:'initial_op_balance',      name:'Initial Operating Balance',  group:'Operating Reserves', readOnly:false, fmt:'cur'},
-  {key:'net_cash_flow',           name:'Net Cash Flow To Date',      group:'Operating Reserves', readOnly:false, fmt:'cur'},
-  {key:'remaining_reserve_bal',   name:'Remaining Reserve Balance',  group:'Operating Reserves', readOnly:true,  fmt:'cur', calcType:'calc',   calcNote:'= Initial Balance + Net Cash Flow'},
-  {key:'expense_coverage_months', name:'Expense Coverage (Months)',  group:'Operating Reserves', readOnly:true,             calcType:'auto',   calcNote:'Requires monthly expense data'},
-
-  // CapEx
-  {key:'capex_spend',            name:'CapEx Spend To Date',    group:'CapEx', readOnly:false, fmt:'cur'},
-  {key:'target_completion_date', name:'Target Completion Date', group:'CapEx', readOnly:false, fmt:'date'},
-  {key:'capex_pct_complete',     name:'CapEx % Complete',       group:'CapEx', readOnly:true,  fmt:'pct', calcType:'auto', calcNote:'= Spend ÷ Budget × 100'},
-  {key:'capex_status',           name:'CapEx Status',           group:'CapEx', readOnly:true,             calcType:'auto', calcNote:'Derived from % vs expected'},
-
-  // Investment
-  {key:'current_distrib_ann_usd', name:'Current Distrib. Ann. ($)', group:'Investment', readOnly:false, fmt:'cur'},
-  {key:'current_distrib_ann_pct', name:'Current Distrib. Ann. (%)', group:'Investment', readOnly:false, fmt:'pct'},
-  {key:'itd_distrib_paid_usd',    name:'ITD Distribution Paid ($)', group:'Investment', readOnly:false, fmt:'cur'},
-  {key:'itd_distrib_paid_pct',    name:'ITD Distribution Paid (%)', group:'Investment', readOnly:false, fmt:'pct'},
-  {key:'cum_pref_shortfall',      name:'Cumulative Pref Shortfall', group:'Investment', readOnly:false, fmt:'cur'},
-  {key:'capital_returned',        name:'Capital Returned',          group:'Investment', readOnly:false, fmt:'cur'},
+  {key:'occupancy_pct',           name:'Occupancy %',               group:'Performance',       readOnly:false, fmt:'pct'},
+  {key:'vacancy_pct',             name:'Vacancy %',                 group:'Performance',       readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= 100% − Occupancy %'},
+  {key:'dscr',                    name:'DSCR',                      group:'Performance',       readOnly:false, fmt:'dscr'},
+  {key:'noi_ltm',                 name:'NOI (LTM)',                 group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
+  {key:'noi_vs_budget',           name:'NOI vs Budget',             group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
+  {key:'noi_status',              name:'NOI Status',                group:'Performance',       readOnly:true,             calcType:'auto',   calcNote:'Derived from NOI vs Budget'},
+  {key:'initial_op_balance',      name:'Initial Operating Balance', group:'Operating Reserves',readOnly:false, fmt:'cur'},
+  {key:'net_cash_flow',           name:'Net Cash Flow To Date',     group:'Operating Reserves',readOnly:false, fmt:'cur'},
+  {key:'remaining_reserve_bal',   name:'Remaining Reserve Balance', group:'Operating Reserves',readOnly:true,  fmt:'cur',  calcType:'calc',   calcNote:'= Initial + Net Cash Flow'},
+  {key:'expense_coverage_months', name:'Expense Coverage (Months)', group:'Operating Reserves',readOnly:true,             calcType:'auto',   calcNote:'Requires monthly expense data'},
+  {key:'capex_spend',             name:'CapEx Spend To Date',       group:'CapEx',             readOnly:false, fmt:'cur'},
+  {key:'target_completion_date',  name:'Target Completion Date',    group:'CapEx',             readOnly:false, fmt:'date'},
+  {key:'capex_pct_complete',      name:'CapEx % Complete',          group:'CapEx',             readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= Spend ÷ Budget × 100'},
+  {key:'capex_status',            name:'CapEx Status',              group:'CapEx',             readOnly:true,             calcType:'auto',   calcNote:'Derived from % vs expected'},
+  {key:'current_distrib_ann_usd', name:'Current Distrib. Ann. ($)', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'current_distrib_ann_pct', name:'Current Distrib. Ann. (%)', group:'Investment',        readOnly:false, fmt:'pct'},
+  {key:'itd_distrib_paid_usd',    name:'ITD Distribution Paid ($)', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'itd_distrib_paid_pct',    name:'ITD Distribution Paid (%)', group:'Investment',        readOnly:false, fmt:'pct'},
+  {key:'cum_pref_shortfall',      name:'Cumulative Pref Shortfall', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'capital_returned',        name:'Capital Returned',          group:'Investment',        readOnly:false, fmt:'cur'},
 ];
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    UTILITIES
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 function toMonthKey(label){
   const p=label.trim().split(/\s+/);
   return `${p[p.length-1]}-${p[0].slice(0,3).toLowerCase()}`;
@@ -282,52 +268,123 @@ function parseRaw(s){
   if(!s) return null;
   const str=String(s).trim();
   if(!str||str==='—') return null;
-  const neg=/^\(/.test(str);
-  const clean=str.replace(/[\$,\s\(\)%x]/g,'');
+  const neg=/^\(/.test(str)||(/^-/.test(str)&&!str.startsWith('--'));
+  const clean=str.replace(/[\$,\s\(\)%x]/g,'').replace(/^-/,'');
   const n=parseFloat(clean);
   return isNaN(n)?null:(neg?-n:n);
 }
 
 function fmtVal(raw, fmt){
-  if(!raw||raw==='—') return raw||'';
-  if(!fmt) return raw;
-  const n=parseRaw(raw);
+  if(!raw&&raw!==0) return raw||'';
+  if(!fmt||fmt==='date') return raw;
+  const n=parseRaw(String(raw));
   if(n==null) return raw;
   switch(fmt){
     case 'cur':{
       const neg=n<0;
-      const abs=Math.abs(n);
-      const s='$'+Math.round(abs).toLocaleString();
+      const s='$'+Math.round(Math.abs(n)).toLocaleString();
       return neg?`(${s})`:s;
     }
     case 'pct': return n.toFixed(1)+'%';
     case 'dscr': return n.toFixed(2)+'x';
-    case 'date': return raw;
     default: return raw;
   }
 }
 
-function isNumericFmt(fmt){ return ['cur','pct','dscr'].includes(fmt); }
-function isDateFmt(fmt){ return fmt==='date'; }
+function detectFmt(v){
+  const s=String(v||'').trim();
+  if(!s) return null;
+  if(/^\(?\$[\d,]+\)?$/.test(s)) return 'cur';
+  if(/^[\d.]+%$/.test(s)) return 'pct';
+  if(/^[\d.]+x$/.test(s)) return 'dscr';
+  return null;
+}
 
-/* ═══════════════════════════════════════════════════════
-   COMPUTED: Remaining Reserve Balance
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   COMPUTED: Remaining Reserve Balance — updates DOM directly, no re-render
+═══════════════════════════════════════════════════════════════════ */
 function computeRemaining(){
   const initial  = STATE.monthly.find(m=>m.key==='initial_op_balance');
   const netCF    = STATE.monthly.find(m=>m.key==='net_cash_flow');
   const remaining= STATE.monthly.find(m=>m.key==='remaining_reserve_bal');
   if(!initial||!netCF||!remaining) return;
-  const iNum=parseRaw(initial.value);
-  const nNum=parseRaw(netCF.value);
+  const iNum=parseRaw(initial.value), nNum=parseRaw(netCF.value);
   if(iNum!=null&&nNum!=null){
     remaining.value=fmtVal(String(Math.round(iNum+nNum)),'cur');
+    const el=document.getElementById('remaining-calc-val');
+    if(el) el.textContent=remaining.value;
   }
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
+   COMMIT HANDLERS — called on blur; no renderAll()
+═══════════════════════════════════════════════════════════════════ */
+function commitMonthly(i, field, el){
+  let v=el.value;
+  const m=STATE.monthly[i];
+  if(field==='value'&&m.fmt&&m.fmt!=='date'){
+    const formatted=fmtVal(v,m.fmt);
+    if(formatted){ v=formatted; el.value=v; }
+  }
+  m[field]=v;
+  if(field==='value'&&(m.key==='initial_op_balance'||m.key==='net_cash_flow')){
+    computeRemaining();
+  }
+  markChanged();
+}
+
+function commitSetup(i, field, el){
+  let v=el.value;
+  if(field==='value'){
+    const fmt=detectFmt(v);
+    if(fmt){ const f=fmtVal(v,fmt); if(f){ v=f; el.value=v; } }
+  }
+  STATE.setup[i][field]=v;
+  markChanged();
+}
+
+function commitReserve(i,field,el){ STATE.reserves[i][field]=el.value; markChanged(); }
+function commitEscrow(i,field,el) { STATE.escrows[i][field]=el.value;  markChanged(); }
+function commitKeyDate(i,field,el){ STATE.keyDates[i][field]=el.value; markChanged(); }
+function commitContact(i,field,el){ STATE.contacts[i][field]=el.value; markChanged(); }
+function commitContactSel(i,el)   { STATE.contacts[i].type=el.value;   markChanged(); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATUS
+═══════════════════════════════════════════════════════════════════ */
+function setStatus(type,msg){
+  const el=document.getElementById('status-msg');
+  const icons={ok:'✓',saved:'✓',error:'✗',pending:'!',loading:'↻'};
+  el.className='status-msg '+(type==='loading'?'ok':type);
+  document.getElementById('status-text').textContent=msg;
+  el.querySelector('.icon').textContent=icons[type]||'✓';
+}
+function markChanged(){ STATE.hasChanges=true; setStatus('pending','Unsaved changes'); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PANEL TOGGLE
+═══════════════════════════════════════════════════════════════════ */
+function togglePanel(id){
+  const body=document.getElementById('body-'+id);
+  const ch=document.getElementById('chevron-'+id);
+  const open=body.classList.toggle('open');
+  ch.textContent=open?'▼':'▶';
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INPUT BUILDER
+   - onfocus: select all text
+   - onkeydown: Enter triggers blur (commit)
+   - onblur: commit handler (no re-render)
+═══════════════════════════════════════════════════════════════════ */
+function inp(value, right, blurFn, extraClass=''){
+  const align=right?' right':'';
+  return `<input type="text" class="cell-inp${align}${extraClass?' '+extraClass:''}" value="${esc(value)}" placeholder="—" onfocus="this.select()" onkeydown="if(event.key==='Enter')this.blur()" onblur="${blurFn}">`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    LOAD
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 async function loadData(){
   setStatus('loading','Loading…');
   try{
@@ -342,23 +399,19 @@ async function loadData(){
 
     STATE.monthly=MONTHLY_STRUCTURE.map(s=>{
       const a=apiMap[s.key]||{};
-      const rawVal=a.value||'';
-      const display=(!s.readOnly)?fmtVal(rawVal,s.fmt)||rawVal:rawVal;
-      return {
-        key:s.key, name:s.name, group:s.group,
-        readOnly:s.readOnly, fmt:s.fmt, calcType:s.calcType, calcNote:s.calcNote,
-        value:display, source:a.source||'', notes:a.notes||''
-      };
+      const raw=a.value||'';
+      const display=(!s.readOnly&&s.fmt)?fmtVal(raw,s.fmt)||raw:raw;
+      return { key:s.key, name:s.name, group:s.group, readOnly:s.readOnly,
+               fmt:s.fmt, calcType:s.calcType, calcNote:s.calcNote,
+               value:display, source:a.source||'', notes:a.notes||'' };
     });
 
-    // Compute remaining immediately on load
     computeRemaining();
 
     STATE.setup=(d.setupMetrics||[]).map(m=>({
       key:m.key, name:m.name, group:m.group,
       value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
     }));
-
     STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:r.amount||''}));
     STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:e.amount||''}));
     STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
@@ -373,170 +426,134 @@ async function loadData(){
   }
 }
 
-/* ═══════════════════════════════════════════════════════
-   STATUS
-═══════════════════════════════════════════════════════ */
-function setStatus(type,msg){
-  const el=document.getElementById('status-msg');
-  const icons={ok:'✓',saved:'✓',error:'✗',pending:'!',loading:'↻'};
-  el.className='status-msg '+(type==='loading'?'ok':type);
-  document.getElementById('status-text').textContent=msg;
-  el.querySelector('.icon').textContent=icons[type]||'✓';
-}
-
-function markChanged(){
-  STATE.hasChanges=true;
-  setStatus('pending','Unsaved changes');
-}
-
-/* ═══════════════════════════════════════════════════════
-   PANEL TOGGLE
-═══════════════════════════════════════════════════════ */
-function togglePanel(id){
-  const body=document.getElementById('body-'+id);
-  const ch=document.getElementById('chevron-'+id);
-  const open=body.classList.toggle('open');
-  ch.textContent=open?'▼':'▶';
-}
-
-/* ═══════════════════════════════════════════════════════
-   CELL RENDERERS
-═══════════════════════════════════════════════════════ */
-function inpCell(value, right, handler){
-  const align=right?'right':'';
-  return `<input type="text" class="cell-inp ${align}" value="${esc(value)}" placeholder="—" oninput="${handler}">`;
-}
-
-function autoCalcCell(calcNote){
-  return `<div class="cell-autocalc"><span class="icon">↻</span> Auto-calc${calcNote?` <span style="font-size:9px;opacity:.7">(${calcNote})</span>`:''}</div>`;
-}
-
-function systemCell(storedValue){
-  if(storedValue&&storedValue!=='—'){
-    return `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-      <div class="cell-system"><span class="icon">📊</span>From Actuals</div>
-      <div class="cell-system-val">${esc(storedValue)}</div>
-    </div>`;
-  }
-  return `<div class="cell-system"><span class="icon">📊</span>Not yet uploaded</div>`;
-}
-
-function calcCell(storedValue, calcNote){
-  if(storedValue&&storedValue!=='—'){
-    return `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-      <div class="cell-calc"><span>= ${calcNote||'Calculated'}</span></div>
-      <div class="cell-calc-val">${esc(storedValue)}</div>
-    </div>`;
-  }
-  return `<div class="cell-calc"><span>= ${calcNote||'Calculated'}</span></div>`;
-}
-
-function monthlyValueCell(m, ki){
+/* ═══════════════════════════════════════════════════════════════════
+   VALUE CELL for monthly rows (readonly = badge; editable = input)
+═══════════════════════════════════════════════════════════════════ */
+function monthlyValCell(m, ki){
   if(!m.readOnly){
-    const right=isNumericFmt(m.fmt)||isDateFmt(m.fmt);
-    return inpCell(m.value,right,`updateMonthly(${ki},'value',this.value)`);
+    const right=m.fmt&&m.fmt!=='date'?true:(m.fmt==='date');
+    return inp(m.value, right, `commitMonthly(${ki},'value',this)`);
   }
-  if(m.calcType==='system') return systemCell(m.value);
-  if(m.calcType==='calc')   return calcCell(m.value, m.calcNote);
-  return autoCalcCell(m.calcNote);
+  if(m.calcType==='system'){
+    return m.value&&m.value!=='—'
+      ? `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="cell-system"><span>📊</span> From Actuals</div><div class="cell-system-val">${esc(m.value)}</div></div>`
+      : `<div class="cell-system"><span>📊</span> Not yet uploaded</div>`;
+  }
+  if(m.calcType==='calc'){
+    const idAttr=m.key==='remaining_reserve_bal'?' id="remaining-calc-val"':'';
+    return m.value&&m.value!=='—'
+      ? `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div><div class="cell-calc-val"${idAttr}>${esc(m.value)}</div></div>`
+      : `<div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div>`;
+  }
+  return `<div class="cell-autocalc">↻ ${esc(m.calcNote||'Auto-calc')}</div>`;
 }
 
-/* ═══════════════════════════════════════════════════════
-   RENDER
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER — only called on load / cancel / save-complete, NOT on input
+═══════════════════════════════════════════════════════════════════ */
 function renderAll(){
-  // ── Group monthly metrics
-  const groups_m={}, order_m=[];
+  const monthLabel=document.getElementById('month-sel').value;
+
+  // ── Group monthly
+  const gm={}, om=[];
   for(const m of STATE.monthly){
-    if(!groups_m[m.group]){groups_m[m.group]=[];order_m.push(m.group);}
-    groups_m[m.group].push(m);
+    if(!gm[m.group]){gm[m.group]=[];om.push(m.group);}
+    gm[m.group].push(m);
   }
-
-  // ── Group setup metrics
-  const groups_s={}, order_s=[];
+  // ── Group setup
+  const gs={}, os=[];
   for(const m of STATE.setup){
-    if(!groups_s[m.group]){groups_s[m.group]=[];order_s.push(m.group);}
-    groups_s[m.group].push(m);
+    if(!gs[m.group]){gs[m.group]=[];os.push(m.group);}
+    gs[m.group].push(m);
   }
 
-  const monthLabel = document.getElementById('month-sel').value;
-
-  // ── MONTHLY PANEL
-  let monthlyHTML=`<div class="m-grid-header m-cols">
-    <span>Metric</span><span style="text-align:right">Value for ${esc(monthLabel)}</span><span>Source</span><span>Notes</span>
+  // ── MONTHLY HTML
+  let mHTML=`<div class="m-grid-header m-cols">
+    <span>Metric</span>
+    <span style="text-align:right">Value — ${esc(monthLabel)}</span>
+    <span>Source</span>
+    <span>Notes</span>
+    <span>Group</span>
   </div>`;
-  for(const g of order_m){
-    monthlyHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
-    for(const m of groups_m[g]){
+  for(const g of om){
+    mHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of gm[g]){
       const ki=STATE.monthly.indexOf(m);
-      const isReadonly=m.readOnly;
-      monthlyHTML+=`<div class="m-grid-row m-cols">
-        <div class="cell-name ${isReadonly?'dimmed':''}">
+      const ro=m.readOnly;
+      mHTML+=`<div class="m-grid-row m-cols">
+        <div class="cell-name ${ro?'dimmed':''}">
           <span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span>
         </div>
-        ${monthlyValueCell(m,ki)}
-        ${isReadonly
+        ${monthlyValCell(m,ki)}
+        ${ro
           ? `<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`
-          : inpCell(m.source,false,`updateMonthly(${ki},'source',this.value)`)
+          : inp(m.source,false,`commitMonthly(${ki},'source',this)`)
         }
-        ${isReadonly
+        ${ro
           ? `<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`
-          : inpCell(m.notes,false,`updateMonthly(${ki},'notes',this.value)`)
+          : inp(m.notes,false,`commitMonthly(${ki},'notes',this)`)
         }
+        ${inp(m.group,false,`commitMonthly(${ki},'group',this)`,'group-inp')}
       </div>`;
     }
   }
 
-  // ── SETUP PANEL
-  let setupHTML=`<div class="s-grid-header s-cols">
-    <span>Metric</span><span style="text-align:right">Value</span><span style="text-align:right">As Of Date</span><span>Source</span><span>Notes</span>
+  // ── SETUP HTML
+  let sHTML=`<div class="s-grid-header s-cols">
+    <span>Metric</span>
+    <span style="text-align:right">Value</span>
+    <span style="text-align:right">As Of Date</span>
+    <span>Source</span>
+    <span>Notes</span>
+    <span>Group</span>
   </div>`;
-  for(const g of order_s){
-    setupHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
-    for(const m of groups_s[g]){
+  for(const g of os){
+    sHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of gs[g]){
       const ki=STATE.setup.indexOf(m);
-      const right=isNumericFmt(m.fmt)||isDateFmt(m.fmt)||/^\$|^\d|%$|x$/.test((m.value||'').trim());
-      setupHTML+=`<div class="s-grid-row s-cols">
+      const isNum=/^\(?\$|%$|x$/.test((m.value||'').trim());
+      sHTML+=`<div class="s-grid-row s-cols">
         <div class="cell-name"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>
-        ${inpCell(m.value,right,`updateSetup(${ki},'value',this.value)`)}
-        ${inpCell(m.asOf,true,`updateSetup(${ki},'asOf',this.value)`)}
-        ${inpCell(m.source,false,`updateSetup(${ki},'source',this.value)`)}
-        ${inpCell(m.notes,false,`updateSetup(${ki},'notes',this.value)`)}
+        ${inp(m.value,isNum,`commitSetup(${ki},'value',this)`)}
+        ${inp(m.asOf,true,`commitSetup(${ki},'asOf',this)`)}
+        ${inp(m.source,false,`commitSetup(${ki},'source',this)`)}
+        ${inp(m.notes,false,`commitSetup(${ki},'notes',this)`)}
+        ${inp(m.group,false,`commitSetup(${ki},'group',this)`,'group-inp')}
       </div>`;
     }
   }
 
   // ── RESERVES
-  let resHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Reserves</span></div>
+  let rHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Reserves</span></div>
   <div class="r-grid-header r-cols">
     <span>Reserve Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span>
   </div>`;
   for(const r of STATE.reserves){
     const ri=STATE.reserves.indexOf(r);
-    resHTML+=`<div class="r-grid-row r-cols">
-      ${inpCell(r.name,false,`updateReserve(${ri},'name',this.value)`)}
-      ${inpCell(r.amount,true,`updateReserve(${ri},'amount',this.value)`)}
+    rHTML+=`<div class="r-grid-row r-cols">
+      ${inp(r.name,false,`commitReserve(${ri},'name',this)`)}
+      ${inp(r.amount,true,`commitReserve(${ri},'amount',this)`)}
       <div></div><div></div><div></div>
       <div class="cell-remove"><button class="btn-remove" onclick="removeReserve(${ri})">✕</button></div>
     </div>`;
   }
-  resHTML+=`<div class="add-row"><button class="btn-add" onclick="addReserve()">＋ Add reserve</button></div>`;
+  rHTML+=`<div class="add-row"><button class="btn-add" onclick="addReserve()">＋ Add reserve</button></div>`;
 
   // ── ESCROWS
-  let escHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Escrows</span></div>
+  let eHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Escrows</span></div>
   <div class="r-grid-header r-cols">
     <span>Escrow Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span>
   </div>`;
   for(const e of STATE.escrows){
     const ei=STATE.escrows.indexOf(e);
-    escHTML+=`<div class="r-grid-row r-cols">
-      ${inpCell(e.name,false,`updateEscrow(${ei},'name',this.value)`)}
-      ${inpCell(e.amount,true,`updateEscrow(${ei},'amount',this.value)`)}
+    eHTML+=`<div class="r-grid-row r-cols">
+      ${inp(e.name,false,`commitEscrow(${ei},'name',this)`)}
+      ${inp(e.amount,true,`commitEscrow(${ei},'amount',this)`)}
       <div></div><div></div><div></div>
       <div class="cell-remove"><button class="btn-remove" onclick="removeEscrow(${ei})">✕</button></div>
     </div>`;
   }
-  escHTML+=`<div class="add-row"><button class="btn-add" onclick="addEscrow()">＋ Add escrow</button></div>`;
+  eHTML+=`<div class="add-row"><button class="btn-add" onclick="addEscrow()">＋ Add escrow</button></div>`;
 
   // ── KEY DATES
   let kdHTML=`<div class="group-hdr"><span class="group-hdr-name">📅 Key Dates</span></div>
@@ -546,10 +563,10 @@ function renderAll(){
   for(const kd of STATE.keyDates){
     const ki=STATE.keyDates.indexOf(kd);
     kdHTML+=`<div class="kd-grid-row kd-cols">
-      ${inpCell(kd.label,false,`updateKeyDate(${ki},'label',this.value)`)}
-      ${inpCell(kd.dueDate,true,`updateKeyDate(${ki},'dueDate',this.value)`)}
-      ${inpCell(kd.completed,true,`updateKeyDate(${ki},'completed',this.value)`)}
-      ${inpCell(kd.notes,false,`updateKeyDate(${ki},'notes',this.value)`)}
+      ${inp(kd.label,false,`commitKeyDate(${ki},'label',this)`)}
+      ${inp(kd.dueDate,true,`commitKeyDate(${ki},'dueDate',this)`)}
+      ${inp(kd.completed,true,`commitKeyDate(${ki},'completed',this)`)}
+      ${inp(kd.notes,false,`commitKeyDate(${ki},'notes',this)`)}
       <div class="cell-remove"><button class="btn-remove" onclick="removeKeyDate(${ki})">✕</button></div>
     </div>`;
   }
@@ -562,10 +579,10 @@ function renderAll(){
   for(const c of STATE.contacts){
     const ci=STATE.contacts.indexOf(c);
     cHTML+=`<div class="c-grid-row c-cols">
-      ${inpCell(c.label,false,`updateContact(${ci},'label',this.value)`)}
-      ${inpCell(c.name,false,`updateContact(${ci},'name',this.value)`)}
-      ${inpCell(c.emailOrUrl,false,`updateContact(${ci},'emailOrUrl',this.value)`)}
-      <select class="cell-sel" onchange="updateContact(${ci},'type',this.value)">
+      ${inp(c.label,false,`commitContact(${ci},'label',this)`)}
+      ${inp(c.name,false,`commitContact(${ci},'name',this)`)}
+      ${inp(c.emailOrUrl,false,`commitContact(${ci},'emailOrUrl',this)`)}
+      <select class="cell-sel" onchange="commitContactSel(${ci},this)">
         <option value="email"    ${c.type==='email'   ?'selected':''}>Email</option>
         <option value="link"     ${c.type==='link'    ?'selected':''}>Link</option>
         <option value="document" ${c.type==='document'?'selected':''}>Document</option>
@@ -576,21 +593,22 @@ function renderAll(){
   }
   cHTML+=`<div class="add-row"><button class="btn-add" onclick="addContact()">＋ Add contact or link</button></div>`;
 
-  // ── BUILD PANELS
-  const editableMonthly=STATE.monthly.filter(m=>!m.readOnly).length;
+  const editableCnt=STATE.monthly.filter(m=>!m.readOnly).length;
+  const systemCnt=STATE.monthly.filter(m=>m.calcType==='system').length;
+
   document.getElementById('content').innerHTML=`
   <div class="panel">
     <div class="panel-head accent" onclick="togglePanel('monthly')">
       <div>
         <div class="panel-title">📅 Monthly Updates
-          <span class="badge">${editableMonthly} editable</span>
-          <span class="badge" style="background:#EEF6FF;color:#1d4ed8">${STATE.monthly.filter(m=>m.calcType==='system').length} from actuals</span>
+          <span class="badge">${editableCnt} editable</span>
+          <span class="badge" style="background:#EEF6FF;color:#1d4ed8">${systemCnt} from actuals</span>
         </div>
-        <div class="panel-desc">Values refreshed each month. System-calculated rows update automatically when data is uploaded or sibling values change.</div>
+        <div class="panel-desc">Values refreshed each month. System rows auto-populate from uploaded actuals. Calculated rows update on blur.</div>
       </div>
       <span class="panel-chevron" id="chevron-monthly">▼</span>
     </div>
-    <div class="panel-body open" id="body-monthly">${monthlyHTML}</div>
+    <div class="panel-body open" id="body-monthly">${mHTML}</div>
   </div>
 
   <div class="panel">
@@ -601,12 +619,7 @@ function renderAll(){
       </div>
       <span class="panel-chevron" id="chevron-setup">▼</span>
     </div>
-    <div class="panel-body open" id="body-setup">
-      ${setupHTML}
-      ${resHTML}
-      ${escHTML}
-      ${kdHTML}
-    </div>
+    <div class="panel-body open" id="body-setup">${sHTML}${rHTML}${eHTML}${kdHTML}</div>
   </div>
 
   <div class="panel">
@@ -622,64 +635,37 @@ function renderAll(){
   <div style="height:32px"></div>`;
 }
 
-/* ═══════════════════════════════════════════════════════
-   UPDATE HANDLERS
-═══════════════════════════════════════════════════════ */
-function updateMonthly(i, field, v){
-  STATE.monthly[i][field]=v;
-  const key=STATE.monthly[i].key;
-  if(field==='value'&&(key==='initial_op_balance'||key==='net_cash_flow')){
-    computeRemaining();
-    // Update the remaining cell display without full re-render
-    const remaining=STATE.monthly.find(m=>m.key==='remaining_reserve_bal');
-    if(remaining){
-      const calcCells=document.querySelectorAll('.cell-calc-val');
-      calcCells.forEach(el=>{
-        if(el.closest('.m-grid-row')&&el.previousElementSibling?.textContent?.includes('Initial Balance')){
-          el.textContent=remaining.value||'—';
-        }
-      });
-      // Full re-render to update the calc cell properly
-      renderAll();
-    }
-  }
-  markChanged();
-}
-function updateSetup(i,f,v){   STATE.setup[i][f]=v;    markChanged(); }
-function updateReserve(i,f,v){ STATE.reserves[i][f]=v; markChanged(); }
-function updateEscrow(i,f,v){  STATE.escrows[i][f]=v;  markChanged(); }
-function updateKeyDate(i,f,v){ STATE.keyDates[i][f]=v; markChanged(); }
-function updateContact(i,f,v){ STATE.contacts[i][f]=v; markChanged(); }
+/* ═══════════════════════════════════════════════════════════════════
+   ADD / REMOVE
+═══════════════════════════════════════════════════════════════════ */
+function addReserve(){ STATE.reserves.push({id:nextId(),name:'',amount:''}); renderAll(); }
+function addEscrow(){  STATE.escrows.push({id:nextId(),name:'',amount:''});  renderAll(); }
+function addKeyDate(){ STATE.keyDates.push({id:nextId(),label:'',dueDate:'',completed:'',notes:''}); renderAll(); }
+function addContact(){ STATE.contacts.push({id:nextId(),label:'',name:'',emailOrUrl:'',type:'email',notes:''}); renderAll(); }
 
-function addReserve(){ STATE.reserves.push({id:nextId(),name:'',amount:''}); markChanged(); renderAll(); }
-function addEscrow(){  STATE.escrows.push({id:nextId(),name:'',amount:''});  markChanged(); renderAll(); }
-function addKeyDate(){ STATE.keyDates.push({id:nextId(),label:'',dueDate:'',completed:'',notes:''}); markChanged(); renderAll(); }
-function addContact(){ STATE.contacts.push({id:nextId(),label:'',name:'',emailOrUrl:'',type:'email',notes:''}); markChanged(); renderAll(); }
+function removeReserve(i){ STATE.reserves.splice(i,1); renderAll(); }
+function removeEscrow(i){  STATE.escrows.splice(i,1);  renderAll(); }
+function removeKeyDate(i){ STATE.keyDates.splice(i,1); renderAll(); }
+function removeContact(i){ STATE.contacts.splice(i,1); renderAll(); }
 
-function removeReserve(i){ STATE.reserves.splice(i,1); markChanged(); renderAll(); }
-function removeEscrow(i){  STATE.escrows.splice(i,1);  markChanged(); renderAll(); }
-function removeKeyDate(i){ STATE.keyDates.splice(i,1); markChanged(); renderAll(); }
-function removeContact(i){ STATE.contacts.splice(i,1); markChanged(); renderAll(); }
-
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    MONTH CHANGE
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 document.getElementById('month-sel').addEventListener('change',e=>{
   STATE.month=toMonthKey(e.target.value);
   loadData();
 });
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    SAVE & CANCEL
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 async function saveAll(){
   document.getElementById('btn-save').disabled=true;
   document.getElementById('btn-cancel').disabled=true;
   setStatus('loading','Saving…');
 
-  // Only save non-system rows; remaining_reserve_bal is recomputed server-side from initial+netCF
   const monthlyToSave=STATE.monthly
-    .filter(m=>m.calcType!=='system') // NOI rows come from actuals, not manual
+    .filter(m=>m.calcType!=='system')
     .map(m=>({key:m.key,name:m.name,group:m.group,value:m.value,source:m.source,notes:m.notes}));
 
   try{
@@ -698,15 +684,14 @@ async function saveAll(){
     });
     if(res.ok){
       STATE.hasChanges=false;
-      setStatus('saved','All changes saved');
-      // Reload to pick up server-computed remaining_reserve_bal
       await loadData();
     }else{
       setStatus('error','Save failed — try again');
+      document.getElementById('btn-save').disabled=false;
+      document.getElementById('btn-cancel').disabled=false;
     }
   }catch{
     setStatus('error','Save failed — try again');
-  }finally{
     document.getElementById('btn-save').disabled=false;
     document.getElementById('btn-cancel').disabled=false;
   }
@@ -714,9 +699,9 @@ async function saveAll(){
 
 function cancelChanges(){ loadData(); }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    INIT
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════════════════ */
 loadData();
 </script>
 </body>

@@ -18,21 +18,21 @@
     "snapshot_created_at": "2026-02-01T00:00:00Z"
   },
   "2026-mar": {
-    "noi_ltm": 45836.57,
-    "noi_vs_budget": -34000,
+    "noi_ltm": null,
+    "noi_vs_budget": null,
     "dscr": 0.92,
     "occupancy_pct": 94.5,
     "vacancy_pct": 5.5,
     "reserve_balance": 410078,
     "expense_coverage_months": null,
-    "capex_pct_complete": null,
+    "capex_pct_complete": 78,
     "total_lender_reserves": 485976,
     "total_lender_escrows": 463489,
-    "noi_status": "watch",
+    "noi_status": null,
     "dscr_status": "issue",
     "occupancy_status": "healthy",
     "reserve_status": null,
-    "capex_status": null,
-    "snapshot_created_at": "2026-03-19T18:44:34.328Z"
+    "capex_status": "healthy",
+    "snapshot_created_at": "2026-03-19T19:01:01.581Z"
   }
 }

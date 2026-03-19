@@ -1,0 +1,138 @@
+Please fix the behavior and usability of inputs in the Property Summary Admin screen.
+
+IMPORTANT:
+- Do NOT change layout or design
+- Do NOT remove fields
+- This is strictly a UX and input behavior fix
+
+--------------------------------------------------
+1. RESTORE GROUP FIELD
+--------------------------------------------------
+
+- Reintroduce the “Group” column (Monthly / Setup)
+- This field must be visible and editable
+- It is required to control where the metric is stored
+
+--------------------------------------------------
+2. FIX INPUT FOCUS ISSUE (CRITICAL)
+--------------------------------------------------
+
+Currently, inputs lose focus after each keystroke.
+
+Fix this by:
+
+- DO NOT update global state on every keystroke
+- Use local input state while typing
+- Only commit value on:
+  - blur (when user clicks out)
+  - or Enter key
+
+Result:
+- typing should NOT cause re-render
+- input should NOT lose focus
+- user should be able to type normally
+
+--------------------------------------------------
+3. SELECT ALL TEXT ON FOCUS
+--------------------------------------------------
+
+When user clicks into any input field:
+
+- Automatically select the entire value
+- So typing replaces the value immediately
+
+Applies to:
+- numbers
+- currency
+- percentages
+- dates
+- text fields
+
+--------------------------------------------------
+4. FORMAT VALUES ON BLUR (NOT WHILE TYPING)
+--------------------------------------------------
+
+Implement format-on-blur behavior:
+
+While typing:
+- show raw input (no formatting)
+
+After blur:
+- apply formatting
+
+Formatting rules:
+
+Currency:
+- $379,996
+
+Percent:
+- 94.5%
+
+DSCR:
+- 1.32x
+
+Dates:
+- consistent readable format
+
+--------------------------------------------------
+5. FIX DATE INPUT EXPERIENCE
+--------------------------------------------------
+
+- Dates should:
+  - accept clean input (keyboard or picker)
+  - persist properly after entry
+  - NOT revert or clear unexpectedly
+
+- After blur:
+  - format date consistently
+
+- Dates must be right-aligned
+
+--------------------------------------------------
+6. RIGHT ALIGN VALUES
+--------------------------------------------------
+
+Ensure all value-type fields are right aligned:
+
+- numbers
+- currency
+- percentages
+- DSCR
+- dates
+
+Left align only:
+- labels
+- text fields
+
+--------------------------------------------------
+7. DO NOT AUTO-RENDER DURING TYPING
+--------------------------------------------------
+
+Prevent full row or table re-render while user is typing.
+
+Only update UI after:
+- blur
+- or explicit save
+
+--------------------------------------------------
+8. CALCULATED FIELDS MUST NOT INTERFERE
+--------------------------------------------------
+
+Calculated fields should:
+
+- NOT trigger re-render while typing in other fields
+- NOT steal focus
+- update only after:
+  - user completes input (blur/save)
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make the admin grid behave like a clean spreadsheet:
+
+- smooth typing
+- no focus loss
+- immediate overwrite behavior
+- proper formatting after input
+- stable and predictable interaction
