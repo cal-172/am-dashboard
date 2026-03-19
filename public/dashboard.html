@@ -944,12 +944,12 @@ function buildTrendData(catKey, perUnit) {
   const cat = TREND_CAT_MAP[catKey];
   if (!cat) return [];
   const closed = CLOSED();
-  const n = (perUnit && numUnits > 0) ? numUnits : 1;
+  const pu = v => perUnit && numUnits > 0 ? (v * 12) / numUnits : v;
   return closed.map(m => {
     const a = Object.assign({}, RAW[m].a), b = Object.assign({}, RAW[m].b);
     computeTotals(a); computeTotals(b);
-    const actual   = (a[catKey] || 0) / n;
-    const budget   = (b[catKey] || 0) / n;
+    const actual = pu(a[catKey] || 0);
+    const budget = pu(b[catKey] || 0);
     const variance = actual - budget;
     const favorable = cat.income ? variance >= 0 : variance <= 0;
     return {month: m, actual, budget, variance, favorable};
