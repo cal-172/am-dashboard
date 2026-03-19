@@ -1,0 +1,77 @@
+We are making final UI refinements to the Property Summary dashboard.
+
+IMPORTANT:
+- UI changes only
+- Do NOT introduce backend logic
+- Do NOT redesign layout
+- Do NOT add new sections
+- Only implement the changes explicitly listed below
+
+--------------------------------------------------
+1. NOI PERFORMANCE – ADD STATUS BORDER
+--------------------------------------------------
+
+Add a left status border to the NOI Performance card.
+
+- Match EXACT styling used in KPI cards (DSCR, Occupancy, etc.)
+- Same thickness
+- Same colors (green / yellow / red)
+- No modifications to border weight or opacity
+
+--------------------------------------------------
+2. MOVE CONTACTS CARD
+--------------------------------------------------
+
+Move the "Contacts & Links" card:
+
+- Remove from right column
+- Place directly below "Investment Details" in the left column
+
+Maintain:
+- same styling
+- same spacing between cards
+
+--------------------------------------------------
+3. CAPEX CARD TITLE UPDATE
+--------------------------------------------------
+
+Update the title:
+
+From:
+CAPEX
+
+To:
+CAPEX PROGRESS
+
+No other styling changes.
+
+--------------------------------------------------
+4. OPERATING RESERVES LABEL UPDATE
+--------------------------------------------------
+
+Update the label:
+
+From:
+“MONTHS OF EXPENSE COVERAGE”
+
+To:
+“Expense Coverage (Months)”
+
+No other changes to this card.
+
+--------------------------------------------------
+5. DO NOT CHANGE ANY OF THE FOLLOWING
+--------------------------------------------------
+
+- KPI border thickness or color (keep as is)
+- KPI delta colors (no changes)
+- Loan Details DSCR (leave as is)
+- Right column spacing or padding
+- Card layouts or structure (other than Contacts move)
+- Typography, colors, or spacing system
+
+--------------------------------------------------
+6. GOAL
+--------------------------------------------------
+
+Apply only the specified refinements while preserving the current clean layout and visual consistency.

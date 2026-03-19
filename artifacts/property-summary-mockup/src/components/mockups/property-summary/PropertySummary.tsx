@@ -316,7 +316,7 @@ export function PropertySummary() {
       <div className="max-w-7xl mx-auto px-8 py-8 space-y-6">
 
         {/* ── NOI Signal Strip — primary > secondary > tertiary hierarchy ──── */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-4 flex items-center gap-6 flex-wrap">
+        <div className={`bg-white rounded-xl border border-slate-200 border-l-4 ${NOI.favorable ? 'border-l-green-500' : 'border-l-red-500'} shadow-sm px-6 py-4 flex items-center gap-6 flex-wrap`}>
           <div className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-slate-400" />
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">NOI Performance</span>
@@ -466,6 +466,33 @@ export function PropertySummary() {
               <CardMeta source={INVESTMENT.source} asOf={INVESTMENT.asOf} />
             </SectionCard>
 
+            {/* Contacts — moved to left column below Investment Details */}
+            <SectionCard title="Contacts &amp; Links" icon={Users}>
+              <div>
+                {CONTACTS.map((c, i) => {
+                  const ContactIcon = c.icon;
+                  return (
+                    <div key={i} className="flex items-center justify-between gap-3 py-4 border-b border-slate-50 last:border-0">
+                      <div className="flex items-start gap-3">
+                        <ContactIcon className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-slate-400 font-medium">{c.label}</p>
+                          <p className="text-sm font-semibold text-slate-800 mt-0.5">{c.name}</p>
+                        </div>
+                      </div>
+                      <a
+                        href={c.href}
+                        className="flex items-center gap-1 text-xs text-teal-700 font-medium hover:text-teal-900 transition-colors flex-shrink-0"
+                      >
+                        {c.detail}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            </SectionCard>
+
           </div>
 
           {/* ── RIGHT COLUMN ───────────────────────────────────────────────── */}
@@ -498,7 +525,7 @@ export function PropertySummary() {
             <SectionCard title="Operating Reserves" icon={ShieldCheck}>
               <div className="flex items-end justify-between mb-4 pb-4 border-b border-slate-100">
                 <div>
-                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Months of Expense Coverage</p>
+                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Expense Coverage (Months)</p>
                   <p className="text-4xl font-bold text-slate-900 leading-none">{OP_RESERVES.monthsOfCoverage.toFixed(1)}</p>
                   <p className="text-sm text-slate-500 mt-1">months</p>
                 </div>
@@ -514,7 +541,7 @@ export function PropertySummary() {
             </SectionCard>
 
             {/* CapEx — progress bar at top for immediate visibility */}
-            <SectionCard title="CapEx" icon={Hammer}>
+            <SectionCard title="CapEx Progress" icon={Hammer}>
               {/* Progress at top */}
               <div className="mb-5 pb-5 border-b border-slate-100">
                 <div className="flex items-center justify-between mb-1.5">
@@ -566,33 +593,6 @@ export function PropertySummary() {
                       <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-0.5 rounded-full ${chip.cls}`}>
                         {chip.label}
                       </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </SectionCard>
-
-            {/* Contacts — increased spacing, subtle per-type icons */}
-            <SectionCard title="Contacts &amp; Links" icon={Users}>
-              <div>
-                {CONTACTS.map((c, i) => {
-                  const ContactIcon = c.icon;
-                  return (
-                    <div key={i} className="flex items-center justify-between gap-3 py-4 border-b border-slate-50 last:border-0">
-                      <div className="flex items-start gap-3">
-                        <ContactIcon className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="text-xs text-slate-400 font-medium">{c.label}</p>
-                          <p className="text-sm font-semibold text-slate-800 mt-0.5">{c.name}</p>
-                        </div>
-                      </div>
-                      <a
-                        href={c.href}
-                        className="flex items-center gap-1 text-xs text-teal-700 font-medium hover:text-teal-900 transition-colors flex-shrink-0"
-                      >
-                        {c.detail}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
                     </div>
                   );
                 })}
