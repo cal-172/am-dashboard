@@ -1,0 +1,348 @@
+We are redesigning the current Property Summary Admin screen.
+
+IMPORTANT:
+- This is a UI/UX redesign of the current admin screen
+- The current accordion / form-based layout should be replaced
+- Do NOT treat this as a refinement of an existing grid
+- Do NOT introduce backend logic yet
+- Focus only on redesigning the screen layout and interaction flow
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Redesign the current Property Summary Admin screen into a single, efficient, grid-based interface for managing Property Summary inputs.
+
+The current accordion/form layout feels too cumbersome for repeated monthly use.
+
+The new design should feel like:
+- a clean operating console
+- fast to update
+- highly scannable
+- efficient across many properties
+- more like a structured data grid than a bulky form
+
+--------------------------------------------------
+CORE DESIGN DIRECTION
+--------------------------------------------------
+
+Replace the current accordion/form layout with a single unified grid interface.
+
+This grid must be divided into 2 clearly separated sections:
+
+1. MONTHLY UPDATES
+2. SETUP
+
+These are not optional visual labels. They are core to the structure of the screen.
+
+The Monthly Updates section should appear first and be visually prominent.
+
+The Setup section should appear below and feel secondary.
+
+Do NOT use:
+- accordions
+- stacked cards for each section
+- multiple editing modes
+- bulky form blocks
+
+Use:
+- one clean grid layout
+- logical grouping inside the grid
+- compact, aligned rows
+- clear section separation
+
+--------------------------------------------------
+TOP OF PAGE
+--------------------------------------------------
+
+At the top of the screen, include:
+
+- Page title: Property Summary Admin
+- Current property context
+- Month selector
+- Label such as: “Updating: March 2026”
+- Sticky top action bar with:
+  - Unsaved changes indicator
+  - Cancel
+  - Save Changes
+
+The top action bar should remain visible while scrolling.
+
+--------------------------------------------------
+PRIMARY GROUPING: UPDATE GROUP
+--------------------------------------------------
+
+The entire screen must be organized first by Update Group.
+
+There are 2 Update Groups:
+
+### 1. Monthly Updates
+This section should contain metrics that are updated regularly, typically monthly.
+
+Display a clear section header:
+## Monthly Updates
+
+Optional helper text:
+“These metrics are typically updated each month and drive dashboard KPIs and current-period summary values.”
+
+### 2. Setup
+This section should contain metrics that are more static or infrequently updated.
+
+Display a clear section header:
+## Setup
+
+Optional helper text:
+“These metrics are typically entered once or updated infrequently.”
+
+--------------------------------------------------
+SECONDARY GROUPING: METRIC GROUP
+--------------------------------------------------
+
+Within each Update Group section, metrics should be sorted and visually grouped by Metric Group.
+
+Examples of Metric Groups:
+- Performance
+- Operating Reserves
+- CapEx
+- Investment
+- Summary
+- Loan Details
+- Lender Reserves
+- Lender Escrows
+- Key Dates
+- Contacts & Links
+
+Inside each Update Group section:
+- sort rows by Metric Group
+- display a small visual subheader for each Metric Group
+- then show the metrics belonging to that Metric Group
+
+So the hierarchy should be:
+
+1. Update Group
+2. Metric Group
+3. Metric row
+
+--------------------------------------------------
+IMPORTANT BEHAVIOR
+--------------------------------------------------
+
+The screen should support an Update Group field for each metric.
+
+If the Update Group for a metric changes, that metric should move visually to the appropriate section:
+
+- If changed to Monthly Updates → it appears in the Monthly Updates section
+- If changed to Setup → it appears in the Setup section
+
+This should be reflected in the UI structure.
+
+Do not leave metrics in the wrong section.
+
+--------------------------------------------------
+GRID STRUCTURE
+--------------------------------------------------
+
+Use these columns:
+
+1. Metric Group
+2. Metric
+3. Value
+4. As Of Date
+5. Source
+6. Last Updated
+7. Notes
+8. Update Group
+
+Definitions:
+- Metric Group = logical category like Performance, Loan Details, etc.
+- Metric = field name
+- Value = primary editable input
+- As Of Date = editable date representing the date of the source data
+- Source = editable text input
+- Last Updated = read-only system-generated placeholder
+- Notes = optional field, truncated by default, expands on hover
+- Update Group = editable field indicating whether a metric belongs to Monthly Updates or Setup
+
+--------------------------------------------------
+NOTES ABOUT COLUMN PLACEMENT
+--------------------------------------------------
+
+The grid should remain compact and usable.
+
+If needed for better UX:
+- Update Group can be shown as a control within the row
+- but the screen must still be visually organized into the 2 main sections above
+
+Even if Update Group exists as a column or row-level control, the layout itself must still be clearly split into:
+- Monthly Updates
+- Setup
+
+--------------------------------------------------
+MONTHLY UPDATES SECTION – METRICS
+--------------------------------------------------
+
+These should initially appear under Monthly Updates:
+
+### Performance
+- Occupancy %
+- DSCR
+- NOI (LTM)
+- NOI vs Budget
+
+### Operating Reserves
+- Remaining Reserve Balance
+- Initial Operating Balance
+- Net Cash Flow To Date
+- Expense Coverage (Months)
+
+### CapEx
+- CapEx Spend To Date
+- CapEx % Complete
+- Target Completion Date
+- CapEx Status
+
+### Investment
+- Current Distribution Annualized ($)
+- Current Distribution Annualized (%)
+- ITD Distribution Paid ($)
+- ITD Distribution Paid (%)
+- Cumulative Pref Shortfall
+- Capital Returned
+
+--------------------------------------------------
+SETUP SECTION – METRICS
+--------------------------------------------------
+
+These should initially appear under Setup:
+
+### Summary
+- Property Name
+- Address
+- Unit Count
+- Year Built
+- Acquisition Date
+- Purchase Price
+- Total Capitalization
+
+### Loan Details
+- Loan Amount
+- Loan to Value (LTV)
+- Lender
+- Interest Rate
+- Term
+- I/O Period
+- I/O Remaining (mo)
+- Prepay Penalty
+- Maturity Date
+- DSCR Covenant
+
+### Lender Reserves
+Dynamic line items:
+- Reserve Name
+- Amount
+
+### Lender Escrows
+Dynamic line items:
+- Escrow Name
+- Amount
+
+### Key Dates
+Dynamic line items:
+- Label
+- Due Date
+- Completed Date
+- Notes
+
+### Contacts & Links
+Dynamic line items:
+- Label
+- Name
+- Email / URL
+- Type
+
+--------------------------------------------------
+UI REQUIREMENTS
+--------------------------------------------------
+
+- Keep row spacing tight and efficient
+- Align all columns cleanly
+- Use a compact, polished grid
+- Use subtle row dividers instead of heavy borders
+- Keep typography and colors consistent across all columns
+- Do NOT use special muted font treatment for one column only
+- Do NOT make the screen look like Excel, but it should feel fast like Excel
+
+--------------------------------------------------
+NOTES COLUMN
+--------------------------------------------------
+
+For the Notes column:
+- show truncated text by default
+- use ellipsis for overflow
+- show full text on hover via tooltip/popover
+- do NOT use large always-open notes boxes
+
+--------------------------------------------------
+LAST UPDATED COLUMN
+--------------------------------------------------
+
+Include Last Updated at the metric level.
+
+Requirements:
+- read-only
+- visible on every row
+- same typography styling as the rest of the grid
+- not editable
+
+This is important because not all metrics are updated at the same time.
+
+--------------------------------------------------
+DYNAMIC ROW PREVIEW
+--------------------------------------------------
+
+For Lender Reserves, Lender Escrows, Key Dates, and Contacts & Links:
+- visually show repeated rows inside the same grid system
+- include add/remove row affordances
+- keep alignment clean and scalable
+
+Do not hide these behind accordions.
+
+--------------------------------------------------
+DESIGN INTENT
+--------------------------------------------------
+
+This redesign should make the admin experience feel:
+
+- much faster than the current accordion layout
+- easier to scan vertically
+- easier to tab through
+- better suited for recurring updates across many assets
+
+Most importantly:
+- Monthly Updates should be clearly separated from Setup
+- metrics should be grouped logically within each section
+- changing a metric’s Update Group should move it to the correct section
+
+--------------------------------------------------
+DO NOT DO
+--------------------------------------------------
+
+- Do NOT keep the current accordion layout
+- Do NOT create a hybrid accordion + grid layout
+- Do NOT create multiple entry modes
+- Do NOT introduce backend instructions
+- Do NOT over-complicate the styling
+- Do NOT mix Monthly Updates and Setup into one undifferentiated list
+
+--------------------------------------------------
+DELIVERABLE
+--------------------------------------------------
+
+Return a redesigned Property Summary Admin UI mockup that:
+
+- replaces the current form/accordion structure
+- uses a grouped grid-based editing experience
+- clearly separates Monthly Updates and Setup
+- sorts metrics within each section by Metric Group
+- supports moving metrics between Update Groups
+- remains compact, clean, and highly usable
