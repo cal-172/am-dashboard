@@ -1138,10 +1138,11 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
   const opexStatus = aOpex == null ? 'nodata' : opexVsN == null ? 'nodata' : opexVsN <= 0 ? 'healthy' : (bOpex > 0 && opexVsN /bOpex < 0.05) ? 'watch' : 'issue';
   const noiISStatus= aNoi  == null ? 'nodata' : noiVsN  == null ? 'nodata' : noiVsN  >= 0 ? 'healthy' : 'issue';
 
-  // Economic Vacancy = 1 - (EGI / GPR)  where GPR = pri (potential rental income)
-  const aPri   = latestIS?.a?.pri  != null ? Math.abs(latestIS.a.pri)  : null;
-  const evPct  = (aEgi != null && aPri != null && aPri > 0)
-    ? Math.round((1 - aEgi / aPri) * 1000) / 10   // one decimal place
+  // Economic Vacancy = 1 - (TRR / GPR)  where TRR = trr, GPR = pri
+  const aPri   = latestIS?.a?.pri != null ? Math.abs(latestIS.a.pri) : null;
+  const aTrr   = latestIS?.a?.trr != null ? Math.abs(latestIS.a.trr) : null;
+  const evPct  = (aTrr != null && aPri != null && aPri > 0)
+    ? Math.round((1 - aTrr / aPri) * 1000) / 10   // one decimal place
     : null;
   const evStatus = evPct == null ? 'nodata' : evPct < 5 ? 'healthy' : evPct < 10 ? 'watch' : 'issue';
 
@@ -1235,7 +1236,7 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       noiStatus:        noiISStatus,
       econVacancyPct:   evPct,
       econVacancyStatus:evStatus,
-      econVacancyEgi:   aEgi,
+      econVacancyTrr:   aTrr,
       econVacancyGpr:   aPri,
       hasData:          aEgi != null || aOpex != null || aNoi != null,
     },
