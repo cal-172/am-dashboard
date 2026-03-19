@@ -124,9 +124,15 @@ function GroupHeader({ name }: { name: string }) {
 const cellCls = `w-full text-sm text-slate-800 bg-transparent border-0 border-b border-transparent
   focus:border-teal-400 focus:outline-none hover:border-slate-300 transition-colors py-0.5 truncate`;
 
-// Right-align if value looks like a currency, percentage, or ratio
-const isNumeric = (v: string) =>
-  v.trim() !== '' && /^[\+\-]?\$?[\d,\.]+[KMBx%]?$/.test(v.trim());
+// Right-align if value is numeric (currency/percent/ratio) OR a date
+const isRightAlign = (v: string) => {
+  const s = v.trim();
+  if (!s) return false;
+  if (/^[\+\-]?\$?[\d,\.]+[KMBx%]?$/.test(s)) return true;         // numeric
+  if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/i.test(s)) return true; // date with month name
+  if (/^\d{4}$/.test(s)) return true;                                // bare year
+  return false;
+};
 
 function CellInp({ value, readOnly, placeholder = '—', right = false }: {
   value: string; readOnly?: boolean; placeholder?: string; right?: boolean;
@@ -220,7 +226,7 @@ function MetricRow({ metric, onGroupChange }: {
           {metric.metric}
         </span>
       </div>
-      <CellInp value={metric.value} readOnly={metric.readOnly} right={isNumeric(metric.value)} />
+      <CellInp value={metric.value} readOnly={metric.readOnly} right={metric.readOnly || isRightAlign(metric.value)} />
       <CellInp value={metric.asOf}  readOnly={metric.readOnly} placeholder="—" right />
       <CellInp value={metric.source} readOnly={metric.readOnly} placeholder="—" />
       <span className="text-xs text-slate-400 truncate text-right">{metric.readOnly ? '—' : (metric.lastUpdated || '—')}</span>
@@ -238,7 +244,7 @@ function ReserveRow({ item, onRemove }: { item: LineItem; onRemove: () => void }
   return (
     <div className={`${COLS} px-4 py-2 border-b border-slate-100 hover:bg-slate-50/80 transition-colors items-center`}>
       <CellInp value={item.name}   placeholder="Reserve name" />
-      <CellInp value={item.amount} placeholder="$0" right={isNumeric(item.amount)} />
+      <CellInp value={item.amount} placeholder="$0" right={isRightAlign(item.amount)} />
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
@@ -252,7 +258,7 @@ function EscrowRow({ item, onRemove }: { item: LineItem; onRemove: () => void })
   return (
     <div className={`${COLS} px-4 py-2 border-b border-slate-100 hover:bg-slate-50/80 transition-colors items-center`}>
       <CellInp value={item.name}   placeholder="Escrow name" />
-      <CellInp value={item.amount} placeholder="$0" right={isNumeric(item.amount)} />
+      <CellInp value={item.amount} placeholder="$0" right={isRightAlign(item.amount)} />
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>
       <span className="text-slate-300 text-xs">—</span>

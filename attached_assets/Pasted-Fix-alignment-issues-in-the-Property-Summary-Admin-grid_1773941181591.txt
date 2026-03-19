@@ -1,0 +1,97 @@
+Fix alignment issues in the Property Summary Admin grid by applying explicit alignment rules per field type.
+
+IMPORTANT:
+- Do NOT rely on column-level alignment only
+- Alignment must be applied based on the TYPE OF DATA in each cell
+- Do NOT change spacing, layout, or structure
+
+--------------------------------------------------
+ALIGNMENT RULES (STRICT)
+--------------------------------------------------
+
+RIGHT-ALIGN the following types of values:
+
+1. Numeric values
+- Currency: $582K, $1.28M, $32.5M, etc.
+- Percentages: 94.5%, 65.0%, 8.00%
+- Ratios: 1.32x, 1.25x
+- Integers: 200, 1985, etc.
+
+2. Dates (ALL date fields)
+- Aug 20, 2025
+- Jan 15, 2020
+- Sep 1, 2025
+- Dec 2026
+
+Applies to:
+- VALUE column when it contains a date (e.g., Target Completion Date)
+- AS OF DATE column
+- LAST UPDATED column
+
+3. Auto-calculated placeholders
+- "Auto-calc"
+- "--" or empty placeholders used for calculated fields
+
+These MUST follow the same alignment as the column they are in:
+- If in VALUE or DATE columns → right-align
+
+--------------------------------------------------
+LEFT-ALIGN the following:
+
+1. Text / labels
+- METRIC column (all rows)
+- SOURCE column (e.g., Operating Report, Loan Agreement)
+- NOTES column (e.g., "Used as dashboard threshold")
+- CONTACTS section text fields (Name, Email, URL, Type)
+
+--------------------------------------------------
+SPECIAL CASES (IMPORTANT)
+--------------------------------------------------
+
+1. Mixed VALUE column behavior
+
+The VALUE column must dynamically align based on content:
+
+- If VALUE is numeric → right-align
+- If VALUE is a date → right-align
+- If VALUE is text (rare) → left-align
+
+Examples:
+
+- Occupancy % → 94.5% → right
+- DSCR → 1.32x → right
+- NOI → $3.2M → right
+- Target Completion Date → Dec 2026 → right
+- Lender Name → MetLife Insurance → left
+
+--------------------------------------------------
+2. Auto-calc rows
+
+For rows like:
+- Vacancy %
+- NOI Status
+- CapEx %
+- Expense Coverage
+
+All "Auto-calc" values must:
+- be right-aligned in VALUE / DATE columns
+- NOT default to left alignment
+
+--------------------------------------------------
+3. Empty / placeholder cells
+
+- "--" or blank placeholders should still respect alignment rules
+- In numeric/date columns → right-align
+- In text columns → left-align
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+When scanning vertically:
+- All numbers line up cleanly
+- All dates line up cleanly
+- Auto-calc values sit exactly where real values would
+- No visual shifting between rows
+
+The table should feel like a clean financial model, not mixed alignment text.
