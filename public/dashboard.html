@@ -159,6 +159,90 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .slicer-btn{display:block;width:100%;text-align:left;background:none;border:none;padding:5px 8px;border-radius:4px;font-size:11px;color:#1A2B2C;cursor:pointer;line-height:1.3;margin-bottom:1px}
 .slicer-btn:hover:not(.active){background:#EEF7F8;color:#0E3D45}
 .slicer-btn.active{background:#13545E;color:#fff;font-weight:600}
+
+/* ── PROPERTY SUMMARY VIEW ── */
+.prop-header{background:#0D3D45;color:#fff;padding:20px 28px 18px;flex-shrink:0}
+.prop-header-top{display:flex;align-items:flex-start;justify-content:space-between}
+.prop-eyebrow{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.55;margin-bottom:4px}
+.prop-name{font-size:24px;font-weight:700;line-height:1.15}
+.prop-addr{font-size:12px;opacity:.65;margin-top:3px}
+.prop-meta{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:11px;opacity:.55}
+.prop-asset-id{text-align:right}
+.prop-asset-id .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.45;font-weight:600}
+.prop-asset-id .val{font-size:12px;font-weight:700;font-family:'Courier New',monospace;opacity:.75;margin-top:2px}
+.ps-content{padding:20px 24px}
+.noi-strip{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.noi-strip.issue{border-left-color:#ef4444}
+.noi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568;display:flex;align-items:center;gap:6px}
+.noi-main{font-size:18px;font-weight:700;color:#1A2B2C}
+.noi-period{font-size:10px;color:#6A8E91;margin-left:4px}
+.noi-vs{font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px}
+.noi-vs.fav{color:#15803d}.noi-vs.unfav{color:#dc2626}
+.noi-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.noi-badge.fav{background:#dcfce7;color:#15803d}.noi-badge.unfav{background:#fee2e2;color:#dc2626}
+.noi-asof{margin-left:auto;font-size:10.5px;color:#6A8E91}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.kpi-card.watch{border-left-color:#f59e0b}.kpi-card.issue{border-left-color:#ef4444}.kpi-card.nodata{border-left-color:#94a3b8}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kpi-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568;flex:1}
+.kpi-main{font-size:26px;font-weight:700;color:#1A2B2C;line-height:1}
+.kpi-sub{font-size:10.5px;color:#6A8E91}
+.kpi-badge{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px;flex-shrink:0}
+.kpi-badge.healthy{background:#dcfce7;color:#15803d}.kpi-badge.watch{background:#fef3c7;color:#92400e}
+.kpi-badge.issue{background:#fee2e2;color:#dc2626}.kpi-badge.nodata{background:#f1f5f9;color:#475569}
+.kpi-trend{font-size:9.5px;font-weight:500;color:#6A8E91}.kpi-trend.up{color:#15803d}.kpi-trend.dn{color:#dc2626}
+.kpi-note{font-size:9px;color:#94a3b8;padding-top:4px;border-top:1px solid #f1f5f9}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:1000px){.two-col{grid-template-columns:1fr}}
+.col-stack{display:flex;flex-direction:column;gap:16px}
+.scard{background:#fff;border-radius:8px;border:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.scard-head{padding:14px 18px 0;display:flex;align-items:center;gap:8px}
+.scard-icon{font-size:14px;opacity:.55}.scard-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#13545E}
+.scard-body{padding:10px 18px 16px}
+.ps-field{display:flex;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F4F8F9}
+.ps-field:last-child{border-bottom:none}
+.ps-f-label{font-size:11px;color:#6A8E91;font-weight:500;flex-shrink:0;max-width:50%;padding-right:8px;line-height:1.35}
+.ps-f-value{font-size:12.5px;font-weight:600;color:#1A2B2C;text-align:right;line-height:1.35;flex:1;min-width:0}
+.ps-f-value.mono{font-family:'Courier New',monospace;font-size:12px}.ps-f-value.hi{color:#13545E}.ps-f-value.bold{font-weight:700}
+.ps-subgroup{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;padding:12px 0 3px}
+.ps-card-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #EEF4F5}
+.ps-card-meta span{font-size:10px;color:#94a3b8}
+.res-spotlight{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EEF4F5}
+.res-big-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#13545E;margin-bottom:4px}
+.res-big-val{font-size:36px;font-weight:700;color:#1A2B2C;line-height:1}
+.res-big-unit{font-size:12px;color:#6A8E91;margin-top:2px}
+.res-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.capex-progress-wrap{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #EEF4F5}
+.capex-bar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.capex-bar-bg{height:10px;background:#e2e8f0;border-radius:5px;position:relative;margin-bottom:4px;overflow:visible}
+.capex-bar-fill{height:10px;background:#13545E;border-radius:5px;transition:width .4s}
+.capex-bar-expected{position:absolute;top:-2px;height:14px;width:2px;background:#64748b;opacity:.6;border-radius:1px}
+.capex-bar-labels{display:flex;justify-content:space-between;font-size:9.5px;color:#94a3b8;margin-bottom:6px}
+.capex-schedule{font-size:11px;font-weight:600}
+.capex-schedule.healthy{color:#15803d}.capex-schedule.watch{color:#92400e}.capex-schedule.issue{color:#dc2626}
+.date-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #F4F8F9}
+.date-row:last-child{border-bottom:none}
+.date-lbl{font-size:12px;font-weight:600;color:#1A2B2C}.date-dt{font-size:10.5px;color:#6A8E91;margin-top:2px}.date-done{font-size:10.5px;color:#15803d;margin-top:2px}
+.date-chip{font-size:9.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.date-chip.complete{background:#dcfce7;color:#15803d}.date-chip.upcoming{background:#f1f5f9;color:#475569}
+.date-chip.due-soon{background:#fef3c7;color:#92400e}.date-chip.overdue{background:#fee2e2;color:#dc2626}
+.contact-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #F4F8F9}
+.contact-row:last-child{border-bottom:none}
+.contact-icon{font-size:14px;opacity:.4;flex-shrink:0}.contact-info{flex:1;min-width:0}
+.contact-label{font-size:10px;color:#6A8E91}.contact-name{font-size:12.5px;font-weight:600;color:#1A2B2C;margin-top:1px}
+.contact-link{font-size:11px;font-weight:600;color:#13545E;text-decoration:none;display:flex;align-items:center;gap:4px;flex-shrink:0}
+.contact-link:hover{color:#0D3D45}
+.ps-total-bar{display:flex;align-items:center;justify-content:space-between;background:#F4F8F9;border-radius:6px;padding:8px 12px;margin-top:10px}
+.ps-total-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4A6568}
+.ps-total-val{font-size:15px;font-weight:700;color:#1A2B2C;font-family:'Courier New',monospace}
+.status-chip{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px}
+.status-chip .dot{width:6px;height:6px;border-radius:50%}
+.status-chip.healthy{background:#dcfce7;color:#15803d}.status-chip.healthy .dot{background:#22c55e}
+.status-chip.watch{background:#fef3c7;color:#92400e}.status-chip.watch .dot{background:#f59e0b}
+.status-chip.issue{background:#fee2e2;color:#dc2626}.status-chip.issue .dot{background:#ef4444}
+.status-chip.nodata{background:#f1f5f9;color:#475569}.status-chip.nodata .dot{background:#94a3b8}
 </style>
 </head>
 <body>
@@ -176,9 +260,9 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
       <button class="sb-item" id="nav-waterfall" onclick="switchPage('waterfall')"><span class="sb-icon">📉</span> Budget Waterfall</button>
       <button class="sb-item" id="nav-trend" onclick="switchPage('trend')"><span class="sb-icon">📈</span> Trend Analysis</button>
       <div class="sb-section">Asset</div>
-      <a href="/property-summary" class="sb-item" style="text-decoration:none"><span class="sb-icon">🏢</span> Property Summary</a>
+      <button class="sb-item" id="nav-ps" onclick="switchPage('ps')"><span class="sb-icon">🏢</span> Property Summary</button>
     </nav>
-    <script>(function(){var h=location.hash.replace('#','');document.getElementById(h==='waterfall'?'nav-waterfall':h==='trend'?'nav-trend':'nav-avb')?.classList.add('active');})();</script>
+    <script>(function(){var h=location.hash.replace('#','');var id=h==='waterfall'?'nav-waterfall':h==='trend'?'nav-trend':h==='ps'?'nav-ps':'nav-avb';document.getElementById(id)?.classList.add('active');})();</script>
     <div class="sb-footer">
       <div class="sb-btns">
         <a href="/admin" class="sb-btn" id="sb-admin-link" style="display:none">Admin</a>
@@ -619,15 +703,24 @@ let wfPerUnit = false;
 function switchPage(page) {
   currentPage = page;
   history.replaceState(null, '', page === 'avb' ? '/' : '/#' + page);
-  document.getElementById('nav-avb')?.classList.toggle('active', page === 'avb');
-  document.getElementById('nav-waterfall')?.classList.toggle('active', page === 'waterfall');
-  document.getElementById('nav-trend')?.classList.toggle('active', page === 'trend');
+  ['avb','waterfall','trend','ps'].forEach(id => {
+    document.getElementById('nav-'+id)?.classList.toggle('active', page === id);
+  });
   const titleEl = document.getElementById('topbar-title');
-  if (titleEl) titleEl.textContent = page === 'waterfall' ? 'Regatta | Budget Waterfall'
-    : page === 'trend' ? 'Regatta | Trend Analysis'
-    : 'Regatta | Actual vs Budget';
+  if (titleEl) titleEl.textContent =
+    page === 'waterfall' ? 'Regatta | Budget Waterfall' :
+    page === 'trend'     ? 'Regatta | Trend Analysis'   :
+    page === 'ps'        ? 'Regatta | Property Summary'  :
+    'Regatta | Actual vs Budget';
+  // Property summary manages its own header — remove app padding so it goes edge-to-edge
+  const app = document.getElementById('app');
+  if (app) app.style.padding = page === 'ps' ? '0' : '';
+  // Hide year selector on property summary view
+  const ysw = document.getElementById('year-sel-wrap');
+  if (ysw) ysw.style.visibility = page === 'ps' ? 'hidden' : '';
   if (page === 'avb') renderApp();
   else if (page === 'waterfall') renderWaterfallPage();
+  else if (page === 'ps') renderPropertySummaryPage();
   else renderTrendPage();
 }
 
@@ -1190,6 +1283,184 @@ function renderTrendTable(rows) {
 window.setTrCat  = function(k)  { trCat = k; renderTrendPage(); };
 window.setTrMode = function(pu) { trPerUnit = pu; renderTrendPage(); };
 
+/* ═══════════════ PROPERTY SUMMARY ═══════════════ */
+let PS_DATA = null;
+
+function psV(s){ return s||'—'; }
+function psChip(status,label){
+  const c=status==='healthy'?'healthy':status==='watch'?'watch':status==='issue'?'issue':'nodata';
+  const l=label||(c==='healthy'?'Healthy':c==='watch'?'Watch':c==='issue'?'Risk':'No Data');
+  return `<span class="status-chip ${c}"><span class="dot"></span>${l}</span>`;
+}
+function psField(lbl,val,cls=''){
+  return `<div class="ps-field"><span class="ps-f-label">${lbl}</span><span class="ps-f-value ${cls}">${psV(val)}</span></div>`;
+}
+function psSub(lbl){ return `<div class="ps-subgroup">${lbl}</div>`; }
+function psMeta(src,asOf){
+  if(!src&&!asOf) return '';
+  const p=[];
+  if(src) p.push(`<span>Source: ${src}</span>`);
+  if(asOf) p.push(`<span>As Of: ${asOf}</span>`);
+  return `<div class="ps-card-meta">${p.join('')}</div>`;
+}
+function psScard(icon,title,body){
+  return `<div class="scard"><div class="scard-head"><span class="scard-icon">${icon}</span><span class="scard-title">${title}</span></div><div class="scard-body">${body}</div></div>`;
+}
+function psKeyDateStatus(due,completed){
+  if(completed) return 'complete';
+  if(!due) return 'upcoming';
+  const d=new Date(due), t=new Date();
+  if(isNaN(d)) return 'upcoming';
+  if(d<t) return 'overdue';
+  if(d-t<=30*864e5) return 'due-soon';
+  return 'upcoming';
+}
+function psKeyDateLabel(s){ return {complete:'Complete',upcoming:'Upcoming','due-soon':'Due Soon',overdue:'Overdue'}[s]||'Upcoming'; }
+function psDscrStatus(v){ return v>=1.25?'healthy':v>=1.10?'watch':'issue'; }
+function psOccStatus(v){  return v>=93?'healthy':v>=90?'watch':'issue'; }
+function psCapexStatus(a,e){ return e-a<=10?'healthy':e-a<=20?'watch':'issue'; }
+function psCapexLabel(a,e){
+  const d=a-e;
+  if(d>10) return 'Ahead of schedule';
+  if(d>=0) return 'On track';
+  if(d>=-10) return 'Slightly behind';
+  if(d>=-20) return 'Behind schedule';
+  return 'Significantly behind';
+}
+function psParseNum(s){
+  if(!s) return null;
+  let str=String(s).trim().replace(/,/g,'');
+  if(!str||str==='—') return null;
+  if(str.startsWith('+')) str=str.slice(1);
+  let neg=false;
+  if(/^\(\$/.test(str)){neg=true;str=str.replace(/^\(\$/,'').replace(/\)$/,'');}
+  else if(str.startsWith('-$')){neg=true;str=str.slice(2);}
+  else if(str.startsWith('$')) str=str.slice(1);
+  let mul=neg?-1:1;
+  if(str.endsWith('K')){mul*=1e3;str=str.slice(0,-1);}
+  else if(str.endsWith('M')){mul*=1e6;str=str.slice(0,-1);}
+  else if(str.endsWith('B')){mul*=1e9;str=str.slice(0,-1);}
+  if(str.endsWith('%')) str=str.slice(0,-1);
+  if(str.endsWith('x')) str=str.slice(0,-1);
+  const n=parseFloat(str);
+  return isNaN(n)?null:n*mul;
+}
+function psFmtCur(n){
+  if(n==null) return '—';
+  const abs=Math.abs(n),neg=n<0;
+  let s;
+  if(abs>=1e9) s='$'+(abs/1e9).toFixed(1)+'B';
+  else if(abs>=1e6) s='$'+(abs/1e6).toFixed(1)+'M';
+  else if(abs>=1e3) s='$'+Math.round(abs/1e3)+'K';
+  else s='$'+Math.round(abs).toLocaleString();
+  return neg?`(${s})`:s;
+}
+function psMonthsToMat(dateStr){
+  if(!dateStr) return 0;
+  const t=new Date(), m=new Date(dateStr);
+  if(isNaN(m)) return 0;
+  return Math.max(0,(m.getFullYear()-t.getFullYear())*12+(m.getMonth()-t.getMonth()));
+}
+
+function renderPS(d){
+  const prop=d.property||{}, loan=d.loan||{}, inv=d.investment||{};
+  const opRes=d.opReserves||{}, capex=d.capex||{}, noi=d.noi||{};
+  const lr=d.lenderReserves||{}, le=d.lenderEscrows||{}, kpi=d.kpi||{};
+
+  const dscr=kpi.dscr??null, dscrPrev=kpi.dscrPrev??null;
+  const occ=kpi.occupancy??null, occPrev=kpi.occupancyPrev??null;
+  const capexPct=kpi.capexPct??null, capexPctPrev=kpi.capexPctPrev??null;
+  const capexExp=capexPctPrev??capexPct??0;
+  const resMos=kpi.reserveMos??null, resMosPrev=kpi.reserveMosPrev??null;
+  const rStatus=kpi.reserveStatus??'nodata';
+
+  const dStatus=dscr!=null?psDscrStatus(dscr):'nodata';
+  const oStatus=occ!=null?psOccStatus(occ):'nodata';
+  const cStatus=capexPct!=null?psCapexStatus(capexPct,capexExp):'nodata';
+  const fav=noi.favorable!==false;
+  const mToMat=psMonthsToMat(loan.maturityDate);
+
+  const equityNum=psParseNum(inv.initialEquity), returnedNum=psParseNum(inv.capitalReturned);
+  const unreturnedNum=equityNum!=null&&returnedNum!=null?equityNum-returnedNum:null;
+
+  const dscrDelta=dscr!=null&&dscrPrev!=null?dscr-dscrPrev:null;
+  const occDelta=occ!=null&&occPrev!=null?occ-occPrev:null;
+  const capexDelta=capexPct!=null&&capexPctPrev!=null?capexPct-capexPctPrev:null;
+
+  const kpiCards=[
+    {icon:'📈',title:'DSCR',status:dStatus,main:dscr!=null?dscr.toFixed(2)+'x':'—',sub:'Debt service coverage ratio',trend:dscrDelta!=null?`${dscrDelta>=0?'+':''}${dscrDelta.toFixed(2)} vs last mo`:null,trendUp:dscrDelta!=null&&dscrDelta>=0,note:dscr!=null?`Covenant: 1.25x · Headroom: ${(dscr-1.25).toFixed(2)}x`:null},
+    {icon:'🏢',title:'Occupancy',status:oStatus,main:occ!=null?occ.toFixed(1)+'%':'—',sub:occ!=null?`Vacancy: ${(100-occ).toFixed(1)}%`:'No data',trend:occDelta!=null?`${occDelta>=0?'+':''}${occDelta.toFixed(1)}% vs last mo`:null,trendUp:occDelta!=null&&occDelta>=0,note:'Target: 93.0%'},
+    {icon:'🛡',title:'Operating Reserves',status:resMos!=null?rStatus:'nodata',main:psV(opRes.remainingBalance),sub:resMos!=null?`${resMos.toFixed(2)} mo expense coverage`:'Remaining balance',trend:resMosPrev!=null?`${(resMos-resMosPrev)>=0?'+':''}${(resMos-resMosPrev).toFixed(2)} mo vs last mo`:null,trendUp:resMosPrev!=null&&(resMos-resMosPrev)>=0,note:resMos!=null?`Target: 4.0 mo${opRes.monthlyOpex!=null?' · Monthly opex: $'+Math.round(opRes.monthlyOpex).toLocaleString():''}`:null},
+    {icon:'🔨',title:'CapEx Progress',status:cStatus,main:capexPct!=null?capexPct+'%':'—',sub:capexPct!=null?`${psCapexLabel(capexPct,capexExp)} · ${psV(capex.spendToDate)} of ${psV(capex.budget)}`:'No data',trend:capexDelta!=null?`+${capexDelta}% vs last update`:null,trendUp:true,note:capexPct!=null?`Expected: ${capexExp}% · Target: ${psV(capex.targetCompletion)}`:null}
+  ];
+  const kpiHtml=kpiCards.map(k=>`<div class="kpi-card ${k.status}"><div class="kpi-top"><span class="kpi-title">${k.icon} ${k.title}</span><span class="kpi-badge ${k.status}">${{healthy:'Healthy',watch:'Watch',issue:'Risk',nodata:'No Data'}[k.status]}</span></div><div class="kpi-main">${k.main}</div><div class="kpi-sub">${k.sub}</div>${k.trend?`<span class="kpi-trend ${k.trendUp?'up':'dn'}">${k.trendUp?'↑':'↓'} ${k.trend}</span>`:''}${k.note?`<div class="kpi-note">${k.note}</div>`:''}</div>`).join('');
+
+  const leftHtml=[
+    psScard('🏢','Summary',psField('Address',prop.address)+psField('Unit Count',prop.units)+psField('Year Built',prop.yearBuilt)+psField('Occupancy',occ!=null?occ.toFixed(1)+'%':null)+psField('Acquisition Date',prop.acquisitionDate)+psField('Purchase Price',prop.purchasePrice,'mono')+psField('Total Capitalization',prop.totalCap,'mono')),
+    psScard('💵','Loan Details',psSub('Structure')+psField('Loan Amount',loan.amount,'mono')+psField('Loan to Value (LTV)',loan.ltv)+psField('Lender',loan.lender)+psSub('Terms')+psField('Interest Rate',loan.rate,'hi bold')+psField('Term',loan.term)+psField('I/O Period',loan.ioPeriod)+psField('I/O Remaining',(loan.ioRemaining??0)+' mo')+psField('Prepay Penalty',loan.prepayPenalty)+psSub('Risk & Timing')+`<div class="ps-field"><span class="ps-f-label">Maturity Date</span><span class="ps-f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#13545E">${psV(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+`<div class="ps-field"><span class="ps-f-label">DSCR</span><span class="ps-f-value" style="display:flex;align-items:center;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${psChip(dStatus)}</span></div>`+psMeta(loan.source,loan.asOf)),
+    psScard('📈','Investment Details',psSub('Capital')+psField('Initial Equity Invested',inv.initialEquity,'mono')+psField('Capital Returned',inv.capitalReturned,'mono')+`<div class="ps-field"><span class="ps-f-label">Unreturned Capital</span><span class="ps-f-value mono hi bold">${psFmtCur(unreturnedNum)}</span></div>`+psSub('Returns')+psField('Preferred Return',inv.preferredReturn)+`<div class="ps-field"><span class="ps-f-label">Current Distribution (Ann.)</span><span class="ps-f-value mono">${psV(inv.currentDistribAnnualized)} <span style="color:#6A8E91;font-weight:400">(${psV(inv.currentDistribAnnualizedPct)})</span></span></div>`+psSub('Performance')+psField('Cumulative Pref Shortfall',inv.cumPrefShortfall,'mono')+`<div class="ps-field"><span class="ps-f-label">ITD Distribution Paid</span><span class="ps-f-value mono">${psV(inv.itdDistribPaid)} <span style="color:#6A8E91;font-weight:400">(${psV(inv.itdDistribPaidPct)})</span></span></div>`+psMeta(inv.source,inv.asOf)),
+    psScard('👥','Contacts & Links',(d.contacts||[]).map(c=>{const icon=c.type==='email'?'✉':c.type==='document'?'📄':'🔗';const href=c.type==='email'?`mailto:${c.emailOrUrl}`:(c.emailOrUrl||'#');const detail=c.type==='email'?c.emailOrUrl:'View →';return `<div class="contact-row"><span class="contact-icon">${icon}</span><div class="contact-info"><div class="contact-label">${psV(c.label)}</div><div class="contact-name">${psV(c.name)}</div></div><a href="${href}" class="contact-link" target="_blank">${detail} ↗</a></div>`;}).join('')||(d.contacts||[]).length===0?'<div style="color:#94a3b8;font-size:11px">No contacts configured.</div>':'')
+  ].join('');
+
+  const capexBudgetNum=psParseNum(capex.budget), capexSpendNum=psParseNum(capex.spendToDate);
+  const capexRemainingNum=capexBudgetNum!=null&&capexSpendNum!=null?capexBudgetNum-capexSpendNum:null;
+  const cSchedLabel=capexPct!=null?psCapexLabel(capexPct,capexExp):'—';
+
+  const dates=[...(d.keyDates||[])];
+  const dateOrder={overdue:0,'due-soon':1,upcoming:2,complete:3};
+  dates.sort((a,b)=>(dateOrder[psKeyDateStatus(a.dueDate,a.completed)]??3)-(dateOrder[psKeyDateStatus(b.dueDate,b.completed)]??3));
+
+  const rightHtml=[
+    psScard('🛡','Lender Reserves',(lr.items||[]).map(r=>`<div class="ps-field"><span class="ps-f-label">${psV(r.name)}</span><span class="ps-f-value mono">${psV(r.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Reserves</span><span class="ps-total-val">${psV(lr.total)}</span></div>`+psMeta(lr.source,lr.asOf)),
+    psScard('🛡','Lender Escrows',(le.items||[]).map(e=>`<div class="ps-field"><span class="ps-f-label">${psV(e.name)}</span><span class="ps-f-value mono">${psV(e.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Escrows</span><span class="ps-total-val">${psV(le.total)}</span></div>`+psMeta(le.source,le.asOf)),
+    psScard('🛡','Operating Reserves',`<div class="res-spotlight"><div><div class="res-big-lbl">Expense Coverage (Months)</div><div class="res-big-val">${resMos!=null?resMos.toFixed(2):'—'}</div><div class="res-big-unit">months</div></div><div class="res-badges">${psChip(resMos!=null?rStatus:'nodata')}</div></div>`+psField('Remaining Balance',opRes.remainingBalance,'mono hi')+psField('Initial Balance',opRes.initialBalance,'mono')+psField('Net Cash Flow To Date',opRes.netCashFlowToDate,'mono')+psMeta(opRes.source,opRes.asOf)),
+    psScard('🔨','CapEx Progress',`<div class="capex-progress-wrap"><div class="capex-bar-row"><span style="font-size:11px;color:#6A8E91">% Complete</span><span style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:14px">${capexPct!=null?capexPct+'%':'—'}</span>${psChip(cStatus)}</span></div>${capexPct!=null?`<div class="capex-bar-bg"><div class="capex-bar-fill" style="width:${Math.min(capexPct,100)}%"></div><div class="capex-bar-expected" style="left:${Math.min(capexExp,100)}%"></div></div><div class="capex-bar-labels"><span>0%</span><span>Expected: ${capexExp}%</span><span>100%</span></div><div class="capex-schedule ${cStatus}">${cSchedLabel} — ${capexPct>capexExp?capexPct-capexExp+' % ahead':capexExp-capexPct+'% behind'} expected ${capexExp}%</div>`:'<div style="color:#94a3b8;font-size:11px">No CapEx data available.</div>'}</div>`+psField('Initial CapEx Amount',capex.budget,'mono')+psField('CapEx Spend To Date',capex.spendToDate,'mono hi')+psField('CapEx Remaining',psFmtCur(capexRemainingNum),'mono')+psField('Target Completion',capex.targetCompletion)+psMeta(capex.source,capex.asOf)),
+    psScard('📅','Key Dates',dates.length===0?'<div style="color:#94a3b8;font-size:11px">No key dates configured.</div>':dates.map(kd=>{const ds=psKeyDateStatus(kd.dueDate,kd.completed);return `<div class="date-row"><div><div class="date-lbl">${psV(kd.label)}</div><div class="date-dt">${psV(kd.dueDate)}</div>${kd.completed?`<div class="date-done">Completed: ${kd.completed}</div>`:''}</div><span class="date-chip ${ds}">${psKeyDateLabel(ds)}</span></div>`;}).join(''))
+  ].join('');
+
+  const html=`
+    <div class="prop-header">
+      <div class="prop-header-top">
+        <div>
+          <div class="prop-eyebrow">🏢 Property Summary</div>
+          <div class="prop-name">${psV(prop.name)}</div>
+          <div class="prop-addr">${psV(prop.address)}</div>
+          <div class="prop-meta"><span>${psV(prop.units)} Units</span><span>·</span><span>Built ${psV(prop.yearBuilt)}</span><span>·</span><span>Updated: ${psV(prop.updatedAt)}</span></div>
+        </div>
+        <div class="prop-asset-id"><div class="lbl">Asset ID</div><div class="val">1163_rr</div></div>
+      </div>
+    </div>
+    <div class="ps-content">
+      <div class="noi-strip${fav?'':' issue'}">
+        <span class="noi-label">📊 NOI Performance</span>
+        <span class="noi-main">${psV(noi.current)}<span class="noi-period">LTM</span></span>
+        <span class="noi-vs ${fav?'fav':'unfav'}">${fav?'↑':'↓'} ${psV(noi.vsBudget)} vs Budget</span>
+        <span class="noi-badge ${fav?'fav':'unfav'}">${fav?'Healthy':'Risk'}</span>
+        ${noi.asOf?`<span class="noi-asof">As Of: ${noi.asOf}</span>`:''}
+      </div>
+      <div class="kpi-row">${kpiHtml}</div>
+      <div class="two-col">
+        <div class="col-stack">${leftHtml}</div>
+        <div class="col-stack">${rightHtml}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('app').innerHTML=html;
+}
+
+async function renderPropertySummaryPage(){
+  const app=document.getElementById('app');
+  if(!app) return;
+  if(PS_DATA){ renderPS(PS_DATA); return; }
+  app.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:200px;color:#6A8E91;font-size:13px">Loading property summary…</div>';
+  try{
+    PS_DATA=await fetch('/api/property-summary/viewer').then(r=>r.json());
+    renderPS(PS_DATA);
+  }catch(e){
+    app.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:200px;color:#dc2626;font-size:13px">Failed to load property data.</div>';
+  }
+}
+
 /* ═══════════════ INIT ═══════════════ */
 async function init(){
   try{
@@ -1218,6 +1489,7 @@ async function init(){
     }
     const hash = location.hash.replace('#','');
     if(hash === 'waterfall' || hash === 'trend') switchPage(hash);
+    else if(hash === 'ps') switchPage('ps');
     else renderApp();
   } catch(e){
     document.getElementById('app').innerHTML=`<div class="no-data">Error loading data: ${e.message}</div>`;
