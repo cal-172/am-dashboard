@@ -286,7 +286,7 @@ function ContactRow({ item, onRemove }: { item: Contact; onRemove: () => void })
 // ─── SECTION ──────────────────────────────────────────────────────────────────
 
 function MetricSection({
-  title, description, accent, defaultExpanded,
+  title, description, accent, defaultExpanded, ungrouped,
   metrics, onGroupChange,
   reserves, escrows, keyDates, contacts,
   onAddReserve, onRemoveReserve,
@@ -294,7 +294,7 @@ function MetricSection({
   onAddKeyDate, onRemoveKeyDate,
   onAddContact, onRemoveContact,
 }: {
-  title: string; description: string; accent: boolean; defaultExpanded: boolean;
+  title: string; description: string; accent: boolean; defaultExpanded: boolean; ungrouped?: boolean;
   metrics: Metric[]; onGroupChange: (id: number, g: UpdateGroup) => void;
   reserves?: LineItem[]; escrows?: LineItem[]; keyDates?: KeyDate[]; contacts?: Contact[];
   onAddReserve?: () => void; onRemoveReserve?: (id: number) => void;
@@ -347,20 +347,25 @@ function MetricSection({
           <ColHeaders accentTop={accent} />
 
           {/* Regular metric groups */}
-          {groupOrder.map(groupName => (
-            <React.Fragment key={groupName}>
-              <div className={COLS}>
-                <GroupHeader name={groupName} />
-              </div>
-              {groups[groupName].map(metric => (
+          {ungrouped
+            ? metrics.sort((a, b) => (GROUP_ORDER[a.group] ?? 99) - (GROUP_ORDER[b.group] ?? 99)).map(metric => (
                 <MetricRow key={metric.id} metric={metric} onGroupChange={onGroupChange} />
-              ))}
-            </React.Fragment>
-          ))}
+              ))
+            : groupOrder.map(groupName => (
+                <React.Fragment key={groupName}>
+                  <div className={COLS}>
+                    <GroupHeader name={groupName} />
+                  </div>
+                  {groups[groupName].map(metric => (
+                    <MetricRow key={metric.id} metric={metric} onGroupChange={onGroupChange} />
+                  ))}
+                </React.Fragment>
+              ))
+          }
 
           {/* Lender Reserves */}
           {reserves && (<>
-            <div className={COLS}><GroupHeader name="Lender Reserves" /></div>
+            {!ungrouped && <div className={COLS}><GroupHeader name="Lender Reserves" /></div>}
             {reserves.map(item => (
               <ReserveRow key={item.id} item={item} onRemove={() => onRemoveReserve!(item.id)} />
             ))}
@@ -369,7 +374,7 @@ function MetricSection({
 
           {/* Lender Escrows */}
           {escrows && (<>
-            <div className={COLS}><GroupHeader name="Lender Escrows" /></div>
+            {!ungrouped && <div className={COLS}><GroupHeader name="Lender Escrows" /></div>}
             {escrows.map(item => (
               <EscrowRow key={item.id} item={item} onRemove={() => onRemoveEscrow!(item.id)} />
             ))}
@@ -378,8 +383,7 @@ function MetricSection({
 
           {/* Key Dates */}
           {keyDates && (<>
-            <div className={COLS}><GroupHeader name="Key Dates" /></div>
-            {/* Sub-column hint row */}
+            {!ungrouped && <div className={COLS}><GroupHeader name="Key Dates" /></div>}
             <div className={`${COLS} px-4 py-1 bg-slate-50/40 border-b border-slate-100`}>
               {['Label','Due Date','Completed','','','Notes',''].map((h,i) => (
                 <span key={i} className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider">{h}</span>
@@ -393,8 +397,7 @@ function MetricSection({
 
           {/* Contacts & Links */}
           {contacts && (<>
-            <div className={COLS}><GroupHeader name="Contacts &amp; Links" /></div>
-            {/* Sub-column hint row */}
+            {!ungrouped && <div className={COLS}><GroupHeader name="Contacts &amp; Links" /></div>}
             <div className={`${COLS} px-4 py-1 bg-slate-50/40 border-b border-slate-100`}>
               {['Label','Name','Email / URL','Type','','',''].map((h,i) => (
                 <span key={i} className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider">{h}</span>
@@ -509,6 +512,7 @@ export function PropertySummaryAdmin() {
           description="Metrics entered once or updated infrequently — property details, loan structure, reserves, and contacts."
           accent={false}
           defaultExpanded={false}
+          ungrouped={true}
           metrics={setupMetrics}
           onGroupChange={handleGroupChange}
           reserves={reserves}
