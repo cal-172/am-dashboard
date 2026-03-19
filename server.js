@@ -237,7 +237,11 @@ app.get('/api/data', requireAuth, (req, res) => {
   if (rawUploads.length) {
     // SUMIF approach: aggregate from raw rows using current mapping rules
     const months = aggregateFromRawData();
-    res.json({ property: meta.property, year: meta.year, updatedAt: meta.updatedAt, months });
+    const availableYears = [...new Set(Object.keys(months).map(k => {
+      const y = parseInt((k.split('-')[0]||''));
+      return isNaN(y) ? null : y;
+    }).filter(Boolean))].sort();
+    res.json({ property: meta.property, year: meta.year, updatedAt: meta.updatedAt, months, availableYears });
   } else {
     // Legacy fallback: serve pre-aggregated data already in financial.json
     res.json(meta);
@@ -321,7 +325,7 @@ app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
     const uploads = readUploads();
     uploads.unshift({
       id: uploadId, originalName: originalName || 'unknown', fileType,
-      sheetName: sheetName || '', monthsAffected,
+      sheetName: sheetName || '', monthsAffected, year: meta.year,
       uploadedBy: req.session.email, uploadedAt: now
     });
     writeUploads(uploads.slice(0, 100));

@@ -277,7 +277,10 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
         <div class="card">
           <div class="card-head">
             <span class="card-title">Data Coverage</span>
-            <span class="text-sm" id="coverage-updated"></span>
+            <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
+              <select id="coverage-year-sel" style="height:26px;padding:0 8px;border:1px solid #C8DCE0;border-radius:4px;font-size:12px;font-weight:700;color:#13545E;background:#F8FAFA;cursor:pointer" onchange="setCoverageYear(parseInt(this.value))"></select>
+              <span class="text-sm" id="coverage-updated"></span>
+            </div>
           </div>
           <div class="card-body">
             <div class="status-grid" id="coverage-grid"></div>
@@ -421,6 +424,7 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
                   <tr>
                     <th>File Name</th>
                     <th>Type</th>
+                    <th>Year</th>
                     <th>Months Updated</th>
                     <th>Uploaded By</th>
                     <th>Date</th>
@@ -428,7 +432,7 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
                   </tr>
                 </thead>
                 <tbody id="uploads-tbody">
-                  <tr class="empty-row"><td colspan="6">Loading...</td></tr>
+                  <tr class="empty-row"><td colspan="7">Loading...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -866,14 +870,46 @@ async function init() {
 /* ══════════════════════════════════════════════════════
    COVERAGE GRID
 ══════════════════════════════════════════════════════ */
+let coverageYear = null;
+let _coverageData = null;
+
 async function loadCoverage() {
   const data = await fetch('/api/data').then(r=>r.json());
-  const year = data.year || 2026;
+  _coverageData = data;
   document.getElementById('coverage-updated').textContent = data.updatedAt ? 'Last updated: ' + new Date(data.updatedAt).toLocaleDateString() : '';
 
+  // Populate year selector from available years
+  const availableYears = data.availableYears && data.availableYears.length
+    ? data.availableYears
+    : [data.year || new Date().getFullYear()];
+  if (!coverageYear || !availableYears.includes(coverageYear)) {
+    coverageYear = availableYears[availableYears.length - 1];
+  }
+  const sel = document.getElementById('coverage-year-sel');
+  if (sel) {
+    sel.innerHTML = availableYears.map(y => `<option value="${y}"${y===coverageYear?' selected':''}>${y}</option>`).join('');
+    sel.style.display = availableYears.length <= 1 ? 'none' : '';
+    if (availableYears.length === 1) {
+      // Show static badge instead when only one year
+      sel.outerHTML = `<span id="coverage-year-sel" style="font-size:12px;font-weight:700;color:#13545E;background:#EDF6F7;padding:3px 10px;border-radius:4px">${coverageYear}</span>`;
+    }
+  }
+  renderCoverageGrid();
+}
+
+function setCoverageYear(y) {
+  coverageYear = y;
+  renderCoverageGrid();
+}
+
+function renderCoverageGrid() {
+  const data = _coverageData;
+  if (!data) return;
+  const year = coverageYear || data.year || new Date().getFullYear();
   const grid = document.getElementById('coverage-grid');
   grid.innerHTML = ALL_MONTHS.map(m => {
-    const md = data.months[m];
+    const key = year + '-' + m;
+    const md = data.months[key] || data.months[m]; // fallback to bare key for legacy data
     let cls = 'empty', label = MONTH_SHORT[m];
     if (md) {
       const hasA = Object.values(md.a||{}).some(v=>Math.abs(v||0)>0);
@@ -1294,16 +1330,28 @@ const FILE_TYPE_BADGE  = {t12:'badge-t12',budget:'badge-budget',combined:'badge-
 async function loadUploads() {
   const uploads = await fetch('/api/uploads').then(r=>r.json());
   const tbody = document.getElementById('uploads-tbody');
-  if (!uploads.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">No uploads yet</td></tr>'; return; }
-  tbody.innerHTML = uploads.map(u => `
-    <tr>
+  if (!uploads.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="7">No uploads yet</td></tr>'; return; }
+  tbody.innerHTML = uploads.map(u => {
+    // Derive year: use stored year field, or extract from year-prefixed month keys, or fall back to configured year
+    const derivedYear = u.year
+      || (u.monthsAffected||[]).map(m=>parseInt((m.split('-')[0]||''))).find(y=>!isNaN(y)&&y>2000)
+      || (_coverageData && _coverageData.year)
+      || '—';
+    // Strip year prefix from month chips for display
+    const monthChips = (u.monthsAffected||[]).map(m => {
+      const bare = m.includes('-') ? m.split('-').slice(1).join('-') : m;
+      return `<span class="mchip">${MONTH_SHORT[bare]||bare}</span>`;
+    }).join('');
+    return `<tr>
       <td style="font-family:'Courier New',monospace;font-size:11.5px">${esc(u.originalName)}</td>
       <td><span class="badge ${FILE_TYPE_BADGE[u.fileType]||'badge-t12'}">${FILE_TYPE_LABELS[u.fileType]||u.fileType}</span></td>
-      <td><div class="month-chips">${(u.monthsAffected||[]).map(m=>`<span class="mchip">${MONTH_SHORT[m]||m}</span>`).join('')}</div></td>
+      <td style="font-size:12px;font-weight:700;color:#13545E">${derivedYear}</td>
+      <td><div class="month-chips">${monthChips}</div></td>
       <td style="font-size:11.5px">${esc(u.uploadedBy||'—')}</td>
       <td style="font-size:11.5px;white-space:nowrap">${new Date(u.uploadedAt).toLocaleDateString()}</td>
       <td><button class="btn btn-danger" onclick="deleteUpload('${u.id}')">✕ Remove</button></td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
 async function deleteUpload(id) {
