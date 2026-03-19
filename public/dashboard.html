@@ -617,6 +617,7 @@ let wfPerUnit = false;
 
 function switchPage(page) {
   currentPage = page;
+  history.replaceState(null, '', page === 'avb' ? '/' : '/#' + page);
   document.getElementById('nav-avb')?.classList.toggle('active', page === 'avb');
   document.getElementById('nav-waterfall')?.classList.toggle('active', page === 'waterfall');
   document.getElementById('nav-trend')?.classList.toggle('active', page === 'trend');
@@ -1214,7 +1215,9 @@ async function init(){
     if(me.role==='admin'){
       document.getElementById('sb-admin-link').style.display='';
     }
-    renderApp();
+    const hash = location.hash.replace('#','');
+    if(hash === 'waterfall' || hash === 'trend') switchPage(hash);
+    else renderApp();
   } catch(e){
     document.getElementById('app').innerHTML=`<div class="no-data">Error loading data: ${e.message}</div>`;
   }
