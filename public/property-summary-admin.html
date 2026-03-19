@@ -343,8 +343,18 @@ function commitSetup(i, field, el){
   markChanged();
 }
 
-function commitReserve(i,field,el){ STATE.reserves[i][field]=el.value; markChanged(); }
-function commitEscrow(i,field,el) { STATE.escrows[i][field]=el.value;  markChanged(); }
+function commitReserve(i,field,el){ 
+  let v=el.value;
+  if(field==='amount'){ const f=fmtVal(v,'cur'); if(f){ v=f; el.value=v; } }
+  STATE.reserves[i][field]=v; 
+  markChanged(); 
+}
+function commitEscrow(i,field,el) { 
+  let v=el.value;
+  if(field==='amount'){ const f=fmtVal(v,'cur'); if(f){ v=f; el.value=v; } }
+  STATE.escrows[i][field]=v;  
+  markChanged(); 
+}
 function commitKeyDate(i,field,el){ STATE.keyDates[i][field]=el.value; markChanged(); }
 function commitContact(i,field,el){ STATE.contacts[i][field]=el.value; markChanged(); }
 function commitContactSel(i,el)   { STATE.contacts[i].type=el.value;   markChanged(); }
@@ -412,8 +422,8 @@ async function loadData(){
       key:m.key, name:m.name, group:m.group,
       value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
     }));
-    STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:r.amount||''}));
-    STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:e.amount||''}));
+    STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:fmtVal(r.amount||'','cur')||r.amount||''}));
+    STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:fmtVal(e.amount||'','cur')||e.amount||''}));
     STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
     STATE.contacts=(d.contacts||[]).map((c,i)=>({id:c.id??500+i,label:c.label||'',name:c.name||'',emailOrUrl:c.emailOrUrl||'',type:c.type||'email',notes:c.notes||''}));
 
