@@ -97,7 +97,7 @@ const MONTHS = [
 
 // ─── UNIFIED GRID TEMPLATE ────────────────────────────────────────────────────
 // Columns: Metric | Value | As Of | Source | Last Updated | Notes | Group/Action
-const COLS = 'grid grid-cols-[minmax(140px,0.7fr)_130px_95px_115px_100px_minmax(120px,1fr)_90px]';
+const COLS = 'grid grid-cols-[minmax(140px,0.7fr)_130px_95px_115px_100px_minmax(120px,1fr)_90px] gap-x-4';
 
 // ─── PRIMITIVES ───────────────────────────────────────────────────────────────
 
@@ -429,7 +429,7 @@ function MetricSection({
 
 // ─── CONTACTS SECTION (standalone, own column structure) ─────────────────────
 
-const CONTACT_COLS = 'grid grid-cols-[1fr_1fr_1.5fr_100px_1fr_110px_36px]';
+const CONTACT_COLS = 'grid grid-cols-[1fr_1fr_1.5fr_100px_1fr_110px_36px] gap-x-4';
 
 function ContactsSection({ items, onAdd, onRemove }: {
   items: Contact[]; onAdd: () => void; onRemove: (id: number) => void;
