@@ -1,0 +1,193 @@
+We need to enhance the Budget Waterfall page by adding quick period filter buttons above the chart.
+
+GOAL
+Add button-based period filters so the user can quickly switch between:
+- individual months with actuals
+- quarters (Q1, Q2, Q3, Q4)
+- Year to Date (YTD)
+
+This is a targeted enhancement to the existing Budget Waterfall page.
+Do not redesign the page or change the waterfall chart style.
+
+--------------------------------------------------
+REQUIRED FILTER CONTROLS
+--------------------------------------------------
+
+In the filter area above the waterfall chart, add:
+
+1. Month buttons
+- keep the existing month buttons for months with actuals
+- example: Jan, Feb, Mar, etc.
+- only months with actuals data should be selectable
+
+2. Quarter buttons
+- add buttons for:
+  - Q1
+  - Q2
+  - Q3
+  - Q4
+- only quarters that contain actuals data should be enabled/selectable
+- quarters with no actuals should appear disabled or hidden
+- preferred behavior: show disabled styling rather than removing them completely
+
+3. YTD button
+- add a YTD button
+- YTD should only be enabled if there is at least one month of actuals data
+
+--------------------------------------------------
+FILTER BEHAVIOR
+--------------------------------------------------
+
+These filters should be mutually exclusive.
+Only one period selection can be active at a time:
+- a single month
+- a quarter
+- or YTD
+
+When a button is clicked:
+- recompute the waterfall chart
+- update the chart title/subtitle to reflect the selected period
+- keep the rest of the page intact
+
+Examples:
+- If Jan is clicked → show January waterfall only
+- If Q1 is clicked → show Q1 cumulative waterfall using available actual months in Q1
+- If YTD is clicked → show cumulative waterfall from January through latest available actual month in the selected year
+
+--------------------------------------------------
+DATA AVAILABILITY RULES
+--------------------------------------------------
+
+Actuals data drives what is selectable.
+
+Month buttons:
+- selectable only for months where actuals exist
+
+Quarter buttons:
+- selectable only if that quarter contains at least one actual month
+- example:
+  - if actuals exist for Jan and Feb only, Q1 is enabled, Q2/Q3/Q4 are disabled
+  - if actuals exist through May, then Q1 and Q2 are enabled, Q3/Q4 disabled
+
+YTD button:
+- enabled if at least one actual month exists
+- YTD should include January through latest available actual month in that year
+
+--------------------------------------------------
+CALCULATION LOGIC
+--------------------------------------------------
+
+The waterfall must support 3 aggregation modes:
+
+1. Monthly
+- current behavior
+- use Actual and Budget for the selected month only
+
+2. Quarterly
+- sum Actual and Budget values for all available actual months within the selected quarter
+- example:
+  - if Q1 selected and actuals exist for Jan + Feb + Mar, sum Jan+Feb+Mar
+  - if Q1 selected and actuals exist for Jan + Feb only, sum Jan+Feb only
+- then build the waterfall from:
+  Budget NOI (quarter-to-date for selected quarter)
+  to
+  Actual NOI (quarter-to-date for selected quarter)
+
+3. YTD
+- sum Actual and Budget values from January through latest available actual month
+- then build the waterfall from:
+  Budget NOI YTD
+  to
+  Actual NOI YTD
+
+IMPORTANT:
+For quarter and YTD views, all line-item variance steps must be recomputed from aggregated values, not averaged.
+The reconciliation must still hold exactly:
+
+Budget NOI + sum(all normalized variance steps) = Actual NOI
+
+--------------------------------------------------
+CHART LABELING
+--------------------------------------------------
+
+Update the chart title or subtitle dynamically based on selected period.
+
+Examples:
+- Budget Waterfall: January 2026
+- Budget Waterfall: Q1 2026
+- Budget Waterfall: YTD 2026
+
+If quarter or YTD includes only partial actual months, that is okay, but the aggregation should still reflect available actual months only.
+
+Optional but recommended:
+show small helper text such as:
+- Q1 2026 (Jan-Feb actuals)
+- YTD 2026 (through Feb)
+
+Only add this if it improves clarity and does not clutter the UI.
+
+--------------------------------------------------
+BUTTON STYLING
+--------------------------------------------------
+
+Use the same button style as the existing month quick filters.
+
+Requirements:
+- active state clearly highlighted
+- inactive state neutral
+- disabled state visibly disabled
+- maintain current app color palette and spacing
+
+Suggested grouping:
+- Month buttons first
+- then Quarter buttons
+- then YTD button
+
+Example order:
+Jan | Feb | Mar | Apr | ... | Q1 | Q2 | Q3 | Q4 | YTD
+
+--------------------------------------------------
+STATE / DEFAULT BEHAVIOR
+--------------------------------------------------
+
+Default selection:
+- keep the current behavior of defaulting to the latest available month unless otherwise already set
+
+When switching between filters:
+- preserve unit of measurement mode (Total / Per Unit)
+- preserve page layout
+- only update the underlying aggregated period dataset and chart
+
+--------------------------------------------------
+IMPLEMENTATION NOTES
+--------------------------------------------------
+
+Please implement this using a reusable period filter state, something like:
+- periodType: "month" | "quarter" | "ytd"
+- periodValue: "2026-02" | "Q1" | "YTD"
+
+Then transform the waterfall dataset accordingly.
+
+Recommended helper logic:
+- getAvailableActualMonths()
+- getAvailableQuarters()
+- getQuarterMonths(year, quarter)
+- getYtdMonths(year, latestActualMonth)
+- buildWaterfallDataset(periodType, periodValue, unitMode)
+
+--------------------------------------------------
+ACCEPTANCE CRITERIA
+--------------------------------------------------
+
+This enhancement is complete when:
+
+1. Month buttons still work
+2. Quarter buttons Q1-Q4 are added
+3. Quarter buttons are enabled only when that quarter has actuals
+4. YTD button is added
+5. YTD is enabled only when actuals exist
+6. Clicking a quarter builds a cumulative quarter waterfall using available actual months only
+7. Clicking YTD builds a cumulative YTD waterfall using available actual months only
+8. Waterfall reconciliation still ties exactly
+9. Existing chart styling remains intact
+10. No unrelated layout changes are introduced
