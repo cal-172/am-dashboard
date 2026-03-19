@@ -1382,11 +1382,19 @@ function renderPS(d){
 
   // ── Income statement cards
   const is = d.incomeStatement || {};
-  function isVsHtml(varN, favorable, label) {
+  function isVsHtml(varN, favorable) {
     if (varN == null) return `<span class="income-vs nodata">— vs Budget</span>`;
     const abs = Math.abs(varN);
     const aabs = abs >= 1e6 ? '$'+(abs/1e6).toFixed(1)+'M' : abs >= 1e3 ? '$'+Math.round(abs/1e3)+'K' : '$'+Math.round(abs).toLocaleString();
     const fmtd = favorable ? `↑ ${aabs}` : `↓ (${aabs})`;
+    return `<span class="income-vs ${favorable?'fav':'unfav'}">${fmtd} vs Budget</span>`;
+  }
+  // Expenses: ↑ = over budget = bad (red), ↓ = under budget = good (green)
+  function isVsHtmlExpense(varN, favorable) {
+    if (varN == null) return `<span class="income-vs nodata">— vs Budget</span>`;
+    const abs = Math.abs(varN);
+    const aabs = abs >= 1e6 ? '$'+(abs/1e6).toFixed(1)+'M' : abs >= 1e3 ? '$'+Math.round(abs/1e3)+'K' : '$'+Math.round(abs).toLocaleString();
+    const fmtd = favorable ? `↓ ${aabs}` : `↑ ${aabs}`;
     return `<span class="income-vs ${favorable?'fav':'unfav'}">${fmtd} vs Budget</span>`;
   }
   const egiFav   = is.egiVsBudget  != null ? is.egiVsBudget  >= 0 : null;
@@ -1404,9 +1412,9 @@ function renderPS(d){
     </div>`;
   }
   const incomeStmtHtml = `<div class="income-stmt-row">
-    ${incomeCard(is.egiStatus||'nodata',  'Effective Gross Income', is.egi,  true, isVsHtml(is.egiVsBudget,  egiFav))}
-    ${incomeCard(is.opexStatus||'nodata', 'Expenses',              is.opex, true, isVsHtml(is.opexVsBudget, opexFav))}
-    ${incomeCard(is.noiStatus||'nodata',  'Net Operating Income',  is.noi,  true, isVsHtml(is.noiVsBudget,  noiFav2))}
+    ${incomeCard(is.egiStatus||'nodata',  'Effective Gross Income', is.egi,  true, isVsHtml(is.egiVsBudget,         egiFav))}
+    ${incomeCard(is.opexStatus||'nodata', 'Expenses',              is.opex, true, isVsHtmlExpense(is.opexVsBudget, opexFav))}
+    ${incomeCard(is.noiStatus||'nodata',  'Net Operating Income',  is.noi,  true, isVsHtml(is.noiVsBudget,         noiFav2))}
   </div>`;
 
   const equityNum=psParseNum(inv.initialEquity), returnedNum=psParseNum(inv.capitalReturned);
