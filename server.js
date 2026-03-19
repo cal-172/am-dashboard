@@ -1235,6 +1235,8 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       noiStatus:        noiISStatus,
       econVacancyPct:   evPct,
       econVacancyStatus:evStatus,
+      econVacancyEgi:   aEgi,
+      econVacancyGpr:   aPri,
       hasData:          aEgi != null || aOpex != null || aNoi != null,
     },
     kpi: {
