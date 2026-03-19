@@ -1,0 +1,139 @@
+We are refining the redesigned grid-based Property Summary Admin screen.
+
+IMPORTANT:
+- This is a UI/UX refinement pass
+- Do NOT redesign the structure
+- Do NOT introduce backend logic
+- Focus on improving clarity, consistency, and usability
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Improve the grid so it feels:
+- more structured
+- easier to scan
+- more consistent across all sections
+- better balanced visually
+
+--------------------------------------------------
+1. COLUMN WIDTH REBALANCING
+--------------------------------------------------
+
+Adjust column widths to improve usability:
+
+- Reduce width of the Metric column
+- Increase width of the Notes column
+
+Goal:
+- Metric labels should be concise and not overly spaced
+- Notes should have enough room to display meaningful content (even if truncated)
+
+Ensure:
+- overall table remains balanced
+- no excessive whitespace in the first column
+
+--------------------------------------------------
+2. STRONGER METRIC GROUP HEADERS
+--------------------------------------------------
+
+Improve visibility of group headers (e.g., PERFORMANCE, OPERATING RESERVES, CAPEX, etc.)
+
+Requirements:
+- Make group headers visually distinct from regular rows
+- Increase contrast and separation from data rows
+- Add clearer spacing above and below each group
+- Consider subtle background tint OR stronger divider line
+- Use consistent styling across all groups
+
+Goal:
+- users can quickly scan and identify sections
+- groups act as clear visual anchors in the grid
+
+--------------------------------------------------
+3. COLLAPSIBLE PRIMARY SECTIONS
+--------------------------------------------------
+
+Make the two main sections collapsible:
+
+- Monthly Updates
+- Setup
+
+Behavior:
+- Monthly Updates → expanded by default
+- Setup → collapsed by default
+
+Include:
+- clear expand/collapse affordance
+- smooth interaction
+
+Do NOT collapse individual metric groups, only the main sections.
+
+--------------------------------------------------
+4. ENFORCE CONSISTENT GRID STRUCTURE
+--------------------------------------------------
+
+All sections must follow the same column structure:
+
+1. Group
+2. Metric
+3. Value
+4. As Of Date
+5. Source
+6. Last Updated
+7. Notes
+
+Apply this consistently to ALL areas, including:
+
+- Lender Reserves
+- Lender Escrows
+- Key Dates
+- Contacts & Links
+
+--------------------------------------------------
+5. DYNAMIC SECTIONS ALIGNMENT
+--------------------------------------------------
+
+Refactor dynamic sections so they align with the main grid system.
+
+Current issue:
+- these sections visually break the grid pattern
+
+Update:
+- ensure rows align with the same columns as the rest of the grid
+- keep add/remove controls, but integrate them cleanly into the grid layout
+- avoid separate mini-tables or misaligned layouts
+
+Goal:
+- the entire screen feels like ONE system
+- no visual or structural breaks
+
+--------------------------------------------------
+6. VISUAL CLEANUP
+--------------------------------------------------
+
+- tighten row spacing slightly if needed
+- ensure consistent alignment across all columns
+- remove any awkward padding or misalignment
+- keep typography consistent across all rows
+
+--------------------------------------------------
+7. DO NOT CHANGE
+--------------------------------------------------
+
+- do NOT revert to forms or accordions
+- do NOT introduce multiple editing modes
+- do NOT remove any metrics
+- do NOT change overall layout hierarchy
+
+--------------------------------------------------
+8. DELIVERABLE
+--------------------------------------------------
+
+Return an updated grid-based admin UI that:
+
+- has improved column balance (narrower metric, wider notes)
+- has clearly visible and well-defined group headers
+- supports collapsing Monthly vs Setup sections
+- uses one consistent grid structure across ALL sections
+- feels clean, cohesive, and easy to scan
