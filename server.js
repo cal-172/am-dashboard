@@ -213,6 +213,14 @@ app.get('/admin', requireAuth, requireAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+app.get('/property-summary', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'property-summary.html'));
+});
+
+app.get('/property-summary-admin', requireAuth, requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'property-summary-admin.html'));
+});
+
 /* ══════════════════════════════════════════════════════
    API — SESSION INFO
 ══════════════════════════════════════════════════════ */

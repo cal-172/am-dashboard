@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Summary Admin — Regatta</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#EEF4F5;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:13px;color:#1A2B2C}
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:#13545E;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.sb-header{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-logo{font-size:14px;font-weight:700;color:#fff}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
+.sb-nav{padding:12px 8px;flex:1}
+.sb-section{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;padding:10px 10px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;cursor:pointer;color:rgba(255,255,255,.75);font-size:12.5px;font-weight:500;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:inherit;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.sb-icon{width:16px;text-align:center;font-size:13px;opacity:.8}
+.sb-footer{padding:12px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.sb-user{padding:8px 10px;font-size:11.5px;color:rgba(255,255,255,.6)}
+.sb-user strong{display:block;color:#fff;font-size:12px;margin-bottom:1px}
+.sb-btns{display:flex;gap:6px;margin-top:8px}
+.sb-btn{flex:1;padding:6px 0;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:4px;cursor:pointer;text-align:center;text-decoration:none;transition:background .12s;display:block}
+.sb-btn:hover{background:rgba(255,255,255,.22)}
+
+/* ── PAGE HEADER ── */
+.page-hdr{background:#0D3D45;color:#fff;padding:16px 24px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.page-hdr-left .eyebrow{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;font-weight:600;margin-bottom:3px}
+.page-hdr-left h1{font-size:20px;font-weight:700}
+.page-hdr-right{text-align:right}
+.page-hdr-right .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.45}
+.page-hdr-right .val{font-size:13px;font-weight:700;margin-top:1px}
+.page-hdr-right .sub{font-size:10px;font-family:'Courier New',monospace;opacity:.45}
+
+/* ── ACTION BAR ── */
+.action-bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:9px 24px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.month-sel-wrap{display:flex;align-items:center;gap:8px;padding-right:16px;border-right:1px solid #D2E8EA}
+.month-sel-wrap label{font-size:10px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.month-sel-wrap select{border:1px solid #D2E8EA;border-radius:5px;padding:4px 10px;font-size:12.5px;font-weight:600;color:#13545E;background:#fff;outline:none;cursor:pointer;font-family:inherit}
+.month-sel-wrap select:focus{border-color:#13545E}
+.status-msg{display:flex;align-items:center;gap:6px;font-size:11.5px;flex:1}
+.status-msg .icon{font-size:13px}
+.status-msg.saved{color:#15803d}
+.status-msg.error{color:#dc2626}
+.status-msg.pending{color:#92400e}
+.status-msg.ok{color:#15803d}
+.ab-btns{display:flex;gap:8px;align-items:center;margin-left:auto}
+.btn-cancel{padding:5px 14px;font-size:11.5px;font-weight:500;border:1px solid #D2E8EA;background:#fff;border-radius:5px;cursor:pointer;color:#4A6568;font-family:inherit}
+.btn-cancel:hover{background:#F4F8F9}
+.btn-save{padding:5px 16px;font-size:11.5px;font-weight:600;border:none;background:#13545E;color:#fff;border-radius:5px;cursor:pointer;font-family:inherit}
+.btn-save:hover{background:#0D3D45}
+.btn-save:disabled,.btn-cancel:disabled{opacity:.45;cursor:not-allowed}
+
+/* ── CONTENT ── */
+.content{padding:18px 24px;flex:1}
+
+/* ── SECTION PANEL ── */
+.panel{background:#fff;border-radius:8px;border:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px;overflow:hidden}
+.panel-head{padding:12px 18px;border-bottom:1px solid #D2E8EA;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.panel-head.accent{background:#EDF8F6}
+.panel-title{font-size:12px;font-weight:700;color:#13545E;display:flex;align-items:center;gap:8px}
+.panel-title .badge{font-size:9px;font-weight:700;padding:1.5px 7px;border-radius:10px;background:#E2EEF0;color:#4A6568;text-transform:uppercase;letter-spacing:.07em}
+.panel-desc{font-size:10.5px;color:#6A8E91;margin-top:1px}
+.panel-chevron{color:#94a3b8;font-size:13px;transition:transform .15s}
+.panel-chevron.open{transform:rotate(180deg)}
+.panel-body{display:none}
+.panel-body.open{display:block}
+
+/* ── GRID ── */
+.grid-header{display:grid;grid-template-columns:minmax(130px,.7fr) 120px 90px 110px 95px minmax(110px,1fr) 85px;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+.grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+.grid-row{display:grid;grid-template-columns:minmax(130px,.7fr) 120px 90px 110px 95px minmax(110px,1fr) 85px;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center;transition:background .08s}
+.grid-row:last-child{border-bottom:none}
+.grid-row:hover{background:#FAFCFC}
+
+/* ── GRID CELLS ── */
+.cell-name{font-size:12px;color:#1A2B2C;display:flex;align-items:center;gap:5px;min-width:0}
+.cell-name.readonly{color:#94a3b8;font-style:italic}
+.cell-name .calc-badge{display:flex;align-items:center;gap:3px;font-size:9px;color:#94a3b8;flex-shrink:0}
+.cell-inp{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:12px;color:#1A2B2C;padding:2px 0;outline:none;font-family:inherit;transition:border-color .1s}
+.cell-inp:focus{border-bottom-color:#13545E}
+.cell-inp:hover:not(:focus){border-bottom-color:#D2E8EA}
+.cell-inp.right{text-align:right}
+.cell-autocalc{display:flex;align-items:center;gap:4px;color:#94a3b8;font-size:10.5px;font-style:italic}
+.cell-date{font-size:10.5px;color:#6A8E91;text-align:right}
+.cell-sel{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:11px;color:#6A8E91;padding:2px 0;outline:none;font-family:inherit;cursor:pointer;transition:border-color .1s}
+.cell-sel:focus{border-bottom-color:#13545E}
+.cell-sel:hover{border-bottom-color:#D2E8EA}
+.cell-remove{display:flex;align-items:center;justify-content:flex-end}
+.btn-remove{border:none;background:none;cursor:pointer;color:#D2E8EA;font-size:15px;padding:0 2px;transition:color .1s}
+.btn-remove:hover{color:#dc2626}
+
+/* ── GROUP HEADER ── */
+.group-hdr{display:grid;grid-template-columns:minmax(130px,.7fr) 120px 90px 110px 95px minmax(110px,1fr) 85px;gap:14px;padding:5px 18px;background:#F4F8F9;border-bottom:1px solid #EEF4F5}
+.group-hdr-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#13545E;display:flex;align-items:center;gap:5px;grid-column:1/-1}
+
+/* ── ADD ROW ── */
+.add-row{padding:8px 18px;border-top:1px solid #F4F8F9}
+.btn-add{background:none;border:none;cursor:pointer;font-size:11.5px;font-weight:600;color:#13545E;font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
+.btn-add:hover{color:#0D3D45}
+
+/* ── CONTACTS GRID ── */
+.contact-grid-header{display:grid;grid-template-columns:1fr 1fr 1.5fr 100px 1fr 36px;gap:14px;padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+.contact-row-grid{display:grid;grid-template-columns:1fr 1fr 1.5fr 100px 1fr 36px;gap:14px;padding:6px 18px;border-bottom:1px solid #F4F8F9;align-items:center}
+.contact-row-grid:hover{background:#FAFCFC}
+
+/* ── LOADING ── */
+.loading-state{padding:40px;text-align:center;color:#6A8E91}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Regatta — 1163_rr</div>
+      <div class="sb-sub">Admin Panel</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Data</div>
+      <a href="/admin" class="sb-item"><span class="sb-icon">📁</span> File Uploads</a>
+      <a href="/admin" class="sb-item"><span class="sb-icon">🗂</span> Mapping Rules</a>
+      <div class="sb-section">Asset</div>
+      <a href="/property-summary-admin" class="sb-item active"><span class="sb-icon">🏢</span> Property Summary</a>
+      <div class="sb-section">Access</div>
+      <a href="/admin" class="sb-item"><span class="sb-icon">👥</span> User Permissions</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <strong id="sb-email">Loading...</strong>
+        <span>Administrator</span>
+      </div>
+      <div class="sb-btns">
+        <a href="/" class="sb-btn">Dashboard</a>
+        <form method="POST" action="/logout" style="flex:1">
+          <button type="submit" class="sb-btn" style="width:100%">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="page-hdr">
+      <div class="page-hdr-left">
+        <div class="eyebrow">Asset Management › Admin</div>
+        <h1>Property Summary Admin</h1>
+      </div>
+      <div class="page-hdr-right">
+        <div class="lbl">Property</div>
+        <div class="val">Regatta Apartments</div>
+        <div class="sub">1163_rr</div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="month-sel-wrap">
+        <label>📅 Updating:</label>
+        <select id="month-sel">
+          <option>January 2026</option>
+          <option>February 2026</option>
+          <option selected>March 2026</option>
+          <option>April 2026</option>
+          <option>May 2026</option>
+          <option>June 2026</option>
+          <option>July 2026</option>
+          <option>August 2026</option>
+        </select>
+      </div>
+      <div class="status-msg ok" id="status-msg"><span class="icon">✓</span> <span id="status-text">All changes saved</span></div>
+      <div class="ab-btns">
+        <button class="btn-cancel" id="btn-cancel" onclick="cancelChanges()">Cancel</button>
+        <button class="btn-save" id="btn-save" onclick="saveAll()">Save Changes</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="loading-state">Loading…</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let STATE = {
+  month: '2026-mar',
+  monthly: [],   // {key,name,group,value,asOf,source,notes,readOnly}
+  setup: [],
+  reserves: [],
+  escrows: [],
+  keyDates: [],
+  contacts: [],
+  hasChanges: false,
+};
+
+let _dynId = 9000;
+function nextId(){ return ++_dynId; }
+
+const MONTHLY_STRUCTURE = [
+  {key:'occupancy_pct',    name:'Occupancy %',               group:'Performance',       readOnly:false},
+  {key:'vacancy_pct',      name:'Vacancy %',                 group:'Performance',       readOnly:true},
+  {key:'dscr',             name:'DSCR',                      group:'Performance',       readOnly:false},
+  {key:'noi_ltm',          name:'NOI (LTM)',                 group:'Performance',       readOnly:false},
+  {key:'noi_vs_budget',    name:'NOI vs Budget',             group:'Performance',       readOnly:false},
+  {key:'noi_status',       name:'NOI Status',                group:'Performance',       readOnly:true},
+
+  {key:'remaining_reserve_bal',   name:'Remaining Reserve Balance',group:'Operating Reserves',readOnly:false},
+  {key:'initial_op_balance',      name:'Initial Operating Balance',group:'Operating Reserves',readOnly:false},
+  {key:'net_cash_flow',           name:'Net Cash Flow To Date',    group:'Operating Reserves',readOnly:false},
+  {key:'expense_coverage_months', name:'Expense Coverage (Months)',group:'Operating Reserves',readOnly:true},
+
+  {key:'capex_spend',           name:'CapEx Spend To Date',    group:'CapEx',      readOnly:false},
+  {key:'target_completion_date',name:'Target Completion Date', group:'CapEx',      readOnly:false},
+  {key:'capex_pct_complete',    name:'CapEx % Complete',       group:'CapEx',      readOnly:true},
+  {key:'capex_status',          name:'CapEx Status',           group:'CapEx',      readOnly:true},
+
+  {key:'current_distrib_ann_usd',name:'Current Distrib. Ann. ($)',group:'Investment',readOnly:false},
+  {key:'current_distrib_ann_pct',name:'Current Distrib. Ann. (%)',group:'Investment',readOnly:false},
+  {key:'itd_distrib_paid_usd',   name:'ITD Distribution Paid ($)',group:'Investment',readOnly:false},
+  {key:'itd_distrib_paid_pct',   name:'ITD Distribution Paid (%)',group:'Investment',readOnly:false},
+  {key:'cum_pref_shortfall',     name:'Cumulative Pref Shortfall',group:'Investment',readOnly:false},
+  {key:'capital_returned',       name:'Capital Returned',         group:'Investment',readOnly:false},
+];
+
+function toMonthKey(label){
+  const parts=label.trim().split(/\s+/);
+  const year=parts[parts.length-1];
+  const month=parts[0].slice(0,3).toLowerCase();
+  return `${year}-${month}`;
+}
+
+function isRightAlign(v){
+  const s=(v||'').trim();
+  if(!s) return false;
+  if(/^[\+\-]?\$?[\d,\.]+[KMBx%]?$/.test(s)) return true;
+  if(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/i.test(s)) return true;
+  if(/^\d{4}$/.test(s)) return true;
+  if(/^\d+\s+(years?|months?|mo)$/i.test(s)) return true;
+  return false;
+}
+
+// ── Load ───────────────────────────────────────────────────────────────────
+async function loadData(){
+  setStatus('loading','Loading…');
+  try{
+    const [d, me] = await Promise.all([
+      fetch(`/api/property-summary/admin?month=${STATE.month}`).then(r=>r.json()),
+      fetch('/api/me').then(r=>r.json())
+    ]);
+    document.getElementById('sb-email').textContent = me.email || 'Admin';
+
+    const apiMap = {};
+    for(const m of (d.monthlyMetrics||[])) apiMap[m.key]=m;
+
+    STATE.monthly = MONTHLY_STRUCTURE.map(s=>{
+      const a=apiMap[s.key]||{};
+      return {key:s.key,name:s.name,group:s.group,readOnly:s.readOnly,
+        value:a.value||'',asOf:a.asOf||'',source:a.source||'',notes:a.notes||''};
+    });
+
+    STATE.setup = (d.setupMetrics||[]).map(m=>({
+      key:m.key,name:m.name,group:m.group,readOnly:false,
+      value:m.value||'',asOf:m.asOf||'',source:m.source||'',notes:m.notes||''
+    }));
+
+    STATE.reserves = (d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:r.amount||''}));
+    STATE.escrows  = (d.escrows||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:e.amount||''}));
+    STATE.keyDates = (d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
+    STATE.contacts = (d.contacts||[]).map((c,i)=>({id:c.id??500+i,label:c.label||'',name:c.name||'',emailOrUrl:c.emailOrUrl||'',type:c.type||'email',notes:c.notes||''}));
+
+    STATE.hasChanges = false;
+    renderAll();
+    setStatus('ok','All changes saved');
+  }catch(e){
+    setStatus('error','Failed to load data');
+    document.getElementById('content').innerHTML='<div class="loading-state">Failed to load data.</div>';
+  }
+}
+
+// ── Status ─────────────────────────────────────────────────────────────────
+function setStatus(type,msg){
+  const el=document.getElementById('status-msg');
+  const icons={ok:'✓',saved:'✓',error:'✗',pending:'!',loading:'↻'};
+  const classes={ok:'ok',saved:'saved',error:'error',pending:'pending',loading:'ok'};
+  el.className='status-msg '+(classes[type]||'ok');
+  document.getElementById('status-text').textContent=msg;
+  el.querySelector('.icon').textContent=icons[type]||'✓';
+}
+
+function markChanged(){
+  STATE.hasChanges=true;
+  setStatus('pending','Unsaved changes');
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function inp(value,readonly,right,handler){
+  if(readonly) return `<div class="cell-autocalc">↻ Auto-calc</div>`;
+  const align=right?'right':'';
+  return `<input type="text" class="cell-inp ${align}" value="${esc(value)}" placeholder="—" oninput="${handler}">`;
+}
+
+function esc(s){ return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function renderAll(){
+  const groups_monthly = {};
+  const groupOrder_monthly = [];
+  for(const m of STATE.monthly){
+    if(!groups_monthly[m.group]){groups_monthly[m.group]=[];groupOrder_monthly.push(m.group);}
+    groups_monthly[m.group].push(m);
+  }
+
+  const groups_setup = {};
+  const groupOrder_setup = [];
+  for(const m of STATE.setup){
+    if(!groups_setup[m.group]){groups_setup[m.group]=[];groupOrder_setup.push(m.group);}
+    groups_setup[m.group].push(m);
+  }
+
+  const colHeader = `<div class="grid-header"><span>Metric</span><span>Value</span><span>As Of Date</span><span>Source</span><span>Last Updated</span><span>Notes</span><span>Group</span></div>`;
+
+  // Monthly section
+  let monthlyHTML = '';
+  for(const g of groupOrder_monthly){
+    monthlyHTML += `<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of groups_monthly[g]){
+      const ki=STATE.monthly.indexOf(m);
+      monthlyHTML += `<div class="grid-row">
+        <div class="cell-name ${m.readOnly?'readonly':''}">
+          ${m.readOnly?'<span class="calc-badge">↻</span>':''}
+          <span style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(m.name)}">${esc(m.name)}</span>
+        </div>
+        ${inp(m.value,m.readOnly,isRightAlign(m.value),`updateMonthly(${ki},'value',this.value)`)}
+        ${inp(m.asOf,m.readOnly,true,`updateMonthly(${ki},'asOf',this.value)`)}
+        ${inp(m.source,m.readOnly,false,`updateMonthly(${ki},'source',this.value)`)}
+        <div class="cell-date">${m.readOnly?'—':'—'}</div>
+        ${inp(m.notes,m.readOnly,false,`updateMonthly(${ki},'notes',this.value)`)}
+        <select class="cell-sel" disabled><option>Monthly</option></select>
+      </div>`;
+    }
+  }
+
+  // Setup section
+  let setupHTML = '';
+  for(const g of groupOrder_setup){
+    setupHTML += `<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of groups_setup[g]){
+      const ki=STATE.setup.indexOf(m);
+      setupHTML += `<div class="grid-row">
+        <div class="cell-name" title="${esc(m.name)}"><span style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(m.name)}</span></div>
+        ${inp(m.value,false,isRightAlign(m.value),`updateSetup(${ki},'value',this.value)`)}
+        ${inp(m.asOf,false,true,`updateSetup(${ki},'asOf',this.value)`)}
+        ${inp(m.source,false,false,`updateSetup(${ki},'source',this.value)`)}
+        <div class="cell-date">—</div>
+        ${inp(m.notes,false,false,`updateSetup(${ki},'notes',this.value)`)}
+        <select class="cell-sel" disabled><option>Setup</option></select>
+      </div>`;
+    }
+  }
+
+  // Reserves
+  let reservesHTML = `<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Reserves</span></div>`;
+  for(const r of STATE.reserves){
+    const ri=STATE.reserves.indexOf(r);
+    reservesHTML += `<div class="grid-row">
+      <input type="text" class="cell-inp" value="${esc(r.name)}" placeholder="Reserve name" oninput="updateReserve(${ri},'name',this.value)">
+      <input type="text" class="cell-inp right" value="${esc(r.amount)}" placeholder="$0" oninput="updateReserve(${ri},'amount',this.value)">
+      <div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div>
+      <div class="cell-remove"><button class="btn-remove" onclick="removeReserve(${ri})" title="Remove">✕</button></div>
+    </div>`;
+  }
+  reservesHTML += `<div class="add-row"><button class="btn-add" onclick="addReserve()">＋ Add reserve</button></div>`;
+
+  // Escrows
+  let escrowsHTML = `<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Escrows</span></div>`;
+  for(const e of STATE.escrows){
+    const ei=STATE.escrows.indexOf(e);
+    escrowsHTML += `<div class="grid-row">
+      <input type="text" class="cell-inp" value="${esc(e.name)}" placeholder="Escrow name" oninput="updateEscrow(${ei},'name',this.value)">
+      <input type="text" class="cell-inp right" value="${esc(e.amount)}" placeholder="$0" oninput="updateEscrow(${ei},'amount',this.value)">
+      <div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div><div style="color:#D2E8EA;font-size:11px">—</div>
+      <div class="cell-remove"><button class="btn-remove" onclick="removeEscrow(${ei})" title="Remove">✕</button></div>
+    </div>`;
+  }
+  escrowsHTML += `<div class="add-row"><button class="btn-add" onclick="addEscrow()">＋ Add escrow</button></div>`;
+
+  // Key Dates
+  let keyDatesHTML = `<div class="group-hdr"><span class="group-hdr-name">📅 Key Dates</span></div>`;
+  keyDatesHTML += `<div class="grid-header" style="grid-template-columns:minmax(130px,.7fr) 120px 90px 110px 95px minmax(110px,1fr) 85px"><span>Label</span><span>Due Date</span><span>Completed</span><span></span><span></span><span>Notes</span><span></span></div>`;
+  for(const kd of STATE.keyDates){
+    const ki=STATE.keyDates.indexOf(kd);
+    keyDatesHTML += `<div class="grid-row">
+      <input type="text" class="cell-inp" value="${esc(kd.label)}" placeholder="Label" oninput="updateKeyDate(${ki},'label',this.value)">
+      <input type="text" class="cell-inp right" value="${esc(kd.dueDate)}" placeholder="Due date" oninput="updateKeyDate(${ki},'dueDate',this.value)">
+      <input type="text" class="cell-inp right" value="${esc(kd.completed)}" placeholder="Completed" oninput="updateKeyDate(${ki},'completed',this.value)">
+      <div></div><div></div>
+      <input type="text" class="cell-inp" value="${esc(kd.notes)}" placeholder="Notes" oninput="updateKeyDate(${ki},'notes',this.value)">
+      <div class="cell-remove"><button class="btn-remove" onclick="removeKeyDate(${ki})" title="Remove">✕</button></div>
+    </div>`;
+  }
+  keyDatesHTML += `<div class="add-row"><button class="btn-add" onclick="addKeyDate()">＋ Add key date</button></div>`;
+
+  // Contacts
+  let contactsHTML = '';
+  contactsHTML += `<div class="contact-grid-header"><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Label</span><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Name</span><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Email / URL</span><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Type</span><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Notes</span><span></span></div>`;
+  for(const c of STATE.contacts){
+    const ci=STATE.contacts.indexOf(c);
+    contactsHTML += `<div class="contact-row-grid">
+      <input type="text" class="cell-inp" value="${esc(c.label)}" placeholder="Label" oninput="updateContact(${ci},'label',this.value)">
+      <input type="text" class="cell-inp" value="${esc(c.name)}" placeholder="Name" oninput="updateContact(${ci},'name',this.value)">
+      <input type="text" class="cell-inp" value="${esc(c.emailOrUrl)}" placeholder="email or url" oninput="updateContact(${ci},'emailOrUrl',this.value)">
+      <select class="cell-sel" onchange="updateContact(${ci},'type',this.value)">
+        <option value="email" ${c.type==='email'?'selected':''}>Email</option>
+        <option value="link" ${c.type==='link'?'selected':''}>Link</option>
+        <option value="document" ${c.type==='document'?'selected':''}>Document</option>
+      </select>
+      <span style="font-size:11px;color:#94a3b8">${esc(c.notes)||'—'}</span>
+      <div class="cell-remove"><button class="btn-remove" onclick="removeContact(${ci})" title="Remove">✕</button></div>
+    </div>`;
+  }
+  contactsHTML += `<div class="add-row"><button class="btn-add" onclick="addContact()">＋ Add contact or link</button></div>`;
+
+  document.getElementById('content').innerHTML = `
+  <div class="panel" id="panel-monthly">
+    <div class="panel-head accent" onclick="togglePanel('monthly')">
+      <div>
+        <div class="panel-title">Monthly Updates <span class="badge">${STATE.monthly.length} rows</span></div>
+        <div class="panel-desc">Metrics typically updated each month — drive KPIs and current-period values.</div>
+      </div>
+      <span class="panel-chevron open" id="chevron-monthly">▼</span>
+    </div>
+    <div class="panel-body open" id="body-monthly">
+      ${colHeader}
+      ${monthlyHTML}
+    </div>
+  </div>
+
+  <div class="panel" id="panel-setup">
+    <div class="panel-head" onclick="togglePanel('setup')">
+      <div>
+        <div class="panel-title">Setup <span class="badge">${STATE.setup.length} rows</span></div>
+        <div class="panel-desc">Property details, loan structure, reserves, and key dates — entered once or updated infrequently.</div>
+      </div>
+      <span class="panel-chevron open" id="chevron-setup">▼</span>
+    </div>
+    <div class="panel-body open" id="body-setup">
+      ${colHeader}
+      ${setupHTML}
+      ${reservesHTML}
+      ${escrowsHTML}
+      ${keyDatesHTML}
+    </div>
+  </div>
+
+  <div class="panel" id="panel-contacts">
+    <div class="panel-head" onclick="togglePanel('contacts')">
+      <div>
+        <div class="panel-title">👥 Contacts &amp; Links <span class="badge">${STATE.contacts.length} rows</span></div>
+        <div class="panel-desc">People, portals, and documents associated with this asset.</div>
+      </div>
+      <span class="panel-chevron open" id="chevron-contacts">▼</span>
+    </div>
+    <div class="panel-body open" id="body-contacts">
+      ${contactsHTML}
+    </div>
+  </div>
+  <div style="height:32px"></div>`;
+}
+
+// ── Panel toggle ───────────────────────────────────────────────────────────
+function togglePanel(id){
+  const body=document.getElementById('body-'+id);
+  const ch=document.getElementById('chevron-'+id);
+  const open=body.classList.toggle('open');
+  ch.classList.toggle('open',open);
+  ch.textContent=open?'▼':'▶';
+}
+
+// ── Update handlers ────────────────────────────────────────────────────────
+function updateMonthly(i,field,v){ STATE.monthly[i][field]=v; markChanged(); }
+function updateSetup(i,field,v)  { STATE.setup[i][field]=v; markChanged(); }
+function updateReserve(i,field,v){ STATE.reserves[i][field]=v; markChanged(); }
+function updateEscrow(i,field,v) { STATE.escrows[i][field]=v; markChanged(); }
+function updateKeyDate(i,field,v){ STATE.keyDates[i][field]=v; markChanged(); }
+function updateContact(i,field,v){ STATE.contacts[i][field]=v; markChanged(); }
+
+function addReserve(){ STATE.reserves.push({id:nextId(),name:'',amount:''}); markChanged(); renderAll(); }
+function addEscrow() { STATE.escrows.push({id:nextId(),name:'',amount:''}); markChanged(); renderAll(); }
+function addKeyDate(){ STATE.keyDates.push({id:nextId(),label:'',dueDate:'',completed:'',notes:''}); markChanged(); renderAll(); }
+function addContact(){ STATE.contacts.push({id:nextId(),label:'',name:'',emailOrUrl:'',type:'email',notes:''}); markChanged(); renderAll(); }
+
+function removeReserve(i){ STATE.reserves.splice(i,1); markChanged(); renderAll(); }
+function removeEscrow(i) { STATE.escrows.splice(i,1); markChanged(); renderAll(); }
+function removeKeyDate(i){ STATE.keyDates.splice(i,1); markChanged(); renderAll(); }
+function removeContact(i){ STATE.contacts.splice(i,1); markChanged(); renderAll(); }
+
+// ── Month change ───────────────────────────────────────────────────────────
+document.getElementById('month-sel').addEventListener('change', e=>{
+  STATE.month = toMonthKey(e.target.value);
+  loadData();
+});
+
+// ── Save & Cancel ──────────────────────────────────────────────────────────
+async function saveAll(){
+  document.getElementById('btn-save').disabled=true;
+  document.getElementById('btn-cancel').disabled=true;
+  setStatus('loading','Saving…');
+
+  const serializeMonthly = () => STATE.monthly.filter(m=>!m.readOnly).map(m=>({
+    key:m.key,name:m.name,group:m.group,value:m.value,asOf:m.asOf,source:m.source,notes:m.notes
+  }));
+  const serializeSetup = () => STATE.setup.filter(m=>!m.readOnly).map(m=>({
+    key:m.key,name:m.name,group:m.group,value:m.value,asOf:m.asOf,source:m.source,notes:m.notes
+  }));
+
+  try{
+    const res=await fetch('/api/property-summary/admin/save',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        month:STATE.month,
+        monthlyMetrics:serializeMonthly(),
+        setupMetrics:serializeSetup(),
+        reserves:STATE.reserves,
+        escrows:STATE.escrows,
+        keyDates:STATE.keyDates,
+        contacts:STATE.contacts
+      })
+    });
+    if(res.ok){
+      STATE.hasChanges=false;
+      setStatus('saved','All changes saved');
+    }else{
+      setStatus('error','Save failed — try again');
+    }
+  }catch{
+    setStatus('error','Save failed — try again');
+  }finally{
+    document.getElementById('btn-save').disabled=false;
+    document.getElementById('btn-cancel').disabled=false;
+  }
+}
+
+function cancelChanges(){
+  loadData();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Summary — Regatta</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:13px;color:#1A2B2C}
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:#13545E;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.sb-header{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-logo{font-size:14px;font-weight:700;color:#fff}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
+.sb-nav{padding:12px 8px;flex:1}
+.sb-section{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;padding:10px 10px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;cursor:pointer;color:rgba(255,255,255,.75);font-size:12.5px;font-weight:500;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:inherit;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.sb-icon{width:16px;text-align:center;font-size:13px;opacity:.8}
+.sb-footer{padding:12px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.sb-btns{display:flex;gap:6px}
+.sb-btn{flex:1;padding:6px 0;font-size:11px;font-family:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:4px;cursor:pointer;text-align:center;text-decoration:none;transition:background .12s;display:block}
+.sb-btn:hover{background:rgba(255,255,255,.22)}
+
+/* ── PAGE HEADER ── */
+.prop-header{background:#0D3D45;color:#fff;padding:20px 28px 18px;flex-shrink:0}
+.prop-header-top{display:flex;align-items:flex-start;justify-content:space-between}
+.prop-eyebrow{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.55;margin-bottom:4px}
+.prop-name{font-size:24px;font-weight:700;line-height:1.15}
+.prop-addr{font-size:12px;opacity:.65;margin-top:3px}
+.prop-meta{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:11px;opacity:.55}
+.prop-meta span{display:flex;align-items:center;gap:4px}
+.prop-asset-id{text-align:right}
+.prop-asset-id .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.45;font-weight:600}
+.prop-asset-id .val{font-size:12px;font-weight:700;font-family:'Courier New',monospace;opacity:.75;margin-top:2px}
+
+/* ── CONTENT AREA ── */
+.content{padding:20px 24px;flex:1}
+
+/* ── NOI STRIP ── */
+.noi-strip{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.noi-strip.issue{border-left-color:#ef4444}
+.noi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568;display:flex;align-items:center;gap:6px}
+.noi-main{font-size:18px;font-weight:700;color:#1A2B2C}
+.noi-period{font-size:10px;color:#6A8E91;margin-left:4px}
+.noi-vs{font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px}
+.noi-vs.fav{color:#15803d}
+.noi-vs.unfav{color:#dc2626}
+.noi-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.noi-badge.fav{background:#dcfce7;color:#15803d}
+.noi-badge.unfav{background:#fee2e2;color:#dc2626}
+.noi-asof{margin-left:auto;font-size:10.5px;color:#6A8E91}
+
+/* ── KPI CARDS ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi-card{background:#fff;border-radius:8px;border:1px solid #D2E8EA;border-left:4px solid #22c55e;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kpi-card.watch{border-left-color:#f59e0b}
+.kpi-card.issue{border-left-color:#ef4444}
+.kpi-card.nodata{border-left-color:#94a3b8}
+.kpi-top{display:flex;align-items:center;justify-content:space-between}
+.kpi-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4A6568}
+.kpi-icon{font-size:14px;opacity:.5}
+.kpi-main{font-size:26px;font-weight:700;color:#1A2B2C;line-height:1}
+.kpi-sub{font-size:10.5px;color:#6A8E91}
+.kpi-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #EEF4F5;padding-top:7px;margin-top:2px}
+.kpi-badge{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px}
+.kpi-badge.healthy{background:#dcfce7;color:#15803d}
+.kpi-badge.watch{background:#fef3c7;color:#92400e}
+.kpi-badge.issue{background:#fee2e2;color:#dc2626}
+.kpi-badge.nodata{background:#f1f5f9;color:#475569}
+.kpi-trend{font-size:9.5px;font-weight:500;color:#6A8E91}
+.kpi-trend.up{color:#15803d}
+.kpi-trend.dn{color:#dc2626}
+.kpi-note{font-size:9px;color:#94a3b8;padding-top:5px;border-top:1px solid #f1f5f9}
+
+/* ── GRID ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:1000px){.two-col{grid-template-columns:1fr}}
+.col-stack{display:flex;flex-direction:column;gap:16px}
+
+/* ── SECTION CARDS ── */
+.scard{background:#fff;border-radius:8px;border:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.scard-head{padding:14px 18px 0;display:flex;align-items:center;gap:8px}
+.scard-icon{font-size:14px;opacity:.55}
+.scard-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#13545E}
+.scard-body{padding:10px 18px 16px}
+
+/* ── FIELD ROWS ── */
+.field{display:flex;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F4F8F9}
+.field:last-child{border-bottom:none}
+.f-label{font-size:11px;color:#6A8E91;font-weight:500;flex-shrink:0;max-width:50%;padding-right:8px;line-height:1.35}
+.f-value{font-size:12.5px;font-weight:600;color:#1A2B2C;text-align:right;line-height:1.35}
+.f-value.mono{font-family:'Courier New',monospace;font-size:12px}
+.f-value.hi{color:#13545E}
+.f-value.bold{font-weight:700}
+.subgroup{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;padding:12px 0 3px}
+
+/* ── CARD META ── */
+.card-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #EEF4F5}
+.card-meta span{font-size:10px;color:#94a3b8}
+
+/* ── OP RESERVES SPOTLIGHT ── */
+.res-spotlight{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EEF4F5}
+.res-big-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#13545E;margin-bottom:4px}
+.res-big-val{font-size:36px;font-weight:700;color:#1A2B2C;line-height:1}
+.res-big-unit{font-size:12px;color:#6A8E91;margin-top:2px}
+.res-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+
+/* ── CAPEX PROGRESS ── */
+.capex-progress-wrap{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #EEF4F5}
+.capex-bar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.capex-bar-bg{height:10px;background:#e2e8f0;border-radius:5px;position:relative;margin-bottom:4px;overflow:visible}
+.capex-bar-fill{height:10px;background:#13545E;border-radius:5px;transition:width .4s}
+.capex-bar-expected{position:absolute;top:-2px;height:14px;width:2px;background:#64748b;opacity:.6;border-radius:1px}
+.capex-bar-labels{display:flex;justify-content:space-between;font-size:9.5px;color:#94a3b8;margin-bottom:6px}
+.capex-schedule{font-size:11px;font-weight:600}
+.capex-schedule.healthy{color:#15803d}
+.capex-schedule.watch{color:#92400e}
+.capex-schedule.issue{color:#dc2626}
+
+/* ── KEY DATES ── */
+.date-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #F4F8F9}
+.date-row:last-child{border-bottom:none}
+.date-lbl{font-size:12px;font-weight:600;color:#1A2B2C}
+.date-dt{font-size:10.5px;color:#6A8E91;margin-top:2px}
+.date-done{font-size:10.5px;color:#15803d;margin-top:2px}
+.date-chip{font-size:9.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.date-chip.complete{background:#dcfce7;color:#15803d}
+.date-chip.upcoming{background:#f1f5f9;color:#475569}
+.date-chip.due-soon{background:#fef3c7;color:#92400e}
+.date-chip.overdue{background:#fee2e2;color:#dc2626}
+
+/* ── CONTACTS ── */
+.contact-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #F4F8F9}
+.contact-row:last-child{border-bottom:none}
+.contact-icon{font-size:14px;opacity:.4;flex-shrink:0}
+.contact-info{flex:1;min-width:0}
+.contact-label{font-size:10px;color:#6A8E91}
+.contact-name{font-size:12.5px;font-weight:600;color:#1A2B2C;margin-top:1px}
+.contact-link{font-size:11px;font-weight:600;color:#13545E;text-decoration:none;display:flex;align-items:center;gap:4px;flex-shrink:0}
+.contact-link:hover{color:#0D3D45}
+
+/* ── RESERVES TOTAL BAR ── */
+.total-bar{display:flex;align-items:center;justify-content:space-between;background:#F4F8F9;border-radius:6px;padding:8px 12px;margin-top:10px}
+.total-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4A6568}
+.total-val{font-size:15px;font-weight:700;color:#1A2B2C;font-family:'Courier New',monospace}
+
+/* ── STATUS CHIP ── */
+.status-chip{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px}
+.status-chip .dot{width:6px;height:6px;border-radius:50%}
+.status-chip.healthy{background:#dcfce7;color:#15803d}.status-chip.healthy .dot{background:#22c55e}
+.status-chip.watch{background:#fef3c7;color:#92400e}.status-chip.watch .dot{background:#f59e0b}
+.status-chip.issue{background:#fee2e2;color:#dc2626}.status-chip.issue .dot{background:#ef4444}
+.status-chip.nodata{background:#f1f5f9;color:#475569}.status-chip.nodata .dot{background:#94a3b8}
+
+/* ── LOADING ── */
+.loading{display:flex;align-items:center;justify-content:center;height:200px;color:#6A8E91;font-size:13px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Regatta</div>
+      <div class="sb-sub">Financial Dashboard</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Views</div>
+      <a href="/" class="sb-item"><span class="sb-icon">📊</span> Actual vs Budget</a>
+      <a href="/" class="sb-item"><span class="sb-icon">📉</span> Budget Waterfall</a>
+      <a href="/" class="sb-item"><span class="sb-icon">📈</span> Trend Analysis</a>
+      <div class="sb-section">Asset</div>
+      <a href="/property-summary" class="sb-item active"><span class="sb-icon">🏢</span> Property Summary</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-btns">
+        <a href="/admin" class="sb-btn" id="sb-admin-link" style="display:none">Admin</a>
+        <form method="POST" action="/logout" style="flex:1">
+          <button type="submit" class="sb-btn" style="width:100%">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div id="page-header"></div>
+    <div class="content">
+      <div id="noi-strip"></div>
+      <div class="kpi-row" id="kpi-row"></div>
+      <div class="two-col">
+        <div class="col-stack" id="left-col"></div>
+        <div class="col-stack" id="right-col"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const V = str => str || '—';
+
+function statusClass(s){ return s==='healthy'?'healthy':s==='watch'?'watch':s==='issue'?'issue':'nodata'; }
+
+function chip(status,label){
+  const cls=statusClass(status);
+  const lbl=label||(cls==='healthy'?'Healthy':cls==='watch'?'Watch':cls==='issue'?'Issue':'No Data');
+  return `<span class="status-chip ${cls}"><span class="dot"></span>${lbl}</span>`;
+}
+
+function field(label,value,cls=''){
+  return `<div class="field"><span class="f-label">${label}</span><span class="f-value ${cls}">${V(value)}</span></div>`;
+}
+
+function subgroup(label){ return `<div class="subgroup">${label}</div>`; }
+
+function cardMeta(source,asOf){
+  if(!source&&!asOf) return '';
+  const parts=[];
+  if(source) parts.push(`<span>Source: ${source}</span>`);
+  if(asOf)   parts.push(`<span>As Of: ${asOf}</span>`);
+  return `<div class="card-meta">${parts.join('')}</div>`;
+}
+
+function scard(icon,title,body){
+  return `<div class="scard"><div class="scard-head"><span class="scard-icon">${icon}</span><span class="scard-title">${title}</span></div><div class="scard-body">${body}</div></div>`;
+}
+
+function keyDateStatus(dueDate,completed){
+  if(completed) return 'complete';
+  if(!dueDate) return 'upcoming';
+  const today=new Date();
+  const d=new Date(dueDate);
+  if(isNaN(d)) return 'upcoming';
+  if(d<today) return 'overdue';
+  if(d-today<=30*24*60*60*1000) return 'due-soon';
+  return 'upcoming';
+}
+
+function keyDateLabel(status){
+  return {complete:'Complete',upcoming:'Upcoming','due-soon':'Due Soon',overdue:'Overdue'}[status]||'Upcoming';
+}
+
+function dscrStatus(v){ return v>=1.25?'healthy':v>=1.10?'watch':'issue'; }
+function occStatus(v) { return v>=93?'healthy':v>=90?'watch':'issue'; }
+function capexStatus(actual,expected){ const lag=expected-actual; return lag<=10?'healthy':lag<=20?'watch':'issue'; }
+function capexLabel(actual,expected){
+  const d=actual-expected;
+  if(d>10) return 'Ahead of schedule';
+  if(d>=0) return 'On track';
+  if(d>=-10) return 'Slightly behind';
+  if(d>=-20) return 'Behind schedule';
+  return 'Significantly behind';
+}
+
+function parseNum(s){
+  if(!s) return null;
+  let str=String(s).trim().replace(/,/g,'');
+  if(!str||str==='—') return null;
+  if(str.startsWith('+')) str=str.slice(1);
+  let neg=false;
+  if(str.startsWith('-$')){neg=true;str=str.slice(2);}
+  else if(str.startsWith('$')) str=str.slice(1);
+  let mul=neg?-1:1;
+  if(str.endsWith('K')){mul*=1e3;str=str.slice(0,-1);}
+  else if(str.endsWith('M')){mul*=1e6;str=str.slice(0,-1);}
+  else if(str.endsWith('B')){mul*=1e9;str=str.slice(0,-1);}
+  if(str.endsWith('%')) str=str.slice(0,-1);
+  if(str.endsWith('x')) str=str.slice(0,-1);
+  const n=parseFloat(str);
+  return isNaN(n)?null:n*mul;
+}
+
+function fmtCur(n){
+  if(n==null) return '—';
+  const abs=Math.abs(n),neg=n<0;
+  let s;
+  if(abs>=1e9) s='$'+(abs/1e9).toFixed(1)+'B';
+  else if(abs>=1e6) s='$'+(abs/1e6).toFixed(1)+'M';
+  else if(abs>=1e3) s='$'+Math.round(abs/1e3)+'K';
+  else s='$'+Math.round(abs).toLocaleString();
+  return neg?`(${s})`:s;
+}
+
+function monthsToMaturity(dateStr){
+  if(!dateStr) return 0;
+  const today=new Date();
+  const mat=new Date(dateStr);
+  if(isNaN(mat)) return 0;
+  const diff=(mat.getFullYear()-today.getFullYear())*12+(mat.getMonth()-today.getMonth());
+  return Math.max(0,diff);
+}
+
+async function load(){
+  try{
+    const [d, me] = await Promise.all([
+      fetch('/api/property-summary/viewer').then(r=>r.json()),
+      fetch('/api/me').then(r=>r.json())
+    ]);
+    if(me.role==='admin') document.getElementById('sb-admin-link').style.display='';
+    render(d);
+  }catch(e){
+    document.getElementById('left-col').innerHTML='<div class="loading">Failed to load data.</div>';
+  }
+}
+
+function render(d){
+  const prop=d.property||{};
+  const loan=d.loan||{};
+  const inv=d.investment||{};
+  const opRes=d.opReserves||{};
+  const capex=d.capex||{};
+  const noi=d.noi||{};
+  const lr=d.lenderReserves||{};
+  const le=d.lenderEscrows||{};
+  const kpi=d.kpi||{};
+
+  const dscr=kpi.dscr??null;
+  const dscrPrev=kpi.dscrPrev??null;
+  const occ=kpi.occupancy??null;
+  const occPrev=kpi.occupancyPrev??null;
+  const capexPct=kpi.capexPct??null;
+  const capexPctPrev=kpi.capexPctPrev??null;
+  const capexExp=capexPctPrev??capexPct??0;
+
+  const dStatus=dscr!=null?dscrStatus(dscr):'nodata';
+  const oStatus=occ!=null?occStatus(occ):'nodata';
+  const cStatus=capexPct!=null?capexStatus(capexPct,capexExp):'nodata';
+
+  // ── Header
+  document.getElementById('page-header').innerHTML=`
+  <div class="prop-header">
+    <div class="prop-header-top">
+      <div>
+        <div class="prop-eyebrow">🏢 Property Summary</div>
+        <div class="prop-name">${V(prop.name)}</div>
+        <div class="prop-addr">${V(prop.address)}</div>
+        <div class="prop-meta">
+          <span>${V(prop.units)} Units</span>
+          <span>·</span>
+          <span>Built ${V(prop.yearBuilt)}</span>
+          <span>·</span>
+          <span>Updated: ${V(prop.updatedAt)}</span>
+        </div>
+      </div>
+      <div class="prop-asset-id">
+        <div class="lbl">Asset ID</div>
+        <div class="val">1163_rr</div>
+      </div>
+    </div>
+  </div>`;
+
+  // ── NOI strip
+  const fav=noi.favorable!==false;
+  document.getElementById('noi-strip').innerHTML=`
+  <div class="noi-strip${fav?'':' issue'}">
+    <span class="noi-label">📊 NOI Performance</span>
+    <span class="noi-main">${V(noi.current)}<span class="noi-period">LTM</span></span>
+    <span class="noi-vs ${fav?'fav':'unfav'}">${fav?'↑':'↓'} ${V(noi.vsBudget)} vs Budget</span>
+    <span class="noi-badge ${fav?'fav':'unfav'}">${fav?'Healthy':'Issue'}</span>
+    ${noi.asOf?`<span class="noi-asof">As Of: ${noi.asOf}</span>`:''}
+  </div>`;
+
+  // ── KPI row
+  const dscrDelta=dscr!=null&&dscrPrev!=null?dscr-dscrPrev:null;
+  const occDelta=occ!=null&&occPrev!=null?occ-occPrev:null;
+  const capexDelta=capexPct!=null&&capexPctPrev!=null?capexPct-capexPctPrev:null;
+
+  const kpiCards=[
+    {
+      icon:'📈',title:'DSCR',status:dStatus,
+      main:dscr!=null?dscr.toFixed(2)+'x':'—',
+      sub:'Debt service coverage ratio',
+      trend:dscrDelta!=null?`${dscrDelta>=0?'+':''}${dscrDelta.toFixed(2)} vs last mo`:null,
+      trendUp:dscrDelta!=null&&dscrDelta>=0,
+      note:dscr!=null?`Covenant: 1.25x · Headroom: ${(dscr-1.25).toFixed(2)}x`:null
+    },
+    {
+      icon:'🏢',title:'Occupancy',status:oStatus,
+      main:occ!=null?occ.toFixed(1)+'%':'—',
+      sub:occ!=null?`Vacancy: ${(100-occ).toFixed(1)}%`:'No data',
+      trend:occDelta!=null?`${occDelta>=0?'+':''}${occDelta.toFixed(1)}% vs last mo`:null,
+      trendUp:occDelta!=null&&occDelta>=0,
+      note:'Target: 93.0%'
+    },
+    {
+      icon:'🛡',title:'Operating Reserves',status:'nodata',
+      main:V(opRes.remainingBalance),
+      sub:'Remaining balance',
+      trend:null,trendUp:true,
+      note:'Expense coverage months not yet calculated'
+    },
+    {
+      icon:'🔨',title:'CapEx Progress',status:cStatus,
+      main:capexPct!=null?capexPct+'%':'—',
+      sub:capexPct!=null?`${capexLabel(capexPct,capexExp)} · ${V(capex.spendToDate)} of ${V(capex.budget)}`:'No data',
+      trend:capexDelta!=null?`+${capexDelta}% vs last update`:null,
+      trendUp:true,
+      note:capexPct!=null?`Expected: ${capexExp}% · Target: ${V(capex.targetCompletion)}`:null
+    }
+  ];
+  document.getElementById('kpi-row').innerHTML=kpiCards.map(k=>`
+  <div class="kpi-card ${k.status}">
+    <div class="kpi-top">
+      <span class="kpi-title">${k.icon} ${k.title}</span>
+    </div>
+    <div class="kpi-main">${k.main}</div>
+    <div class="kpi-sub">${k.sub}</div>
+    <div class="kpi-footer">
+      <span class="kpi-badge ${k.status}">${{healthy:'Healthy',watch:'Watch',issue:'Issue',nodata:'No Data'}[k.status]}</span>
+      ${k.trend?`<span class="kpi-trend ${k.trendUp?'up':'dn'}">${k.trendUp?'↑':'↓'} ${k.trend}</span>`:''}
+    </div>
+    ${k.note?`<div class="kpi-note">${k.note}</div>`:''}
+  </div>`).join('');
+
+  // ── Helper: compute unreturned capital
+  const equityNum=parseNum(inv.initialEquity);
+  const returnedNum=parseNum(inv.capitalReturned);
+  const unreturnedNum=equityNum!=null&&returnedNum!=null?equityNum-returnedNum:null;
+
+  const mToMat=monthsToMaturity(loan.maturityDate);
+
+  // ── Left column
+  const leftSections=[
+    // Summary
+    scard('🏢','Summary',
+      field('Address',prop.address)+
+      field('Unit Count',prop.units)+
+      field('Year Built',prop.yearBuilt)+
+      field('Occupancy',occ!=null?occ.toFixed(1)+'%':null)+
+      field('Acquisition Date',prop.acquisitionDate)+
+      field('Purchase Price',prop.purchasePrice,'mono')+
+      field('Total Capitalization',prop.totalCap,'mono')
+    ),
+    // Loan Details
+    scard('💵','Loan Details',
+      subgroup('Structure')+
+      field('Loan Amount',loan.amount,'mono')+
+      field('Loan to Value (LTV)',loan.ltv)+
+      field('Lender',loan.lender)+
+      subgroup('Terms')+
+      field('Interest Rate',loan.rate,'hi bold')+
+      field('Term',loan.term)+
+      field('I/O Period',loan.ioPeriod)+
+      field('I/O Remaining',(loan.ioRemaining??0)+' mo')+
+      field('Prepay Penalty',loan.prepayPenalty)+
+      subgroup('Risk & Timing')+
+      `<div class="field"><span class="f-label">Maturity Date</span><span class="f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#13545E">${V(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+
+      `<div class="field"><span class="f-label">DSCR</span><span class="f-value" style="display:flex;align-items:center;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${chip(dStatus)}</span></div>`+
+      cardMeta(loan.source,loan.asOf)
+    ),
+    // Investment
+    scard('📈','Investment Details',
+      subgroup('Capital')+
+      field('Initial Equity Invested',inv.initialEquity,'mono')+
+      field('Capital Returned',inv.capitalReturned,'mono')+
+      `<div class="field"><span class="f-label">Unreturned Capital</span><span class="f-value mono hi bold">${fmtCur(unreturnedNum)}</span></div>`+
+      subgroup('Returns')+
+      field('Preferred Return',inv.preferredReturn)+
+      `<div class="field"><span class="f-label">Current Distribution (Ann.)</span><span class="f-value mono">${V(inv.currentDistribAnnualized)} <span style="color:#6A8E91;font-weight:400">(${V(inv.currentDistribAnnualizedPct)})</span></span></div>`+
+      subgroup('Performance')+
+      field('Cumulative Pref Shortfall',inv.cumPrefShortfall,'mono')+
+      `<div class="field"><span class="f-label">ITD Distribution Paid</span><span class="f-value mono">${V(inv.itdDistribPaid)} <span style="color:#6A8E91;font-weight:400">(${V(inv.itdDistribPaidPct)})</span></span></div>`+
+      cardMeta(inv.source,inv.asOf)
+    ),
+    // Contacts
+    scard('👥','Contacts & Links',
+      (d.contacts||[]).map(c=>{
+        const icon=c.type==='email'?'✉':c.type==='document'?'📄':'🔗';
+        const isEmail=c.type==='email';
+        const href=isEmail?`mailto:${c.emailOrUrl}`:(c.emailOrUrl||'#');
+        const detail=isEmail?c.emailOrUrl:'View →';
+        return `<div class="contact-row">
+          <span class="contact-icon">${icon}</span>
+          <div class="contact-info">
+            <div class="contact-label">${V(c.label)}</div>
+            <div class="contact-name">${V(c.name)}</div>
+          </div>
+          <a href="${href}" class="contact-link" target="_blank">${detail} ↗</a>
+        </div>`;
+      }).join('')||(d.contacts||[]).length===0?'<div style="color:#94a3b8;font-size:11px">No contacts configured.</div>':''
+    )
+  ];
+  document.getElementById('left-col').innerHTML=leftSections.join('');
+
+  // ── Right column
+  const capexBudgetNum=parseNum(capex.budget);
+  const capexSpendNum=parseNum(capex.spendToDate);
+  const capexRemainingNum=capexBudgetNum!=null&&capexSpendNum!=null?capexBudgetNum-capexSpendNum:null;
+
+  const rightSections=[];
+
+  // Lender Reserves
+  rightSections.push(scard('🛡','Lender Reserves',
+    (lr.items||[]).map(r=>`<div class="field"><span class="f-label">${V(r.name)}</span><span class="f-value mono">${V(r.amount)}</span></div>`).join('')+
+    `<div class="total-bar"><span class="total-lbl">Total Lender Reserves</span><span class="total-val">${V(lr.total)}</span></div>`+
+    cardMeta(lr.source,lr.asOf)
+  ));
+
+  // Lender Escrows
+  rightSections.push(scard('🛡','Lender Escrows',
+    (le.items||[]).map(e=>`<div class="field"><span class="f-label">${V(e.name)}</span><span class="f-value mono">${V(e.amount)}</span></div>`).join('')+
+    `<div class="total-bar"><span class="total-lbl">Total Lender Escrows</span><span class="total-val">${V(le.total)}</span></div>`+
+    cardMeta(le.source,le.asOf)
+  ));
+
+  // Operating Reserves
+  rightSections.push(scard('🛡','Operating Reserves',
+    `<div class="res-spotlight">
+      <div>
+        <div class="res-big-lbl">Expense Coverage (Months)</div>
+        <div class="res-big-val">—</div>
+        <div class="res-big-unit">months</div>
+      </div>
+      <div class="res-badges">
+        ${chip('nodata','No Data')}
+      </div>
+    </div>`+
+    field('Remaining Balance',opRes.remainingBalance,'mono hi')+
+    field('Initial Balance',opRes.initialBalance,'mono')+
+    field('Net Cash Flow To Date',opRes.netCashFlowToDate,'mono')+
+    cardMeta(opRes.source,opRes.asOf)
+  ));
+
+  // CapEx
+  const cSchedLabel=capexPct!=null?capexLabel(capexPct,capexExp):'—';
+  const cSchedCls=cStatus;
+  rightSections.push(scard('🔨','CapEx Progress',
+    `<div class="capex-progress-wrap">
+      <div class="capex-bar-row">
+        <span style="font-size:11px;color:#6A8E91">% Complete</span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="font-weight:700;font-size:14px">${capexPct!=null?capexPct+'%':'—'}</span>
+          ${chip(cStatus)}
+        </span>
+      </div>
+      ${capexPct!=null?`
+      <div class="capex-bar-bg">
+        <div class="capex-bar-fill" style="width:${Math.min(capexPct,100)}%"></div>
+        <div class="capex-bar-expected" style="left:${Math.min(capexExp,100)}%"></div>
+      </div>
+      <div class="capex-bar-labels">
+        <span>0%</span>
+        <span>Expected: ${capexExp}%</span>
+        <span>100%</span>
+      </div>
+      <div class="capex-schedule ${cSchedCls}">${cSchedLabel} — ${capexPct>capexExp?capexPct-capexExp+' % ahead':capexExp-capexPct+'% behind'} expected ${capexExp}%</div>
+      `:'<div style="color:#94a3b8;font-size:11px">No CapEx data available.</div>'}
+    </div>`+
+    field('Initial CapEx Amount',capex.budget,'mono')+
+    field('CapEx Spend To Date',capex.spendToDate,'mono hi')+
+    field('CapEx Remaining',fmtCur(capexRemainingNum),'mono')+
+    field('Target Completion',capex.targetCompletion)+
+    cardMeta(capex.source,capex.asOf)
+  ));
+
+  // Key Dates
+  const dates=[...(d.keyDates||[])];
+  const dateOrder={overdue:0,'due-soon':1,upcoming:2,complete:3};
+  dates.sort((a,b)=>{
+    const sa=keyDateStatus(a.dueDate,a.completed);
+    const sb=keyDateStatus(b.dueDate,b.completed);
+    return (dateOrder[sa]??3)-(dateOrder[sb]??3);
+  });
+  rightSections.push(scard('📅','Key Dates',
+    dates.length===0?'<div style="color:#94a3b8;font-size:11px">No key dates configured.</div>':
+    dates.map(kd=>{
+      const ds=keyDateStatus(kd.dueDate,kd.completed);
+      const dlbl=keyDateLabel(ds);
+      return `<div class="date-row">
+        <div>
+          <div class="date-lbl">${V(kd.label)}</div>
+          <div class="date-dt">${V(kd.dueDate)}</div>
+          ${kd.completed?`<div class="date-done">Completed: ${kd.completed}</div>`:''}
+        </div>
+        <span class="date-chip ${ds}">${dlbl}</span>
+      </div>`;
+    }).join('')
+  ));
+
+  document.getElementById('right-col').innerHTML=rightSections.join('');
+}
+
+load();
+</script>
+</body>
+</html>
