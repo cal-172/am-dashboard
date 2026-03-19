@@ -133,7 +133,7 @@ function CellInp({ value, readOnly, placeholder = '—', right = false }: {
 }) {
   if (readOnly) {
     return (
-      <div className="flex items-center gap-1 text-slate-300">
+      <div className={`flex items-center gap-1 text-slate-300 ${right ? 'justify-end' : ''}`}>
         <RefreshCw className="w-2.5 h-2.5 flex-shrink-0" />
         <span className="text-xs italic text-slate-400">Auto-calc</span>
       </div>
@@ -221,9 +221,9 @@ function MetricRow({ metric, onGroupChange }: {
         </span>
       </div>
       <CellInp value={metric.value} readOnly={metric.readOnly} right={isNumeric(metric.value)} />
-      <CellInp value={metric.asOf}  readOnly={metric.readOnly} placeholder="—" />
+      <CellInp value={metric.asOf}  readOnly={metric.readOnly} placeholder="—" right />
       <CellInp value={metric.source} readOnly={metric.readOnly} placeholder="—" />
-      <span className="text-xs text-slate-400 truncate">{metric.readOnly ? '—' : (metric.lastUpdated || '—')}</span>
+      <span className="text-xs text-slate-400 truncate text-right">{metric.readOnly ? '—' : (metric.lastUpdated || '—')}</span>
       <NoteCell text={metric.notes} />
       <GroupSel value={metric.updateGroup} onChange={v => onGroupChange(metric.id, v)} />
     </div>
