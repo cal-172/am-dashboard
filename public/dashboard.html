@@ -141,6 +141,9 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .wf-fav{color:#166534;background:#C6EFCE;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;font-family:inherit}
 .wf-unfav{color:#9C0006;background:#FFC7CE;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;font-family:inherit}
 .wf-neutral{color:#888;font-size:10px;font-family:inherit}
+
+.cap-select{height:28px;padding:0 8px;border:1px solid #C5DDE0;border-radius:4px;background:#F7FBFC;color:#1A2B2C;font-size:11.5px;cursor:pointer;outline:none}
+.cap-select:focus{border-color:#13545E}
 </style>
 </head>
 <body>
@@ -156,6 +159,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
       <div class="sb-section">Views</div>
       <button class="sb-item active" id="nav-avb" onclick="switchPage('avb')"><span class="sb-icon">📊</span> Actual vs Budget</button>
       <button class="sb-item" id="nav-waterfall" onclick="switchPage('waterfall')"><span class="sb-icon">📉</span> Budget Waterfall</button>
+      <button class="sb-item" id="nav-trend" onclick="switchPage('trend')"><span class="sb-icon">📈</span> Trend Analysis</button>
     </nav>
     <div class="sb-footer">
       <div class="sb-btns">
@@ -573,13 +577,14 @@ function switchPage(page) {
   currentPage = page;
   document.getElementById('nav-avb')?.classList.toggle('active', page === 'avb');
   document.getElementById('nav-waterfall')?.classList.toggle('active', page === 'waterfall');
+  document.getElementById('nav-trend')?.classList.toggle('active', page === 'trend');
   const titleEl = document.getElementById('topbar-title');
-  if (titleEl) titleEl.textContent = page === 'waterfall' ? 'Regatta | Budget Waterfall' : 'Regatta | Actual vs Budget';
-  if (page === 'avb') {
-    renderApp();
-  } else {
-    renderWaterfallPage();
-  }
+  if (titleEl) titleEl.textContent = page === 'waterfall' ? 'Regatta | Budget Waterfall'
+    : page === 'trend' ? 'Regatta | Trend Analysis'
+    : 'Regatta | Actual vs Budget';
+  if (page === 'avb') renderApp();
+  else if (page === 'waterfall') renderWaterfallPage();
+  else renderTrendPage();
 }
 
 /* ═══════════════ WATERFALL DATA ═══════════════ */
@@ -879,6 +884,241 @@ function renderWfTable(data) {
 
 window.setWfMonth = function(m) { wfSEL = m; renderWaterfallPage(); };
 window.setWfMode  = function(pu) { wfPerUnit = pu; renderWaterfallPage(); };
+
+/* ═══════════════ TREND ANALYSIS ═══════════════ */
+const TREND_CATS = [
+  {group:'Income', cats:[
+    {key:'pri',     label:'Potential Rental Income',  income:true},
+    {key:'ltl',     label:'Loss to Lease',            income:true},
+    {key:'vac',     label:'Vacancy Loss',             income:true},
+    {key:'mod',     label:'Model / Admin',            income:true},
+    {key:'con',     label:'Concessions',              income:true},
+    {key:'bd',      label:'Bad Debt',                 income:true},
+    {key:'oi',      label:'Other Income',             income:true},
+    {key:'ur',      label:'Utility Reimbursement',    income:true},
+    {key:'trr',     label:'Total Rental Revenue',     income:true},
+    {key:'toi',     label:'Total Other Income',       income:true},
+    {key:'egi',     label:'Effective Gross Income',   income:true},
+  ]},
+  {group:'Expenses', cats:[
+    {key:'payroll',  label:'Payroll',                  income:false},
+    {key:'adv',      label:'Advertising & Marketing',  income:false},
+    {key:'ga',       label:'General & Administrative', income:false},
+    {key:'util',     label:'Utilities',                income:false},
+    {key:'rm',       label:'Repairs & Maintenance',    income:false},
+    {key:'contract', label:'Contract Services',        income:false},
+    {key:'mgmt',     label:'Management Fee',           income:false},
+    {key:'mr',       label:'Make Ready',               income:false},
+    {key:'taxes',    label:'Taxes',                    income:false},
+    {key:'ins',      label:'Insurance',                income:false},
+    {key:'opex',     label:'Total Operating Expenses', income:false},
+  ]},
+  {group:'Other', cats:[
+    {key:'noi',    label:'Net Operating Income',           income:true},
+    {key:'amfee',  label:'Asset Management Fee',           income:false},
+    {key:'debt',   label:'Debt Service',                   income:false},
+    {key:'tdf',    label:'Total Debt & Fees',              income:false},
+    {key:'cfd',    label:'Cash for Distribution',          income:true},
+    {key:'capex',  label:'Capital Expenditures (CAPEX)',   income:false},
+    {key:'btl',    label:'Total Below the Line Expenses',  income:false},
+    {key:'netinc', label:'Net Income',                     income:true},
+  ]},
+];
+const TREND_CAT_MAP = {};
+TREND_CATS.forEach(g => g.cats.forEach(c => { TREND_CAT_MAP[c.key] = c; }));
+
+let trCat = 'noi';
+let trPerUnit = false;
+
+function buildTrendData(catKey, perUnit) {
+  const cat = TREND_CAT_MAP[catKey];
+  if (!cat) return [];
+  const closed = CLOSED();
+  const n = (perUnit && numUnits > 0) ? numUnits : 1;
+  return closed.map(m => {
+    const a = Object.assign({}, RAW[m].a), b = Object.assign({}, RAW[m].b);
+    computeTotals(a); computeTotals(b);
+    const actual   = (a[catKey] || 0) / n;
+    const budget   = (b[catKey] || 0) / n;
+    const variance = actual - budget;
+    const favorable = cat.income ? variance >= 0 : variance <= 0;
+    return {month: m, actual, budget, variance, favorable};
+  });
+}
+
+function drawTrendSVG(containerId, rows, cat) {
+  const container = document.getElementById(containerId);
+  if (!container || !rows || rows.length === 0) return;
+
+  const W = Math.max(container.clientWidth || 700, 500);
+  const H = 340;
+  const mL = 76, mR = 20, mT = 44, mB = 54;
+  const chartW = W - mL - mR, chartH = H - mT - mB;
+  const n = rows.length;
+  const slotW = chartW / n;
+  const barW = Math.min(Math.max(slotW * 0.55, 14), 52);
+  const gapW = (slotW - barW) / 2;
+
+  let yMin = 0, yMax = 0;
+  rows.forEach(r => {
+    yMin = Math.min(yMin, r.actual, r.budget);
+    yMax = Math.max(yMax, r.actual, r.budget);
+  });
+  const pad = Math.max((yMax - yMin) * 0.2, 1000);
+  yMin -= pad * 0.05;
+  yMax += pad * 0.18;
+  const yRange = yMax - yMin;
+  const yToSVG = v => mT + (yMax - v) / yRange * chartH;
+  const yZero  = yToSVG(0);
+
+  const favColor   = '#22a06b', unfavColor = '#e5493a', budgetColor = '#374151';
+  const favLabel   = cat.income ? 'Over Budget'  : 'Under Budget';
+  const unfavLabel = cat.income ? 'Under Budget' : 'Over Budget';
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Segoe UI,system-ui,sans-serif">`;
+  svg += `<clipPath id="trc"><rect x="${mL}" y="${mT}" width="${chartW}" height="${chartH}"/></clipPath>`;
+
+  /* Legend */
+  const legY = 15;
+  svg += `<rect x="${mL}" y="${legY-8}" width="13" height="13" fill="${unfavColor}" rx="2"/>`;
+  svg += `<text x="${mL+17}" y="${legY+3}" font-size="10" fill="#444">${unfavLabel}</text>`;
+  svg += `<rect x="${mL+110}" y="${legY-8}" width="13" height="13" fill="${favColor}" rx="2"/>`;
+  svg += `<text x="${mL+127}" y="${legY+3}" font-size="10" fill="#444">${favLabel}</text>`;
+  svg += `<line x1="${mL+218}" y1="${legY}" x2="${mL+236}" y2="${legY}" stroke="${budgetColor}" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  svg += `<circle cx="${mL+227}" cy="${legY}" r="3" fill="${budgetColor}" stroke="#fff" stroke-width="1"/>`;
+  svg += `<text x="${mL+240}" y="${legY+3}" font-size="10" fill="#444">Budget</text>`;
+
+  /* Y gridlines */
+  const ticks = niceWfTicks(yMin, yMax, 5);
+  svg += `<g clip-path="url(#trc)">`;
+  ticks.forEach(t => {
+    const ty = yToSVG(t);
+    svg += `<line x1="${mL}" y1="${ty}" x2="${mL+chartW}" y2="${ty}" stroke="#e5e7eb" stroke-width="1"/>`;
+  });
+  svg += `</g>`;
+  ticks.forEach(t => {
+    const ty = yToSVG(t);
+    if (ty >= mT - 6 && ty <= mT + chartH + 6)
+      svg += `<text x="${mL-6}" y="${ty+4}" text-anchor="end" font-size="10" fill="#777">${fWF(t)}</text>`;
+  });
+
+  /* Zero line */
+  if (yZero >= mT && yZero <= mT + chartH)
+    svg += `<line x1="${mL}" y1="${yZero}" x2="${mL+chartW}" y2="${yZero}" stroke="#999" stroke-width="1.5"/>`;
+
+  /* Bars */
+  rows.forEach((r, i) => {
+    const barX  = mL + i * slotW + gapW;
+    const barTop = Math.max(yToSVG(Math.max(0, r.actual)), mT);
+    const barBot = Math.min(yToSVG(Math.min(0, r.actual)), mT + chartH);
+    const barH2  = Math.max(barBot - barTop, 2);
+    svg += `<rect x="${barX}" y="${barTop}" width="${barW}" height="${barH2}" fill="${r.favorable ? favColor : unfavColor}" rx="2"/>`;
+
+    const cx   = barX + barW / 2;
+    const lblTxt = fWF(r.actual);
+    const lblY = r.actual >= 0 ? Math.max(barTop - 4, mT + 9) : Math.min(barBot + 11, mT + chartH - 4);
+    svg += `<text x="${cx}" y="${lblY}" text-anchor="middle" font-size="9" font-weight="600" fill="${r.favorable ? '#155C2C' : '#7F1D1D'}">${lblTxt}</text>`;
+  });
+
+  /* Budget line */
+  const pts = rows.map((r, i) => {
+    const cx = mL + i * slotW + slotW / 2;
+    const cy = Math.max(mT, Math.min(mT + chartH, yToSVG(r.budget)));
+    return `${cx},${cy}`;
+  }).join(' ');
+  if (rows.length > 1)
+    svg += `<polyline points="${pts}" fill="none" stroke="${budgetColor}" stroke-width="1.5" stroke-dasharray="5,4" clip-path="url(#trc)"/>`;
+  rows.forEach((r, i) => {
+    const cx = mL + i * slotW + slotW / 2;
+    const cy = Math.max(mT, Math.min(mT + chartH, yToSVG(r.budget)));
+    svg += `<circle cx="${cx}" cy="${cy}" r="3" fill="${budgetColor}" stroke="#fff" stroke-width="1"/>`;
+  });
+
+  /* X-axis labels */
+  rows.forEach((r, i) => {
+    const cx = mL + i * slotW + slotW / 2;
+    const ly = mT + chartH + 10;
+    svg += `<text x="${cx}" y="${ly+9}"  text-anchor="middle" font-size="9.5" fill="#444">${M_LABEL[r.month]}</text>`;
+    svg += `<text x="${cx}" y="${ly+20}" text-anchor="middle" font-size="8.5" fill="#888">${DATA_YEAR}</text>`;
+  });
+
+  svg += `</svg>`;
+  container.innerHTML = svg;
+}
+
+function renderTrendPage() {
+  const closed = CLOSED();
+  if (closed.length === 0) {
+    document.getElementById('app').innerHTML =
+      `<div class="no-data">No financial data loaded yet.<br><br><a href="/admin">Go to Admin &rarr;</a> to upload data.</div>`;
+    return;
+  }
+  const cat = TREND_CAT_MAP[trCat] || TREND_CAT_MAP['noi'];
+  const dEl = document.getElementById('topbar-dates');
+  if (dEl) dEl.innerHTML = `<div>${cat.label}</div>`;
+
+  const catOptions = TREND_CATS.map(g =>
+    `<optgroup label="${g.group}">${g.cats.map(c =>
+      `<option value="${c.key}"${c.key===trCat?' selected':''}>${c.label}</option>`
+    ).join('')}</optgroup>`
+  ).join('');
+
+  document.getElementById('app').innerHTML = `
+    <div class="controls-bar">
+      <div class="cap-group">
+        <span class="cap-lbl">Category</span>
+        <select class="cap-select" id="tr-cat-sel" onchange="setTrCat(this.value)">${catOptions}</select>
+      </div>
+      <div class="cap-group">
+        <span class="cap-lbl">View</span>
+        <div class="seg-btn">
+          <button class="${!trPerUnit?'active':''}" onclick="setTrMode(false)">Total</button>
+          <button class="${trPerUnit?'active':''}"  onclick="setTrMode(true)">Per Unit</button>
+        </div>
+      </div>
+    </div>
+    <div class="wf-chart-wrap"><div id="tr-chart"></div></div>
+    <div class="wf-table-wrap">
+      <table class="wf-table">
+        <thead><tr>
+          <th style="text-align:left">Month</th>
+          <th>Actual</th><th>Budget</th><th>Variance</th><th>Var %</th><th>F/U</th>
+        </tr></thead>
+        <tbody id="tr-tbody"></tbody>
+      </table>
+    </div>`;
+
+  setTimeout(() => {
+    const rows = buildTrendData(trCat, trPerUnit);
+    drawTrendSVG('tr-chart', rows, cat);
+    renderTrendTable(rows);
+  }, 0);
+}
+
+function renderTrendTable(rows) {
+  const fmt = v => {
+    if (Math.abs(v||0) < 0.005) return '\u2014';
+    const s = Math.round(Math.abs(v)).toLocaleString('en-US');
+    return v < 0 ? '('+s+')' : s;
+  };
+  const fmtPct = (v, b) => {
+    if (!b || Math.abs(b) < 0.005) return '\u2014';
+    const p = (v / Math.abs(b)) * 100;
+    return (p >= 0 ? '+' : '') + p.toFixed(1) + '%';
+  };
+  const badge = fav => fav ? '<span class="wf-fav">F</span>' : '<span class="wf-unfav">U</span>';
+
+  document.getElementById('tr-tbody').innerHTML = rows.map(r => `
+    <tr>
+      <td style="font-family:inherit">${M_FULL[r.month]||r.month} ${DATA_YEAR}</td>
+      <td>${fmt(r.actual)}</td><td>${fmt(r.budget)}</td>
+      <td>${fmt(r.variance)}</td><td>${fmtPct(r.variance, r.budget)}</td>
+      <td>${badge(r.favorable)}</td>
+    </tr>`).join('');
+}
+
+window.setTrCat  = function(k)  { trCat = k; renderTrendPage(); };
+window.setTrMode = function(pu) { trPerUnit = pu; renderTrendPage(); };
 
 /* ═══════════════ INIT ═══════════════ */
 async function init(){

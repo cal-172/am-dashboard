@@ -1,0 +1,286 @@
+We need to add a new page called "Trend Analysis" to the Asset Management Dashboard.
+
+This should be a separate page accessible from the left navigation, alongside:
+- Actual vs Budget
+- Budget Waterfall
+
+GOAL
+Build a Trend Analysis page that shows budget performance over time for a user-selected category, using only months where Actuals exist.
+
+This page should visually replicate the intent of the attached example:
+- monthly Actual bars
+- Budget trend line
+- bar color indicating whether Actual is over or under Budget
+- category selector at the top
+
+IMPORTANT
+Do not redesign the app shell.
+Reuse the current layout pattern:
+- same left navigation
+- same top toolbar style
+- same property context
+- same color palette / fonts / spacing
+
+This is a new page and chart feature only.
+
+--------------------------------------------------
+PAGE REQUIREMENTS
+--------------------------------------------------
+
+Create a new page titled:
+
+Trend Analysis
+
+Add this page to the left navigation:
+- Actual vs Budget
+- Budget Waterfall
+- Trend Analysis
+
+Highlight Trend Analysis as active when selected.
+
+--------------------------------------------------
+TOP FILTER / HEADER AREA
+--------------------------------------------------
+
+At the top of the Trend Analysis page, include:
+
+1. Property name
+2. Category selector
+3. Unit of Measurement toggle
+   - Total Amount
+   - Per Unit
+
+Optional subtitle:
+Trend Analysis
+
+Do not include months with no actuals.
+
+--------------------------------------------------
+CATEGORY SELECTOR
+--------------------------------------------------
+
+Add a selector that lets the user choose the trend category.
+
+Use predefined mapped dashboard categories only.
+
+Include at minimum:
+
+Income
+- Potential Rental Income
+- Loss to Lease
+- Vacancy Loss
+- Model / Admin
+- Concessions
+- Bad Debt
+- Other Income
+- Utility Reimbursement
+- Total Rental Revenue
+- Total Other Income
+- Effective Gross Income
+
+Expenses
+- Payroll
+- Advertising & Marketing
+- General & Administrative
+- Utilities
+- Repairs & Maintenance
+- Contract Services
+- Management Fee
+- Make Ready
+- Taxes
+- Insurance
+- Total Operating Expenses
+
+Other
+- Net Operating Income
+- Asset Management Fee
+- Debt Service
+- Total Debt & Fees
+- Cash for Distribution
+- Capital Expenditures (CAPEX)
+- Non-Operating Expenses
+- Total Below the Line Expenses
+- Net Income
+
+Default selection:
+- Net Operating Income
+
+--------------------------------------------------
+TIME SERIES LOGIC
+--------------------------------------------------
+
+The chart should show all available months where Actuals exist, in chronological order.
+
+Only include months with actual data.
+
+For each month shown:
+- Actual value for selected category
+- Budget value for selected category
+
+Do not show future months or budget-only months with no actuals.
+
+If actual data exists for:
+- Aug 2024
+- Sep 2024
+- Oct 2024
+- ...
+then chart those months in order through latest available actual month.
+
+--------------------------------------------------
+CHART OBJECTIVE
+--------------------------------------------------
+
+Build a monthly trend chart for the selected category with:
+
+1. Bars for Actual values
+2. A Budget line across the same months
+3. Bar colors indicating whether Actual is above or below Budget
+
+This should help the user quickly see:
+- trend over time
+- whether performance was over or under budget each month
+- how the selected category is moving
+
+--------------------------------------------------
+CHART DESIGN REQUIREMENTS
+--------------------------------------------------
+
+Replicate the visual intent of the attached example.
+
+1. Actual bars
+- One bar per month
+- Use green when Actual is favorable vs Budget
+- Use red when Actual is unfavorable vs Budget
+
+2. Budget line
+- Dashed or clean line across months
+- Dark gray or black
+- Clearly distinguishable from bars
+
+3. Legend
+Include legend items:
+- Under Budget
+- Over Budget
+- Budget
+
+4. Data labels
+Show Actual value labels on or near bars where readable
+
+5. X-axis
+- Monthly labels in chronological order
+- Format clearly, such as:
+  - Aug 2024
+  - Sep 2024
+  - Oct 2024
+
+6. Y-axis
+- Currency formatting for dollar-based values
+- Per-unit formatting if per-unit mode selected
+
+7. Styling
+- Clean institutional look
+- Minimal clutter
+- Consistent with existing app style
+- Responsive within page container
+
+--------------------------------------------------
+FAVORABILITY LOGIC
+--------------------------------------------------
+
+Bar color must be based on whether Actual is favorable or unfavorable relative to Budget.
+
+For revenue/income-type categories:
+- Actual > Budget = favorable = green
+- Actual < Budget = unfavorable = red
+
+For expense-type categories:
+- Actual < Budget = favorable = green
+- Actual > Budget = unfavorable = red
+
+For NOI / cash flow style metrics:
+- Actual > Budget = favorable = green
+- Actual < Budget = unfavorable = red
+
+Use the category type to determine the correct favorable/unfavorable rule.
+
+--------------------------------------------------
+UNIT OF MEASUREMENT TOGGLE
+--------------------------------------------------
+
+Support:
+- Total Amount
+- Per Unit
+
+If Per Unit is selected:
+- divide Actual and Budget values by unit count
+- chart bars and line should update accordingly
+- axis labels and data labels should reflect per-unit values
+
+--------------------------------------------------
+DATA SOURCE / MAPPING
+--------------------------------------------------
+
+Use the same mapped category structure already established in the dashboard.
+
+Pull from the same parsed Actual and Budget data model already used for:
+- Actual vs Budget
+- Budget Waterfall
+
+Create a chart-ready monthly trend dataset such as:
+
+[
+  {
+    month: "2024-08",
+    label: "Aug 2024",
+    actual: ...,
+    budget: ...,
+    isFavorable: true/false
+  }
+]
+
+--------------------------------------------------
+OPTIONAL TABLE BELOW CHART
+--------------------------------------------------
+
+Below the chart, add a compact detail table showing:
+
+- Month
+- Actual
+- Budget
+- Variance
+- Variance %
+- Favorable / Unfavorable
+
+This is optional but recommended because it helps validate the chart.
+
+--------------------------------------------------
+VALIDATION / ACCEPTANCE CRITERIA
+--------------------------------------------------
+
+This feature is complete when:
+
+1. There is a new page called Trend Analysis
+2. It appears in left navigation
+3. User can select a category from predefined mapped categories
+4. Default category is Net Operating Income
+5. Chart includes only months where actuals exist
+6. Bars show Actual values by month
+7. Budget line shows Budget values by month
+8. Bar colors reflect favorable vs unfavorable logic correctly
+9. Page supports Total Amount and Per Unit
+10. Page reuses current app shell and styling
+11. No unrelated changes are made to other pages
+
+--------------------------------------------------
+IMPLEMENTATION NOTES
+--------------------------------------------------
+
+Please:
+1. Reuse the existing app layout and styles
+2. Reuse existing mapped financial data
+3. Build a clean chart-ready monthly trend transformation
+4. Add the new page and nav item
+5. Make sure category type drives favorable/unfavorable color logic
+6. Keep the UI polished and easy to scan
+
+Do not modify the existing Actual vs Budget or Budget Waterfall pages except for adding the new navigation item.
