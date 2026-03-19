@@ -115,8 +115,42 @@ function updateSeenRows(parsedRows) {
   writeSeenRows(existing);
 }
 
+/* ── Migrate raw uploads from bare month keys (jan) to year-prefixed (2026-jan) ── */
+function migrateRawUploadsToYearKeys() {
+  const meta = readData();
+  const defaultYear = meta.year || 2026;
+  const raw = readRawUploads();
+  let changed = false;
+
+  for (const upload of raw) {
+    const needsMigration = (upload.monthsCommitted || []).some(m => !/^\d{4}-/.test(m));
+    if (!needsMigration) continue;
+    changed = true;
+
+    upload.monthsCommitted = (upload.monthsCommitted || []).map(m =>
+      /^\d{4}-/.test(m) ? m : defaultYear + '-' + m
+    );
+
+    for (const row of (upload.rows || [])) {
+      const oldValues = row.monthValues || {};
+      const newValues = {};
+      for (const [m, vals] of Object.entries(oldValues)) {
+        const newKey = /^\d{4}-/.test(m) ? m : defaultYear + '-' + m;
+        newValues[newKey] = vals;
+      }
+      row.monthValues = newValues;
+    }
+  }
+
+  if (changed) {
+    writeRawUploads(raw);
+    console.log(`Migrated raw uploads to year-prefixed month keys (default year: ${defaultYear})`);
+  }
+}
+
 /* ── Bootstrap initial admin user ── */
 async function initUsers() {
+  migrateRawUploadsToYearKeys();
   const users = readUsers();
   if (users.length === 0) {
     const ADMIN_EMAIL = process.env.ADMIN_USER || 'admin';
@@ -632,17 +666,20 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
 
   const colMonths = [];
   const hdr = rows[headerRow];
-  let lastMonth = null;
+  let lastYk = null, lastYear = new Date().getFullYear();
 
   for (let c = 0; c < hdr.length; c++) {
-    const v = String(hdr[c] || '').toLowerCase().trim();
+    const raw = String(hdr[c] || '');
+    const v = raw.toLowerCase().trim();
     const monthKey = Object.keys(MONTH_NAMES).find(m => v.startsWith(m));
     if (monthKey) {
-      lastMonth = MONTH_NAMES[monthKey];
-      colMonths.push({ col: c, month: lastMonth, type: fileType === 'budget' ? 'budget' : 'actual' });
-    } else if (fileType === 'combined' && lastMonth) {
-      if (/budget/i.test(v))              colMonths.push({ col: c, month: lastMonth, type: 'budget' });
-      else if (/actual/i.test(v))         colMonths[colMonths.length-1] = { col: c, month: lastMonth, type: 'actual' };
+      const yearMatch = raw.match(/\b(20\d{2})\b/);
+      if (yearMatch) lastYear = parseInt(yearMatch[1]);
+      lastYk = lastYear + '-' + MONTH_NAMES[monthKey];
+      colMonths.push({ col: c, month: lastYk, type: fileType === 'budget' ? 'budget' : 'actual' });
+    } else if (fileType === 'combined' && lastYk) {
+      if (/budget/i.test(v))              colMonths.push({ col: c, month: lastYk, type: 'budget' });
+      else if (/actual/i.test(v))         colMonths[colMonths.length-1] = { col: c, month: lastYk, type: 'actual' };
       else if (/variance|delta/i.test(v)) { /* skip */ }
     }
   }

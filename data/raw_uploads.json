@@ -6,8 +6,8 @@
     "committedAt": "2026-03-18T21:52:03.718Z",
     "committedBy": "admin",
     "monthsCommitted": [
-      "feb",
-      "jan"
+      "2026-feb",
+      "2026-jan"
     ],
     "rows": [
       {
@@ -15,11 +15,11 @@
         "label": "GROSS POTENTIAL RENTS",
         "originalKey": "pri",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 239730,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 239669,
             "budget": null
           }
@@ -30,11 +30,11 @@
         "label": "LOSS TO LEASE",
         "originalKey": "ltl",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -19829,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -18933,
             "budget": null
           }
@@ -45,11 +45,11 @@
         "label": "TOTAL VACANCY",
         "originalKey": "vac",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -11414.24,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -23952.88,
             "budget": null
           }
@@ -60,11 +60,11 @@
         "label": "NONREVENUE UNITS",
         "originalKey": "mod",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -75,11 +75,11 @@
         "label": "EMPLOYEE UNITS",
         "originalKey": "mod",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -342.5,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -342.5,
             "budget": null
           }
@@ -90,11 +90,11 @@
         "label": "TOTAL NONREVENUE UNITS",
         "originalKey": "mod",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -342.5,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -342.5,
             "budget": null
           }
@@ -105,11 +105,11 @@
         "label": "CONCESSIONS",
         "originalKey": "con",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -120,11 +120,11 @@
         "label": "TOTAL CONCESSIONS",
         "originalKey": "con",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -10403.43,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -1683.7,
             "budget": null
           }
@@ -135,11 +135,11 @@
         "label": "DELINQUENCY/CREDIT LOSS",
         "originalKey": "bd",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -150,11 +150,11 @@
         "label": "BAD DEBT EXPENSE",
         "originalKey": "bd",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -17850.75,
             "budget": null
           }
@@ -165,11 +165,11 @@
         "label": "TOTAL DELINQ/CREDIT LOSS",
         "originalKey": "bd",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -17850.75,
             "budget": null
           }
@@ -180,11 +180,11 @@
         "label": "TOTAL RENTAL INCOME",
         "originalKey": "trr",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 197740.83,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 176906.17,
             "budget": null
           }
@@ -195,11 +195,11 @@
         "label": "PARKING/UTILITIES/OTHER INCOME",
         "originalKey": "toi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -210,11 +210,11 @@
         "label": "TOTAL PARKING",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 882.41,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 882.5,
             "budget": null
           }
@@ -225,11 +225,11 @@
         "label": "UTILITY INCOME",
         "originalKey": "ur",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -240,11 +240,11 @@
         "label": "RUBS PROGRAM",
         "originalKey": "ur",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 1539.39,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -1935.13,
             "budget": null
           }
@@ -255,11 +255,11 @@
         "label": "TOTAL UTILITY INCOME",
         "originalKey": "ur",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 1539.39,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -1935.13,
             "budget": null
           }
@@ -270,11 +270,11 @@
         "label": "TOTAL TELEPHONE & CABLE",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 10842.42,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 9735.87,
             "budget": null
           }
@@ -285,11 +285,11 @@
         "label": "TOTAL TERM/BUYOUT FEES",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 858.5,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -14226.5,
             "budget": null
           }
@@ -300,11 +300,11 @@
         "label": "TOTAL LAUNDRY INCOME",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 2303.87,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 1433.04,
             "budget": null
           }
@@ -315,11 +315,11 @@
         "label": "TOTAL OTHER MISC INCOME",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 15179.01,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 7109.93,
             "budget": null
           }
@@ -330,11 +330,11 @@
         "label": "TOTAL INCOME",
         "originalKey": "egi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 229346.43,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 179905.88,
             "budget": null
           }
@@ -345,11 +345,11 @@
         "label": "GENERAL & ADMINISTRATIVE",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -360,11 +360,11 @@
         "label": "TOTAL GENERAL & ADMIN",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 14552.63,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -1995.28,
             "budget": null
           }
@@ -375,11 +375,11 @@
         "label": "TOTAL MANAGEMENT FEES",
         "originalKey": "mgmt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 6820.36,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 6000,
             "budget": null
           }
@@ -390,11 +390,11 @@
         "label": "TOTAL PAYROLL",
         "originalKey": "payroll",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 42025.89,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 33478.14,
             "budget": null
           }
@@ -405,11 +405,11 @@
         "label": "TOTAL INSURANCE",
         "originalKey": "ins",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 11383.96,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 11383.96,
             "budget": null
           }
@@ -420,11 +420,11 @@
         "label": "TOTAL TAXES & OTHER",
         "originalKey": "taxes",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 34012.11,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 34012.11,
             "budget": null
           }
@@ -435,11 +435,11 @@
         "label": "TOTAL LEASING & MARKETING",
         "originalKey": "adv",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 7577.36,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 849.37,
             "budget": null
           }
@@ -450,11 +450,11 @@
         "label": "TOTAL PROFESSIONAL FEES",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 758.97,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -318,
             "budget": null
           }
@@ -465,11 +465,11 @@
         "label": "CONTRACT-LANDSCAPE",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 2536.9,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 2327.38,
             "budget": null
           }
@@ -480,11 +480,11 @@
         "label": "OTHER-LANDSCAPE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 475,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 617.03,
             "budget": null
           }
@@ -495,11 +495,11 @@
         "label": "TOTAL SECURITY/LIFE SAFETY",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 1959.83,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 695.31,
             "budget": null
           }
@@ -510,11 +510,11 @@
         "label": "REPAIRS & MAINTENANCE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -525,11 +525,11 @@
         "label": "CONTRACT-PEST CONTROL",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 460.06,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 356.97,
             "budget": null
           }
@@ -540,11 +540,11 @@
         "label": "OTHER-PEST CONTROL",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 1006.73,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -324.75,
             "budget": null
           }
@@ -555,11 +555,11 @@
         "label": "PLUMBING REPAIR",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -147.19,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 1485.9,
             "budget": null
           }
@@ -570,11 +570,11 @@
         "label": "ELECTRICAL REPAIRS",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 652.5,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -585,11 +585,11 @@
         "label": "GLASS REPAIR/REPCMT",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 923.27,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 116.05,
             "budget": null
           }
@@ -600,11 +600,11 @@
         "label": "OTHER REPAIRS & MAINTENANCE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 1487.29,
             "budget": null
           }
@@ -615,11 +615,11 @@
         "label": "TOTAL T/O REFURBISHMENT",
         "originalKey": "mr",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 4637.59,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 19105.79,
             "budget": null
           }
@@ -630,11 +630,11 @@
         "label": "TOTAL UTILITIES",
         "originalKey": "util",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 45311.35,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 236.81,
             "budget": null
           }
@@ -645,11 +645,11 @@
         "label": "TOTAL OTHER UTILITIES",
         "originalKey": "util",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 5148.23,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 7304.28,
             "budget": null
           }
@@ -660,11 +660,11 @@
         "label": "TOTAL SUPPLY EXPENSE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 3414.31,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 8103.6,
             "budget": null
           }
@@ -675,11 +675,11 @@
         "label": "TOTAL OPERATING EXPENSES",
         "originalKey": "opex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 183509.86,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 124921.96,
             "budget": null
           }
@@ -690,11 +690,11 @@
         "label": "NET OPERATING INCOME",
         "originalKey": "noi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 45836.57,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 54983.92,
             "budget": null
           }
@@ -705,11 +705,11 @@
         "label": "REPLACEMENT RESERVES",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -720,11 +720,11 @@
         "label": "TOTAL REPLACEMENT RESERVES",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 49274.03,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 9797.87,
             "budget": null
           }
@@ -735,11 +735,11 @@
         "label": "ASSET MANAGEMENT FEES",
         "originalKey": "amfee",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 4547.33,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 3597.82,
             "budget": null
           }
@@ -750,11 +750,11 @@
         "label": "TOTAL ASSET & OTHER FEES",
         "originalKey": "amfee",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 4547.33,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 3597.82,
             "budget": null
           }
@@ -765,11 +765,11 @@
         "label": "DEBT SERVICE",
         "originalKey": "debt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 0,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 0,
             "budget": null
           }
@@ -780,11 +780,11 @@
         "label": "INTEREST-MORTGAGE LENDER",
         "originalKey": "debt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 45609.64,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 41139.98,
             "budget": null
           }
@@ -795,11 +795,11 @@
         "label": "TOTAL DEBT SERVICE",
         "originalKey": "debt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 45609.64,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 41139.98,
             "budget": null
           }
@@ -810,11 +810,11 @@
         "label": "TOTAL RENOVATIONS",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": 162.38,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": 11364.18,
             "budget": null
           }
@@ -825,11 +825,11 @@
         "label": "NET INCOME",
         "originalKey": "ncf",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": -53756.81,
             "budget": null
           },
-          "feb": {
+          "2026-feb": {
             "actual": -10915.93,
             "budget": null
           }
@@ -844,18 +844,18 @@
     "committedAt": "2026-03-18T21:52:54.539Z",
     "committedBy": "admin",
     "monthsCommitted": [
-      "apr",
-      "aug",
-      "dec",
-      "feb",
-      "jan",
-      "jul",
-      "jun",
-      "mar",
-      "may",
-      "nov",
-      "oct",
-      "sep"
+      "2026-apr",
+      "2026-aug",
+      "2026-dec",
+      "2026-feb",
+      "2026-jan",
+      "2026-jul",
+      "2026-jun",
+      "2026-mar",
+      "2026-may",
+      "2026-nov",
+      "2026-oct",
+      "2026-sep"
     ],
     "rows": [
       {
@@ -863,51 +863,51 @@
         "label": "GROSS POTENTIAL RENTS",
         "originalKey": "pri",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 224140
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 224140
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 224140
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 224140
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 224140
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 224140
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 224140
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 224140
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 227000
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 227000
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 227390
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 226064
           }
@@ -918,51 +918,51 @@
         "label": "LOSS TO LEASE",
         "originalKey": "ltl",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": -5147.61
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": -5110.21
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": -4960.63
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": -4848.45
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": -4811.05
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": -4586.68
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": -4287.53
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": -4100.55
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": -4454.41
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": -4707.3
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": -4728.85
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": -5185
           }
@@ -973,51 +973,51 @@
         "label": "TOTAL VACANCY",
         "originalKey": "vac",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": -17931.2
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": -17931.2
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": -15689.8
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": -15689.8
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": -13448.4
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": -13448.4
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": -13448.4
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": -13448.4
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": -15890
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": -15890
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": -15917.3
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": -15824.48
           }
@@ -1028,51 +1028,51 @@
         "label": "CONCESSIONS",
         "originalKey": "con",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -1083,51 +1083,51 @@
         "label": "TOTAL CONCESSIONS",
         "originalKey": "con",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": -3900
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": -2900
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": -2300
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": -3700
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": -5650
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": -8500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": -14000
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": -12000
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -1138,51 +1138,51 @@
         "label": "TOTAL RENTAL INCOME",
         "originalKey": "trr",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 197161.19
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 198198.59
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 201189.57
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 199901.75
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 200230.55
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 197604.92
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 192404.07
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 194591.05
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 207155.59
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 206402.7
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 206743.85
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 205554.52
           }
@@ -1193,51 +1193,51 @@
         "label": "PARKING/UTILITIES/OTHER INCOME",
         "originalKey": "toi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -1248,51 +1248,51 @@
         "label": "TOTAL PARKING",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 875
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 875
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 875
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 875
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 875
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 875
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 875
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 875
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 875
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 875
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 875
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 875
           }
@@ -1303,51 +1303,51 @@
         "label": "UTILITY INCOME",
         "originalKey": "ur",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -1358,51 +1358,51 @@
         "label": "TOTAL UTILITY INCOME",
         "originalKey": "ur",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 6265
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 8961
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 11723
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 7623
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 9185
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 9945
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 9080
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 9690
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 8975
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 8147
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 6635
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 6760
           }
@@ -1413,51 +1413,51 @@
         "label": "TOTAL TELEPHONE & CABLE",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 12025
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 12025
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 12025
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 12025
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 12025
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 12025
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 12025
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 12025
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 12025
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 12025
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 12025
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 12025
           }
@@ -1468,51 +1468,51 @@
         "label": "TOTAL TERM/BUYOUT FEES",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 1559
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 764
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 2270
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 2950
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 986
           }
@@ -1523,51 +1523,51 @@
         "label": "TOTAL LAUNDRY INCOME",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 2550
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 2550
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 2550
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 2550
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 2550
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 2550
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 2550
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 2550
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 2550
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 2550
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 2550
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 2550
           }
@@ -1578,51 +1578,51 @@
         "label": "TOTAL OTHER MISC INCOME",
         "originalKey": "oi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 12438
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 12888
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 21178
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 11188
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 11988
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 21178
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 11538
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 11838
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 21753
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 11438
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 10713
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 21178
           }
@@ -1633,51 +1633,51 @@
         "label": "TOTAL INCOME",
         "originalKey": "egi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 231314.19
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 237056.59
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 250304.57
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 234162.75
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 236853.55
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 246447.92
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 228472.07
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 231569.05
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 256283.59
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 241437.7
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 239541.85
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 249928.52
           }
@@ -1688,51 +1688,51 @@
         "label": "GENERAL & ADMINISTRATIVE",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -1743,51 +1743,51 @@
         "label": "TOTAL GENERAL & ADMIN",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 11765.2
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 12897.2
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 14844.97
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 10672.2
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 10672.2
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 13144.97
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 10672.2
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 10672.2
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 15859.23
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 10672.2
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 10672.2
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 14259.97
           }
@@ -1798,51 +1798,51 @@
         "label": "TOTAL MANAGEMENT FEES",
         "originalKey": "mgmt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 6939.43
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 7111.7
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 7509.14
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 7024.88
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 7105.61
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 7393.44
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 6854.16
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 6947.07
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 7688.51
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 7243.13
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 7186.26
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 7497.86
           }
@@ -1853,51 +1853,51 @@
         "label": "TOTAL PAYROLL",
         "originalKey": "payroll",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 36704.72
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 33341.23
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 33351.44
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 33351.44
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 34251.44
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 33351.44
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 33351.44
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 34091.44
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 33751.44
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 33601.44
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 33351.44
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 33351.44
           }
@@ -1908,51 +1908,51 @@
         "label": "INSURANCE",
         "originalKey": "ins",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -1963,51 +1963,51 @@
         "label": "TOTAL INSURANCE",
         "originalKey": "ins",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 11383
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 11384
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 11384
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 11384
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 11384
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 11384
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 11384
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 11384
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 11384
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 11384
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 11384
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 11384
           }
@@ -2018,51 +2018,51 @@
         "label": "TAXES & OTHER ASSESSMENTS",
         "originalKey": "taxes",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -2073,51 +2073,51 @@
         "label": "TOTAL TAXES & OTHER",
         "originalKey": "taxes",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 46231.07
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 46231.07
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 46231.07
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 39235.17
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 39235.17
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 36536
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 39235.17
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 36536
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 39235.17
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 36536.25
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 36536
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 36536
           }
@@ -2128,51 +2128,51 @@
         "label": "LEASING & MARKETING",
         "originalKey": "adv",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -2183,51 +2183,51 @@
         "label": "TOTAL LEASING & MARKETING",
         "originalKey": "adv",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 6390.12
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 6340.12
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 6157.95
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 6516.77
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 6682.95
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 6557.95
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 5782.95
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 6432.95
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 6907.95
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 6032.95
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 5732.95
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 6631.95
           }
@@ -2238,51 +2238,51 @@
         "label": "TOTAL PROFESSIONAL FEES",
         "originalKey": "ga",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 432
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 432
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 1432
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 432
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 432
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 1432
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 432
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 432
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 1432
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 432
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 864
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 1864
           }
@@ -2293,51 +2293,51 @@
         "label": "CONTRACT-LANDSCAPE",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 2400
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 2400
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 2400
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 2400
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 2400
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 2400
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 2400
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 2400
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 2400
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 2400
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 2400
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 2400
           }
@@ -2348,51 +2348,51 @@
         "label": "OTHER-LANDSCAPE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -2403,51 +2403,51 @@
         "label": "TOTAL SECURITY/LIFE SAFETY",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 115
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 115
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 615
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 115
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 1115
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 1365
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 115
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 115
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 615
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 115
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 115
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 615
           }
@@ -2458,51 +2458,51 @@
         "label": "REPAIRS & MAINTENANCE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -2513,51 +2513,51 @@
         "label": "EQUIPMENT RENTAL & MAINT",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -2568,51 +2568,51 @@
         "label": "TOTAL GATES & ENTRY SYSTEM",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 2014.74
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -2623,51 +2623,51 @@
         "label": "CONTRACT-POOL",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 550
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 550
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 775
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 550
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 550
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 775
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 550
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 550
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 775
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 550
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 550
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 775
           }
@@ -2678,51 +2678,51 @@
         "label": "OTHER-POOL",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -2733,51 +2733,51 @@
         "label": "RECREATIONAL AMENITIES R&M",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 200
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 200
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 200
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 200
           }
@@ -2788,51 +2788,51 @@
         "label": "CONTRACT-PEST CONTROL",
         "originalKey": "contract",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 550
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 550
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 2050
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 550
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 550
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 2050
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 550
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 550
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 2050
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 550
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 550
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 2050
           }
@@ -2843,51 +2843,51 @@
         "label": "OTHER-PEST CONTROL",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -2898,51 +2898,51 @@
         "label": "ROOF REPAIR",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 900
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 900
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 900
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 900
           }
@@ -2953,51 +2953,51 @@
         "label": "EXTERIOR BUILDING STRUCTURE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 400
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 2500
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 300
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 300
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 300
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 300
           }
@@ -3008,51 +3008,51 @@
         "label": "DRYWALL REPAIR/RPCMT",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 1000
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 1000
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 1000
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 1000
           }
@@ -3063,51 +3063,51 @@
         "label": "CARPENTRY/WELDING",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -3118,51 +3118,51 @@
         "label": "PLUMBING REPAIR",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 300
           }
@@ -3173,51 +3173,51 @@
         "label": "ELECTRICAL REPAIRS",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 200
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 200
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 200
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 100
           }
@@ -3228,51 +3228,51 @@
         "label": "TOTAL HVAC REPAIR & SUPPLIES",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 2000
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 2000
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 2000
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 2000
           }
@@ -3283,51 +3283,51 @@
         "label": "GLASS REPAIR/REPCMT",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 500
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 500
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 500
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 500
           }
@@ -3338,51 +3338,51 @@
         "label": "OTHER REPAIRS & MAINTENANCE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 50
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 50
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -3393,51 +3393,51 @@
         "label": "TOTAL T/O REFURBISHMENT",
         "originalKey": "mr",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 8235
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 5575
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 5675
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 5325
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 6125
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 9275
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 8975
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 7875
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 5875
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 3775
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 2500
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 3600
           }
@@ -3448,51 +3448,51 @@
         "label": "TOTAL UTILITIES",
         "originalKey": "util",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 12515.92
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 13636.89
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 8703.08
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 10418.66
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 10517.91
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 9815.85
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 8300.72
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 8260.35
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 9549.06
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 6220.99
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 9912.63
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 12132.29
           }
@@ -3503,51 +3503,51 @@
         "label": "TOTAL OTHER UTILITIES",
         "originalKey": "util",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 3971.13
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 4028.13
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 4028.13
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 4031.13
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 4031.13
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 4031.13
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 4009.13
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 4071.13
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 4131.13
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 3985.13
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 4027.13
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 3971.13
           }
@@ -3558,51 +3558,51 @@
         "label": "TOTAL SUPPLY EXPENSE",
         "originalKey": "rm",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 2950
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 3300
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 8580
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 2050
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 3900
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 11950
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 2500
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 1950
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 8850
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 2000
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 1300
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 8350
           }
@@ -3613,51 +3613,51 @@
         "label": "TOTAL OPERATING EXPENSES",
         "originalKey": "opex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 151532.59
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 150392.34
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 161886.78
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 134056.25
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 138952.41
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 159561.78
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 137176.51
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 132267.14
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 158603.49
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 125498.09
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 127081.61
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 153218.64
           }
@@ -3668,51 +3668,51 @@
         "label": "NET OPERATING INCOME",
         "originalKey": "noi",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 79781.6
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 86664.25
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 88417.79
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 100106.5
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 97901.14
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 86886.14
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 91295.56
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 99301.91
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 97680.1
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 115939.61
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 112460.24
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 96709.88
           }
@@ -3723,51 +3723,51 @@
         "label": "REPLACEMENT RESERVES",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -3778,51 +3778,51 @@
         "label": "TOTAL REPLACEMENT RESERVES",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 12625
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 15125
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 37375
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 13875
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 13875
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 37875
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 15125
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 13625
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 30375
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 15025
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 12625
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 27775
           }
@@ -3833,51 +3833,51 @@
         "label": "ASSET MANAGEMENT FEES",
         "originalKey": "amfee",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 4626.28
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 4741.13
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 5006.09
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 4683.26
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 4737.07
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 4928.96
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 4569.44
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 4631.38
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 5125.67
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 4828.75
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 4790.84
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 4998.57
           }
@@ -3888,51 +3888,51 @@
         "label": "TOTAL ASSET & OTHER FEES",
         "originalKey": "amfee",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 4626.28
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 4741.13
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 5006.09
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 4683.26
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 4737.07
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 4928.96
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 4569.44
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 4631.38
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 5125.67
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 4828.75
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 4790.84
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 4998.57
           }
@@ -3943,51 +3943,51 @@
         "label": "DEBT SERVICE",
         "originalKey": "debt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 0
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 0
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 0
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 0
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 0
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 0
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 0
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 0
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 0
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 0
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 0
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 0
           }
@@ -3998,51 +3998,51 @@
         "label": "TOTAL DEBT SERVICE",
         "originalKey": "debt",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 63332.67
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 63332.67
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 63332.67
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 63332.67
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 63332.67
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 63332.67
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 63332.67
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 63332.67
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 63332.67
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 63332.67
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 63332.67
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 63332.67
           }
@@ -4053,51 +4053,51 @@
         "label": "TOTAL RENOVATIONS",
         "originalKey": "capex",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": 2600
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": 3500
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": 11080
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 5200
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 2030
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": 11030
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 4030
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 4030
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": 6030
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 2000
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 2000
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": 4000
           }
@@ -4108,51 +4108,51 @@
         "label": "NET INCOME",
         "originalKey": "ncf",
         "monthValues": {
-          "jan": {
+          "2026-jan": {
             "actual": null,
             "budget": -3402.35
           },
-          "feb": {
+          "2026-feb": {
             "actual": null,
             "budget": -34.55
           },
-          "mar": {
+          "2026-mar": {
             "actual": null,
             "budget": -28375.97
           },
-          "apr": {
+          "2026-apr": {
             "actual": null,
             "budget": 13015.57
           },
-          "may": {
+          "2026-may": {
             "actual": null,
             "budget": 13926.4
           },
-          "jun": {
+          "2026-jun": {
             "actual": null,
             "budget": -30280.49
           },
-          "jul": {
+          "2026-jul": {
             "actual": null,
             "budget": 4238.45
           },
-          "aug": {
+          "2026-aug": {
             "actual": null,
             "budget": 13682.86
           },
-          "sep": {
+          "2026-sep": {
             "actual": null,
             "budget": -7183.24
           },
-          "oct": {
+          "2026-oct": {
             "actual": null,
             "budget": 30753.19
           },
-          "nov": {
+          "2026-nov": {
             "actual": null,
             "budget": 29711.73
           },
-          "dec": {
+          "2026-dec": {
             "actual": null,
             "budget": -3396.36
           }
