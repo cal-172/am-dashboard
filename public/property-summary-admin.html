@@ -230,7 +230,7 @@ function nextId(){ return ++_dynId; }
 const MONTHLY_STRUCTURE = [
   {key:'occupancy_pct',           name:'Occupancy %',               group:'Performance',       readOnly:false, fmt:'pct'},
   {key:'vacancy_pct',             name:'Vacancy %',                 group:'Performance',       readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= 100% − Occupancy %'},
-  {key:'dscr',                    name:'DSCR',                      group:'Performance',       readOnly:false, fmt:'dscr'},
+  {key:'dscr',                    name:'DSCR',                      group:'Performance',       readOnly:true,  calcType:'calc', calcNote:'= Monthly NOI ÷ Loan Payment (P+I)'},
   {key:'noi_ltm',                 name:'NOI (LTM)',                 group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
   {key:'noi_vs_budget',           name:'NOI vs Budget',             group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
   {key:'noi_status',              name:'NOI Status',                group:'Performance',       readOnly:true,             calcType:'auto',   calcNote:'Derived from NOI vs Budget'},
@@ -345,6 +345,27 @@ function computeRemaining(){
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   COMPUTED: DSCR = Current Month NOI ÷ Loan Payment (P+I)
+   Updates DOM directly, no re-render
+═══════════════════════════════════════════════════════════════════ */
+function computeDSCR(){
+  const loanPmtEntry = STATE.setup.find(m=>m.key==='loan_payment');
+  const noiEntry     = STATE.monthly.find(m=>m.key==='noi_ltm');
+  const dscrEntry    = STATE.monthly.find(m=>m.key==='dscr');
+  if(!dscrEntry) return;
+  const loanPmt = loanPmtEntry ? parseRaw(loanPmtEntry.value) : null;
+  const noiVal  = noiEntry     ? parseRaw(noiEntry.value)     : null;
+  if(noiVal!=null && loanPmt!=null && loanPmt>0){
+    const val = Math.round((Math.abs(noiVal)/loanPmt)*100)/100;
+    dscrEntry.value = val.toFixed(2)+'x';
+  } else {
+    dscrEntry.value = '';
+  }
+  const el = document.getElementById('dscr-calc-val');
+  if(el) el.textContent = dscrEntry.value || '—';
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    COMMIT HANDLERS — called on blur; no renderAll()
 ═══════════════════════════════════════════════════════════════════ */
 function commitMonthly(i, field, el){
@@ -364,10 +385,11 @@ function commitMonthly(i, field, el){
 function commitSetup(i, field, el){
   let v=el.value;
   if(field==='value'){
-    const fmt=detectFmt(v);
+    const fmt=detectFmt(v)||( STATE.setup[i].key==='loan_payment'?'cur':null );
     if(fmt){ const f=fmtVal(v,fmt); if(f){ v=f; el.value=v; } }
   }
   STATE.setup[i][field]=v;
+  if(field==='value' && STATE.setup[i].key==='loan_payment') computeDSCR();
   markChanged();
 }
 
@@ -469,6 +491,7 @@ async function loadData(){
         section: sec[m.key] !== undefined ? sec[m.key] : 'setup',
         value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
       }));
+    computeDSCR();
     STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:fmtVal(r.amount||'','cur')||r.amount||''}));
     STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:fmtVal(e.amount||'','cur')||e.amount||''}));
     STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
@@ -501,7 +524,7 @@ function monthlyValCell(m, ki){
       : `<div class="cell-system"><span>📊</span> Not yet uploaded</div>`;
   }
   if(m.calcType==='calc'){
-    const idAttr=m.key==='remaining_reserve_bal'?' id="remaining-calc-val"':'';
+    const idAttr=m.key==='remaining_reserve_bal'?' id="remaining-calc-val"':m.key==='dscr'?' id="dscr-calc-val"':'';
     return m.value&&m.value!=='—'
       ? `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div><div class="cell-calc-val"${idAttr}>${esc(m.value)}</div></div>`
       : `<div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div>`;

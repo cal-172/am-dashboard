@@ -1,5 +1,18 @@
 [
   {
+    "id": "bc331cb3-1a42-4552-a4f1-956d46860c01",
+    "originalName": "2026.02 Regatta Revised Financials.xlsx",
+    "fileType": "t12",
+    "sheetName": "Sheet1",
+    "monthsAffected": [
+      "2026-feb",
+      "2026-jan"
+    ],
+    "year": 2026,
+    "uploadedBy": "admin",
+    "uploadedAt": "2026-03-20T14:16:41.058Z"
+  },
+  {
     "id": "7105571f-d565-401b-a5c3-60b1f4a03d46",
     "originalName": "12_Month_Budget_1163_rr_Accrual.xlsx",
     "fileType": "budget",

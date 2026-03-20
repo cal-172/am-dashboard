@@ -170,6 +170,16 @@
     "lastUpdated": "2026-03-19"
   },
   {
+    "key": "loan_payment",
+    "name": "Loan Payment (P+I)",
+    "group": "Loan Details",
+    "value": "",
+    "asOf": "",
+    "source": "",
+    "notes": "",
+    "lastUpdated": ""
+  },
+  {
     "key": "initial_equity",
     "name": "Initial Equity Invested",
     "group": "Investment",

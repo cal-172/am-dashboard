@@ -1,0 +1,90 @@
+Please update the Property Summary Admin and Property Summary Page logic for DSCR.
+
+IMPORTANT:
+- Do NOT redesign the UI
+- This is a logic + field update only
+
+GOAL
+Make DSCR a calculated field instead of a manual input.
+
+--------------------------------------------------
+1. ADD NEW SETUP FIELD
+--------------------------------------------------
+
+Add a new field under Setup & Property Data, within the Loan Details group:
+
+- Loan Payment (P+I)
+
+Requirements:
+- Editable setup-level field
+- Currency format
+- Represents the monthly principal + interest loan payment
+- Persist at the property level (not monthly)
+
+--------------------------------------------------
+2. CHANGE DSCR TO CALCULATED
+--------------------------------------------------
+
+DSCR should no longer be manually entered in Monthly Updates.
+
+Instead, calculate it automatically using:
+
+DSCR = Current Month NOI / Loan Payment (P+I)
+
+IMPORTANT:
+- Use current month NOI from the selected Updating month
+- Use Loan Payment (P+I) from Setup & Property Data
+- DSCR should be read-only everywhere
+
+--------------------------------------------------
+3. MONTHLY UPDATE GRID
+--------------------------------------------------
+
+In Monthly Updates:
+- Remove manual editing for DSCR
+- Show DSCR as auto-calculated / read-only
+- Keep it in the Performance group
+
+--------------------------------------------------
+4. PROPERTY SUMMARY PAGE
+--------------------------------------------------
+
+On the Property Summary Page:
+- Continue displaying DSCR as a KPI
+- Use the calculated DSCR value
+- Status logic should still apply based on the calculated result
+
+--------------------------------------------------
+5. EDGE CASE HANDLING
+--------------------------------------------------
+
+If either of these is missing:
+- current month NOI
+- Loan Payment (P+I)
+
+Then:
+- DSCR should show blank / placeholder gracefully
+- Do not throw errors
+- Do not allow invalid divide-by-zero behavior
+
+If Loan Payment (P+I) = 0 or blank:
+- treat DSCR as unavailable
+
+--------------------------------------------------
+6. SAVE / SNAPSHOT LOGIC
+--------------------------------------------------
+
+When monthly data is saved:
+- recalculate DSCR automatically
+- include the calculated DSCR in the KPI snapshot for that month
+- do not store DSCR as a manual monthly input anymore
+
+--------------------------------------------------
+7. GOAL
+--------------------------------------------------
+
+DSCR should now be a derived metric based on:
+- current month NOI
+- setup-level Loan Payment (P+I)
+
+This removes manual entry and keeps DSCR tied directly to actual operating performance.

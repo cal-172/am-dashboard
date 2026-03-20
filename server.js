@@ -863,7 +863,6 @@ function buildSnapshot(monthKey) {
   };
 
   const occupancy   = get('occupancy_pct');
-  const dscr        = get('dscr');
   const noiLtm      = get('noi_ltm');
   const noiVsBudget = get('noi_vs_budget');
   const reserveBal  = get('remaining_reserve_bal');
@@ -874,6 +873,14 @@ function buildSnapshot(monthKey) {
   // Expense coverage months = operating reserve balance / monthly operating expenses
   const agg = aggregateFromRawData();
   const monthlyOpex = agg[monthKey]?.a?.opex ?? null;
+
+  // DSCR = current month NOI / loan_payment (P+I) — fully calculated, never manual
+  const loanPayment  = get('loan_payment');
+  const monthNoi     = agg[monthKey]?.a?.noi ?? null;
+  const absMonthNoi  = monthNoi != null ? Math.abs(monthNoi) : null;
+  const dscr         = (absMonthNoi != null && loanPayment != null && loanPayment > 0)
+    ? Math.round((absMonthNoi / loanPayment) * 100) / 100
+    : null;
   const expCovMonths = (reserveBal != null && monthlyOpex != null && monthlyOpex > 0)
     ? Math.round((reserveBal / monthlyOpex) * 100) / 100
     : null;
@@ -972,6 +979,18 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
           value: status, source:'Financial Actuals', notes:'Derived from NOI vs Budget', lastUpdated: now };
         if (idxSt >= 0) monthlyMetrics[idxSt] = stRow; else monthlyMetrics.push(stRow);
       }
+      // Auto-calculate DSCR = current month NOI / Loan Payment (P+I)
+      const loanPmtRow  = setupMetrics.find(m => m.key === 'loan_payment');
+      const loanPmtNum  = loanPmtRow ? parseMetricNum(loanPmtRow.value) : null;
+      const absNoiGet   = noiFin != null ? Math.abs(noiFin) : null;
+      if (absNoiGet != null && loanPmtNum != null && loanPmtNum > 0) {
+        const dscrVal  = Math.round((absNoiGet / loanPmtNum) * 100) / 100;
+        const dscrIdx  = monthlyMetrics.findIndex(m => m.key === 'dscr');
+        const dscrRow  = { key:'dscr', name:'DSCR', group:'Performance',
+          value: dscrVal.toFixed(2)+'x', source:'Calculated',
+          notes:'= Current Month NOI ÷ Loan Payment (P+I)', lastUpdated: now };
+        if (dscrIdx >= 0) monthlyMetrics[dscrIdx] = dscrRow; else monthlyMetrics.push(dscrRow);
+      }
     }
   } catch (_) { /* no actuals data */ }
 
@@ -1056,6 +1075,19 @@ app.post('/api/property-summary/admin/save', requireAuth, (req, res) => {
           const stRow   = { key:'noi_status', name:'NOI Status', group:'Performance',
             value: status, source:'Financial Actuals', notes:'Derived from NOI vs Budget', lastUpdated: now };
           if (idxSt >= 0) processed[idxSt] = stRow; else processed.push(stRow);
+        }
+        // Auto-calculate DSCR = current month NOI / Loan Payment (P+I)
+        const loanPmtSave = Array.isArray(setupMetrics)
+          ? setupMetrics.find(m => m.key === 'loan_payment') : null;
+        const loanPmtNumSave = loanPmtSave ? parseMetricNum(loanPmtSave.value) : null;
+        const absNoiSave = noiFin != null ? Math.abs(noiFin) : null;
+        if (absNoiSave != null && loanPmtNumSave != null && loanPmtNumSave > 0) {
+          const dscrVal  = Math.round((absNoiSave / loanPmtNumSave) * 100) / 100;
+          const dscrIdx  = processed.findIndex(m => m.key === 'dscr');
+          const dscrRow  = { key:'dscr', name:'DSCR', group:'Performance',
+            value: dscrVal.toFixed(2)+'x', source:'Calculated',
+            notes:'= Current Month NOI ÷ Loan Payment (P+I)', lastUpdated: now };
+          if (dscrIdx >= 0) processed[dscrIdx] = dscrRow; else processed.push(dscrRow);
         }
       }
     } catch (_) { /* no actuals data yet */ }
@@ -1167,6 +1199,7 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
       prepayPenalty:get(setup, 'prepay_penalty'),
       maturityDate: get(setup, 'maturity_date'),
       dscrCovenant: get(setup, 'dscr_covenant'),
+      loanPayment:  get(setup, 'loan_payment'),
       dscr:         currentSnap?.dscr ?? null,
       dscrPrev:     priorSnap?.dscr   ?? null,
       asOf:         getLMMeta('dscr')?.asOf    || null,
