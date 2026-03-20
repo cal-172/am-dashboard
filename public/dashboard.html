@@ -205,7 +205,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .ps-field:last-child{border-bottom:none}
 .ps-f-label{font-size:11px;color:#6A8E91;font-weight:500;flex-shrink:0;max-width:50%;padding-right:8px;line-height:1.35}
 .ps-f-value{font-size:12.5px;font-weight:600;color:#1A2B2C;text-align:right;line-height:1.35;flex:1;min-width:0}
-.ps-f-value.mono{font-family:'Courier New',monospace;font-size:12px}.ps-f-value.hi{color:#13545E}.ps-f-value.bold{font-weight:700}
+.ps-f-value.mono{font-family:'Courier New',monospace;font-size:12px}.ps-f-value.hi{color:#1A2B2C}.ps-f-value.bold{font-weight:700}
 .ps-subgroup{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;padding:12px 0 3px}
 .ps-card-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #EEF4F5}
 .ps-card-meta span{font-size:10px;color:#94a3b8}
@@ -1348,12 +1348,15 @@ function psParseNum(s){
 function psFmtCur(n){
   if(n==null) return '—';
   const abs=Math.abs(n),neg=n<0;
-  let s;
-  if(abs>=1e9) s='$'+(abs/1e9).toFixed(1)+'B';
-  else if(abs>=1e6) s='$'+(abs/1e6).toFixed(1)+'M';
-  else if(abs>=1e3) s='$'+Math.round(abs/1e3)+'K';
-  else s='$'+Math.round(abs).toLocaleString();
+  const s='$'+Math.round(abs).toLocaleString();
   return neg?`(${s})`:s;
+}
+function psFullCur(s){
+  const n=psParseNum(s);
+  if(n==null) return psV(s);
+  const abs=Math.abs(n);
+  const fmt='$'+Math.round(abs).toLocaleString();
+  return n<0?`(${fmt})`:fmt;
 }
 function psMonthsToMat(dateStr){
   if(!dateStr) return 0;
@@ -1446,9 +1449,9 @@ function renderPS(d){
   const kpiHtml=kpiCards.map(k=>`<div class="kpi-card ${k.status}"><div class="kpi-top"><span class="kpi-title">${k.icon} ${k.title}</span><span class="kpi-badge ${k.status}">${{healthy:'Healthy',watch:'Watch',issue:'Risk',nodata:'No Data'}[k.status]}</span></div><div class="kpi-main">${k.main}</div><div class="kpi-sub">${k.sub}</div>${k.trend?`<span class="kpi-trend ${k.trendUp?'up':'dn'}">${k.trendUp?'↑':'↓'} ${k.trend}</span>`:''}${k.note?`<div class="kpi-note">${k.note}</div>`:''}</div>`).join('');
 
   const leftHtml=[
-    psScard('🏢','Summary',psField('Address',prop.address)+psField('Unit Count',prop.units)+psField('Year Built',prop.yearBuilt)+psField('Occupancy',occ!=null?occ.toFixed(1)+'%':null)+psField('Acquisition Date',prop.acquisitionDate)+psField('Purchase Price',prop.purchasePrice,'mono')+psField('Total Capitalization',prop.totalCap,'mono')),
-    psScard('💵','Loan Details',psSub('Structure')+psField('Loan Amount',loan.amount,'mono')+psField('Loan to Value (LTV)',loan.ltv)+psField('Lender',loan.lender)+psSub('Terms')+psField('Interest Rate',loan.rate,'hi bold')+psField('Term',loan.term)+psField('I/O Period',loan.ioPeriod)+psField('I/O Remaining',(loan.ioRemaining??0)+' mo')+psField('Prepay Penalty',loan.prepayPenalty)+psSub('Risk & Timing')+`<div class="ps-field"><span class="ps-f-label">Maturity Date</span><span class="ps-f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#13545E">${psV(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+`<div class="ps-field"><span class="ps-f-label">DSCR</span><span class="ps-f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${psChip(dStatus)}</span></div>`+psMeta(loan.source,loan.asOf)),
-    psScard('📈','Investment Details',psSub('Capital')+psField('Initial Equity Invested',inv.initialEquity,'mono')+psField('Capital Returned',inv.capitalReturned,'mono')+`<div class="ps-field"><span class="ps-f-label">Unreturned Capital</span><span class="ps-f-value mono hi bold">${psFmtCur(unreturnedNum)}</span></div>`+psSub('Returns')+psField('Preferred Return',inv.preferredReturn)+`<div class="ps-field"><span class="ps-f-label">Current Distribution (Ann.)</span><span class="ps-f-value mono">${psV(inv.currentDistribAnnualized)} <span style="color:#6A8E91;font-weight:400">(${psV(inv.currentDistribAnnualizedPct)})</span></span></div>`+psSub('Performance')+psField('Cumulative Pref Shortfall',inv.cumPrefShortfall,'mono')+`<div class="ps-field"><span class="ps-f-label">ITD Distribution Paid</span><span class="ps-f-value mono">${psV(inv.itdDistribPaid)} <span style="color:#6A8E91;font-weight:400">(${psV(inv.itdDistribPaidPct)})</span></span></div>`+psMeta(inv.source,inv.asOf)),
+    psScard('🏢','Summary',psField('Address',prop.address)+psField('Unit Count',prop.units)+psField('Year Built',prop.yearBuilt)+psField('Occupancy',occ!=null?occ.toFixed(1)+'%':null)+psField('Acquisition Date',prop.acquisitionDate)+psField('Purchase Price',psFullCur(prop.purchasePrice),'mono')+psField('Total Capitalization',psFullCur(prop.totalCap),'mono')),
+    psScard('💵','Loan Details',psSub('Structure')+psField('Loan Amount',psFullCur(loan.amount),'mono')+psField('Loan to Value (LTV)',loan.ltv)+psField('Lender',loan.lender)+psSub('Terms')+psField('Interest Rate',loan.rate,'hi bold')+psField('Term',loan.term)+psField('I/O Period',loan.ioPeriod)+psField('I/O Remaining',(loan.ioRemaining??0)+' mo')+psField('Prepay Penalty',loan.prepayPenalty)+psSub('Risk & Timing')+`<div class="ps-field"><span class="ps-f-label">Maturity Date</span><span class="ps-f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#1A2B2C">${psV(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+`<div class="ps-field"><span class="ps-f-label">DSCR</span><span class="ps-f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${psChip(dStatus)}</span></div>`+psMeta(loan.source,loan.asOf)),
+    psScard('📈','Investment Details',psSub('Capital')+psField('Initial Equity Invested',psFullCur(inv.initialEquity),'mono')+psField('Capital Returned',psFullCur(inv.capitalReturned),'mono')+`<div class="ps-field"><span class="ps-f-label">Unreturned Capital</span><span class="ps-f-value mono bold">${psFmtCur(unreturnedNum)}</span></div>`+psSub('Returns')+psField('Preferred Return',inv.preferredReturn)+`<div class="ps-field"><span class="ps-f-label">Current Distribution (Ann.)</span><span class="ps-f-value mono">${psV(inv.currentDistribAnnualizedPct)} <span style="color:#6A8E91;font-weight:400">(${psFullCur(inv.currentDistribAnnualized)})</span></span></div>`+psSub('Performance')+psField('Cumulative Pref Shortfall',psFullCur(inv.cumPrefShortfall),'mono')+`<div class="ps-field"><span class="ps-f-label">ITD Distribution Paid</span><span class="ps-f-value mono">${psV(inv.itdDistribPaidPct)} <span style="color:#6A8E91;font-weight:400">(${psFullCur(inv.itdDistribPaid)})</span></span></div>`+psMeta(inv.source,inv.asOf)),
     psScard('👥','Contacts & Links',(d.contacts||[]).map(c=>{const icon=c.type==='email'?'✉':c.type==='document'?'📄':'🔗';const href=c.type==='email'?`mailto:${c.emailOrUrl}`:(c.emailOrUrl||'#');const detail=c.type==='email'?c.emailOrUrl:'View →';return `<div class="contact-row"><span class="contact-icon">${icon}</span><div class="contact-info"><div class="contact-label">${psV(c.label)}</div><div class="contact-name">${psV(c.name)}</div></div><a href="${href}" class="contact-link" target="_blank">${detail} ↗</a></div>`;}).join('')||(d.contacts||[]).length===0?'<div style="color:#94a3b8;font-size:11px">No contacts configured.</div>':'')
   ].join('');
 
@@ -1461,10 +1464,10 @@ function renderPS(d){
   dates.sort((a,b)=>(dateOrder[psKeyDateStatus(a.dueDate,a.completed)]??3)-(dateOrder[psKeyDateStatus(b.dueDate,b.completed)]??3));
 
   const rightHtml=[
-    psScard('🛡','Lender Reserves',(lr.items||[]).map(r=>`<div class="ps-field"><span class="ps-f-label">${psV(r.name)}</span><span class="ps-f-value mono">${psV(r.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Reserves</span><span class="ps-total-val">${psV(lr.total)}</span></div>`+psMeta(lr.source,lr.asOf)),
-    psScard('🛡','Lender Escrows',(le.items||[]).map(e=>`<div class="ps-field"><span class="ps-f-label">${psV(e.name)}</span><span class="ps-f-value mono">${psV(e.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Escrows</span><span class="ps-total-val">${psV(le.total)}</span></div>`+psMeta(le.source,le.asOf)),
-    psScard('🛡','Operating Reserves',`<div class="ps-field"><span class="ps-f-label">Expense Coverage</span><span class="ps-f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:600;font-size:13px">${resMos!=null?resMos.toFixed(2):'—'}<span style="font-size:11px;font-weight:400;color:#94a3b8"> mo</span></span>${psChip(resMos!=null?rStatus:'nodata')}</span></div>`+psField('Remaining Balance',opRes.remainingBalance,'mono hi')+psField('Initial Balance',opRes.initialBalance,'mono')+psField('Net Cash Flow To Date',opRes.netCashFlowToDate,'mono')+psMeta(opRes.source,opRes.asOf)),
-    psScard('🔨','CapEx Progress',`<div class="capex-progress-wrap"><div class="capex-bar-row"><span style="font-size:11px;color:#6A8E91">% Complete</span><span style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:14px">${capexPct!=null?capexPct+'%':'—'}</span>${psChip(cStatus)}</span></div>${capexPct!=null?`<div class="capex-bar-bg"><div class="capex-bar-fill" style="width:${Math.min(capexPct,100)}%"></div><div class="capex-bar-expected" style="left:${Math.min(capexExp,100)}%"></div></div><div class="capex-bar-labels"><span>0%</span><span>Expected: ${capexExp}%</span><span>100%</span></div><div class="capex-schedule ${cStatus}">${cSchedLabel} — ${capexPct>capexExp?capexPct-capexExp+' % ahead':capexExp-capexPct+'% behind'} expected ${capexExp}%</div>`:'<div style="color:#94a3b8;font-size:11px">No CapEx data available.</div>'}</div>`+psField('Initial CapEx Amount',capex.budget,'mono')+psField('CapEx Spend To Date',capex.spendToDate,'mono hi')+psField('CapEx Remaining',psFmtCur(capexRemainingNum),'mono')+psField('Target Completion',capex.targetCompletion)+psMeta(capex.source,capex.asOf)),
+    psScard('🛡','Lender Reserves',(lr.items||[]).map(r=>`<div class="ps-field"><span class="ps-f-label">${psV(r.name)}</span><span class="ps-f-value mono">${psFullCur(r.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Reserves</span><span class="ps-total-val">${psFullCur(lr.total)}</span></div>`+psMeta(lr.source,lr.asOf)),
+    psScard('🛡','Lender Escrows',(le.items||[]).map(e=>`<div class="ps-field"><span class="ps-f-label">${psV(e.name)}</span><span class="ps-f-value mono">${psFullCur(e.amount)}</span></div>`).join('')+`<div class="ps-total-bar"><span class="ps-total-lbl">Total Lender Escrows</span><span class="ps-total-val">${psFullCur(le.total)}</span></div>`+psMeta(le.source,le.asOf)),
+    psScard('🛡','Operating Reserves',`<div class="ps-field"><span class="ps-f-label">Expense Coverage</span><span class="ps-f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:600;font-size:13px">${resMos!=null?resMos.toFixed(2):'—'}<span style="font-size:11px;font-weight:400;color:#94a3b8"> mo</span></span>${psChip(resMos!=null?rStatus:'nodata')}</span></div>`+psField('Remaining Balance',psFullCur(opRes.remainingBalance),'mono')+psField('Initial Balance',psFullCur(opRes.initialBalance),'mono')+psField('Net Cash Flow To Date',psFullCur(opRes.netCashFlowToDate),'mono')+psMeta(opRes.source,opRes.asOf)),
+    psScard('🔨','CapEx Progress',`<div class="capex-progress-wrap"><div class="capex-bar-row"><span style="font-size:11px;color:#6A8E91">% Complete</span><span style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:14px">${capexPct!=null?capexPct+'%':'—'}</span>${psChip(cStatus)}</span></div>${capexPct!=null?`<div class="capex-bar-bg"><div class="capex-bar-fill" style="width:${Math.min(capexPct,100)}%"></div><div class="capex-bar-expected" style="left:${Math.min(capexExp,100)}%"></div></div><div class="capex-bar-labels"><span>0%</span><span>Expected: ${capexExp}%</span><span>100%</span></div><div class="capex-schedule ${cStatus}">${cSchedLabel} — ${capexPct>capexExp?capexPct-capexExp+' % ahead':capexExp-capexPct+'% behind'} expected ${capexExp}%</div>`:'<div style="color:#94a3b8;font-size:11px">No CapEx data available.</div>'}</div>`+psField('Initial CapEx Amount',psFullCur(capex.budget),'mono')+psField('CapEx Spend To Date',psFullCur(capex.spendToDate),'mono')+psField('CapEx Remaining',psFmtCur(capexRemainingNum),'mono')+psField('Target Completion',capex.targetCompletion)+psMeta(capex.source,capex.asOf)),
     psScard('📅','Key Dates',dates.length===0?'<div style="color:#94a3b8;font-size:11px">No key dates configured.</div>':dates.map(kd=>{const ds=psKeyDateStatus(kd.dueDate,kd.completed);return `<div class="date-row"><div><div class="date-lbl">${psV(kd.label)}</div><div class="date-dt">${psV(kd.dueDate)}</div>${kd.completed?`<div class="date-done">Completed: ${kd.completed}</div>`:''}</div><span class="date-chip ${ds}">${psKeyDateLabel(ds)}</span></div>`;}).join(''))
   ].join('');
 
@@ -1472,12 +1475,10 @@ function renderPS(d){
     <div class="prop-header">
       <div class="prop-header-top">
         <div>
-          <div class="prop-eyebrow">🏢 Property Summary</div>
           <div class="prop-name">${psV(prop.name)}</div>
           <div class="prop-addr">${psV(prop.address)}</div>
           <div class="prop-meta"><span>${psV(prop.units)} Units</span><span>·</span><span>Built ${psV(prop.yearBuilt)}</span><span>·</span><span>Updated: ${psV(prop.updatedAt)}</span></div>
         </div>
-        <div class="prop-asset-id"><div class="lbl">Asset ID</div><div class="val">1163_rr</div></div>
       </div>
     </div>
     <div class="ps-content">

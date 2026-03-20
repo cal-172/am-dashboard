@@ -1106,9 +1106,7 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
   const sumItems = items => {
     const t = items.reduce((s, i) => s + (parseMetricNum(i.amount) || 0), 0);
     if (!t) return null;
-    if (t >= 1e6) return `$${(t/1e6).toFixed(2)}M`;
-    if (t >= 1e3) return `$${Math.round(t/1e3)}K`;
-    return `$${t}`;
+    return `$${Math.round(t).toLocaleString()}`;
   };
 
   // Build a live snapshot for the latest month — used by both kpi and opReserves
@@ -1121,10 +1119,7 @@ app.get('/api/property-summary/viewer', requireAuth, (req, res) => {
     if (n == null) return null;
     const abs = Math.abs(n);
     let s;
-    if      (abs >= 1e9) s = '$' + (abs/1e9).toFixed(1) + 'B';
-    else if (abs >= 1e6) s = '$' + (abs/1e6).toFixed(1) + 'M';
-    else if (abs >= 1e3) s = '$' + Math.round(abs/1e3)  + 'K';
-    else                 s = '$' + Math.round(abs).toLocaleString();
+    s = '$' + Math.round(abs).toLocaleString();
     return n < 0 ? `(${s})` : s;
   };
   const aEgi  = latestIS?.a?.egi  != null ? Math.abs(latestIS.a.egi)  : null;

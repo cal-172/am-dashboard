@@ -1,0 +1,126 @@
+We are making small formatting and cleanup updates to the existing **Property Summary Page**.
+
+IMPORTANT:
+
+* Do NOT redesign layout
+* Do NOT change structure or logic
+* These are strictly formatting and UI consistency updates
+
+---
+
+1. REMOVE REDUNDANT HEADER ELEMENTS
+
+---
+
+Remove the following completely:
+
+* "PROPERTY SUMMARY" label in the top left (redundant with page title)
+* "ASSET ID 1163_rr" in the top right
+
+These elements should be fully removed (not hidden).
+
+---
+
+2. REMOVE VALUE TRUNCATION (CRITICAL)
+
+---
+
+Several values are currently abbreviated (e.g., $486K, $463K, $12.2M, $680K).
+
+Update ALL monetary values across the page to:
+
+* Always display full numeric values with commas
+* Examples:
+  $486,000 (NOT $486K)
+  $463,000 (NOT $463K)
+  $12,200,000 (NOT $12.2M)
+  $680,000 (NOT $680K)
+
+Apply this globally across:
+
+* Lender Reserves
+* Lender Escrows
+* Investment Details
+* CapEx section
+* Any other cards
+
+---
+
+3. STANDARDIZE FONT COLOR (REMOVE GREEN TEXT)
+
+---
+
+Some values are showing in green (e.g., Interest Rate, Maturity Date, Remaining Balance).
+
+Update all standard data values to:
+
+* Use default primary text color (black/dark gray)
+* Remove green styling from all non-status values
+
+IMPORTANT:
+
+* Status indicators (Risk / Watch / Healthy) should retain their colors
+* Only actual data values should be normalized to standard text color
+
+---
+
+4. INVESTMENT DETAILS FORMATTING FIX
+
+---
+
+Fix two issues:
+
+A) Remove truncation:
+
+* Replace abbreviated values with full values (same rule as above)
+
+B) Percentage placement:
+
+* Move percentage BEFORE the dollar value
+
+Example:
+Instead of:
+$158,747 (5.1%)
+
+Use:
+5.1% ($158,747)
+
+Apply consistently across all relevant rows.
+
+---
+
+5. OPERATING RESERVES – VALUE COLOR FIX
+
+---
+
+* Remaining Balance currently appears in green
+* Change to standard text color (black/dark gray)
+
+Do NOT change:
+
+* formatting
+* layout
+* hierarchy
+
+---
+
+6. GENERAL CONSISTENCY RULE
+
+---
+
+Across the entire page:
+
+* All numeric values = full format (no abbreviations)
+* All standard values = neutral text color
+* Only status indicators use color (Risk / Watch / Healthy)
+
+---
+
+## GOAL
+
+Create a clean, professional, and consistent data presentation with:
+
+* No truncation
+* No unnecessary color usage
+* No redundant UI elements
+* Clear and uniform formatting across all sections

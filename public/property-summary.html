@@ -93,7 +93,7 @@ html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple
 .f-label{font-size:11px;color:#6A8E91;font-weight:500;flex-shrink:0;max-width:50%;padding-right:8px;line-height:1.35}
 .f-value{font-size:12.5px;font-weight:600;color:#1A2B2C;text-align:right;line-height:1.35;flex:1;min-width:0}
 .f-value.mono{font-family:'Courier New',monospace;font-size:12px}
-.f-value.hi{color:#13545E}
+.f-value.hi{color:#1A2B2C}
 .f-value.bold{font-weight:700}
 .subgroup{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;padding:12px 0 3px}
 
@@ -277,12 +277,15 @@ function parseNum(s){
 function fmtCur(n){
   if(n==null) return '—';
   const abs=Math.abs(n),neg=n<0;
-  let s;
-  if(abs>=1e9) s='$'+(abs/1e9).toFixed(1)+'B';
-  else if(abs>=1e6) s='$'+(abs/1e6).toFixed(1)+'M';
-  else if(abs>=1e3) s='$'+Math.round(abs/1e3)+'K';
-  else s='$'+Math.round(abs).toLocaleString();
+  const s='$'+Math.round(abs).toLocaleString();
   return neg?`(${s})`:s;
+}
+function fullCur(s){
+  const n=parseNum(s);
+  if(n==null) return V(s);
+  const abs=Math.abs(n);
+  const fmt='$'+Math.round(abs).toLocaleString();
+  return n<0?`(${fmt})`:fmt;
 }
 
 function monthsToMaturity(dateStr){
@@ -339,7 +342,6 @@ function render(d){
   <div class="prop-header">
     <div class="prop-header-top">
       <div>
-        <div class="prop-eyebrow">🏢 Property Summary</div>
         <div class="prop-name">${V(prop.name)}</div>
         <div class="prop-addr">${V(prop.address)}</div>
         <div class="prop-meta">
@@ -349,10 +351,6 @@ function render(d){
           <span>·</span>
           <span>Updated: ${V(prop.updatedAt)}</span>
         </div>
-      </div>
-      <div class="prop-asset-id">
-        <div class="lbl">Asset ID</div>
-        <div class="val">1163_rr</div>
       </div>
     </div>
   </div>`;
@@ -435,13 +433,13 @@ function render(d){
       field('Year Built',prop.yearBuilt)+
       field('Occupancy',occ!=null?occ.toFixed(1)+'%':null)+
       field('Acquisition Date',prop.acquisitionDate)+
-      field('Purchase Price',prop.purchasePrice,'mono')+
-      field('Total Capitalization',prop.totalCap,'mono')
+      field('Purchase Price',fullCur(prop.purchasePrice),'mono')+
+      field('Total Capitalization',fullCur(prop.totalCap),'mono')
     ),
     // Loan Details
     scard('💵','Loan Details',
       subgroup('Structure')+
-      field('Loan Amount',loan.amount,'mono')+
+      field('Loan Amount',fullCur(loan.amount),'mono')+
       field('Loan to Value (LTV)',loan.ltv)+
       field('Lender',loan.lender)+
       subgroup('Terms')+
@@ -451,22 +449,22 @@ function render(d){
       field('I/O Remaining',(loan.ioRemaining??0)+' mo')+
       field('Prepay Penalty',loan.prepayPenalty)+
       subgroup('Risk & Timing')+
-      `<div class="field"><span class="f-label">Maturity Date</span><span class="f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#13545E">${V(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+
+      `<div class="field"><span class="f-label">Maturity Date</span><span class="f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#1A2B2C">${V(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+
       `<div class="field"><span class="f-label">DSCR</span><span class="f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${chip(dStatus)}</span></div>`+
       cardMeta(loan.source,loan.asOf)
     ),
     // Investment
     scard('📈','Investment Details',
       subgroup('Capital')+
-      field('Initial Equity Invested',inv.initialEquity,'mono')+
-      field('Capital Returned',inv.capitalReturned,'mono')+
-      `<div class="field"><span class="f-label">Unreturned Capital</span><span class="f-value mono hi bold">${fmtCur(unreturnedNum)}</span></div>`+
+      field('Initial Equity Invested',fullCur(inv.initialEquity),'mono')+
+      field('Capital Returned',fullCur(inv.capitalReturned),'mono')+
+      `<div class="field"><span class="f-label">Unreturned Capital</span><span class="f-value mono bold">${fmtCur(unreturnedNum)}</span></div>`+
       subgroup('Returns')+
       field('Preferred Return',inv.preferredReturn)+
-      `<div class="field"><span class="f-label">Current Distribution (Ann.)</span><span class="f-value mono">${V(inv.currentDistribAnnualized)} <span style="color:#6A8E91;font-weight:400">(${V(inv.currentDistribAnnualizedPct)})</span></span></div>`+
+      `<div class="field"><span class="f-label">Current Distribution (Ann.)</span><span class="f-value mono">${V(inv.currentDistribAnnualizedPct)} <span style="color:#6A8E91;font-weight:400">(${fullCur(inv.currentDistribAnnualized)})</span></span></div>`+
       subgroup('Performance')+
-      field('Cumulative Pref Shortfall',inv.cumPrefShortfall,'mono')+
-      `<div class="field"><span class="f-label">ITD Distribution Paid</span><span class="f-value mono">${V(inv.itdDistribPaid)} <span style="color:#6A8E91;font-weight:400">(${V(inv.itdDistribPaidPct)})</span></span></div>`+
+      field('Cumulative Pref Shortfall',fullCur(inv.cumPrefShortfall),'mono')+
+      `<div class="field"><span class="f-label">ITD Distribution Paid</span><span class="f-value mono">${V(inv.itdDistribPaidPct)} <span style="color:#6A8E91;font-weight:400">(${fullCur(inv.itdDistribPaid)})</span></span></div>`+
       cardMeta(inv.source,inv.asOf)
     ),
     // Contacts
@@ -498,24 +496,24 @@ function render(d){
 
   // Lender Reserves
   rightSections.push(scard('🛡','Lender Reserves',
-    (lr.items||[]).map(r=>`<div class="field"><span class="f-label">${V(r.name)}</span><span class="f-value mono">${V(r.amount)}</span></div>`).join('')+
-    `<div class="total-bar"><span class="total-lbl">Total Lender Reserves</span><span class="total-val">${V(lr.total)}</span></div>`+
+    (lr.items||[]).map(r=>`<div class="field"><span class="f-label">${V(r.name)}</span><span class="f-value mono">${fullCur(r.amount)}</span></div>`).join('')+
+    `<div class="total-bar"><span class="total-lbl">Total Lender Reserves</span><span class="total-val">${fullCur(lr.total)}</span></div>`+
     cardMeta(lr.source,lr.asOf)
   ));
 
   // Lender Escrows
   rightSections.push(scard('🛡','Lender Escrows',
-    (le.items||[]).map(e=>`<div class="field"><span class="f-label">${V(e.name)}</span><span class="f-value mono">${V(e.amount)}</span></div>`).join('')+
-    `<div class="total-bar"><span class="total-lbl">Total Lender Escrows</span><span class="total-val">${V(le.total)}</span></div>`+
+    (le.items||[]).map(e=>`<div class="field"><span class="f-label">${V(e.name)}</span><span class="f-value mono">${fullCur(e.amount)}</span></div>`).join('')+
+    `<div class="total-bar"><span class="total-lbl">Total Lender Escrows</span><span class="total-val">${fullCur(le.total)}</span></div>`+
     cardMeta(le.source,le.asOf)
   ));
 
   // Operating Reserves
   rightSections.push(scard('🛡','Operating Reserves',
     `<div class="field"><span class="f-label">Expense Coverage</span><span class="f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:600;font-size:13px">${resMos!=null?resMos.toFixed(2):'—'}<span style="font-size:11px;font-weight:400;color:#94a3b8"> mo</span></span>${chip(resMos!=null?rStatus:'nodata')}</span></div>`+
-    field('Remaining Balance',opRes.remainingBalance,'mono hi')+
-    field('Initial Balance',opRes.initialBalance,'mono')+
-    field('Net Cash Flow To Date',opRes.netCashFlowToDate,'mono')+
+    field('Remaining Balance',fullCur(opRes.remainingBalance),'mono')+
+    field('Initial Balance',fullCur(opRes.initialBalance),'mono')+
+    field('Net Cash Flow To Date',fullCur(opRes.netCashFlowToDate),'mono')+
     cardMeta(opRes.source,opRes.asOf)
   ));
 
@@ -544,8 +542,8 @@ function render(d){
       <div class="capex-schedule ${cSchedCls}">${cSchedLabel} — ${capexPct>capexExp?capexPct-capexExp+' % ahead':capexExp-capexPct+'% behind'} expected ${capexExp}%</div>
       `:'<div style="color:#94a3b8;font-size:11px">No CapEx data available.</div>'}
     </div>`+
-    field('Initial CapEx Amount',capex.budget,'mono')+
-    field('CapEx Spend To Date',capex.spendToDate,'mono hi')+
+    field('Initial CapEx Amount',fullCur(capex.budget),'mono')+
+    field('CapEx Spend To Date',fullCur(capex.spendToDate),'mono')+
     field('CapEx Remaining',fmtCur(capexRemainingNum),'mono')+
     field('Target Completion',capex.targetCompletion)+
     cardMeta(capex.source,capex.asOf)
