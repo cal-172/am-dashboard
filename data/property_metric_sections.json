@@ -36,6 +36,7 @@
   "prepay_penalty": "setup",
   "maturity_date": "setup",
   "dscr_covenant": "setup",
+  "loan_payment": "setup",
   "initial_equity": "setup",
   "preferred_return": "setup",
   "capex_budget": "setup",

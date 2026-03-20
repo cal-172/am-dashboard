@@ -390,7 +390,7 @@ function render(d){
     },
     {
       icon:'🛡',title:'Operating Reserves',status:resMos!=null?rStatus:'nodata',
-      main:`<span style="font-size:18px;font-weight:600;color:#4A6568">${V(opRes.remainingBalance)}</span>`,
+      main:V(opRes.remainingBalance)||'—',
       sub:resMos!=null?`${resMos.toFixed(2)} mo expense coverage`:'Remaining balance',
       trend:resMosPrev!=null?`${(resMos-resMosPrev)>=0?'+':''}${(resMos-resMosPrev).toFixed(2)} mo vs last mo`:null,
       trendUp:resMosPrev!=null&&(resMos-resMosPrev)>=0,
