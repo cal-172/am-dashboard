@@ -512,15 +512,7 @@ function render(d){
 
   // Operating Reserves
   rightSections.push(scard('🛡','Operating Reserves',
-    `<div class="res-spotlight">
-      <div>
-        <div class="res-big-lbl">Expense Coverage</div>
-        <div class="res-big-val">—<span class="res-big-unit">mo</span></div>
-      </div>
-      <div class="res-badges">
-        ${chip('nodata','No Data')}
-      </div>
-    </div>`+
+    `<div class="field"><span class="f-label">Expense Coverage</span><span class="f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:600;font-size:13px">${resMos!=null?resMos.toFixed(2):'—'}<span style="font-size:11px;font-weight:400;color:#94a3b8"> mo</span></span>${chip(resMos!=null?rStatus:'nodata')}</span></div>`+
     field('Remaining Balance',opRes.remainingBalance,'mono hi')+
     field('Initial Balance',opRes.initialBalance,'mono')+
     field('Net Cash Flow To Date',opRes.netCashFlowToDate,'mono')+
