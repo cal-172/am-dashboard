@@ -41,6 +41,10 @@ externalPort = 3001
 localPort = 18381
 externalPort = 3000
 
+[[ports]]
+localPort = 18382
+externalPort = 3002
+
 [deployment]
 deploymentTarget = "autoscale"
 publicDir = "."

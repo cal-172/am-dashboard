@@ -193,7 +193,7 @@ app.post('/login', async (req, res) => {
     req.session.userId    = user.id;
     req.session.email     = user.email;
     req.session.role      = user.role;
-    return res.redirect('/');
+    return res.redirect('/#ps');
   }
   res.redirect('/login?error=1');
 });

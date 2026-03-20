@@ -262,7 +262,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
       <button class="sb-item" id="nav-waterfall" onclick="switchPage('waterfall')"><span class="sb-icon">📉</span> Budget Waterfall</button>
       <button class="sb-item" id="nav-trend" onclick="switchPage('trend')"><span class="sb-icon">📈</span> Trend Analysis</button>
     </nav>
-    <script>(function(){var h=location.hash.replace('#','');var id=h==='waterfall'?'nav-waterfall':h==='trend'?'nav-trend':h==='ps'?'nav-ps':'nav-avb';document.getElementById(id)?.classList.add('active');})();</script>
+    <script>(function(){var h=location.hash.replace('#','');var id=h==='waterfall'?'nav-waterfall':h==='trend'?'nav-trend':h==='avb'?'nav-avb':'nav-ps';document.getElementById(id)?.classList.add('active');})();</script>
     <div class="sb-footer">
       <div class="sb-btns">
         <a href="/admin" class="sb-btn" id="sb-admin-link" style="display:none">Admin</a>
@@ -1534,8 +1534,8 @@ async function init(){
     }
     const hash = location.hash.replace('#','');
     if(hash === 'waterfall' || hash === 'trend') switchPage(hash);
-    else if(hash === 'ps') switchPage('ps');
-    else renderApp();
+    else if(hash === 'avb') renderApp();
+    else switchPage('ps');
   } catch(e){
     document.getElementById('app').innerHTML=`<div class="no-data">Error loading data: ${e.message}</div>`;
   }
