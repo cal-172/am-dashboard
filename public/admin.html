@@ -719,6 +719,18 @@ let meEmail         = '';
 const MONTH_LABELS = {jan:'January',feb:'February',mar:'March',apr:'April',may:'May',jun:'June',jul:'July',aug:'August',sep:'September',oct:'October',nov:'November',dec:'December'};
 const MONTH_SHORT  = {jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',jun:'Jun',jul:'Jul',aug:'Aug',sep:'Sep',oct:'Oct',nov:'Nov',dec:'Dec'};
 const ALL_MONTHS   = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+function monthBare(k){ const p=k.match(/^(\d{4})-([a-z]+)$/); return p?p[2]:k; }
+function monthYear(k){ const p=k.match(/^(\d{4})-([a-z]+)$/); return p?p[1]:null; }
+function monthLabel(k){ const yr=monthYear(k),bare=monthBare(k); return yr?(MONTH_LABELS[bare]||bare)+' '+yr:(MONTH_LABELS[k]||k); }
+function monthShort(k){ const yr=monthYear(k),bare=monthBare(k); return yr?(MONTH_SHORT[bare]||bare)+" '"+yr.slice(2):(MONTH_SHORT[k]||k); }
+function sortedMonthKeys(obj){
+  return Object.keys(obj).sort((a,b)=>{
+    const [ay,am]=a.includes('-')?a.split('-'):['0000',a];
+    const [by,bm]=b.includes('-')?b.split('-'):['0000',b];
+    if(ay!==by) return ay.localeCompare(by);
+    return ALL_MONTHS.indexOf(am)-ALL_MONTHS.indexOf(bm);
+  });
+}
 const DATA_KEYS    = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
 const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Opex',noi:'NOI',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',ncf:'Net Cash Flow'};
 
@@ -1259,13 +1271,12 @@ function proceedToMonthSelection() {
   }
   parsedData.months = corrected;
   document.getElementById('mapping-review').style.display='none';
-  const months = Object.keys(corrected);
-  const orderedMonths = ALL_MONTHS.filter(m=>months.includes(m));
+  const orderedMonths = sortedMonthKeys(corrected);
   if (parsedData.warnings?.length) showAlert('alert-warn-detail','warn','<strong>Note:</strong> '+parsedData.warnings.join('; '));
   else clearAlert('alert-warn-detail');
   buildMonthSelector(orderedMonths, corrected, currentFileType);
   const tabs = document.getElementById('preview-tabs');
-  tabs.innerHTML = orderedMonths.map((m,i)=>`<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${MONTH_LABELS[m]||m}</button>`).join('');
+  tabs.innerHTML = orderedMonths.map((m,i)=>`<button class="preview-tab${i===0?' active':''}" onclick="switchPreviewTab('${m}',this)">${monthLabel(m)}</button>`).join('');
   previewMonth = orderedMonths[0];
   renderPreviewTable(previewMonth);
   document.getElementById('upload-preview').style.display='';
@@ -1301,7 +1312,7 @@ async function handleFile(file) {
 
     dropText.textContent = '✓ ' + file.name;
     const rowCount = (data.rows||[]).length;
-    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+ months.length+' month(s)</strong> and <strong>'+rowCount+' source rows</strong> in file: '+months.map(m=>MONTH_LABELS[m]||m).join(', ')+'. Review field mappings below before saving.');
+    showAlert('upload-alert','info','Detected <strong>'+(data.sheetName?`sheet "${data.sheetName}" with `:'')+ months.length+' month(s)</strong> and <strong>'+rowCount+' source rows</strong> in file: '+months.map(m=>monthLabel(m)).join(', ')+'. Review field mappings below before saving.');
 
     // Show mapping review step (replaces old direct-to-month-selector flow)
     document.getElementById('upload-preview').style.display='none';
@@ -1334,10 +1345,10 @@ function buildMonthSelector(orderedMonths, monthsData, fileType) {
     if (isZero) autoSkipped++;
     const checked = !isZero;
     const sumLabel = isZero ? 'no data' : '$' + Math.round(sum).toLocaleString();
-    return `<label class="msel${isZero?' zero':' checked'}" id="msel-${m}" title="${MONTH_LABELS[m]}: ${sumLabel}">
+    return `<label class="msel${isZero?' zero':' checked'}" id="msel-${m}" title="${monthLabel(m)}: ${sumLabel}">
       <input type="checkbox" id="mchk-${m}" ${checked?'checked':''} onchange="toggleMonthSel('${m}',this)">
       <div class="msel-body">
-        <div class="msel-name">${MONTH_SHORT[m]}</div>
+        <div class="msel-name">${monthShort(m)}</div>
         <div class="msel-sum">${sumLabel}</div>
       </div>
       <div class="msel-tick">✓</div>
@@ -1389,7 +1400,7 @@ function renderPreviewTable(month) {
 
 async function commitUpload() {
   if (!parsedData) return;
-  const orderedMonths = ALL_MONTHS.filter(m => parsedData.months[m]);
+  const orderedMonths = sortedMonthKeys(parsedData.months);
   const selected = getSelectedMonths(orderedMonths);
   if (selected.length === 0) {
     showAlert('upload-alert','warn','Please select at least one month to save.');
@@ -1424,7 +1435,7 @@ async function commitUpload() {
     });
     const d = await res.json();
     if (d.success) {
-      document.getElementById('commit-status').textContent = '✓ Saved ' + selected.map(m=>MONTH_SHORT[m]).join(', ') + ' successfully!';
+      document.getElementById('commit-status').textContent = '✓ Saved ' + selected.map(m=>monthLabel(m)).join(', ') + ' successfully!';
       document.getElementById('commit-status').style.display='inline';
       setTimeout(()=>document.getElementById('commit-status').style.display='none', 4000);
       loadCoverage(); loadUploads();

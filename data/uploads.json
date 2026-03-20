@@ -20,17 +20,5 @@
     ],
     "uploadedBy": "admin",
     "uploadedAt": "2026-03-18T21:52:54.539Z"
-  },
-  {
-    "id": "ca28b52c-c68c-4e16-a2ce-85d25df7a954",
-    "originalName": "12_Month_Statement_1163_rr_Accrual.xlsx",
-    "fileType": "t12",
-    "sheetName": "Report1",
-    "monthsAffected": [
-      "feb",
-      "jan"
-    ],
-    "uploadedBy": "admin",
-    "uploadedAt": "2026-03-18T21:52:03.718Z"
   }
 ]

@@ -2208,5 +2208,35 @@
     "scope": "global",
     "confirmedAt": "2026-03-18T22:29:43.643Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "b8d00c71-fb1a-4fbd-a893-6ee10048ea8f",
+    "sourceCode": "1365-0000",
+    "sourceLabel": "MISCELLANEOUS INCOME",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T14:08:46.488Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d7301bf5-61ab-4f14-b1c2-88f63e454c8e",
+    "sourceCode": "",
+    "sourceLabel": "TOTAL OTHER REVENUE",
+    "dashboardKey": "toi",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T14:08:46.488Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0153edc3-5918-4e05-a90e-b37314dcf923",
+    "sourceCode": "",
+    "sourceLabel": "TOTAL PARTNERSHIP EXPENSES",
+    "dashboardKey": "amfee",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T14:08:46.488Z",
+    "confirmedBy": "admin"
   }
 ]
