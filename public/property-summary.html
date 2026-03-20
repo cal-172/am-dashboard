@@ -461,10 +461,10 @@ function render(d){
       `<div class="field"><span class="f-label">Unreturned Capital</span><span class="f-value mono bold">${fmtCur(unreturnedNum)}</span></div>`+
       subgroup('Returns')+
       field('Preferred Return',inv.preferredReturn)+
-      `<div class="field"><span class="f-label">Current Distribution (Ann.)</span><span class="f-value mono">${V(inv.currentDistribAnnualizedPct)} <span style="color:#6A8E91;font-weight:400">(${fullCur(inv.currentDistribAnnualized)})</span></span></div>`+
+      `<div class="field"><span class="f-label">Current Distribution (Ann.)</span><span class="f-value mono">${fullCur(inv.currentDistribAnnualized)} <span style="color:#6A8E91;font-weight:400">(${V(inv.currentDistribAnnualizedPct)})</span></span></div>`+
       subgroup('Performance')+
       field('Cumulative Pref Shortfall',fullCur(inv.cumPrefShortfall),'mono')+
-      `<div class="field"><span class="f-label">ITD Distribution Paid</span><span class="f-value mono">${V(inv.itdDistribPaidPct)} <span style="color:#6A8E91;font-weight:400">(${fullCur(inv.itdDistribPaid)})</span></span></div>`+
+      `<div class="field"><span class="f-label">ITD Distribution Paid</span><span class="f-value mono">${fullCur(inv.itdDistribPaid)} <span style="color:#6A8E91;font-weight:400">(${V(inv.itdDistribPaidPct)})</span></span></div>`+
       cardMeta(inv.source,inv.asOf)
     ),
     // Contacts
