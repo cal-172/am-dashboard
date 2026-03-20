@@ -572,12 +572,6 @@ function renderThead(m){
   if(dEl) dEl.innerHTML=`<div>As of: ${mlbl(m)}</div><div>Updated: ${updatedStr}</div>`;
   document.getElementById('thead').innerHTML=`
   <tr>
-    <th class="th-banner" colspan="11">
-      <div class="th-prop">${PROPERTY} &nbsp;<span style="font-weight:400;font-size:11.5px;opacity:.6">Accrual Basis</span></div>
-      <div class="th-sub">Compare Actual vs Budget &nbsp;&bull;&nbsp; Unit of Measurement: ${viewMode==='perunit'?'Per Unit (Annualized)':'Total Amount'} &nbsp;&bull;&nbsp; ${numUnits} Units</div>
-    </th>
-  </tr>
-  <tr>
     <th class="th-blank">Category</th>
     <th class="th-period" colspan="4">${mlbl(m)}</th>
     <th class="th-period" colspan="3">${qlbl(m)}</th>

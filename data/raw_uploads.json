@@ -3323,10 +3323,10 @@
     ]
   },
   {
-    "id": "bc331cb3-1a42-4552-a4f1-956d46860c01",
+    "id": "c957355b-a227-417c-9632-6a30c0f454c9",
     "fileType": "t12",
-    "originalName": "2026.02 Regatta Revised Financials.xlsx",
-    "committedAt": "2026-03-20T14:16:41.058Z",
+    "originalName": "12_Month_Statement_1163_rr_Accrual (1).xlsx",
+    "committedAt": "2026-03-20T14:52:35.549Z",
     "committedBy": "admin",
     "monthsCommitted": [
       "2026-feb",
@@ -3364,7 +3364,82 @@
         }
       },
       {
-        "code": "",
+        "code": "1010-9999",
+        "label": "TOTAL VACANCY",
+        "originalKey": "vac",
+        "monthValues": {
+          "2026-jan": {
+            "actual": -11414.24,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -23952.88,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1020-0000",
+        "label": "EMPLOYEE UNITS",
+        "originalKey": "mod",
+        "monthValues": {
+          "2026-jan": {
+            "actual": -342.5,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -342.5,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1025-9999",
+        "label": "TOTAL NONREVENUE UNITS",
+        "originalKey": "mod",
+        "monthValues": {
+          "2026-jan": {
+            "actual": -342.5,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -342.5,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1040-9999",
+        "label": "TOTAL CONCESSIONS",
+        "originalKey": "con",
+        "monthValues": {
+          "2026-jan": {
+            "actual": -10403.43,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -1683.7,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1100-9998",
+        "label": "TOTAL DELINQ/CREDIT LOSS",
+        "originalKey": "bd",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 0,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -17850.75,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1100-9999",
         "label": "TOTAL RENTAL INCOME",
         "originalKey": "trr",
         "monthValues": {
@@ -3379,22 +3454,112 @@
         }
       },
       {
-        "code": "",
-        "label": "TOTAL OTHER REVENUE",
+        "code": "1104-0010",
+        "label": "PARKING/UTILITIES/OTHER INCOME",
         "originalKey": "toi",
         "monthValues": {
           "2026-jan": {
-            "actual": 31605.6,
+            "actual": 0,
             "budget": null
           },
           "2026-feb": {
-            "actual": 2999.71,
+            "actual": 0,
             "budget": null
           }
         }
       },
       {
-        "code": "",
+        "code": "1105-9999",
+        "label": "TOTAL PARKING",
+        "originalKey": "oi",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 882.41,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 882.5,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1128-9999",
+        "label": "TOTAL UTILITY INCOME",
+        "originalKey": "ur",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 1539.39,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -1935.13,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1175-9999",
+        "label": "TOTAL TELEPHONE & CABLE",
+        "originalKey": "oi",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 10842.42,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 9735.87,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1180-9999",
+        "label": "TOTAL TERM/BUYOUT FEES",
+        "originalKey": "oi",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 858.5,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -14226.5,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1195-9999",
+        "label": "TOTAL LAUNDRY INCOME",
+        "originalKey": "oi",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 2303.87,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 1433.04,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1365-9999",
+        "label": "TOTAL OTHER MISC INCOME",
+        "originalKey": "oi",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 15179.01,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 7109.93,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "1999-9999",
         "label": "TOTAL INCOME",
         "originalKey": "egi",
         "monthValues": {
@@ -3409,22 +3574,52 @@
         }
       },
       {
-        "code": "",
-        "label": "TOTAL GENERAL & ADMIN",
+        "code": "2000-0030",
+        "label": "GENERAL & ADMINISTRATIVE",
         "originalKey": "ga",
         "monthValues": {
           "2026-jan": {
-            "actual": 15311.6,
+            "actual": 0,
             "budget": null
           },
           "2026-feb": {
-            "actual": 11627.69,
+            "actual": 0,
             "budget": null
           }
         }
       },
       {
-        "code": "",
+        "code": "2069-9999",
+        "label": "TOTAL GENERAL & ADMIN",
+        "originalKey": "ga",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 14552.63,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 11504.72,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "2100-0099",
+        "label": "TOTAL MANAGEMENT FEES",
+        "originalKey": "mgmt",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 6820.36,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 6000,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "2299-9999",
         "label": "TOTAL PAYROLL",
         "originalKey": "payroll",
         "monthValues": {
@@ -3439,7 +3634,67 @@
         }
       },
       {
-        "code": "",
+        "code": "3000-0010",
+        "label": "INSURANCE",
+        "originalKey": "ins",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 0,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 0,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3050-9999",
+        "label": "TOTAL INSURANCE",
+        "originalKey": "ins",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 11383.96,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 11383.96,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3100-0010",
+        "label": "TAXES & OTHER ASSESSMENTS",
+        "originalKey": "taxes",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 0,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 0,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3150-9999",
+        "label": "TOTAL TAXES & OTHER",
+        "originalKey": "taxes",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 34012.11,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 34012.11,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3200-0010",
         "label": "LEASING & MARKETING",
         "originalKey": "adv",
         "monthValues": {
@@ -3454,7 +3709,7 @@
         }
       },
       {
-        "code": "",
+        "code": "3299-9999",
         "label": "TOTAL LEASING & MARKETING",
         "originalKey": "adv",
         "monthValues": {
@@ -3469,22 +3724,67 @@
         }
       },
       {
-        "code": "",
-        "label": "TOTAL UTILITIES",
-        "originalKey": "util",
+        "code": "3350-9999",
+        "label": "TOTAL PROFESSIONAL FEES",
+        "originalKey": "ga",
         "monthValues": {
           "2026-jan": {
-            "actual": 50459.58,
+            "actual": 758.97,
             "budget": null
           },
           "2026-feb": {
-            "actual": 6492.86,
+            "actual": 122.97,
             "budget": null
           }
         }
       },
       {
-        "code": "",
+        "code": "3405-0000",
+        "label": "CONTRACT-LANDSCAPE",
+        "originalKey": "contract",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 2536.9,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 2327.38,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3410-0000",
+        "label": "OTHER-LANDSCAPE",
+        "originalKey": "rm",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 475,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 617.03,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3450-9999",
+        "label": "TOTAL SECURITY/LIFE SAFETY",
+        "originalKey": "contract",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 1959.83,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 695.31,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "3500-0010",
         "label": "REPAIRS & MAINTENANCE",
         "originalKey": "rm",
         "monthValues": {
@@ -3499,68 +3799,23 @@
         }
       },
       {
-        "code": "3410-0000",
-        "label": "LANDSCAPE R & M",
-        "originalKey": "rm",
+        "code": "3555-0000",
+        "label": "CONTRACT-PEST CONTROL",
+        "originalKey": "contract",
         "monthValues": {
           "2026-jan": {
-            "actual": 475,
+            "actual": 460.06,
             "budget": null
           },
           "2026-feb": {
-            "actual": 617.03,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3505-0000",
-        "label": "EQUIPMENT RENTAL & MAINTENANCE",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3540-0000",
-        "label": "POOL R&M",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3540-0050",
-        "label": "RECREATIONAL AMENITIES R&M",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
+            "actual": 492.28,
             "budget": null
           }
         }
       },
       {
         "code": "3560-0000",
-        "label": "OTHER PEST CONTROL SERVICES",
+        "label": "OTHER-PEST CONTROL",
         "originalKey": "rm",
         "monthValues": {
           "2026-jan": {
@@ -3569,66 +3824,6 @@
           },
           "2026-feb": {
             "actual": 319.34,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3575-0000",
-        "label": "EXTERIOR BUILDING STRUCTURE",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3570-0000",
-        "label": "ROOF REPAIRS",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3576-2500",
-        "label": "DRYWALL REPAIR/REPLACEMENT",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3577-5000",
-        "label": "CARPENTRY/WELDING",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
             "budget": null
           }
         }
@@ -3650,7 +3845,7 @@
       },
       {
         "code": "3590-0000",
-        "label": "ELECTRICAL REPAIR",
+        "label": "ELECTRICAL REPAIRS",
         "originalKey": "rm",
         "monthValues": {
           "2026-jan": {
@@ -3665,7 +3860,7 @@
       },
       {
         "code": "3637-5000",
-        "label": "GLASS REPAIR/REPLACEMENT",
+        "label": "GLASS REPAIR/REPCMT",
         "originalKey": "rm",
         "monthValues": {
           "2026-jan": {
@@ -3694,53 +3889,8 @@
         }
       },
       {
-        "code": "",
-        "label": "TOTAL SUPPLY EXPENSE",
-        "originalKey": "rm",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 3149.09,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 3972.31,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TURNOVER EXPENSE",
-        "originalKey": "mr",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "3740-0000",
-        "label": "OTHER TURNOVER EXPENSE",
-        "originalKey": "mr",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 17752.66,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TOTAL TURNOVER EXPENSE",
+        "code": "3790-9999",
+        "label": "TOTAL T/O REFURBISHMENT",
         "originalKey": "mr",
         "monthValues": {
           "2026-jan": {
@@ -3754,142 +3904,52 @@
         }
       },
       {
-        "code": "",
-        "label": "CONTRACT SERVICES",
-        "originalKey": "contract",
+        "code": "4050-9999",
+        "label": "TOTAL UTILITIES",
+        "originalKey": "util",
         "monthValues": {
           "2026-jan": {
-            "actual": 0,
+            "actual": 45311.35,
             "budget": null
           },
           "2026-feb": {
-            "actual": 0,
+            "actual": -811.42,
             "budget": null
           }
         }
       },
       {
-        "code": "3405-0000",
-        "label": "CONTRACT-LANDSCAPE",
-        "originalKey": "contract",
+        "code": "4099-9999",
+        "label": "TOTAL OTHER UTILITIES",
+        "originalKey": "util",
         "monthValues": {
           "2026-jan": {
-            "actual": 2536.9,
+            "actual": 5148.23,
             "budget": null
           },
           "2026-feb": {
-            "actual": 2327.38,
+            "actual": 7304.28,
             "budget": null
           }
         }
       },
       {
-        "code": "3535-0000",
-        "label": "CONTRACT-POOL",
-        "originalKey": "contract",
+        "code": "6097-0000",
+        "label": "TOTAL SUPPLY EXPENSE",
+        "originalKey": "rm",
         "monthValues": {
           "2026-jan": {
-            "actual": 0,
+            "actual": 3414.31,
             "budget": null
           },
           "2026-feb": {
-            "actual": 0,
+            "actual": 4222.89,
             "budget": null
           }
         }
       },
       {
-        "code": "3555-0000",
-        "label": "CONTRACT-PEST CONTROL",
-        "originalKey": "contract",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 460.06,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 492.28,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TOTAL CONTRACT SERVICES",
-        "originalKey": "contract",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 11777.15,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 9514.97,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "INSURANCE",
-        "originalKey": "ins",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TOTAL INSURANCE",
-        "originalKey": "ins",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 11383.96,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 11383.96,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TAXES & OTHER ASSESSMENTS",
-        "originalKey": "taxes",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TOTAL TAXES & OTHER ASSESSMENTS",
-        "originalKey": "taxes",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 34012.11,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 34012.11,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
+        "code": "7900-9000",
         "label": "TOTAL OPERATING EXPENSES",
         "originalKey": "opex",
         "monthValues": {
@@ -3904,7 +3964,7 @@
         }
       },
       {
-        "code": "",
+        "code": "7950-9000",
         "label": "NET OPERATING INCOME",
         "originalKey": "noi",
         "monthValues": {
@@ -3919,8 +3979,38 @@
         }
       },
       {
-        "code": "",
-        "label": "TOTAL PARTNERSHIP EXPENSES",
+        "code": "8100-0010",
+        "label": "REPLACEMENT RESERVES",
+        "originalKey": "capex",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 0,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 0,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "8250-9999",
+        "label": "TOTAL REPLACEMENT RESERVES",
+        "originalKey": "capex",
+        "monthValues": {
+          "2026-jan": {
+            "actual": 49274.03,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": 15481.02,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "8500-9999",
+        "label": "TOTAL ASSET & OTHER FEES",
         "originalKey": "amfee",
         "monthValues": {
           "2026-jan": {
@@ -3934,7 +4024,7 @@
         }
       },
       {
-        "code": "",
+        "code": "9090-9999",
         "label": "TOTAL DEBT SERVICE",
         "originalKey": "debt",
         "monthValues": {
@@ -3949,37 +4039,7 @@
         }
       },
       {
-        "code": "",
-        "label": "REPLACEMENT RESERVES/CAPITAL EXPENSE",
-        "originalKey": "capex",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 0,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 0,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
-        "label": "TOTAL REPLACEMENT RESERVES/CAPITAL EXPENSES",
-        "originalKey": "capex",
-        "monthValues": {
-          "2026-jan": {
-            "actual": 49274.03,
-            "budget": null
-          },
-          "2026-feb": {
-            "actual": 15481.02,
-            "budget": null
-          }
-        }
-      },
-      {
-        "code": "",
+        "code": "9799-9999",
         "label": "TOTAL RENOVATIONS",
         "originalKey": "capex",
         "monthValues": {
@@ -3989,6 +4049,21 @@
           },
           "2026-feb": {
             "actual": 11364.18,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "9990-9999",
+        "label": "NET INCOME",
+        "originalKey": "ncf",
+        "monthValues": {
+          "2026-jan": {
+            "actual": -53756.81,
+            "budget": null
+          },
+          "2026-feb": {
+            "actual": -26390.51,
             "budget": null
           }
         }
