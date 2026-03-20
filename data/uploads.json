@@ -1,18 +1,5 @@
 [
   {
-    "id": "c957355b-a227-417c-9632-6a30c0f454c9",
-    "originalName": "12_Month_Statement_1163_rr_Accrual (1).xlsx",
-    "fileType": "t12",
-    "sheetName": "Report1",
-    "monthsAffected": [
-      "2026-feb",
-      "2026-jan"
-    ],
-    "year": 2026,
-    "uploadedBy": "admin",
-    "uploadedAt": "2026-03-20T14:52:35.549Z"
-  },
-  {
     "id": "7105571f-d565-401b-a5c3-60b1f4a03d46",
     "originalName": "12_Month_Budget_1163_rr_Accrual.xlsx",
     "fileType": "budget",

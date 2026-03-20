@@ -668,7 +668,7 @@ function parseRealPageWorkbook(workbook, fileType = 'combined', savedMappings = 
       const s = String(v).toLowerCase();
       return Object.keys(MONTH_NAMES).some(m => s.startsWith(m));
     }).length;
-    if (monthCount >= 2) { headerRow = r; break; }
+    if (monthCount >= 1) { headerRow = r; break; }
   }
 
   if (headerRow < 0) {
