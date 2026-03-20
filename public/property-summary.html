@@ -104,8 +104,8 @@ html,body{height:100%;background:#DCE8EA;font-family:'Segoe UI',system-ui,-apple
 /* ── OP RESERVES SPOTLIGHT ── */
 .res-spotlight{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EEF4F5}
 .res-big-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#13545E;margin-bottom:4px}
-.res-big-val{font-size:36px;font-weight:700;color:#1A2B2C;line-height:1}
-.res-big-unit{font-size:12px;color:#6A8E91;margin-top:2px}
+.res-big-val{font-size:24px;font-weight:600;color:#1A2B2C;line-height:1;display:flex;align-items:baseline;gap:4px}
+.res-big-unit{font-size:12px;color:#94a3b8;font-weight:400}
 .res-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
 
 /* ── CAPEX PROGRESS ── */
@@ -392,7 +392,7 @@ function render(d){
     },
     {
       icon:'🛡',title:'Operating Reserves',status:resMos!=null?rStatus:'nodata',
-      main:V(opRes.remainingBalance),
+      main:`<span style="font-size:18px;font-weight:600;color:#4A6568">${V(opRes.remainingBalance)}</span>`,
       sub:resMos!=null?`${resMos.toFixed(2)} mo expense coverage`:'Remaining balance',
       trend:resMosPrev!=null?`${(resMos-resMosPrev)>=0?'+':''}${(resMos-resMosPrev).toFixed(2)} mo vs last mo`:null,
       trendUp:resMosPrev!=null&&(resMos-resMosPrev)>=0,
@@ -452,7 +452,7 @@ function render(d){
       field('Prepay Penalty',loan.prepayPenalty)+
       subgroup('Risk & Timing')+
       `<div class="field"><span class="f-label">Maturity Date</span><span class="f-value"><span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-weight:700;color:#13545E">${V(loan.maturityDate)}</span><span style="font-weight:700;color:#1A2B2C">${mToMat} months remaining</span></span></span></div>`+
-      `<div class="field"><span class="f-label">DSCR</span><span class="f-value" style="display:flex;align-items:center;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${chip(dStatus)}</span></div>`+
+      `<div class="field"><span class="f-label">DSCR</span><span class="f-value" style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><span style="font-weight:700">${dscr!=null?dscr.toFixed(2)+'x':'—'}</span>${chip(dStatus)}</span></div>`+
       cardMeta(loan.source,loan.asOf)
     ),
     // Investment
@@ -514,9 +514,8 @@ function render(d){
   rightSections.push(scard('🛡','Operating Reserves',
     `<div class="res-spotlight">
       <div>
-        <div class="res-big-lbl">Expense Coverage (Months)</div>
-        <div class="res-big-val">—</div>
-        <div class="res-big-unit">months</div>
+        <div class="res-big-lbl">Expense Coverage</div>
+        <div class="res-big-val">—<span class="res-big-unit">mo</span></div>
       </div>
       <div class="res-badges">
         ${chip('nodata','No Data')}
