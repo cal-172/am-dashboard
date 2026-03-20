@@ -217,6 +217,94 @@ th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
 th.sortable:hover{background:#D4E9EB}
 th.sortable .sort-icon{margin-left:4px;opacity:.35;font-size:10px}
 th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
+
+/* ── PROPERTY SUMMARY ADMIN (scoped to #page-ps) ── */
+#page-ps{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+#page-ps .ps-hdr{background:#0D3D45;color:#fff;padding:16px 24px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+#page-ps .ps-hdr-left .eyebrow{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;font-weight:600;margin-bottom:3px}
+#page-ps .ps-hdr-left h1{font-size:20px;font-weight:700}
+#page-ps .ps-hdr-right{text-align:right}
+#page-ps .ps-hdr-right .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.45}
+#page-ps .ps-hdr-right .val{font-size:13px;font-weight:700;margin-top:1px}
+#page-ps .ps-hdr-right .sub{font-size:10px;font-family:'Courier New',monospace;opacity:.45}
+#page-ps .psa-action-bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:9px 24px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+#page-ps .psa-month-wrap{display:flex;align-items:center;gap:8px;padding-right:16px;border-right:1px solid #D2E8EA}
+#page-ps .psa-month-wrap label{font-size:10px;font-weight:700;color:#13545E;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+#page-ps .psa-month-wrap select{border:1px solid #D2E8EA;border-radius:5px;padding:4px 10px;font-size:12.5px;font-weight:600;color:#13545E;background:#fff;outline:none;cursor:pointer;font-family:inherit}
+#page-ps .psa-status{display:flex;align-items:center;gap:6px;font-size:11.5px;flex:1}
+#page-ps .psa-status.ok,#page-ps .psa-status.saved{color:#15803d}
+#page-ps .psa-status.error{color:#dc2626}
+#page-ps .psa-status.pending{color:#92400e}
+#page-ps .psa-ab-btns{display:flex;gap:8px;align-items:center;margin-left:auto}
+#page-ps .psa-btn-cancel{padding:5px 14px;font-size:11.5px;font-weight:500;border:1px solid #D2E8EA;background:#fff;border-radius:5px;cursor:pointer;color:#4A6568;font-family:inherit}
+#page-ps .psa-btn-cancel:hover{background:#F4F8F9}
+#page-ps .psa-btn-save{padding:5px 16px;font-size:11.5px;font-weight:600;border:none;background:#13545E;color:#fff;border-radius:5px;cursor:pointer;font-family:inherit}
+#page-ps .psa-btn-save:hover{background:#0D3D45}
+#page-ps .psa-btn-save:disabled,#page-ps .psa-btn-cancel:disabled{opacity:.45;cursor:not-allowed}
+#page-ps .psa-content{padding:18px 24px;flex:1;overflow-y:auto}
+#page-ps .panel{background:#fff;border-radius:8px;border:1px solid #D2E8EA;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px;overflow:hidden}
+#page-ps .panel-head{padding:12px 18px;border-bottom:1px solid #D2E8EA;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+#page-ps .panel-head.accent{background:#EDF8F6}
+#page-ps .panel-title{font-size:12px;font-weight:700;color:#13545E;display:flex;align-items:center;gap:8px}
+#page-ps .psa-badge{font-size:9px;font-weight:700;padding:1.5px 7px;border-radius:10px;background:#E2EEF0;color:#4A6568;text-transform:uppercase;letter-spacing:.07em}
+#page-ps .psa-badge-blue{font-size:9px;font-weight:700;padding:1.5px 7px;border-radius:10px;background:#EEF6FF;color:#1d4ed8;text-transform:uppercase;letter-spacing:.07em}
+#page-ps .panel-desc{font-size:10.5px;color:#6A8E91;margin-top:1px}
+#page-ps .panel-chevron{color:#94a3b8;font-size:13px}
+#page-ps .panel-body{display:none}
+#page-ps .panel-body.open{display:block}
+#page-ps .m-cols{grid-template-columns:minmax(140px,.85fr) 135px 130px minmax(90px,.7fr) 85px}
+#page-ps .m-grid-header,#page-ps .m-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+#page-ps .m-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+#page-ps .m-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+#page-ps .m-grid-row{border-bottom:1px solid #F4F8F9;transition:background .08s}
+#page-ps .m-grid-row:hover{background:#FAFCFC}
+#page-ps .s-cols{grid-template-columns:minmax(140px,.85fr) 130px 90px 130px minmax(90px,.7fr) 85px}
+#page-ps .s-grid-header,#page-ps .s-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+#page-ps .s-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+#page-ps .s-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+#page-ps .s-grid-row{border-bottom:1px solid #F4F8F9;transition:background .08s}
+#page-ps .s-grid-row:hover{background:#FAFCFC}
+#page-ps .r-cols{grid-template-columns:minmax(140px,.85fr) 130px 90px 130px minmax(90px,.7fr) 32px}
+#page-ps .r-grid-header,#page-ps .r-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+#page-ps .r-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+#page-ps .r-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+#page-ps .r-grid-row{border-bottom:1px solid #F4F8F9}
+#page-ps .r-grid-row:hover{background:#FAFCFC}
+#page-ps .kd-cols{grid-template-columns:minmax(140px,.85fr) 115px 115px minmax(90px,1fr) 32px}
+#page-ps .kd-grid-header,#page-ps .kd-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+#page-ps .kd-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+#page-ps .kd-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+#page-ps .kd-grid-row{border-bottom:1px solid #F4F8F9}
+#page-ps .kd-grid-row:hover{background:#FAFCFC}
+#page-ps .c-cols{grid-template-columns:1fr 1fr 1.5fr 90px 1fr 32px}
+#page-ps .c-grid-header,#page-ps .c-grid-row{display:grid;gap:14px;padding:6px 18px;align-items:center}
+#page-ps .c-grid-header{padding:7px 18px;background:#F8FBFC;border-bottom:1px solid #D2E8EA}
+#page-ps .c-grid-header span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+#page-ps .c-grid-row{border-bottom:1px solid #F4F8F9}
+#page-ps .c-grid-row:hover{background:#FAFCFC}
+#page-ps .group-hdr{padding:6px 18px;background:#F4F8F9;border-bottom:1px solid #EEF4F5;border-top:1px solid #EEF4F5}
+#page-ps .group-hdr-name{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#13545E;display:flex;align-items:center;gap:5px}
+#page-ps .cell-name{font-size:12px;color:#1A2B2C;display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden}
+#page-ps .cell-name.dimmed{color:#94a3b8}
+#page-ps .cell-name-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#page-ps .cell-inp{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:12px;color:#1A2B2C;padding:2px 0;outline:none;font-family:'Courier New',monospace;transition:border-color .1s}
+#page-ps .cell-inp:focus{border-bottom-color:#13545E}
+#page-ps .cell-inp:hover:not(:focus){border-bottom-color:#D2E8EA}
+#page-ps .cell-inp.right{text-align:right}
+#page-ps .cell-sel{width:100%;border:none;border-bottom:1px solid transparent;background:transparent;font-size:11px;color:#6A8E91;padding:2px 0;outline:none;cursor:pointer;transition:border-color .1s;font-family:inherit}
+#page-ps .cell-sel:focus,#page-ps .cell-sel:hover{border-bottom-color:#13545E}
+#page-ps .cell-autocalc{display:flex;align-items:center;gap:4px;color:#94a3b8;font-size:10px;font-style:italic}
+#page-ps .cell-system{display:inline-flex;align-items:center;gap:4px;background:#EEF6FF;border:1px solid #BFDBFE;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;color:#1d4ed8;white-space:nowrap}
+#page-ps .cell-system-val{font-size:11.5px;font-weight:600;color:#1A2B2C;font-family:'Courier New',monospace;text-align:right}
+#page-ps .cell-calc{display:inline-flex;align-items:center;gap:4px;background:#F4F8F9;border:1px solid #D2E8EA;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;color:#4A6568;white-space:nowrap}
+#page-ps .cell-calc-val{font-size:11.5px;font-weight:600;color:#1A2B2C;font-family:'Courier New',monospace;text-align:right}
+#page-ps .cell-remove{display:flex;align-items:center;justify-content:flex-end}
+#page-ps .btn-remove{border:none;background:none;cursor:pointer;color:#D2E8EA;font-size:15px;padding:0 2px;transition:color .1s}
+#page-ps .btn-remove:hover{color:#dc2626}
+#page-ps .add-row{padding:8px 18px;border-top:1px solid #F4F8F9}
+#page-ps .btn-add{background:none;border:none;cursor:pointer;font-size:11.5px;font-weight:600;color:#13545E;font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
+#page-ps .btn-add:hover{color:#0D3D45}
+#page-ps .psa-loading{padding:40px;text-align:center;color:#6A8E91}
 </style>
 </head>
 <body>
@@ -238,15 +326,15 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
         <span class="sb-icon">🗂</span> Mapping Rules
       </button>
       <div class="sb-section">Asset</div>
-      <a href="/property-summary-admin" class="sb-item" style="text-decoration:none">
+      <button class="sb-item" id="nav-ps" onclick="showPage('ps')">
         <span class="sb-icon">🏢</span> Property Summary
-      </a>
+      </button>
       <div class="sb-section">Access</div>
       <button class="sb-item" id="nav-users" onclick="showPage('users')">
         <span class="sb-icon">👥</span> User Permissions
       </button>
     </nav>
-    <script>(function(){var h=location.hash.replace('#','');var p=h==='users'?'users':h==='mappings'?'mappings':'files';if(p!=='files'){var s=document.createElement('style');s.id='admin-init-style';s.textContent='#page-files{display:none!important}#page-'+p+'{display:block!important}';document.head.appendChild(s);}document.getElementById('nav-files').classList.toggle('active',p==='files');document.getElementById('nav-'+p).classList.add('active');})();</script>
+    <script>(function(){var h=location.hash.replace('#','');var p=h==='users'?'users':h==='mappings'?'mappings':h==='ps'?'ps':'files';if(p!=='files'){var s=document.createElement('style');s.id='admin-init-style';s.textContent='#page-files{display:none!important}#page-'+p+'{display:block!important}';document.head.appendChild(s);}document.getElementById('nav-files').classList.toggle('active',p==='files');document.getElementById('nav-'+p)?.classList.add('active');})();</script>
     <div class="sb-footer">
       <div class="sb-user">
         <strong id="sb-email">Loading...</strong>
@@ -556,6 +644,35 @@ th.sortable.sort-active .sort-icon{opacity:1;color:#0E7490}
       </div>
     </div>
 
+    <!-- PROPERTY SUMMARY ADMIN PAGE (embedded inside .main) -->
+    <div id="page-ps" style="display:none">
+      <div class="ps-hdr">
+        <div class="ps-hdr-left">
+          <div class="eyebrow">Asset Management &rsaquo; Admin</div>
+          <h1>Property Summary Admin</h1>
+        </div>
+        <div class="ps-hdr-right">
+          <div class="lbl">Property</div>
+          <div class="val">Regatta Apartments</div>
+          <div class="sub">1163_rr</div>
+        </div>
+      </div>
+      <div class="psa-action-bar">
+        <div class="psa-month-wrap">
+          <label>&#128197; Updating:</label>
+          <select id="psa-month-sel"><option value="">Loading&#8230;</option></select>
+        </div>
+        <div class="psa-status ok" id="psa-status"><span class="icon">&#10003;</span> <span id="psa-status-text">All changes saved</span></div>
+        <div class="psa-ab-btns">
+          <button class="psa-btn-cancel" id="psa-btn-cancel" onclick="psa_cancelChanges()">Cancel</button>
+          <button class="psa-btn-save" id="psa-btn-save" onclick="psa_saveAll()">Save Changes</button>
+        </div>
+      </div>
+      <div class="psa-content" id="psa-content">
+        <div class="psa-loading">Loading&#8230;</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -611,14 +728,16 @@ const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vac
 function showPage(page) {
   // Remove the one-time init style so subsequent navigation works correctly
   document.getElementById('admin-init-style')?.remove();
-  ['files','users','mappings'].forEach(p => {
+  ['files','users','mappings','ps'].forEach(p => {
     document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
-    document.getElementById('nav-'+p).classList.toggle('active', p===page);
+    const navEl = document.getElementById('nav-'+p);
+    if (navEl) navEl.classList.toggle('active', p===page);
   });
   location.hash = page;
   if (page === 'users')    loadUsers();
   if (page === 'files')    { loadCoverage(); loadUploads(); }
   if (page === 'mappings') loadMappings();
+  if (page === 'ps')       psa_init();
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1485,6 +1604,402 @@ function clearAlert(id) {
 }
 function fD(v){ if(v===null||v===undefined||v===0) return '—'; const s=Math.round(Math.abs(v)).toLocaleString('en-US'); return v<0?'('+s+')':s; }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ══════════════════════════════════════════════════════
+   PROPERTY SUMMARY ADMIN — embedded (all names prefixed psa_)
+══════════════════════════════════════════════════════ */
+let PSA_STATE = {
+  month: '',
+  monthly: [],
+  setup: [],
+  sectionAssignments: {},
+  reserves: [],
+  escrows: [],
+  keyDates: [],
+  contacts: [],
+  hasChanges: false,
+};
+let psa_dynId = 9000;
+function psa_nextId(){ return ++psa_dynId; }
+let _psaInited = false;
+
+const PSA_MONTHLY_STRUCTURE = [
+  {key:'occupancy_pct',           name:'Occupancy %',               group:'Performance',       readOnly:false, fmt:'pct'},
+  {key:'vacancy_pct',             name:'Vacancy %',                 group:'Performance',       readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= 100% − Occupancy %'},
+  {key:'dscr',                    name:'DSCR',                      group:'Performance',       readOnly:false, fmt:'dscr'},
+  {key:'noi_ltm',                 name:'NOI (LTM)',                 group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
+  {key:'noi_vs_budget',           name:'NOI vs Budget',             group:'Performance',       readOnly:true,  fmt:'cur',  calcType:'system', calcNote:'From financial actuals'},
+  {key:'noi_status',              name:'NOI Status',                group:'Performance',       readOnly:true,             calcType:'auto',   calcNote:'Derived from NOI vs Budget'},
+  {key:'initial_op_balance',      name:'Initial Operating Balance', group:'Operating Reserves',readOnly:false, fmt:'cur'},
+  {key:'net_cash_flow',           name:'Net Cash Flow To Date',     group:'Operating Reserves',readOnly:false, fmt:'cur'},
+  {key:'remaining_reserve_bal',   name:'Remaining Reserve Balance', group:'Operating Reserves',readOnly:true,  fmt:'cur',  calcType:'calc',   calcNote:'= Initial + Net Cash Flow'},
+  {key:'expense_coverage_months', name:'Expense Coverage (Months)', group:'Operating Reserves',readOnly:true,             calcType:'auto',   calcNote:'Requires monthly expense data'},
+  {key:'capex_spend',             name:'CapEx Spend To Date',       group:'CapEx',             readOnly:false, fmt:'cur'},
+  {key:'target_completion_date',  name:'Target Completion Date',    group:'CapEx',             readOnly:false, fmt:'date'},
+  {key:'capex_pct_complete',      name:'CapEx % Complete',          group:'CapEx',             readOnly:true,  fmt:'pct',  calcType:'auto',   calcNote:'= Spend ÷ Budget × 100'},
+  {key:'capex_status',            name:'CapEx Status',              group:'CapEx',             readOnly:true,             calcType:'auto',   calcNote:'Derived from % vs expected'},
+  {key:'current_distrib_ann_usd', name:'Current Distrib. Ann. ($)', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'current_distrib_ann_pct', name:'Current Distrib. Ann. (%)', group:'Investment',        readOnly:false, fmt:'pct'},
+  {key:'itd_distrib_paid_usd',    name:'ITD Distribution Paid ($)', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'itd_distrib_paid_pct',    name:'ITD Distribution Paid (%)', group:'Investment',        readOnly:false, fmt:'pct'},
+  {key:'cum_pref_shortfall',      name:'Cumulative Pref Shortfall', group:'Investment',        readOnly:false, fmt:'cur'},
+  {key:'capital_returned',        name:'Capital Returned',          group:'Investment',        readOnly:false, fmt:'cur'},
+];
+
+function psa_toMonthKey(label){
+  const p=label.trim().split(/\s+/);
+  return `${p[p.length-1]}-${p[0].slice(0,3).toLowerCase()}`;
+}
+
+function psa_monthKeyToLabel(key){
+  const [year,mon]=key.split('-');
+  return `${MONTH_LABELS[mon]||mon} ${year}`;
+}
+
+async function psa_populateMonthDropdown(){
+  const sel=document.getElementById('psa-month-sel');
+  try{
+    const data=await fetch('/api/property-summary/actuals-months').then(r=>r.json());
+    const months=data.months||[];
+    if(months.length===0){
+      sel.innerHTML='<option value="">No actuals available</option>';
+      sel.disabled=true;
+      PSA_STATE.month='';
+      return false;
+    }
+    sel.innerHTML=months.map(k=>`<option value="${psa_monthKeyToLabel(k)}">${psa_monthKeyToLabel(k)}</option>`).join('');
+    sel.disabled=false;
+    PSA_STATE.month=months[0];
+    return true;
+  }catch(e){
+    sel.innerHTML='<option value="">No actuals available</option>';
+    sel.disabled=true;
+    PSA_STATE.month='';
+    return false;
+  }
+}
+
+function psa_parseRaw(s){
+  if(!s) return null;
+  const str=String(s).trim();
+  if(!str||str==='—') return null;
+  const neg=/^\(/.test(str)||(/^-/.test(str)&&!str.startsWith('--'));
+  const clean=str.replace(/[\$,\s\(\)%x]/g,'').replace(/^-/,'');
+  const n=parseFloat(clean);
+  return isNaN(n)?null:(neg?-n:n);
+}
+
+function psa_fmtVal(raw, fmt){
+  if(!raw&&raw!==0) return raw||'';
+  if(!fmt||fmt==='date') return raw;
+  const n=psa_parseRaw(String(raw));
+  if(n==null) return raw;
+  switch(fmt){
+    case 'cur':{ const neg=n<0; const s='$'+Math.round(Math.abs(n)).toLocaleString(); return neg?`(${s})`:s; }
+    case 'pct': return n.toFixed(1)+'%';
+    case 'dscr': return n.toFixed(2)+'x';
+    default: return raw;
+  }
+}
+
+function psa_detectFmt(v){
+  const s=String(v||'').trim();
+  if(!s) return null;
+  if(/^\(?\$[\d,]+\)?$/.test(s)) return 'cur';
+  if(/^[\d.]+%$/.test(s)) return 'pct';
+  if(/^[\d.]+x$/.test(s)) return 'dscr';
+  return null;
+}
+
+function psa_computeRemaining(){
+  const initial  = PSA_STATE.monthly.find(m=>m.key==='initial_op_balance');
+  const netCF    = PSA_STATE.monthly.find(m=>m.key==='net_cash_flow');
+  const remaining= PSA_STATE.monthly.find(m=>m.key==='remaining_reserve_bal');
+  if(!initial||!netCF||!remaining) return;
+  const iNum=psa_parseRaw(initial.value), nNum=psa_parseRaw(netCF.value);
+  if(iNum!=null&&nNum!=null){
+    remaining.value=psa_fmtVal(String(Math.round(iNum+nNum)),'cur');
+    const el=document.getElementById('remaining-calc-val');
+    if(el) el.textContent=remaining.value;
+  }
+}
+
+function psa_setStatus(type,msg){
+  const el=document.getElementById('psa-status');
+  if(!el) return;
+  const icons={ok:'✓',saved:'✓',error:'✗',pending:'!',loading:'↻'};
+  el.className='psa-status '+(type==='loading'?'ok':type);
+  const txt=document.getElementById('psa-status-text');
+  if(txt) txt.textContent=msg;
+  const icon=el.querySelector('.icon');
+  if(icon) icon.textContent=icons[type]||'✓';
+}
+function psa_markChanged(){ PSA_STATE.hasChanges=true; psa_setStatus('pending','Unsaved changes'); }
+
+function psa_togglePanel(id){
+  const body=document.getElementById('psa-body-'+id);
+  const ch=document.getElementById('psa-chevron-'+id);
+  if(!body||!ch) return;
+  const open=body.classList.toggle('open');
+  ch.textContent=open?'▼':'▶';
+}
+
+function psa_inp(value, right, blurFn){
+  const align=right?' right':'';
+  return `<input type="text" class="cell-inp${align}" value="${esc(value)}" placeholder="—" onfocus="this.select()" onkeydown="if(event.key==='Enter')this.blur()" onblur="${blurFn}">`;
+}
+
+function psa_commitMonthly(i, field, el){
+  let v=el.value;
+  const m=PSA_STATE.monthly[i];
+  if(field==='value'&&m.fmt&&m.fmt!=='date'){
+    const formatted=psa_fmtVal(v,m.fmt);
+    if(formatted){ v=formatted; el.value=v; }
+  }
+  m[field]=v;
+  if(field==='value'&&(m.key==='initial_op_balance'||m.key==='net_cash_flow')) psa_computeRemaining();
+  psa_markChanged();
+}
+
+function psa_commitSetup(i, field, el){
+  let v=el.value;
+  if(field==='value'){ const fmt=psa_detectFmt(v); if(fmt){ const f=psa_fmtVal(v,fmt); if(f){ v=f; el.value=v; } } }
+  PSA_STATE.setup[i][field]=v;
+  psa_markChanged();
+}
+
+function psa_commitReserve(i,field,el){
+  let v=el.value;
+  if(field==='amount'){ const f=psa_fmtVal(v,'cur'); if(f){ v=f; el.value=v; } }
+  PSA_STATE.reserves[i][field]=v; psa_markChanged();
+}
+function psa_commitEscrow(i,field,el){
+  let v=el.value;
+  if(field==='amount'){ const f=psa_fmtVal(v,'cur'); if(f){ v=f; el.value=v; } }
+  PSA_STATE.escrows[i][field]=v; psa_markChanged();
+}
+function psa_changeSection(fromType, i, newSection){
+  const m = fromType==='monthly' ? PSA_STATE.monthly[i] : PSA_STATE.setup[i];
+  m.section = newSection;
+  PSA_STATE.sectionAssignments[m.key] = newSection;
+  psa_markChanged();
+  psa_renderAll();
+}
+function psa_commitKeyDate(i,field,el){ PSA_STATE.keyDates[i][field]=el.value; psa_markChanged(); }
+function psa_commitContact(i,field,el){ PSA_STATE.contacts[i][field]=el.value; psa_markChanged(); }
+function psa_commitContactSel(i,el)   { PSA_STATE.contacts[i].type=el.value;   psa_markChanged(); }
+
+function psa_monthlyValCell(m, ki){
+  if(!m.readOnly){
+    const right=m.fmt&&m.fmt!=='date';
+    return psa_inp(m.value, right, `psa_commitMonthly(${ki},'value',this)`);
+  }
+  if(m.calcType==='system'){
+    return m.value&&m.value!=='—'
+      ? `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="cell-system"><span>📊</span> From Actuals</div><div class="cell-system-val">${esc(m.value)}</div></div>`
+      : `<div class="cell-system"><span>📊</span> Not yet uploaded</div>`;
+  }
+  if(m.calcType==='calc'){
+    const idAttr=m.key==='remaining_reserve_bal'?' id="remaining-calc-val"':'';
+    return m.value&&m.value!=='—'
+      ? `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div><div class="cell-calc-val"${idAttr}>${esc(m.value)}</div></div>`
+      : `<div class="cell-calc">= ${esc(m.calcNote||'Calculated')}</div>`;
+  }
+  return `<div class="cell-autocalc">↻ ${esc(m.calcNote||'Auto-calc')}</div>`;
+}
+
+function psa_renderAll(){
+  const monthLabel=document.getElementById('psa-month-sel')?.value||'';
+  const inMonthly=[], inSetup=[];
+  PSA_STATE.monthly.forEach((m,i)=>{ (m.section==='setup'?inSetup:inMonthly).push({...m,_src:'monthly',_idx:i}); });
+  PSA_STATE.setup.forEach((m,i)=>{ (m.section==='monthly'?inMonthly:inSetup).push({...m,_src:'setup',_idx:i}); });
+
+  const gm={}, om=[];
+  for(const m of inMonthly){ if(!gm[m.group]){gm[m.group]=[];om.push(m.group);} gm[m.group].push(m); }
+  const gs={}, os=[];
+  for(const m of inSetup){ if(!gs[m.group]){gs[m.group]=[];os.push(m.group);} gs[m.group].push(m); }
+
+  let mHTML=`<div class="m-grid-header m-cols"><span>Metric</span><span style="text-align:right">Value — ${esc(monthLabel)}</span><span>Source</span><span>Notes</span><span>Section</span></div>`;
+  for(const g of om){
+    mHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of gm[g]){
+      const ki=m._idx, src=m._src, ro=m.readOnly;
+      let valCell,srcCell,noteCell;
+      if(src==='monthly'){
+        valCell=psa_monthlyValCell(m,ki);
+        srcCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`:psa_inp(m.source,false,`psa_commitMonthly(${ki},'source',this)`);
+        noteCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`:psa_inp(m.notes,false,`psa_commitMonthly(${ki},'notes',this)`);
+      } else {
+        valCell=psa_inp(m.value,true,`psa_commitSetup(${ki},'value',this)`);
+        srcCell=psa_inp(m.source,false,`psa_commitSetup(${ki},'source',this)`);
+        noteCell=psa_inp(m.notes,false,`psa_commitSetup(${ki},'notes',this)`);
+      }
+      mHTML+=`<div class="m-grid-row m-cols"><div class="cell-name ${ro?'dimmed':''}"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>${valCell}${srcCell}${noteCell}<select class="cell-sel" onchange="psa_changeSection('${src}',${ki},this.value)"><option value="monthly" ${m.section!=='setup'?'selected':''}>Monthly Updates</option><option value="setup" ${m.section==='setup'?'selected':''}>Setup &amp; Property Data</option></select></div>`;
+    }
+  }
+
+  let sHTML=`<div class="s-grid-header s-cols"><span>Metric</span><span style="text-align:right">Value</span><span style="text-align:right">As Of Date</span><span>Source</span><span>Notes</span><span>Section</span></div>`;
+  for(const g of os){
+    sHTML+=`<div class="group-hdr"><span class="group-hdr-name">📂 ${g}</span></div>`;
+    for(const m of gs[g]){
+      const ki=m._idx, src=m._src, ro=m.readOnly;
+      let valCell,asOfCell,srcCell,noteCell;
+      if(src==='monthly'){
+        valCell=psa_monthlyValCell(m,ki); asOfCell=`<div></div>`;
+        srcCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.source)||'—'}</div>`:psa_inp(m.source,false,`psa_commitMonthly(${ki},'source',this)`);
+        noteCell=ro?`<div style="font-size:10.5px;color:#94a3b8">${esc(m.notes)||'—'}</div>`:psa_inp(m.notes,false,`psa_commitMonthly(${ki},'notes',this)`);
+      } else {
+        valCell=psa_inp(m.value,true,`psa_commitSetup(${ki},'value',this)`);
+        asOfCell=psa_inp(m.asOf,true,`psa_commitSetup(${ki},'asOf',this)`);
+        srcCell=psa_inp(m.source,false,`psa_commitSetup(${ki},'source',this)`);
+        noteCell=psa_inp(m.notes,false,`psa_commitSetup(${ki},'notes',this)`);
+      }
+      sHTML+=`<div class="s-grid-row s-cols"><div class="cell-name ${ro?'dimmed':''}"><span class="cell-name-text" title="${esc(m.name)}">${esc(m.name)}</span></div>${valCell}${asOfCell}${srcCell}${noteCell}<select class="cell-sel" onchange="psa_changeSection('${src}',${ki},this.value)"><option value="monthly" ${m.section!=='setup'?'selected':''}>Monthly Updates</option><option value="setup" ${m.section==='setup'?'selected':''}>Setup &amp; Property Data</option></select></div>`;
+    }
+  }
+
+  let rHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Reserves</span></div><div class="r-grid-header r-cols"><span>Reserve Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span></div>`;
+  PSA_STATE.reserves.forEach((r,ri)=>{ rHTML+=`<div class="r-grid-row r-cols">${psa_inp(r.name,false,`psa_commitReserve(${ri},'name',this)`)}${psa_inp(r.amount,true,`psa_commitReserve(${ri},'amount',this)`)}<div></div><div></div><div></div><div class="cell-remove"><button class="btn-remove" onclick="psa_removeReserve(${ri})">✕</button></div></div>`; });
+  rHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addReserve()">＋ Add reserve</button></div>`;
+
+  let eHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Escrows</span></div><div class="r-grid-header r-cols"><span>Escrow Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span></div>`;
+  PSA_STATE.escrows.forEach((e,ei)=>{ eHTML+=`<div class="r-grid-row r-cols">${psa_inp(e.name,false,`psa_commitEscrow(${ei},'name',this)`)}${psa_inp(e.amount,true,`psa_commitEscrow(${ei},'amount',this)`)}<div></div><div></div><div></div><div class="cell-remove"><button class="btn-remove" onclick="psa_removeEscrow(${ei})">✕</button></div></div>`; });
+  eHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addEscrow()">＋ Add escrow</button></div>`;
+
+  let kdHTML=`<div class="group-hdr"><span class="group-hdr-name">📅 Key Dates</span></div><div class="kd-grid-header kd-cols"><span>Label</span><span style="text-align:right">Due Date</span><span style="text-align:right">Completed</span><span>Notes</span><span></span></div>`;
+  PSA_STATE.keyDates.forEach((kd,ki)=>{ kdHTML+=`<div class="kd-grid-row kd-cols">${psa_inp(kd.label,false,`psa_commitKeyDate(${ki},'label',this)`)}${psa_inp(kd.dueDate,true,`psa_commitKeyDate(${ki},'dueDate',this)`)}${psa_inp(kd.completed,true,`psa_commitKeyDate(${ki},'completed',this)`)}${psa_inp(kd.notes,false,`psa_commitKeyDate(${ki},'notes',this)`)}<div class="cell-remove"><button class="btn-remove" onclick="psa_removeKeyDate(${ki})">✕</button></div></div>`; });
+  kdHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addKeyDate()">＋ Add key date</button></div>`;
+
+  let cHTML=`<div class="c-grid-header c-cols"><span>Label</span><span>Name</span><span>Email / URL</span><span>Type</span><span>Notes</span><span></span></div>`;
+  PSA_STATE.contacts.forEach((c,ci)=>{ cHTML+=`<div class="c-grid-row c-cols">${psa_inp(c.label,false,`psa_commitContact(${ci},'label',this)`)}${psa_inp(c.name,false,`psa_commitContact(${ci},'name',this)`)}${psa_inp(c.emailOrUrl,false,`psa_commitContact(${ci},'emailOrUrl',this)`)}<select class="cell-sel" onchange="psa_commitContactSel(${ci},this)"><option value="email" ${c.type==='email'?'selected':''}>Email</option><option value="link" ${c.type==='link'?'selected':''}>Link</option><option value="document" ${c.type==='document'?'selected':''}>Document</option></select><span style="font-size:11px;color:#94a3b8">${esc(c.notes)||'—'}</span><div class="cell-remove"><button class="btn-remove" onclick="psa_removeContact(${ci})">✕</button></div></div>`; });
+  cHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addContact()">＋ Add contact or link</button></div>`;
+
+  const editableCnt=PSA_STATE.monthly.filter(m=>!m.readOnly).length;
+  const systemCnt=PSA_STATE.monthly.filter(m=>m.calcType==='system').length;
+
+  document.getElementById('psa-content').innerHTML=`
+  <div class="panel">
+    <div class="panel-head accent" onclick="psa_togglePanel('monthly')">
+      <div>
+        <div class="panel-title">📅 Monthly Updates <span class="psa-badge">${editableCnt} editable</span><span class="psa-badge-blue">${systemCnt} from actuals</span></div>
+        <div class="panel-desc">Values refreshed each month. System rows auto-populate from uploaded actuals. Calculated rows update on blur.</div>
+      </div>
+      <span class="panel-chevron" id="psa-chevron-monthly">▼</span>
+    </div>
+    <div class="panel-body open" id="psa-body-monthly">${mHTML}</div>
+  </div>
+  <div class="panel">
+    <div class="panel-head" onclick="psa_togglePanel('setup')">
+      <div>
+        <div class="panel-title">⚙ Setup &amp; Property Data <span class="psa-badge">${PSA_STATE.setup.length} rows</span></div>
+        <div class="panel-desc">Property details, loan structure, investment terms, CapEx budget, and KPI targets — updated infrequently.</div>
+      </div>
+      <span class="panel-chevron" id="psa-chevron-setup">▼</span>
+    </div>
+    <div class="panel-body open" id="psa-body-setup">${sHTML}${rHTML}${eHTML}${kdHTML}</div>
+  </div>
+  <div class="panel">
+    <div class="panel-head" onclick="psa_togglePanel('contacts')">
+      <div>
+        <div class="panel-title">👥 Contacts &amp; Links <span class="psa-badge">${PSA_STATE.contacts.length} rows</span></div>
+        <div class="panel-desc">People, portals, and documents associated with this asset.</div>
+      </div>
+      <span class="panel-chevron" id="psa-chevron-contacts">▼</span>
+    </div>
+    <div class="panel-body open" id="psa-body-contacts">${cHTML}</div>
+  </div>
+  <div style="height:32px"></div>`;
+}
+
+async function psa_loadData(){
+  psa_setStatus('loading','Loading…');
+  try{
+    const d=await fetch(`/api/property-summary/admin?month=${PSA_STATE.month}`).then(r=>r.json());
+    PSA_STATE.sectionAssignments = d.sectionAssignments || {};
+    const sec = PSA_STATE.sectionAssignments;
+    const apiMap={};
+    for(const m of (d.monthlyMetrics||[])) apiMap[m.key]=m;
+    PSA_STATE.monthly=PSA_MONTHLY_STRUCTURE.map(s=>{
+      const a=apiMap[s.key]||{};
+      const raw=a.value||'';
+      const display=(!s.readOnly&&s.fmt)?psa_fmtVal(raw,s.fmt)||raw:raw;
+      const section = sec[s.key] !== undefined ? sec[s.key] : 'monthly';
+      return { key:s.key, name:s.name, group:s.group, readOnly:s.readOnly,
+               fmt:s.fmt, calcType:s.calcType, calcNote:s.calcNote,
+               section, value:display, source:a.source||'', notes:a.notes||'' };
+    });
+    psa_computeRemaining();
+    const MONTHLY_KEYS=new Set(PSA_MONTHLY_STRUCTURE.map(s=>s.key));
+    PSA_STATE.setup=(d.setupMetrics||[]).filter(m=>!MONTHLY_KEYS.has(m.key)).map(m=>({
+      key:m.key, name:m.name, group:m.group,
+      section: sec[m.key] !== undefined ? sec[m.key] : 'setup',
+      value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
+    }));
+    PSA_STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:psa_fmtVal(r.amount||'','cur')||r.amount||''}));
+    PSA_STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:psa_fmtVal(e.amount||'','cur')||e.amount||''}));
+    PSA_STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
+    PSA_STATE.contacts=(d.contacts||[]).map((c,i)=>({id:c.id??500+i,label:c.label||'',name:c.name||'',emailOrUrl:c.emailOrUrl||'',type:c.type||'email',notes:c.notes||''}));
+    PSA_STATE.hasChanges=false;
+    document.getElementById('psa-btn-save').disabled=false;
+    document.getElementById('psa-btn-cancel').disabled=false;
+    psa_renderAll();
+    psa_setStatus('ok','All changes saved');
+  }catch(e){
+    psa_setStatus('error','Failed to load data');
+    document.getElementById('psa-btn-save').disabled=false;
+    document.getElementById('psa-btn-cancel').disabled=false;
+    document.getElementById('psa-content').innerHTML='<div class="psa-loading">Failed to load data.</div>';
+  }
+}
+
+function psa_addReserve(){ PSA_STATE.reserves.push({id:psa_nextId(),name:'',amount:''}); psa_renderAll(); }
+function psa_addEscrow(){  PSA_STATE.escrows.push({id:psa_nextId(),name:'',amount:''});  psa_renderAll(); }
+function psa_addKeyDate(){ PSA_STATE.keyDates.push({id:psa_nextId(),label:'',dueDate:'',completed:'',notes:''}); psa_renderAll(); }
+function psa_addContact(){ PSA_STATE.contacts.push({id:psa_nextId(),label:'',name:'',emailOrUrl:'',type:'email',notes:''}); psa_renderAll(); }
+function psa_removeReserve(i){ PSA_STATE.reserves.splice(i,1); psa_renderAll(); }
+function psa_removeEscrow(i){  PSA_STATE.escrows.splice(i,1);  psa_renderAll(); }
+function psa_removeKeyDate(i){ PSA_STATE.keyDates.splice(i,1); psa_renderAll(); }
+function psa_removeContact(i){ PSA_STATE.contacts.splice(i,1); psa_renderAll(); }
+
+async function psa_saveAll(){
+  document.getElementById('psa-btn-save').disabled=true;
+  document.getElementById('psa-btn-cancel').disabled=true;
+  psa_setStatus('loading','Saving…');
+  const sectionAssignments = {};
+  PSA_STATE.monthly.forEach(m=>{ sectionAssignments[m.key]=m.section||'monthly'; });
+  PSA_STATE.setup.forEach(m=>{ sectionAssignments[m.key]=m.section||'setup'; });
+  const monthlyToSave=PSA_STATE.monthly.filter(m=>m.calcType!=='system').map(({section,...m})=>({key:m.key,name:m.name,group:m.group,value:m.value,source:m.source,notes:m.notes}));
+  try{
+    const res=await fetch('/api/property-summary/admin/save',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        month:PSA_STATE.month, monthlyMetrics:monthlyToSave, sectionAssignments,
+        setupMetrics:PSA_STATE.setup.map(({section,...m})=>({key:m.key,name:m.name,group:m.group,value:m.value,asOf:m.asOf,source:m.source,notes:m.notes})),
+        reserves:PSA_STATE.reserves, escrows:PSA_STATE.escrows, keyDates:PSA_STATE.keyDates, contacts:PSA_STATE.contacts
+      })
+    });
+    if(res.ok){ PSA_STATE.hasChanges=false; await psa_loadData(); }
+    else{ psa_setStatus('error','Save failed — try again'); document.getElementById('psa-btn-save').disabled=false; document.getElementById('psa-btn-cancel').disabled=false; }
+  }catch{ psa_setStatus('error','Save failed — try again'); document.getElementById('psa-btn-save').disabled=false; document.getElementById('psa-btn-cancel').disabled=false; }
+}
+
+function psa_cancelChanges(){ psa_loadData(); }
+
+async function psa_init(){
+  if(!_psaInited){
+    _psaInited=true;
+    document.getElementById('psa-month-sel').addEventListener('change',e=>{
+      PSA_STATE.month=psa_toMonthKey(e.target.value);
+      psa_loadData();
+    });
+    const hasMonths=await psa_populateMonthDropdown();
+    if(hasMonths) await psa_loadData();
+    else { psa_renderAll(); psa_setStatus('ok','No actuals uploaded yet'); }
+  } else {
+    // re-visiting: just reload data if not dirty
+    if(!PSA_STATE.hasChanges) psa_loadData();
+  }
+}
 
 init();
 </script>
