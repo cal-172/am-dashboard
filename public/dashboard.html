@@ -290,9 +290,8 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 <script>
 /* ═══════════════ PERSISTENCE ═══════════════ */
 const CAP_KEY = 'regatta_caprate_v1';
-const UNITS_KEY = 'regatta_units_v1';
 let capRate = parseFloat(localStorage.getItem(CAP_KEY)) || 6.0;
-let numUnits = parseInt(localStorage.getItem(UNITS_KEY)) || 200;
+let numUnits = 0;
 let viewMode = 'amount';
 let SEL = null;
 let RAW = {};
@@ -301,7 +300,6 @@ let selYear = null;
 let UPDATED_AT = '';
 
 function saveCapRate(v){ capRate=v; localStorage.setItem(CAP_KEY,v); }
-function saveUnits(v){ numUnits=v; localStorage.setItem(UNITS_KEY,v); }
 function fmtCap(v){ return v.toFixed(2)+'%'; }
 
 /* ═══════════════ CALENDAR ═══════════════ */
@@ -426,7 +424,7 @@ const fD=v=>{if(v===null||v===undefined||v===0) return '\u2014';const s=Math.rou
 const fSign=v=>{if(Math.abs(v||0)<50) return '\u2014';const s=Math.round(Math.abs(v)).toLocaleString('en-US');return v<0?'('+s+')':'+'+s;};
 const fPct=(v,d=1)=>(!isFinite(v)||Math.abs(v)<0.05)?'\u2014':((v>0?'+':'')+v.toFixed(d)+'%');
 const fPp=v=>isFinite(v)?v.toFixed(2)+'%':'\u2014';
-function toPerUnit(v,n){if(!numUnits||numUnits===0) return v;return(v/n*12)/numUnits;}
+function toPerUnit(v,n){if(!numUnits||numUnits===0) return null;return(v/n*12)/numUnits;}
 
 /* ═══════════════ ROW SCHEMA ═══════════════ */
 const ROWS=[
@@ -504,11 +502,6 @@ function renderApp(){
           onblur="capBlur(this)" onkeydown="if(event.key==='Enter')this.blur()" onfocus="capFocus(this)">
       </div>
       <div class="cap-group">
-        <span class="cap-lbl">Units</span>
-        <input id="units-ctrl" class="units-input" type="text" value="${numUnits}"
-          onblur="unitsBlur(this)" onkeydown="if(event.key==='Enter')this.blur()" onfocus="unitsFocus(this)">
-      </div>
-      <div class="cap-group">
         <span class="cap-lbl">View</span>
         <div class="seg-btn">
           <button id="btn-amt" class="${viewMode==='amount'?'active':''}" onclick="setViewMode('amount')">Amount</button>
@@ -558,14 +551,6 @@ window.capBlur=function(el){
   Object.keys(RAW).forEach(k=>deriveMonth(RAW[k].a,RAW[k].b));
   renderTbody(SEL);
 };
-window.unitsFocus=function(el){ el.value=numUnits; el.select(); };
-window.unitsBlur=function(el){
-  const v=parseInt(el.value.replace(/[^0-9]/g,''));
-  if(!isNaN(v)&&v>0) saveUnits(v);
-  el.value=numUnits;
-  renderTbody(SEL);
-};
-
 function renderThead(m){
   const updatedStr=UPDATED_AT?new Date(UPDATED_AT).toLocaleDateString('en-US',{month:'long',year:'numeric'}):'N/A';
   const dEl=document.getElementById('topbar-dates');
@@ -1503,12 +1488,14 @@ async function renderPropertySummaryPage(){
 /* ═══════════════ INIT ═══════════════ */
 async function init(){
   try{
-    const [dataRes, meRes] = await Promise.all([fetch('/api/data'), fetch('/api/me')]);
+    const [dataRes, meRes, psRes] = await Promise.all([fetch('/api/data'), fetch('/api/me'), fetch('/api/property-summary/viewer')]);
     const d  = await dataRes.json();
     const me = await meRes.json();
+    const ps = await psRes.json().catch(()=>({}));
     RAW=d.months||{};
     PROPERTY=d.property||'Regatta — 1163_rr';
     UPDATED_AT=d.updatedAt||'';
+    numUnits = parseInt(ps.property?.units) || 0;
 
     const years=[...new Set(Object.keys(RAW).map(k=>parseInt(k.split('-')[0])).filter(y=>!isNaN(y)))].sort();
     selYear = years.length>0 ? years[years.length-1] : (d.year||new Date().getFullYear());

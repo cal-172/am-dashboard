@@ -1,0 +1,64 @@
+Please update the Actual vs Budget dashboard to remove the Units field from the page header and use the Unit Count from Property Summary Admin as the single source of truth.
+
+IMPORTANT:
+- Do NOT redesign the page
+- Keep the existing layout and styling
+- This is a logic + small UI cleanup update only
+
+--------------------------------------------------
+1. REMOVE UNITS FROM HEADER
+--------------------------------------------------
+
+Remove the “Units” label and numeric box from the Actual vs Budget dashboard header.
+
+This field should no longer be shown or editable on this page.
+
+--------------------------------------------------
+2. USE PROPERTY SUMMARY UNIT COUNT
+--------------------------------------------------
+
+For all per-unit calculations on the Actual vs Budget dashboard, use the property’s Unit Count from Property Summary Admin.
+
+Source of truth:
+- Property Summary Admin
+- Setup / Property Info
+- Unit Count
+
+Do NOT use a separate page-level Units value anymore.
+
+--------------------------------------------------
+3. UPDATE PER UNIT LOGIC
+--------------------------------------------------
+
+When the user toggles from Amount to Per Unit:
+
+Per Unit Value = Total Amount / Property Unit Count
+
+Apply this consistently across:
+- current month
+- quarter-to-date
+- year-to-date
+- all relevant rows and totals
+
+--------------------------------------------------
+4. EDGE CASE HANDLING
+--------------------------------------------------
+
+If Unit Count is missing or zero:
+- do not divide
+- show a safe blank / placeholder
+- do not error
+
+--------------------------------------------------
+5. KEEP DISPLAY CONSISTENT
+--------------------------------------------------
+
+Where the page currently references units in descriptive text (if any), update it to reflect the Property Summary unit count automatically.
+
+Do not require user input on this page.
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make Property Summary Admin the single source of truth for Unit Count and ensure the Actual vs Budget “Per Unit” view uses that value consistently.
