@@ -2248,5 +2248,275 @@
     "scope": "global",
     "confirmedAt": "2026-03-20T14:51:27.613Z",
     "confirmedBy": "admin"
+  },
+  {
+    "id": "1aa5b326-8bc6-40de-af7c-d55dd3cfb065",
+    "sourceCode": "9910-0010",
+    "sourceLabel": "PRINCIPAL PYMT ON LOANS/BONDS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b2b627db-abf0-442a-a199-172f99db0bd0",
+    "sourceCode": "9910-9990",
+    "sourceLabel": "TOTAL BAL SHEET ITEMS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e74a52c9-d36a-4a11-a971-5763f2fab63f",
+    "sourceCode": "0137-0000",
+    "sourceLabel": "TENANTS A/R",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d9378ced-e0eb-4a98-ba3f-cc6e41045562",
+    "sourceCode": "0138-2600",
+    "sourceLabel": "MAINTENANCE RESERVE ESCROW",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b5618f6d-6fa5-47f7-afbf-b4080f6f5138",
+    "sourceCode": "0139-0000",
+    "sourceLabel": "TAX ESCROW",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "3b1f8a2d-7827-4615-ab81-d7dbd0c4143e",
+    "sourceCode": "0201-0000",
+    "sourceLabel": "ACCOUNTS PAYABLE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "5aaafbec-e10d-4272-b930-c256bbe689c5",
+    "sourceCode": "0203-0000",
+    "sourceLabel": "ACCRUED INTEREST",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b35585a7-5ac1-4881-be73-5d61f019b1f8",
+    "sourceCode": "0204-0000",
+    "sourceLabel": "PROPERTY TAX PAYABLE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "63ca7dc1-703f-4228-9f31-bf19bfe703d7",
+    "sourceCode": "0205-0000",
+    "sourceLabel": "ACCRUED WAGES AND P/R TAXES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "3e28fe37-2238-4f3f-9c15-d87355fc0123",
+    "sourceCode": "0206-0000",
+    "sourceLabel": "ACCRUED MANAGEMENT FEE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "fa90af2b-d842-46e9-a6f4-4d4dab128982",
+    "sourceCode": "0207-0000",
+    "sourceLabel": "ACCRUED EXPENSES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "dfdc1146-92ca-4848-bd63-fa2535884e29",
+    "sourceCode": "0208-0000",
+    "sourceLabel": "PREPAID RENTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a1640bbf-57d5-49da-a1a2-806b1e8a1db7",
+    "sourceCode": "0210-0000",
+    "sourceLabel": "SECURITY DEPOSIT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b941ba81-39a0-4053-a81c-758d0fe4222f",
+    "sourceCode": "0210-1000",
+    "sourceLabel": "SECURITY DEPOSIT CLEARING ACCT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "76f66262-9fc7-4e25-b8dd-38213989dde2",
+    "sourceCode": "0250-0000",
+    "sourceLabel": "LOAN PAYABLE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d62a568f-5288-45d3-a787-66b52bf6cef7",
+    "sourceCode": "",
+    "sourceLabel": "Total Adjustments",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "06bc522a-d0ff-4d4d-b4d0-757a1829e750",
+    "sourceCode": "",
+    "sourceLabel": "Cash Flow",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "c1263be3-7a37-47da-a0d0-cdb9a6e4fac0",
+    "sourceCode": "0110-0000",
+    "sourceLabel": "CASH-CHECKING",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "427cbbfc-3729-40b9-b6e6-6379b77c9047",
+    "sourceCode": "0112-0000",
+    "sourceLabel": "CASH-SECURITY DEPOSIT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f9f3f341-5639-40ec-b298-80dad914ec08",
+    "sourceCode": "",
+    "sourceLabel": "Total Cash",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:22.669Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e3b67def-2ff0-4b57-9958-c132c38cc88c",
+    "sourceCode": "0142-5000",
+    "sourceLabel": "OTHER PREPAID EXPENSES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:52.251Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "baa0829f-32f5-4891-800f-ed6f7fe1c610",
+    "sourceCode": "0307-0100",
+    "sourceLabel": "OWNERS DISTRIBUTION",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:15:52.251Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "87ada949-d193-40bf-9d12-873e8e7d9f9b",
+    "sourceCode": "3000-0010",
+    "sourceLabel": "INSURANCE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:22:54.122Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "fdda2e93-800b-43ec-a1ec-b7ae88c71d30",
+    "sourceCode": "3050-9999",
+    "sourceLabel": "TOTAL INSURANCE",
+    "dashboardKey": "ins",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:25:38.067Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a2e09cf3-4ec2-4218-b783-f3890c9cfa13",
+    "sourceCode": "0138-0000",
+    "sourceLabel": "INSURANCE ESCROW",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:22:54.122Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "fe870efe-bb64-4212-b6a3-1c7fc49ee7de",
+    "sourceCode": "0140-0000",
+    "sourceLabel": "PREPAID INSURANCE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:22:54.122Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "754c6789-b628-4369-88ab-2fe713763fc7",
+    "sourceCode": "0206-1000",
+    "sourceLabel": "ACCRUED ASSET MANAGEMENT FEE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-03-20T19:27:02.399Z",
+    "confirmedBy": "admin"
   }
 ]
