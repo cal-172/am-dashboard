@@ -1056,8 +1056,9 @@ function renderCoverageGrid() {
 ══════════════════════════════════════════════════════ */
 function selectFileType(type) {
   currentFileType = type;
-  ['t12','budget','combined'].forEach(t => {
-    document.getElementById('ft-'+t).classList.toggle('selected', t===type);
+  ['t12','budget'].forEach(t => {
+    const el = document.getElementById('ft-'+t);
+    if(el) el.classList.toggle('selected', t===type);
   });
 }
 
