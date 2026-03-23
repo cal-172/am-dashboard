@@ -1,0 +1,121 @@
+Please fix the delta color shading logic in the Actual vs Budget dashboard for the Debt & Fees section.
+
+IMPORTANT:
+- Do NOT redesign the report
+- Do NOT change layout, values, spacing, or typography
+- This is a conditional formatting / color logic fix only
+
+--------------------------------------------------
+ISSUE
+--------------------------------------------------
+
+The following rows are currently using incorrect color logic:
+
+- Asset Management Fee
+- Debt Service
+- Total Debt & Fees
+
+These are expense-type rows, so being BELOW budget is favorable.
+
+Right now, negative deltas are showing as yellow or red, which is incorrect.
+The Total Debt & Fees row is especially wrong.
+
+--------------------------------------------------
+CORRECT FAVORABILITY LOGIC
+--------------------------------------------------
+
+For these rows only:
+
+- Asset Management Fee
+- Debt Service
+- Total Debt & Fees
+
+Interpret delta as follows:
+
+- Negative delta = favorable = GREEN direction
+- Near-zero delta = neutral = YELLOW
+- Positive delta = unfavorable = RED direction
+
+This must apply consistently to:
+- Current Month
+- QTD
+- YTD
+
+--------------------------------------------------
+IMPORTANT IMPLEMENTATION RULE
+--------------------------------------------------
+
+Do NOT use one global delta color rule for all rows.
+
+Instead, determine favorability based on row type:
+
+- Income rows: positive favorable
+- Expense rows: negative favorable
+- Debt & Fees rows: negative favorable
+
+The Debt & Fees section must follow expense-style logic.
+
+--------------------------------------------------
+GRADIENT / COLOR INTENSITY LOGIC
+--------------------------------------------------
+
+After determining whether the delta is favorable or unfavorable, apply the color intensity within the Debt & Fees section only.
+
+Use the same predefined 5-color gradient already used elsewhere in the dashboard:
+
+1. Dark red = #F8696B
+2. Orange = #F4B183
+3. Yellow = #FFEB84
+4. Light green = #A9D18E
+5. Green = #63BE7B
+
+Rules:
+- The most favorable variance within the Debt & Fees rows = strongest green
+- Slightly favorable values = lighter green / yellow-green
+- Near-zero values = yellow
+- Slightly unfavorable values = orange
+- Most unfavorable variance within the Debt & Fees rows = strongest red
+
+IMPORTANT:
+- Do NOT base color purely on lowest/highest numeric values alone
+- Always determine favorable vs unfavorable FIRST
+- Then apply gradient intensity based on relative magnitude within this section
+
+--------------------------------------------------
+SECTION SCOPING
+--------------------------------------------------
+
+Apply this gradient independently within the Debt & Fees section only.
+
+Do NOT let values from Income, Other Income, Expenses, or Below the Line sections affect the gradient scaling for:
+- Asset Management Fee
+- Debt Service
+- Total Debt & Fees
+
+--------------------------------------------------
+EXAMPLES
+--------------------------------------------------
+
+Example:
+Debt Service actual = 58,863
+Debt Service budget = 63,333
+Delta = (4,470)
+
+This is favorable because actual is below budget.
+It should shade GREEN, not yellow or red.
+
+Example:
+Total Debt & Fees delta = (5,613)
+
+This is also favorable and should shade GREEN.
+
+--------------------------------------------------
+GOAL
+--------------------------------------------------
+
+Make the delta shading for Debt & Fees accurately reflect economic reality:
+
+- under budget = favorable = green direction
+- over budget = unfavorable = red direction
+
+while still using the correct 5-color gradient intensity within this section only.

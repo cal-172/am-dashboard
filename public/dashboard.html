@@ -369,7 +369,8 @@ const BAND5=['#F8696B','#F4B183','#FFEB84','#A9D18E','#63BE7B'];
 const GRAD_GROUPS={
   'income':{keys:['pri','ltl','vac','mod','con','bd'],income:true},
   'other-income':{keys:['oi','ur'],income:true},
-  'expenses':{keys:['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'],income:false}
+  'expenses':{keys:['payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins'],income:false},
+  'debt-fees':{keys:['amfee','debt'],income:false}
 };
 function buildGradStats(C,Q,Y,puFn,nC,nQ,nY){
   /* puFn + period counts must match what renderTbody uses so min/max are in the active unit */
@@ -463,8 +464,8 @@ const ROWS=[
   {t:'propval',label:'Property Value',key:'propval',income:true},
   {t:'spacer'},
   {t:'section-lt',label:'DEBT & FEES'},
-  {t:'data',label:'Asset Management Fee',key:'amfee',income:false,group:'expenses',reversed:true},
-  {t:'data',label:'Debt Service',key:'debt',income:false,group:'expenses',reversed:true},
+  {t:'data',label:'Asset Management Fee',key:'amfee',income:false,group:'debt-fees',reversed:true},
+  {t:'data',label:'Debt Service',key:'debt',income:false,group:'debt-fees',reversed:true},
   {t:'sub',label:'Total Debt & Fees',key:'tdf',income:false,reversed:true},
   {t:'spacer'},
   {t:'cfd',label:'Cash for Distribution',key:'cfd',income:true},
@@ -628,6 +629,7 @@ function renderTbody(m){
     const ca=pu(caR,nC),cb=pu(cbR,nC),qa=pu(qaR,nQ),qb=pu(qbR,nQ),ya=pu(yaR,nY),yb=pu(ybR,nY);
     const cd=ca-cb,qd=qa-qb,yd=ya-yb;
     function delSt(d,period){
+      if(row.reversed&&TOTAL_ROW_TYPES.has(row.t)) return 'style="'+gradStyle(d,'debt-fees',period,GS)+'"';
       if(row.t==='data'&&row.group) return 'style="'+gradStyle(d,row.group,period,GS)+'"';
       if(TOTAL_ROW_TYPES.has(row.t)){
         const bv=period==='curr'?cb:period==='qtd'?qb:yb;
