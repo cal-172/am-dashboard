@@ -1864,11 +1864,11 @@ function psa_renderAll(){
   }
 
   let rHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Reserves</span></div><div class="r-grid-header r-cols"><span>Reserve Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span></div>`;
-  PSA_STATE.reserves.forEach((r,ri)=>{ rHTML+=`<div class="r-grid-row r-cols">${psa_inp(r.name,false,`psa_commitReserve(${ri},'name',this)`)}${psa_inp(r.amount,true,`psa_commitReserve(${ri},'amount',this)`)}<div></div><div></div><div></div><div class="cell-remove"><button class="btn-remove" onclick="psa_removeReserve(${ri})">✕</button></div></div>`; });
+  PSA_STATE.reserves.forEach((r,ri)=>{ rHTML+=`<div class="r-grid-row r-cols">${psa_inp(r.name,false,`psa_commitReserve(${ri},'name',this)`)}${psa_inp(r.amount,true,`psa_commitReserve(${ri},'amount',this)`)}<div></div><div></div>${psa_inp(r.notes||'',false,`psa_commitReserve(${ri},'notes',this)`)}<div class="cell-remove"><button class="btn-remove" onclick="psa_removeReserve(${ri})">✕</button></div></div>`; });
   rHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addReserve()">＋ Add reserve</button></div>`;
 
   let eHTML=`<div class="group-hdr"><span class="group-hdr-name">🛡 Lender Escrows</span></div><div class="r-grid-header r-cols"><span>Escrow Name</span><span style="text-align:right">Amount</span><span></span><span></span><span>Notes</span><span></span></div>`;
-  PSA_STATE.escrows.forEach((e,ei)=>{ eHTML+=`<div class="r-grid-row r-cols">${psa_inp(e.name,false,`psa_commitEscrow(${ei},'name',this)`)}${psa_inp(e.amount,true,`psa_commitEscrow(${ei},'amount',this)`)}<div></div><div></div><div></div><div class="cell-remove"><button class="btn-remove" onclick="psa_removeEscrow(${ei})">✕</button></div></div>`; });
+  PSA_STATE.escrows.forEach((e,ei)=>{ eHTML+=`<div class="r-grid-row r-cols">${psa_inp(e.name,false,`psa_commitEscrow(${ei},'name',this)`)}${psa_inp(e.amount,true,`psa_commitEscrow(${ei},'amount',this)`)}<div></div><div></div>${psa_inp(e.notes||'',false,`psa_commitEscrow(${ei},'notes',this)`)}<div class="cell-remove"><button class="btn-remove" onclick="psa_removeEscrow(${ei})">✕</button></div></div>`; });
   eHTML+=`<div class="add-row"><button class="btn-add" onclick="psa_addEscrow()">＋ Add escrow</button></div>`;
 
   let kdHTML=`<div class="group-hdr"><span class="group-hdr-name">📅 Key Dates</span></div><div class="kd-grid-header kd-cols"><span>Label</span><span style="text-align:right">Due Date</span><span style="text-align:right">Completed</span><span>Notes</span><span></span></div>`;
@@ -1940,8 +1940,8 @@ async function psa_loadData(){
       section: sec[m.key] !== undefined ? sec[m.key] : 'setup',
       value:m.value||'', asOf:m.asOf||'', source:m.source||'', notes:m.notes||''
     }));
-    PSA_STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:psa_fmtVal(r.amount||'','cur')||r.amount||''}));
-    PSA_STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:psa_fmtVal(e.amount||'','cur')||e.amount||''}));
+    PSA_STATE.reserves=(d.reserves||[]).map((r,i)=>({id:r.id??200+i,name:r.name||'',amount:psa_fmtVal(r.amount||'','cur')||r.amount||'',notes:r.notes||''}));
+    PSA_STATE.escrows =(d.escrows ||[]).map((e,i)=>({id:e.id??300+i,name:e.name||'',amount:psa_fmtVal(e.amount||'','cur')||e.amount||'',notes:e.notes||''}));
     PSA_STATE.keyDates=(d.keyDates||[]).map((kd,i)=>({id:kd.id??400+i,label:kd.label||'',dueDate:kd.dueDate||'',completed:kd.completed||'',notes:kd.notes||''}));
     PSA_STATE.contacts=(d.contacts||[]).map((c,i)=>({id:c.id??500+i,label:c.label||'',name:c.name||'',emailOrUrl:c.emailOrUrl||'',type:c.type||'email',notes:c.notes||''}));
     PSA_STATE.hasChanges=false;
@@ -1957,8 +1957,8 @@ async function psa_loadData(){
   }
 }
 
-function psa_addReserve(){ PSA_STATE.reserves.push({id:psa_nextId(),name:'',amount:''}); psa_renderAll(); }
-function psa_addEscrow(){  PSA_STATE.escrows.push({id:psa_nextId(),name:'',amount:''});  psa_renderAll(); }
+function psa_addReserve(){ PSA_STATE.reserves.push({id:psa_nextId(),name:'',amount:'',notes:''}); psa_renderAll(); }
+function psa_addEscrow(){  PSA_STATE.escrows.push({id:psa_nextId(),name:'',amount:'',notes:''});  psa_renderAll(); }
 function psa_addKeyDate(){ PSA_STATE.keyDates.push({id:psa_nextId(),label:'',dueDate:'',completed:'',notes:''}); psa_renderAll(); }
 function psa_addContact(){ PSA_STATE.contacts.push({id:psa_nextId(),label:'',name:'',emailOrUrl:'',type:'email',notes:''}); psa_renderAll(); }
 function psa_removeReserve(i){ PSA_STATE.reserves.splice(i,1); psa_renderAll(); }

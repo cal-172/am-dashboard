@@ -7,7 +7,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "address",
@@ -17,7 +17,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "unit_count",
@@ -27,7 +27,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "year_built",
@@ -37,7 +37,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "acquisition_date",
@@ -47,7 +47,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "purchase_price",
@@ -57,7 +57,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "total_cap",
@@ -67,7 +67,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "lender",
@@ -77,7 +77,7 @@
     "asOf": "",
     "source": "Loan Agreement",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "loan_amount",
@@ -87,7 +87,7 @@
     "asOf": "Jun 2021",
     "source": "Loan Agreement",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "ltv",
@@ -97,7 +97,7 @@
     "asOf": "Jun 2021",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "interest_rate",
@@ -107,7 +107,7 @@
     "asOf": "",
     "source": "",
     "notes": "Fixed",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "term",
@@ -117,7 +117,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "io_period",
@@ -127,7 +127,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "io_remaining_mo",
@@ -137,7 +137,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "prepay_penalty",
@@ -147,7 +147,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "maturity_date",
@@ -157,7 +157,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "dscr_covenant",
@@ -167,7 +167,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "loan_payment",
@@ -177,7 +177,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "initial_equity",
@@ -187,7 +187,7 @@
     "asOf": "Jun 2021",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "preferred_return",
@@ -197,7 +197,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "capex_budget",
@@ -207,7 +207,7 @@
     "asOf": "Jun 2021",
     "source": "CapEx Budget",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "dscr_target",
@@ -217,7 +217,7 @@
     "asOf": "",
     "source": "",
     "notes": "Minimum covenant threshold",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "occupancy_target",
@@ -227,7 +227,7 @@
     "asOf": "",
     "source": "",
     "notes": "",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   },
   {
     "key": "op_reserve_target_months",
@@ -237,6 +237,6 @@
     "asOf": "",
     "source": "",
     "notes": "Months of operating expense coverage",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-23"
   }
 ]

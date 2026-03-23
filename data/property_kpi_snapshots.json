@@ -3,8 +3,8 @@
     "noi_ltm": 45192,
     "noi_vs_budget": -41472,
     "dscr": 0.71,
-    "occupancy_pct": 94.5,
-    "vacancy_pct": 5.5,
+    "occupancy_pct": 93.5,
+    "vacancy_pct": 6.5,
     "reserve_balance": 410078,
     "expense_coverage_months": 3.04,
     "monthly_opex": 134713.39,
@@ -16,7 +16,7 @@
     "occupancy_status": "healthy",
     "reserve_status": "watch",
     "capex_status": "healthy",
-    "snapshot_created_at": "2026-03-20T14:39:28.700Z"
+    "snapshot_created_at": "2026-03-23T14:03:59.709Z"
   },
   "2026-jan": {
     "noi_ltm": 45837,
