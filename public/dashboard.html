@@ -397,8 +397,9 @@ function gradStyle(delta,groupName,period,stats){
   /* expenses: lower delta (underspent) = favorable = green → invert band index */
   return `background:${bandColor(delta,mn,mx,!income)};color:#1A2B2C;font-weight:700`;
 }
-function dirStyle(delta,income,dark){
-  const fav=income?delta>0:delta<0;
+function dirStyle(delta,income,dark,reversed){
+  let fav=income?delta>0:delta<0;
+  if(reversed) fav=!fav;
   const neut=Math.abs(delta)<50;
   if(neut) return dark?'color:rgba(255,255,255,.5)':'color:#888';
   if(dark) return fav?'background:#166534;color:#A7F3D0;font-weight:700':'background:#7F1D1D;color:#FCA5A5;font-weight:700';
@@ -462,9 +463,9 @@ const ROWS=[
   {t:'propval',label:'Property Value',key:'propval',income:true},
   {t:'spacer'},
   {t:'section-lt',label:'DEBT & FEES'},
-  {t:'data',label:'Asset Management Fee',key:'amfee',income:false,group:'expenses'},
-  {t:'data',label:'Debt Service',key:'debt',income:false,group:'expenses'},
-  {t:'sub',label:'Total Debt & Fees',key:'tdf',income:false},
+  {t:'data',label:'Asset Management Fee',key:'amfee',income:false,group:'expenses',reversed:true},
+  {t:'data',label:'Debt Service',key:'debt',income:false,group:'expenses',reversed:true},
+  {t:'sub',label:'Total Debt & Fees',key:'tdf',income:false,reversed:true},
   {t:'spacer'},
   {t:'cfd',label:'Cash for Distribution',key:'cfd',income:true},
   {t:'spacer'},
@@ -632,13 +633,15 @@ function renderTbody(m){
         const bv=period==='curr'?cb:period==='qtd'?qb:yb;
         return 'style="'+thresholdStyle(d,bv)+'"';
       }
-      return 'style="'+dirStyle(d,row.income,dark)+'"';
+      return 'style="'+dirStyle(d,row.income,dark,row.reversed)+'"';
     }
     let momTd='<td class="mom-cell">\u2014</td>';
     if(P){
       const paR=P.a[k]||0,mdR=caR-paR,mp=paR!==0?mdR/Math.abs(paR)*100:0;
       if(Math.abs(mdR)>=50){
-        const md=pu(mdR,nC),fav=row.income?md>0:md<0;
+        const md=pu(mdR,nC);
+        let fav=row.income?md>0:md<0;
+        if(row.reversed) fav=!fav;
         const ac=fav?'arr-up':'arr-dn',ar=mdR>0?'\u25b2':'\u25bc';
         momTd=`<td class="mom-cell"><span class="${ac}">${ar}</span><span class="mom-v">${fD(md)}</span><span class="mom-p"> ${fPct(mp)}</span></td>`;
       }
