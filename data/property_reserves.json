@@ -2,11 +2,13 @@
   {
     "id": 9001,
     "name": "Debt Service Reserve",
-    "amount": "$379,996"
+    "amount": "$379,996",
+    "notes": "Wells portal: Reserves tab"
   },
   {
     "id": 9003,
     "name": "Replacement Reserve",
-    "amount": "$105,980"
+    "amount": "$144,130",
+    "notes": "Wells portal: Reserves tab"
   }
 ]

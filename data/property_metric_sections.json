@@ -1,7 +1,7 @@
 {
   "occupancy_pct": "monthly",
   "vacancy_pct": "setup",
-  "dscr": "monthly",
+  "dscr": "setup",
   "noi_ltm": "setup",
   "noi_vs_budget": "setup",
   "noi_status": "setup",

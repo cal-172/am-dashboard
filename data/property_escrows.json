@@ -2,16 +2,19 @@
   {
     "id": 9004,
     "name": "Insurance Escrow",
-    "amount": "$89,904"
+    "amount": "$79,162",
+    "notes": "Wells portal: Properties tab"
   },
   {
     "id": 9005,
     "name": "Tax Escrow",
-    "amount": "$319,976"
+    "amount": "$174,279",
+    "notes": "Wells portal: Properties tab"
   },
   {
     "id": 9006,
     "name": "Repair Escrow",
-    "amount": "$53,609"
+    "amount": "$53,609",
+    "notes": "Wells portal: Reserves tab"
   }
 ]

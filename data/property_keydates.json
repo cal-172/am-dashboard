@@ -17,13 +17,13 @@
     "id": 9009,
     "label": "Property Tax",
     "dueDate": "1/31/2026",
-    "completed": "1/16/2026",
+    "completed": "1/26/2026",
     "notes": ""
   },
   {
     "id": 9010,
     "label": "Insurance Renewal",
-    "dueDate": "4/23/2026",
+    "dueDate": "9/16/2026",
     "completed": "",
     "notes": ""
   }

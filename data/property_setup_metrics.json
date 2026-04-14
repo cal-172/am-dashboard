@@ -83,10 +83,10 @@
     "key": "loan_amount",
     "name": "Loan Amount",
     "group": "Loan Details",
-    "value": "$13,186,000",
+    "value": "$13,038,118",
     "asOf": "Jun 2021",
     "source": "Loan Agreement",
-    "notes": "",
+    "notes": "Update monthly: loan statement",
     "lastUpdated": "2026-03-23"
   },
   {
@@ -103,7 +103,7 @@
     "key": "interest_rate",
     "name": "Interest Rate",
     "group": "Loan Details",
-    "value": "4.04%",
+    "value": "4.0%",
     "asOf": "",
     "source": "",
     "notes": "Fixed",
@@ -203,8 +203,8 @@
     "key": "capex_budget",
     "name": "Initial CapEx Budget",
     "group": "CapEx",
-    "value": "$3,100,000",
-    "asOf": "Jun 2021",
+    "value": "$3,723,580",
+    "asOf": "4/24/2024",
     "source": "CapEx Budget",
     "notes": "",
     "lastUpdated": "2026-03-23"

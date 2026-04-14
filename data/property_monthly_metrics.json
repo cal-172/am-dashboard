@@ -85,9 +85,9 @@
       "key": "target_completion_date",
       "name": "Target Completion Date",
       "group": "CapEx",
-      "value": "6/1/2026",
+      "value": "10/24/2026",
       "source": "",
-      "notes": "",
+      "notes": "2.5yrs post purchase",
       "lastUpdated": "2026-03-23"
     },
     {
@@ -112,7 +112,7 @@
       "key": "current_distrib_ann_usd",
       "name": "Current Distrib. Ann. ($)",
       "group": "Investment",
-      "value": "$158,747",
+      "value": "$397,363",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-23"
@@ -130,7 +130,7 @@
       "key": "itd_distrib_paid_usd",
       "name": "ITD Distribution Paid ($)",
       "group": "Investment",
-      "value": "$158,747",
+      "value": "$397,363",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-23"
@@ -139,7 +139,7 @@
       "key": "itd_distrib_paid_pct",
       "name": "ITD Distribution Paid (%)",
       "group": "Investment",
-      "value": "1.3%",
+      "value": "3.2%",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-23"
@@ -148,7 +148,7 @@
       "key": "cum_pref_shortfall",
       "name": "Cumulative Pref Shortfall",
       "group": "Investment",
-      "value": "$964,117",
+      "value": "$1,192,424",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-23"
@@ -157,7 +157,7 @@
       "key": "capital_returned",
       "name": "Capital Returned",
       "group": "Investment",
-      "value": "$158,747",
+      "value": "$397,363",
       "source": "",
       "notes": "",
       "lastUpdated": "2026-03-23"

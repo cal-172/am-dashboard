@@ -8,15 +8,15 @@
     "reserve_balance": 410078,
     "expense_coverage_months": 3.04,
     "monthly_opex": 134713.39,
-    "capex_pct_complete": 78,
-    "total_lender_reserves": 485976,
-    "total_lender_escrows": 463489,
+    "capex_pct_complete": 65,
+    "total_lender_reserves": 524126,
+    "total_lender_escrows": 307050,
     "noi_status": "issue",
     "dscr_status": "issue",
     "occupancy_status": "healthy",
     "reserve_status": "watch",
     "capex_status": "healthy",
-    "snapshot_created_at": "2026-03-23T14:03:59.709Z"
+    "snapshot_created_at": "2026-03-23T15:00:33.064Z"
   },
   "2026-jan": {
     "noi_ltm": 45837,

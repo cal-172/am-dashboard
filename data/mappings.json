@@ -72,11 +72,11 @@
   {
     "id": "a43f8867-e6fa-478d-95fc-cd85069a0d6e",
     "sourceCode": "3430-0000",
-    "sourceLabel": "OTHER-SECURITY SERVICE",
-    "dashboardKey": "_exclude",
+    "sourceLabel": "SECURITY SYSTEM R&M",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
     "confirmedBy": "admin"
   },
   {
@@ -92,11 +92,11 @@
   {
     "id": "85857d03-22a3-4399-b119-3550203a6a2a",
     "sourceCode": "3440-0000",
-    "sourceLabel": "OTHER-FIRE PROTECTION",
-    "dashboardKey": "_exclude",
+    "sourceLabel": "FIRE EXTINGUISHER R&M",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
     "confirmedBy": "admin"
   },
   {
@@ -833,10 +833,10 @@
     "id": "617e7cee-1df1-4a98-96e5-7c104598de64",
     "sourceCode": "2100-0000",
     "sourceLabel": "MANAGEMENT FEE",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "mgmt",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T13:21:45.858Z",
     "confirmedBy": "admin"
   },
   {
@@ -1123,10 +1123,10 @@
     "id": "c32437ca-a064-4305-b085-f7bc502da1cb",
     "sourceCode": "3605-0000",
     "sourceLabel": "UNIT HVAC REPAIRS",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
     "confirmedBy": "admin"
   },
   {
@@ -1263,20 +1263,20 @@
     "id": "e20a6852-dd83-4826-b52d-bbc4124994dc",
     "sourceCode": "6010-1000",
     "sourceLabel": "CARPET CLEANING",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
     "confirmedBy": "admin"
   },
   {
     "id": "66c230e8-9fd9-4efb-9f05-7b8fa8ef1e12",
     "sourceCode": "6010-2000",
     "sourceLabel": "FLOOR COVER REPAIR",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "rm",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
     "confirmedBy": "admin"
   },
   {
@@ -2517,6 +2517,96 @@
     "method": "user",
     "scope": "global",
     "confirmedAt": "2026-03-20T19:27:02.399Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "44ad987a-c869-48a2-99f8-10f5001aaeae",
+    "sourceCode": "3635-0050",
+    "sourceLabel": "COUNTERTOPS/CABINETS",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d875a50a-056f-47a6-9ce1-6311a1116351",
+    "sourceCode": "3740-0000",
+    "sourceLabel": "OTHER TURNOVER EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "2244bbc5-a09f-4666-bd09-c16ed6177ac7",
+    "sourceCode": "9743-0000",
+    "sourceLabel": "CEILING FAN",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "2daf8939-a3ef-453b-b81a-a30515a8c396",
+    "sourceCode": "",
+    "sourceLabel": "NET PROFIT/LOSS",
+    "dashboardKey": "ncf",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "e2d74eb3-76b6-4b25-ab35-9dee6addef16",
+    "sourceCode": "1005-5000",
+    "sourceLabel": "GROSS POTENTIAL RENTS",
+    "dashboardKey": "pri",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T13:04:30.192Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4f634ead-f2ca-45b8-8246-be40cbe807c6",
+    "sourceCode": "1006-0000",
+    "sourceLabel": "LOSS TO LEASE",
+    "dashboardKey": "ltl",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T13:04:30.192Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "25a024d0-6487-46d7-943b-42e5dcb76068",
+    "sourceCode": "2099-0099",
+    "sourceLabel": "MANAGEMENT FEES",
+    "dashboardKey": "_header",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T13:10:38.940Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f0f14158-8b36-4575-96a2-a60dfbf4ae56",
+    "sourceCode": "2100-0099",
+    "sourceLabel": "TOTAL MANAGEMENT FEES",
+    "dashboardKey": "mgmt",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T13:32:09.069Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "920e53b7-86f7-4e70-8101-2cdb912e5bee",
+    "sourceCode": "3430-0005",
+    "sourceLabel": "BURGLAR ALARM EXPENSE",
+    "dashboardKey": "rm",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-04-14T13:11:38.867Z",
     "confirmedBy": "admin"
   }
 ]
