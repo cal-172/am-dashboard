@@ -4447,10 +4447,10 @@
     ]
   },
   {
-    "id": "bb717d50-fd08-42c7-b860-dcf80c9e2849",
+    "id": "135f129d-cba2-46dd-90f0-8a1aa1f8bcf1",
     "fileType": "t12",
     "originalName": "2026.03 Regatta T12 - AM Upload - prelim.xlsx",
-    "committedAt": "2026-04-14T13:11:55.695Z",
+    "committedAt": "2026-04-14T20:26:14.891Z",
     "committedBy": "admin",
     "monthsCommitted": [
       "2026-mar"
@@ -4646,6 +4646,17 @@
       {
         "code": "2100-0000",
         "label": "MANAGEMENT FEE",
+        "originalKey": "mgmt",
+        "monthValues": {
+          "2026-mar": {
+            "actual": 6760.06,
+            "budget": null
+          }
+        }
+      },
+      {
+        "code": "2100-0099",
+        "label": "TOTAL MANAGEMENT FEES",
         "originalKey": "mgmt",
         "monthValues": {
           "2026-mar": {

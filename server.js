@@ -317,6 +317,61 @@ app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
     });
     writeRawUploads(rawUploads);
 
+    // Auto-seed Property Summary snapshots for any newly-committed actuals months
+    if (fileType === 't12') {
+      try {
+        const agg          = aggregateFromRawData();
+        const allMonthly   = readMonthlyMetrics();
+        const snapshots    = readSnapshots();
+        const setupMetrics = readSetupMetrics();
+        const loanPmtRow   = setupMetrics.find(m => m.key === 'loan_payment');
+        const loanPmtNum   = loanPmtRow ? parseMetricNum(loanPmtRow.value) : null;
+        const nowDay       = now.slice(0, 10);
+        let changed        = false;
+
+        for (const month of monthsAffected) {
+          const mData = agg[month];
+          if (!mData) continue;
+          changed = true;
+          const monthlyMetrics = [...(allMonthly[month] || [])];
+          const upsert = row => {
+            const idx = monthlyMetrics.findIndex(m => m.key === row.key);
+            if (idx >= 0) monthlyMetrics[idx] = row; else monthlyMetrics.push(row);
+          };
+          const noiFin = mData.a?.noi ?? null;
+          const budNoi = mData.b?.noi ?? null;
+          if (noiFin != null) {
+            upsert({ key:'noi_ltm', name:'NOI (LTM)', group:'Performance',
+              value:`$${Math.round(Math.abs(noiFin)).toLocaleString()}`,
+              source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: nowDay });
+          }
+          if (noiFin != null && budNoi != null) {
+            const vs = noiFin - budNoi;
+            upsert({ key:'noi_vs_budget', name:'NOI vs Budget', group:'Performance',
+              value: vs >= 0 ? `$${Math.round(vs).toLocaleString()}` : `($${Math.round(Math.abs(vs)).toLocaleString()})`,
+              source:'Financial Actuals', notes:'Auto-populated from uploaded actuals', lastUpdated: nowDay });
+            upsert({ key:'noi_status', name:'NOI Status', group:'Performance',
+              value: noiStatusStr(vs), source:'Financial Actuals', notes:'Derived from NOI vs Budget', lastUpdated: nowDay });
+          }
+          if (noiFin != null && loanPmtNum != null && loanPmtNum > 0) {
+            const dscrVal = Math.round((Math.abs(noiFin) / loanPmtNum) * 100) / 100;
+            upsert({ key:'dscr', name:'DSCR', group:'Performance',
+              value: dscrVal.toFixed(2)+'x', source:'Calculated',
+              notes:'= Current Month NOI ÷ Loan Payment (P+I)', lastUpdated: nowDay });
+          }
+          allMonthly[month] = monthlyMetrics;
+        }
+
+        if (changed) {
+          writeJSON(PROP_MONTHLY_FILE, allMonthly);
+          for (const month of monthsAffected) {
+            if (allMonthly[month]) snapshots[month] = buildSnapshot(month);
+          }
+          writeJSON(PROP_SNAPSHOTS_FILE, snapshots);
+        }
+      } catch (_) { /* non-fatal — snapshot seeding is best-effort */ }
+    }
+
     // Update metadata timestamp in financial.json (keep property/year intact)
     const meta = readData();
     writeJSON(DATA_FILE, { property: meta.property, year: meta.year, updatedAt: now });

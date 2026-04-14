@@ -362,5 +362,43 @@
       "notes": "Auto-populated from uploaded actuals",
       "lastUpdated": "2026-03-19"
     }
+  ],
+  "2026-mar": [
+    {
+      "key": "noi_ltm",
+      "name": "NOI (LTM)",
+      "group": "Performance",
+      "value": "$84,186",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-04-14"
+    },
+    {
+      "key": "noi_vs_budget",
+      "name": "NOI vs Budget",
+      "group": "Performance",
+      "value": "($4,232)",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-04-14"
+    },
+    {
+      "key": "noi_status",
+      "name": "NOI Status",
+      "group": "Performance",
+      "value": "watch",
+      "source": "Financial Actuals",
+      "notes": "Derived from NOI vs Budget",
+      "lastUpdated": "2026-04-14"
+    },
+    {
+      "key": "dscr",
+      "name": "DSCR",
+      "group": "Performance",
+      "value": "1.33x",
+      "source": "Calculated",
+      "notes": "= Current Month NOI ÷ Loan Payment (P+I)",
+      "lastUpdated": "2026-04-14"
+    }
   ]
 }

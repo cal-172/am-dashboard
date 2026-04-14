@@ -833,10 +833,10 @@
     "id": "617e7cee-1df1-4a98-96e5-7c104598de64",
     "sourceCode": "2100-0000",
     "sourceLabel": "MANAGEMENT FEE",
-    "dashboardKey": "mgmt",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-04-14T13:21:45.858Z",
+    "confirmedAt": "2026-04-14T20:34:13.557Z",
     "confirmedBy": "admin"
   },
   {
