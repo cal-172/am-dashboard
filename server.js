@@ -1002,7 +1002,31 @@ app.get('/api/property-summary/admin', requireAuth, (req, res) => {
   const month = req.query.month || '2026-mar';
   const setupMetrics   = readSetupMetrics();
   const allMonthly     = readMonthlyMetrics();
-  let monthlyMetrics   = [...(allMonthly[month] || [])];
+
+  // If this month has no saved data yet, seed from the most recent prior month that
+  // has at least one manually-entered field, so the user starts pre-filled.
+  // Auto-computed fields (NOI, DSCR, noi_status) are always overwritten by live actuals below.
+  const AUTO_KEYS = new Set(['noi_ltm','noi_vs_budget','noi_status','dscr']);
+  let monthlyMetrics = [...(allMonthly[month] || [])];
+  if (monthlyMetrics.length === 0 || monthlyMetrics.every(m => AUTO_KEYS.has(m.key))) {
+    const MONTH_ORDER = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+    const parseMonthKey = k => { const [y,m] = k.split('-'); return parseInt(y)*100+(MONTH_ORDER[m]||0); };
+    const currentVal = parseMonthKey(month);
+    // Walk backwards to find the most recent prior month with manual (non-auto) fields
+    const priorKey = Object.keys(allMonthly)
+      .filter(k => parseMonthKey(k) < currentVal &&
+                   (allMonthly[k]||[]).some(m => !AUTO_KEYS.has(m.key)))
+      .sort((a,b) => parseMonthKey(b) - parseMonthKey(a))[0] || null;
+    if (priorKey) {
+      // Deep-copy manual fields only; live actuals will repopulate auto-computed fields
+      const carried = (allMonthly[priorKey] || [])
+        .filter(m => !AUTO_KEYS.has(m.key))
+        .map(m => ({ ...m, lastUpdated: '' }));
+      // Merge: keep any auto-computed entries already in current month, add carried manual entries
+      const existing = monthlyMetrics.filter(m => AUTO_KEYS.has(m.key));
+      monthlyMetrics = [...carried, ...existing];
+    }
+  }
 
   // Always merge live NOI/budget data from aggregated actuals — no save required
   try {
