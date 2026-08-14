@@ -321,7 +321,7 @@ const rangeLbl=ms=>ms.length===1?M_LABEL[ms[0]]:M_LABEL[ms[0]]+'\u2013'+M_LABEL[
 const qlbl=(sel)=>'Q'+M_QUARTER[sel]+' '+selYear+' ('+rangeLbl(qtdMonths(sel))+')';
 const ylbl=(sel)=>'YTD '+selYear+' ('+rangeLbl(ytdMonths(sel))+')';
 
-const KEYS=['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
+const KEYS=['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','btlmisc','ncf'];
 
 const TRR_DETAIL  = ['pri','ltl','vac','mod','con','bd'];
 const TOI_DETAIL  = ['oi','ur'];
@@ -336,7 +336,7 @@ function computeTotals(v){
   v.noi  = v.egi-v.opex;
   v.tdf  = TDF_DETAIL.reduce((s,k)=>s+(v[k]||0),0);
   v.cfd  = v.noi-v.tdf;
-  v.btl  = (v.capex||0);
+  v.btl  = (v.capex||0) + (v.btlmisc||0);
   v.netinc = v.cfd-v.btl;
 }
 
@@ -472,6 +472,7 @@ const ROWS=[
   {t:'spacer'},
   {t:'section-lt',label:'BELOW THE LINE'},
   {t:'data',label:'Capital Expenditures (CAPEX)',key:'capex',income:false,group:'expenses'},
+  {t:'data',label:'BTL Misc Expenses (Tax, Legal, etc.)',key:'btlmisc',income:false,group:'expenses'},
   {t:'btl',label:'Total BTL Expenses',key:'btl',income:false},
   {t:'net',label:'Net Income',key:'netinc',income:true},
 ];

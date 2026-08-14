@@ -1,5 +1,29 @@
 [
   {
+    "id": "7616421c-46a2-4253-884e-24e772520860",
+    "originalName": "2026.05 Regatta T12 - AM Upload.xlsx",
+    "fileType": "t12",
+    "sheetName": "Report1",
+    "monthsAffected": [
+      "2026-may"
+    ],
+    "year": 2026,
+    "uploadedBy": "admin",
+    "uploadedAt": "2026-08-14T17:07:01.471Z"
+  },
+  {
+    "id": "bbacaee1-3c22-4e7e-b05a-a2bdfcaaf47c",
+    "originalName": "2026.04 Regatta T12 - AM Upload.xlsx",
+    "fileType": "t12",
+    "sheetName": "Report1",
+    "monthsAffected": [
+      "2026-apr"
+    ],
+    "year": 2026,
+    "uploadedBy": "admin",
+    "uploadedAt": "2026-08-14T16:51:14.777Z"
+  },
+  {
     "id": "135f129d-cba2-46dd-90f0-8a1aa1f8bcf1",
     "originalName": "2026.03 Regatta T12 - AM Upload - prelim.xlsx",
     "fileType": "t12",

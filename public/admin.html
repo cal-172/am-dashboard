@@ -724,8 +724,8 @@ function sortedMonthKeys(obj){
     return ALL_MONTHS.indexOf(am)-ALL_MONTHS.indexOf(bm);
   });
 }
-const DATA_KEYS    = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','ncf'];
-const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Opex',noi:'NOI',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',ncf:'Net Cash Flow'};
+const DATA_KEYS    = ['pri','ltl','vac','mod','con','bd','trr','oi','ur','toi','egi','payroll','adv','ga','util','rm','contract','mgmt','mr','taxes','ins','opex','noi','amfee','debt','capex','btlmisc','ncf'];
+const KEY_LABELS   = {pri:'Potential Rental Income',ltl:'Loss to Lease',vac:'Vacancy Loss',mod:'Model/Admin',con:'Concessions',bd:'Bad Debt',trr:'Total Rental Revenue',oi:'Other Income',ur:'Utility Reimbursement',toi:'Total Other Income',egi:'Effective Gross Income',payroll:'Payroll',adv:'Advertising & Marketing',ga:'General & Administrative',util:'Utilities',rm:'Repairs & Maintenance',contract:'Contract Services',mgmt:'Management Fee',mr:'Make Ready',taxes:'Taxes',ins:'Insurance',opex:'Total Opex',noi:'NOI',amfee:'Asset Mgmt Fee',debt:'Debt Service',capex:'CAPEX',btlmisc:'BTL Misc Expenses',ncf:'Net Cash Flow'};
 
 /* ══════════════════════════════════════════════════════
    NAV
@@ -1070,7 +1070,7 @@ const CAT_GROUPS = [
   { group:'Income Subtotals',  items:[{k:'trr',l:'Total Rental Revenue'},{k:'ur',l:'Utility Reimbursement'},{k:'oi',l:'Other Income'},{k:'toi',l:'Total Other Income'},{k:'egi',l:'Effective Gross Income'}] },
   { group:'Expense Detail',    items:[{k:'payroll',l:'Payroll'},{k:'adv',l:'Advertising & Marketing'},{k:'ga',l:'General & Administrative'},{k:'util',l:'Utilities'},{k:'rm',l:'Repairs & Maintenance'},{k:'contract',l:'Contract Services'},{k:'mgmt',l:'Management Fee'},{k:'mr',l:'Make Ready'},{k:'taxes',l:'Taxes'},{k:'ins',l:'Insurance'}] },
   { group:'Expense Subtotals', items:[{k:'opex',l:'Total Operating Expenses'}] },
-  { group:'Other',             items:[{k:'noi',l:'Net Operating Income'},{k:'amfee',l:'Asset Mgmt Fee'},{k:'debt',l:'Debt Service'},{k:'capex',l:'Capital Expenditures'},{k:'ncf',l:'Net Cash Flow'}] },
+  { group:'Other',             items:[{k:'noi',l:'Net Operating Income'},{k:'amfee',l:'Asset Mgmt Fee'},{k:'debt',l:'Debt Service'},{k:'capex',l:'Capital Expenditures'},{k:'btlmisc',l:'BTL Misc Expenses (Tax, Legal, etc.)'},{k:'ncf',l:'Net Cash Flow'}] },
   { group:'Special',           items:[{k:'_header',l:'Section Header (ignore)'},{k:'_exclude',l:'Exclude from Dashboard'}] }
 ];
 

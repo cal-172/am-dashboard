@@ -597,6 +597,7 @@ const ROW_PATTERNS = [
   { key:'amfee',    patterns:['total asset & other fees','asset management fee','asset management fees','asset mgmt fee','am fee'] },
   { key:'debt',     patterns:['total debt service','debt service','mortgage','loan payment','principal & interest','interest expense'] },
   { key:'capex',    patterns:['total replacement reserves','replacement reserves','capital expenditures','capex','capital improvements','capital expenses'] },
+  { key:'btlmisc',  patterns:['below the line','btl expenses','miscellaneous below the line','total btl','btl misc','tax legal','taxes legal','legal and tax','other btl'] },
   { key:'ncf',      patterns:['net cash flow','cash flow after debt'] },
 ];
 

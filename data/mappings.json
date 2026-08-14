@@ -1263,10 +1263,10 @@
     "id": "e20a6852-dd83-4826-b52d-bbc4124994dc",
     "sourceCode": "6010-1000",
     "sourceLabel": "CARPET CLEANING",
-    "dashboardKey": "rm",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedAt": "2026-08-14T16:49:26.803Z",
     "confirmedBy": "admin"
   },
   {
@@ -2607,6 +2607,46 @@
     "method": "user",
     "scope": "global",
     "confirmedAt": "2026-04-14T13:11:38.867Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "6c00f39e-2888-4e63-ae36-29541fbb07e1",
+    "sourceCode": "6090-0050",
+    "sourceLabel": "EXTERIOR BLDG SUPP",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T16:49:26.803Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "0cbc74d1-4e70-48b0-83b1-30638056a6b5",
+    "sourceCode": "6090-0025",
+    "sourceLabel": "INTERIOR BLDG SUPPLIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T16:57:31.274Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8c9ccc4a-d458-4b89-9dbf-18a25c68ea25",
+    "sourceCode": "8350-0100",
+    "sourceLabel": "FED/STATE TAX EXPENSE",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T16:57:31.274Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "89dba227-b03d-4673-80f8-83c060efa0c8",
+    "sourceCode": "8350-9999",
+    "sourceLabel": "TOTL TAXES",
+    "dashboardKey": "taxes",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T16:57:31.274Z",
     "confirmedBy": "admin"
   }
 ]
