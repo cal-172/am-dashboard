@@ -63,10 +63,10 @@
     "id": "90db7ee7-c59e-46ba-8859-77502a4e5b85",
     "sourceCode": "3425-0000",
     "sourceLabel": "CONTRACT-SECURITY SERVICE",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "contract",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T21:44:01.253Z",
+    "confirmedAt": "2026-08-14T17:34:52.426Z",
     "confirmedBy": "admin"
   },
   {
@@ -2193,20 +2193,20 @@
     "id": "77f3374e-0bc8-4add-8534-559ec6e20e74",
     "sourceCode": "8500-0000",
     "sourceLabel": "ASSET MANAGEMENT FEES",
-    "dashboardKey": "_exclude",
+    "dashboardKey": "amfee",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T22:29:43.643Z",
+    "confirmedAt": "2026-08-14T17:24:53.858Z",
     "confirmedBy": "admin"
   },
   {
     "id": "88770fb3-5f6c-445e-acc6-8c16f5242c67",
     "sourceCode": "8500-9999",
     "sourceLabel": "TOTAL ASSET & OTHER FEES",
-    "dashboardKey": "amfee",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-18T22:29:43.643Z",
+    "confirmedAt": "2026-08-14T17:24:53.858Z",
     "confirmedBy": "admin"
   },
   {
@@ -2233,10 +2233,10 @@
     "id": "0153edc3-5918-4e05-a90e-b37314dcf923",
     "sourceCode": "",
     "sourceLabel": "TOTAL PARTNERSHIP EXPENSES",
-    "dashboardKey": "amfee",
+    "dashboardKey": "btlmisc",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-03-20T14:08:46.488Z",
+    "confirmedAt": "2026-08-14T17:19:59.558Z",
     "confirmedBy": "admin"
   },
   {
@@ -2643,10 +2643,80 @@
     "id": "89dba227-b03d-4673-80f8-83c060efa0c8",
     "sourceCode": "8350-9999",
     "sourceLabel": "TOTL TAXES",
-    "dashboardKey": "taxes",
+    "dashboardKey": "btlmisc",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-08-14T16:57:31.274Z",
+    "confirmedAt": "2026-08-14T17:11:51.516Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "56bc2917-1d22-431a-920b-66781072f8a8",
+    "sourceCode": "0305-0100",
+    "sourceLabel": "OWNERS CONTRIBUTION",
+    "dashboardKey": "btlmisc",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:12:13.585Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "7c5f56d8-dd39-4a24-a417-4cd63f097858",
+    "sourceCode": "1060-0100",
+    "sourceLabel": "BAD DEBT RECOVERY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:14:39.915Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "10a85f4a-abff-41d9-8ec4-384402f900a4",
+    "sourceCode": "0137-0010",
+    "sourceLabel": "RESERVE FOR BAD DEBT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:14:39.915Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d1a3a0c3-b430-4e95-bb95-3af3800489a8",
+    "sourceCode": "8365-0010",
+    "sourceLabel": "LEGAL CLAIMS/SETTLEMENTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:19:34.768Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8e767c44-3abd-43e3-926d-c3c7202d2514",
+    "sourceCode": "2255-2056",
+    "sourceLabel": "PRE-EMPLOYMENT SCREEN",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:28:16.132Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "8bdef2af-a45c-48be-a0c7-6a24ce8bc70e",
+    "sourceCode": "3735-0000",
+    "sourceLabel": "LOCKS & KEYS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:28:16.132Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "9af42ebe-8cff-49e3-b1de-780e0be94d81",
+    "sourceCode": "3450-9999",
+    "sourceLabel": "TOTAL SECURITY/LIFE SAFETY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-08-14T17:34:52.426Z",
     "confirmedBy": "admin"
   }
 ]

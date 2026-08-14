@@ -128,7 +128,7 @@ tr.r-metric td.cat{padding-left:8px;padding-right:8px;font-family:inherit;text-a
 .no-data a:hover{text-decoration:underline}
 
 /* ── WATERFALL PAGE ── */
-.wf-chart-wrap{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);padding:14px 18px 8px;margin-bottom:14px;overflow-x:auto}
+.wf-chart-wrap{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);padding:14px 18px 8px;margin-bottom:14px;overflow-x:hidden}
 .wf-table-wrap{background:#fff;border-radius:7px;box-shadow:0 1px 6px rgba(0,0,0,.1);overflow:hidden;margin-bottom:16px}
 .wf-table{width:100%;border-collapse:collapse}
 .wf-table th{background:#F0F7F8;color:#13545E;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:right;border-bottom:1px solid #D2E8EA}
@@ -703,6 +703,11 @@ function switchPage(page) {
   // Hide year selector on property summary view
   const ysw = document.getElementById('year-sel-wrap');
   if (ysw) ysw.style.visibility = page === 'ps' ? 'hidden' : '';
+  // Tear down the waterfall resize observer when leaving that page
+  if (page !== 'waterfall' && window._wfResizeObserver) {
+    window._wfResizeObserver.disconnect();
+    window._wfResizeObserver = null;
+  }
   if (page === 'avb') renderApp();
   else if (page === 'waterfall') renderWaterfallPage();
   else if (page === 'ps') renderPropertySummaryPage();
@@ -816,7 +821,7 @@ function drawWaterfallSVG(containerId, data) {
   const container = document.getElementById(containerId);
   if (!container || !data) return;
   const {steps} = data;
-  const W = Math.max(container.clientWidth || 700, 560);
+  const W = Math.max(container.clientWidth || 700, 400);
   const H = 390;
   const mL = 76, mR = 16, mT = 28, mB = 94;
   const chartW = W - mL - mR, chartH = H - mT - mB;
@@ -837,7 +842,7 @@ function drawWaterfallSVG(containerId, data) {
   const yToSVG = v => mT + (yMax - v) / yRange * chartH;
   const yZero  = yToSVG(0);
 
-  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Segoe UI,system-ui,sans-serif">`;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;height:auto;font-family:Segoe UI,system-ui,sans-serif" xmlns="http://www.w3.org/2000/svg">`;
   svg += `<clipPath id="wfc"><rect x="${mL}" y="${mT}" width="${chartW}" height="${chartH}"/></clipPath>`;
 
   const incomeIdxs = steps.reduce((a,s,i)=>s.section==='income'?[...a,i]:a,[]);
@@ -978,6 +983,25 @@ function renderWaterfallPage() {
     const data = buildWaterfallData(getWfPeriodMonths(), wfPerUnit);
     drawWaterfallSVG('wf-chart', data);
     renderWfTable(data);
+
+    // Attach a ResizeObserver so the chart redraws at the true pixel width
+    // whenever the container changes size (e.g. sidebar collapse, window resize).
+    const chartEl = document.getElementById('wf-chart');
+    if (chartEl && window.ResizeObserver) {
+      if (window._wfResizeObserver) window._wfResizeObserver.disconnect();
+      let _wfLastW = chartEl.clientWidth;
+      let _wfRafId = null;
+      window._wfResizeObserver = new ResizeObserver(() => {
+        const newW = chartEl.clientWidth;
+        if (Math.abs(newW - _wfLastW) < 4) return; // ignore sub-pixel jitter
+        _wfLastW = newW;
+        if (_wfRafId) cancelAnimationFrame(_wfRafId);
+        _wfRafId = requestAnimationFrame(() => {
+          drawWaterfallSVG('wf-chart', data);
+        });
+      });
+      window._wfResizeObserver.observe(chartEl);
+    }
   }, 0);
 }
 
