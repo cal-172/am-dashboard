@@ -329,6 +329,20 @@ app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
         const nowDay       = now.slice(0, 10);
         let changed        = false;
 
+        // Keys that are auto-computed — never carry these over from a prior month
+        const AUTO_KEYS = new Set(['noi_ltm','noi_vs_budget','noi_status','dscr']);
+
+        // Helper: find the most recent prior month (before `month`) that has manual fields
+        const MONTHS_NUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+        const monthNum = k => { const [y,m] = k.split('-'); return parseInt(y)*100+(MONTHS_NUM[m]||0); };
+        const findPriorManualMonth = (targetMonth) => {
+          const targetNum = monthNum(targetMonth);
+          return Object.keys(allMonthly)
+            .filter(k => monthNum(k) < targetNum)
+            .sort((a,b) => monthNum(b) - monthNum(a)) // descending
+            .find(k => (allMonthly[k]||[]).some(f => !AUTO_KEYS.has(f.key) && f.value));
+        };
+
         for (const month of monthsAffected) {
           const mData = agg[month];
           if (!mData) continue;
@@ -338,6 +352,18 @@ app.post('/api/upload/commit', requireAuth, requireAdmin, (req, res) => {
             const idx = monthlyMetrics.findIndex(m => m.key === row.key);
             if (idx >= 0) monthlyMetrics[idx] = row; else monthlyMetrics.push(row);
           };
+
+          // If this month has no manual fields yet, carry them over from the most recent prior month
+          const hasManual = monthlyMetrics.some(f => !AUTO_KEYS.has(f.key) && f.value);
+          if (!hasManual) {
+            const priorKey = findPriorManualMonth(month);
+            if (priorKey) {
+              (allMonthly[priorKey] || [])
+                .filter(f => !AUTO_KEYS.has(f.key))
+                .forEach(f => { if (!monthlyMetrics.find(m => m.key === f.key)) monthlyMetrics.push({...f}); });
+            }
+          }
+
           const noiFin = mData.a?.noi ?? null;
           const budNoi = mData.b?.noi ?? null;
           if (noiFin != null) {
