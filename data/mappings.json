@@ -1273,10 +1273,10 @@
     "id": "66c230e8-9fd9-4efb-9f05-7b8fa8ef1e12",
     "sourceCode": "6010-2000",
     "sourceLabel": "FLOOR COVER REPAIR",
-    "dashboardKey": "rm",
+    "dashboardKey": "_exclude",
     "method": "user",
     "scope": "global",
-    "confirmedAt": "2026-04-14T12:53:41.275Z",
+    "confirmedAt": "2026-10-14T23:39:43.810Z",
     "confirmedBy": "admin"
   },
   {
@@ -2717,6 +2717,76 @@
     "method": "user",
     "scope": "global",
     "confirmedAt": "2026-08-14T17:34:52.426Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "f68b0eba-83a6-4c6f-99bf-df2520c39681",
+    "sourceCode": "3227-5000",
+    "sourceLabel": "MOVE IN/RENEWAL GIFTS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:39:43.810Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "dfa00426-ad2c-4474-8ae5-4387818ee3e9",
+    "sourceCode": "3235-0000",
+    "sourceLabel": "FURNITURE RENTAL/ACCESSORIES",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:39:43.810Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "d50be097-851f-4add-9d51-d320d3fa0d8e",
+    "sourceCode": "8150-0025",
+    "sourceLabel": "DOOR/CABINET REPLACEMENT",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:39:43.810Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "4a05fa36-4e3b-468c-a02e-2ef80f3b4b48",
+    "sourceCode": "0210-0010",
+    "sourceLabel": "SECURITY DEPOSIT: VOID CHECKS",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:47:12.778Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "b3ecee05-b0c0-441e-8877-267ee1da7627",
+    "sourceCode": "3010-0000",
+    "sourceLabel": "INSURANCE-LIABILITY",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:39:43.810Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "a71b78ff-cef8-4bb1-a499-64a461dedbb6",
+    "sourceCode": "1355-0000",
+    "sourceLabel": "APPLIANCE RENTAL",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:48:12.463Z",
+    "confirmedBy": "admin"
+  },
+  {
+    "id": "533ff65c-fb4b-45ce-b91a-34d8bdb7ce37",
+    "sourceCode": "3715-0000",
+    "sourceLabel": "Floorcover Repair",
+    "dashboardKey": "_exclude",
+    "method": "user",
+    "scope": "global",
+    "confirmedAt": "2026-10-14T23:48:12.463Z",
     "confirmedBy": "admin"
   }
 ]

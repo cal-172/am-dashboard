@@ -1272,5 +1272,369 @@
       "notes": "Auto-populated from uploaded actuals",
       "lastUpdated": "2026-08-16"
     }
+  ],
+  "2026-aug": [
+    {
+      "key": "occupancy_pct",
+      "name": "Occupancy %",
+      "group": "Performance",
+      "value": "93.5%",
+      "source": "Dynamic KPI Report",
+      "notes": "95",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "vacancy_pct",
+      "name": "Vacancy %",
+      "group": "Performance",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "initial_op_balance",
+      "name": "Initial Operating Balance",
+      "group": "Operating Reserves",
+      "value": "$335,853",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "net_cash_flow",
+      "name": "Net Cash Flow To Date",
+      "group": "Operating Reserves",
+      "value": "$74,225",
+      "source": "",
+      "notes": "Operating Surplus / (Draw) To Date: Pro forma vs actuals",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "remaining_reserve_bal",
+      "name": "Remaining Reserve Balance",
+      "group": "Operating Reserves",
+      "value": "$410,078",
+      "source": "System",
+      "notes": "Auto-calculated: Initial Balance + Net Cash Flow",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "expense_coverage_months",
+      "name": "Expense Coverage (Months)",
+      "group": "Operating Reserves",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_spend",
+      "name": "CapEx Spend To Date",
+      "group": "CapEx",
+      "value": "$2,419,835",
+      "source": "",
+      "notes": "PM Invoice report + Wells direct vendor payments",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "target_completion_date",
+      "name": "Target Completion Date",
+      "group": "CapEx",
+      "value": "10/24/2026",
+      "source": "",
+      "notes": "2.5yrs post purchase",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_pct_complete",
+      "name": "CapEx % Complete",
+      "group": "CapEx",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_status",
+      "name": "CapEx Status",
+      "group": "CapEx",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "current_distrib_ann_usd",
+      "name": "Current Distrib. Ann. ($)",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "current_distrib_ann_pct",
+      "name": "Current Distrib. Ann. (%)",
+      "group": "Investment",
+      "value": "5.1%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "itd_distrib_paid_usd",
+      "name": "ITD Distribution Paid ($)",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "itd_distrib_paid_pct",
+      "name": "ITD Distribution Paid (%)",
+      "group": "Investment",
+      "value": "3.2%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "cum_pref_shortfall",
+      "name": "Cumulative Pref Shortfall",
+      "group": "Investment",
+      "value": "$1,192,424",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capital_returned",
+      "name": "Capital Returned",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "noi_ltm",
+      "name": "NOI (LTM)",
+      "group": "Performance",
+      "value": "$26,954",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "noi_vs_budget",
+      "name": "NOI vs Budget",
+      "group": "Performance",
+      "value": "($72,348)",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "noi_status",
+      "name": "NOI Status",
+      "group": "Performance",
+      "value": "issue",
+      "source": "Financial Actuals",
+      "notes": "Derived from NOI vs Budget",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "dscr",
+      "name": "DSCR",
+      "group": "Performance",
+      "value": "0.43x",
+      "source": "Calculated",
+      "notes": "= Current Month NOI ÷ Loan Payment (P+I)",
+      "lastUpdated": "2026-10-14"
+    }
+  ],
+  "2026-sep": [
+    {
+      "key": "occupancy_pct",
+      "name": "Occupancy %",
+      "group": "Performance",
+      "value": "93.5%",
+      "source": "Dynamic KPI Report",
+      "notes": "95",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "vacancy_pct",
+      "name": "Vacancy %",
+      "group": "Performance",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "initial_op_balance",
+      "name": "Initial Operating Balance",
+      "group": "Operating Reserves",
+      "value": "$335,853",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "net_cash_flow",
+      "name": "Net Cash Flow To Date",
+      "group": "Operating Reserves",
+      "value": "$74,225",
+      "source": "",
+      "notes": "Operating Surplus / (Draw) To Date: Pro forma vs actuals",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "remaining_reserve_bal",
+      "name": "Remaining Reserve Balance",
+      "group": "Operating Reserves",
+      "value": "$410,078",
+      "source": "System",
+      "notes": "Auto-calculated: Initial Balance + Net Cash Flow",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "expense_coverage_months",
+      "name": "Expense Coverage (Months)",
+      "group": "Operating Reserves",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_spend",
+      "name": "CapEx Spend To Date",
+      "group": "CapEx",
+      "value": "$2,419,835",
+      "source": "",
+      "notes": "PM Invoice report + Wells direct vendor payments",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "target_completion_date",
+      "name": "Target Completion Date",
+      "group": "CapEx",
+      "value": "10/24/2026",
+      "source": "",
+      "notes": "2.5yrs post purchase",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_pct_complete",
+      "name": "CapEx % Complete",
+      "group": "CapEx",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capex_status",
+      "name": "CapEx Status",
+      "group": "CapEx",
+      "value": "",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "current_distrib_ann_usd",
+      "name": "Current Distrib. Ann. ($)",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "current_distrib_ann_pct",
+      "name": "Current Distrib. Ann. (%)",
+      "group": "Investment",
+      "value": "5.1%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "itd_distrib_paid_usd",
+      "name": "ITD Distribution Paid ($)",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "itd_distrib_paid_pct",
+      "name": "ITD Distribution Paid (%)",
+      "group": "Investment",
+      "value": "3.2%",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "cum_pref_shortfall",
+      "name": "Cumulative Pref Shortfall",
+      "group": "Investment",
+      "value": "$1,192,424",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "capital_returned",
+      "name": "Capital Returned",
+      "group": "Investment",
+      "value": "$397,363",
+      "source": "",
+      "notes": "",
+      "lastUpdated": "2026-08-16"
+    },
+    {
+      "key": "noi_ltm",
+      "name": "NOI (LTM)",
+      "group": "Performance",
+      "value": "$34,841",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "noi_vs_budget",
+      "name": "NOI vs Budget",
+      "group": "Performance",
+      "value": "($62,839)",
+      "source": "Financial Actuals",
+      "notes": "Auto-populated from uploaded actuals",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "noi_status",
+      "name": "NOI Status",
+      "group": "Performance",
+      "value": "issue",
+      "source": "Financial Actuals",
+      "notes": "Derived from NOI vs Budget",
+      "lastUpdated": "2026-10-14"
+    },
+    {
+      "key": "dscr",
+      "name": "DSCR",
+      "group": "Performance",
+      "value": "0.55x",
+      "source": "Calculated",
+      "notes": "= Current Month NOI ÷ Loan Payment (P+I)",
+      "lastUpdated": "2026-10-14"
+    }
   ]
 }

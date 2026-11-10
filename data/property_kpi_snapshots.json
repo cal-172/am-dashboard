@@ -101,5 +101,43 @@
     "reserve_status": "watch",
     "capex_status": "healthy",
     "snapshot_created_at": "2026-08-16T19:23:12.322Z"
+  },
+  "2026-aug": {
+    "noi_ltm": 26954,
+    "noi_vs_budget": -72348,
+    "dscr": 0.43,
+    "occupancy_pct": 93.5,
+    "vacancy_pct": 6.5,
+    "reserve_balance": 410078,
+    "expense_coverage_months": 2.11,
+    "monthly_opex": 194482.14,
+    "capex_pct_complete": 65,
+    "total_lender_reserves": 524126,
+    "total_lender_escrows": 307050,
+    "noi_status": "issue",
+    "dscr_status": "issue",
+    "occupancy_status": "healthy",
+    "reserve_status": "watch",
+    "capex_status": "healthy",
+    "snapshot_created_at": "2026-10-14T23:47:17.598Z"
+  },
+  "2026-sep": {
+    "noi_ltm": 34841,
+    "noi_vs_budget": -62839,
+    "dscr": 0.55,
+    "occupancy_pct": 93.5,
+    "vacancy_pct": 6.5,
+    "reserve_balance": 410078,
+    "expense_coverage_months": 2.17,
+    "monthly_opex": 189023.78,
+    "capex_pct_complete": 65,
+    "total_lender_reserves": 524126,
+    "total_lender_escrows": 307050,
+    "noi_status": "issue",
+    "dscr_status": "issue",
+    "occupancy_status": "healthy",
+    "reserve_status": "watch",
+    "capex_status": "healthy",
+    "snapshot_created_at": "2026-10-14T23:48:16.256Z"
   }
 }
